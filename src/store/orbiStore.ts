@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { create } from "zustand";
 import { DEFAULT_SCENARIO_ID, getScenario } from "../data/scenarios";
 import { evaluate } from "../domain/evaluate";
-import type { DailyReading, Evaluation, Mission, Scenario } from "../domain/types";
+import type { DailyReading, Evaluation, Level, Mission, Scenario } from "../domain/types";
 
 /** The demo always opens on mission day 148 (last generated day). */
 export const DEMO_DAY = 148;
@@ -29,6 +29,21 @@ export interface CheckIn {
 
 export type CheckInStatus = "empty" | "confirmed" | "error";
 
+/** What the flight surgeon receives: the conclusion, never the raw readings. */
+export interface FlightSurgeonPacket {
+  scenarioId: string;
+  day: number;
+  mission: Mission;
+  level: Level;
+  ruleIds: string[];
+  findings: { title: string; because: string[] }[];
+  actions: string[];
+  /** Mars has no live link: the packet waits for the next comms window. */
+  delivery: "live" | "next-window";
+  latencySeconds: number;
+  reproductiveDetail: "shared" | "private";
+}
+
 export interface OrbiState {
   scenarioId: string;
   day: number;
@@ -42,6 +57,7 @@ export interface OrbiState {
   checkIn: CheckIn | null;
   checkInStatus: CheckInStatus;
   lastCheckInDay: number | null;
+  packet: FlightSurgeonPacket | null;
   setScenario: (id: string) => void;
   setDay: (day: number) => void;
   nextDay: () => void;
@@ -49,6 +65,8 @@ export interface OrbiState {
   setCycleAware: (on: boolean) => void;
   /** Returns false and sets the error state when the manual values are invalid. */
   confirmCheckIn: (manual: ManualEntry) => boolean;
+  /** Marks the packet for Mission Control. */
+  sendPacket: (evaluation: Evaluation) => void;
   reset: () => void;
 }
 
@@ -82,7 +100,41 @@ const INITIAL = {
   cycleAware: true,
   ...NO_CHECK_IN,
   lastCheckInDay: null as number | null,
+  packet: null as FlightSurgeonPacket | null,
 };
+
+/**
+ * Builds the packet from the evaluation as is. With reproductive sharing off (the default),
+ * cycle detail stays on board.
+ * TODO(#12): drop cycle day and period days from `because` once P3 adds them to the contract.
+ */
+export function buildPacket(
+  evaluation: Evaluation,
+  { shareReproductiveWithGround = false }: { shareReproductiveWithGround?: boolean } = {},
+): FlightSurgeonPacket {
+  const top = evaluation.assessments[0];
+  return {
+    scenarioId: evaluation.scenarioId,
+    day: evaluation.day,
+    mission: evaluation.mission,
+    level: top?.level ?? "NOMINAL",
+    ruleIds: evaluation.assessments.map((assessment) => assessment.ruleId),
+    findings: evaluation.assessments.map(({ title, because }) => ({ title, because })),
+    actions: top?.actions ?? [],
+    delivery: evaluation.mission === "MARS" ? "next-window" : "live",
+    latencySeconds: evaluation.latencySeconds,
+    reproductiveDetail: shareReproductiveWithGround ? "shared" : "private",
+  };
+}
+
+export function isPacketFor(packet: FlightSurgeonPacket | null, evaluation: Evaluation): boolean {
+  return (
+    packet !== null &&
+    packet.scenarioId === evaluation.scenarioId &&
+    packet.day === evaluation.day &&
+    packet.mission === evaluation.mission
+  );
+}
 
 export const useOrbiStore = create<OrbiState>()((set) => ({
   ...INITIAL,
@@ -120,6 +172,7 @@ export const useOrbiStore = create<OrbiState>()((set) => ({
     });
     return true;
   },
+  sendPacket: (evaluation) => set({ packet: buildPacket(evaluation) }),
   reset: () => set(INITIAL),
 }));
 
