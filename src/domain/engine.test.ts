@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { scenarios } from "../data/scenarios";
 import { computeBaseline } from "./baseline";
 import { evaluate } from "./evaluate";
-import type { Scenario } from "./types";
+import type { DailyReading, Scenario } from "./types";
 
 function scenario(id: string): Scenario {
   const found = scenarios.find((s) => s.id === id);
@@ -12,6 +12,21 @@ function scenario(id: string): Scenario {
 
 function lastDay(s: Scenario): number {
   return s.readings[s.readings.length - 1]!.day;
+}
+
+function withReadingPatches(
+  id: string,
+  patches: Array<[day: number, patch: Partial<DailyReading>]>,
+): Scenario {
+  const base = scenario(id);
+  const byDay = new Map(patches);
+  return {
+    ...base,
+    readings: base.readings.map((reading) => {
+      const patch = byDay.get(reading.day);
+      return patch ? { ...reading, ...patch } : reading;
+    }),
+  };
 }
 
 describe("scenario data", () => {
@@ -25,6 +40,12 @@ describe("scenario data", () => {
 
   it("has a deterministic target day for the demo", () => {
     for (const s of scenarios) expect(lastDay(s)).toBe(148);
+  });
+
+  it("generates a rising resting heart rate for early infection", () => {
+    const s = scenario("early-infection");
+    const affected = s.readings.filter((r) => r.day >= 144);
+    expect(affected.at(-1)!.restingHr).toBeGreaterThan(affected[0]!.restingHr);
   });
 });
 
@@ -56,6 +77,34 @@ describe("evaluate", () => {
     expect(result.bySystem.behavioral).toBe("CONCERN");
     expect(infection?.because.join(" ")).toContain("Temperature 37.9");
     expect(infection?.escalation.now).toBe("Start the local protocol now");
+  });
+
+  it("explains a sigma-only temperature WATCH without the absolute cutoff", () => {
+    const base = scenario("nominal");
+    const s = withReadingPatches("nominal", [[lastDay(base), { tempC: 37.0 }]]);
+    const result = evaluate(s, lastDay(s), "MARS");
+    const temperature = result.assessments.find((a) => a.ruleId === "temperature");
+    const because = temperature?.because.join(" ") ?? "";
+
+    expect(temperature?.level).toBe("WATCH");
+    expect(because).toContain("σ above your pre-flight baseline");
+    expect(because).not.toContain("watch ≥");
+  });
+
+  it("explains a two-day average heart-rate CONCERN with the average", () => {
+    const base = scenario("nominal");
+    const last = lastDay(base);
+    const s = withReadingPatches("nominal", [
+      [last - 1, { restingHr: 110 }],
+      [last, { restingHr: 100 }],
+    ]);
+    const result = evaluate(s, last, "MARS");
+    const heartRate = result.assessments.find((a) => a.ruleId === "restingHr");
+    const because = heartRate?.because.join(" ") ?? "";
+
+    expect(heartRate?.level).toBe("CONCERN");
+    expect(because).toContain("105 bpm over 2 days");
+    expect(because).not.toContain("Resting HR 100 bpm");
   });
 
   it("escalates the same finding differently on the ISS", () => {
