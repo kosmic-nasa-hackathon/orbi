@@ -28,7 +28,8 @@ ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica y
 - ✅ Motor de dominio (`src/domain/`) y datos deterministas
 - ✅ Coach determinista + adapter local opcional (`src/ai/`)
 - ✅ Dockerfile, nginx y CI
-- ⏳ UI de Today/Body/Decision y deploy en `https://orbi.agustinpane.xyz`
+- ✅ Desplegado en **https://orbi.agustinpane.xyz** con auto-deploy en `main`
+- ⏳ UI de Today/Body/Decision
 
 ## Desarrollo
 

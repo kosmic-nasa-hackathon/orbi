@@ -397,7 +397,7 @@ Dos ventanas del navegador, una junto a otra: la nave a la izquierda y la tierra
 | Conflictos de dependencias con React 19 | Recharts 3. Si un paquete se queja, `npm ls` y fijar la versión. **Nada de `--force`** sin avisar a la integradora. |
 | shadcn no arranca por los alias | Seguir la §2 al pie de la letra. Si falla, Tailwind a mano. |
 | Alguien rompe `main` | CI + revisión de la integradora. El repo privado free no permite branch protection; el gate es el PR. |
-| Repo privado en una org sin GitHub App | Instalar la GitHub App de Dokploy en la org; fallback temporal: fork en una cuenta con la App. |
+| Repo privado en una org sin GitHub App | Resuelto con deploy key SSH + runner self-hosted; ver `docs/DEPLOYMENT.md`. |
 | El SVG anatómico no está listo | Silueta de 6 zonas como plan B desde el viernes. |
 | Licencia de las ilustraciones | Servier es CC BY 4.0: atribución visible desde el primer commit. |
 | La demo no es reproducible | RNG sembrado + botón Reset. Nunca datos aleatorios en vivo. |

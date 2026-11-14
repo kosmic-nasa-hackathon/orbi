@@ -10,8 +10,8 @@ Estado vivo y bloqueos: `HANDOFF.md`. Deploy: `docs/DEPLOYMENT.md`.
 - ✅ Motor de dominio (`src/domain/`) con 21 tests verdes.
 - ✅ Datos deterministas (4 escenarios, día 148 fijo).
 - ✅ Coach determinista + adapter local opcional + guardrails (`src/ai/`).
-- ⏳ UI de las pantallas, Docker/CI y deploy (el CI y el Dockerfile ya están en el repo;
-  falta provisionar Dokploy/Cloudflare y conectar el auto-deploy).
+- ✅ Docker, CI, deploy en Dokploy y auto-deploy verificado.
+- ⏳ UI de las pantallas (Today, Body, Decision, Trends, Mission Control).
 
 ## Reparto (5 personas)
 
@@ -130,8 +130,8 @@ Criterios:
 ## Integración + deploy
 
 - CI en verde en cada PR; `main` solo por PR.
-- Provisionar Dokploy (`ORBI`) y Cloudflare (`orbi.agustinpane.xyz`).
-- Activar auto-deploy del GitHub App en `main`; verificar con un push de prueba.
+- ✅ Dokploy (`ORBI`) y Cloudflare (`orbi.agustinpane.xyz`) provisionados.
+- ✅ Auto-deploy activo: push a `main` → CI → workflow `deploy` en runner self-hosted → Dokploy.
 - Mantener `HANDOFF.md` y `docs/DEPLOYMENT.md` al día.
 
 ## Contratos

@@ -111,10 +111,12 @@ src/store/         Zustand store (scenario, day, mission, streak)
 - Production: **Dokploy BCN**, domain `https://orbi.agustinpane.xyz` (see `docs/DEPLOYMENT.md`).
 - Build: root `Dockerfile` (Node 22 build → `nginx:alpine` serving `dist/`).
 - CI: `.github/workflows/ci.yml` runs on PRs and pushes to `main`.
-- Auto-deploy: Dokploy GitHub App on `main` (`autoDeploy`). If that is unavailable, use a
-  self-hosted runner and the token webhook described in `docs/DEPLOYMENT.md`.
+- Auto-deploy: push to `main` → CI → `.github/workflows/deploy.yml` on the self-hosted runner
+  (label `orbi`) → Dokploy token webhook. A Dokploy GitHub App is an alternative, not required.
+- The Dokploy source is Git over SSH with the `orbi-deploy` deploy key; do not replace it with a PAT.
 - Do not enable Let's Encrypt in Dokploy: Cloudflare terminates TLS.
 - Do not put secrets in the repo; tokens live in Dokploy/Cloudflare/Vaultwarden.
+  `DOKPLOY_TOKEN` is a GitHub repository secret, not a file.
 
 ## Definition of done
 

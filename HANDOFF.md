@@ -1,12 +1,14 @@
 # HANDOFF — ORBI
 
 **Fecha:** 2026-11-14
-**Rama:** `feat/scaffold-baseline`
-**Base:** `main` @ `4a9c36b` (solo docs)
-**Estado:** scaffold, motor y coach listos y verificados. CI y artefactos de deploy añadidos.
-**Falta:** UI de las pantallas, provisión de Dokploy/Cloudflare y activar el auto-deploy.
+**Rama:** `main`
+**Estado:** scaffold, motor, coach, CI, deploy y auto-deploy funcionando en producción.
+**Falta:** UI de las pantallas, Trends/Mission Control y material de pitch.
 
 Runbook: `docs/DEPLOYMENT.md` · Tareas: `docs/TASKS.md` · Reglas para agentes: `AGENTS.md`.
+
+Producción: **https://orbi.agustinpane.xyz** · App Dokploy `ORBI`
+(`pnNCsfPVhaq6_lgsFDTEF`) · `appName` `app-input-open-source-panel-hqyoop`.
 
 ---
 
@@ -14,7 +16,7 @@ Runbook: `docs/DEPLOYMENT.md` · Tareas: `docs/TASKS.md` · Reglas para agentes:
 
 ```bash
 git fetch origin
-git checkout feat/scaffold-baseline
+git checkout main
 npm ci
 npm run gen
 npm run dev
@@ -71,11 +73,16 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 - `Dockerfile` multi-stage (Node 22 → nginx:alpine, puerto 80).
 - `nginx.conf` con fallback SPA, cache de assets y healthcheck.
 - `.github/workflows/ci.yml`: `npm ci`, `npm run gen` + diff, `npm run check`, `npm run build`.
-- `.github/workflows/deploy.yml`: fallback de auto-deploy vía runner self-hosted + token; queda
-  inactivo hasta crear `DOKPLOY_AUTO_DEPLOY=true` y `DOKPLOY_TOKEN`.
+- `.github/workflows/deploy.yml`: auto-deploy activo tras CI en `main`, en un runner self-hosted.
+- Producción verificada: **https://orbi.agustinpane.xyz** responde `200`.
+- Dokploy: app `ORBI`, `appName` `app-input-open-source-panel-hqyoop`, origen Git SSH con deploy key
+  `orbi-deploy`, dominio HTTP detrás de Cloudflare.
+- Runner: `dokploy` en la VM de Dokploy, label `orbi`, servicio `actions-runner-orbi.service`.
+- Repo: secret `DOKPLOY_TOKEN`, variable `DOKPLOY_AUTO_DEPLOY=true`.
 - `docs/DEPLOYMENT.md`: Dokploy, Cloudflare, túnel, nginx, auto-deploy, verificación y rollback.
 
-**Verificación actual:** `npm run check` verde, **21/21 tests**, `npm run build` OK.
+**Verificación actual:** `npm run check` verde, **21/21 tests**, `npm run build` OK. El deploy
+automático se probó con `workflow_dispatch` y terminó en `done`.
 
 ---
 
@@ -86,9 +93,8 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 | 1 | **UI Level 0**: App shell + DemoBar + Today + Body + Decision | 2–3 h | `src/App.tsx`, `src/screens/*`, `src/components/*`, `src/store/` |
 | 2 | **Trends** con banda basal (nivel 1) | 1 h | `src/screens/Trends.tsx`, `src/components/charts/` |
 | 3 | **Mission Control** (nivel 1) | 1–2 h | `src/screens/MissionControl.tsx` |
-| 4 | **Provisión Dokploy + Cloudflare** y auto-deploy | 45–60 min | `docs/DEPLOYMENT.md` |
-| 5 | Página del proyecto, README final, vídeo y slides | — | lane E |
-| 6 | Nivel 2 opcional: Amsler, procedimientos, PWA offline | — | — |
+| 4 | Página del proyecto, README final, vídeo y slides | — | lane E |
+| 5 | Nivel 2 opcional: Amsler, procedimientos, PWA offline | — | — |
 
 La UI debe consumir `evaluate()` y `askCoach()`, **no reimplementar reglas**.
 
@@ -96,16 +102,17 @@ La UI debe consumir `evaluate()` y `askCoach()`, **no reimplementar reglas**.
 
 ## 4. Bloqueos actuales
 
-1. **Write en el repo**: la cuenta `Agupane` tiene solo READ en
-   `kosmic-nasa-hackathon/orbi`. Hace falta que un admin dé write o que se pushee desde otra cuenta.
-2. **GitHub App de Dokploy**: debe estar instalada en la org `kosmic-nasa-hackathon` para clonar el
-   repo privado. Si no, el fallback es un fork en `Agupane/orbi` (temporal).
-3. **Acceso a Dokploy/Cloudflare**: el panel está detrás de Cloudflare Access y desde la estación de
-   trabajo no se llega a la LAN. Para provisionar hace falta API key + acceso, o ejecutar los
-   comandos del runbook desde la VM/LAN.
-4. **Runner self-hosted** (solo si no se usa la GitHub App): el workflow `deploy.yml` ya existe,
-   pero necesita un runner con label `orbi`, el secret `DOKPLOY_TOKEN` y la variable
-   `DOKPLOY_AUTO_DEPLOY=true`. Sin la variable, el job se salta y no falla.
+No hay bloqueos de infraestructura: el repo tiene write, el deploy está en producción y el
+auto-deploy funciona. Pendiente de producto: UI, Trends/Mission Control y material de pitch.
+
+Notas de infraestructura:
+
+- La org tiene deploy keys habilitadas (`deploy_keys_enabled_for_repositories=true`).
+- El origen de Dokploy es Git SSH (`git@github.com:kosmic-nasa-hackathon/orbi.git`) con la deploy key
+  `orbi-deploy`; no usa la GitHub App.
+- El token webhook de Dokploy está detrás de Cloudflare Access, por eso el deploy corre desde el
+  runner self-hosted de la LAN y no desde un runner GitHub-hosted.
+- Rotar la deploy key o el `DOKPLOY_TOKEN` si se comparten fuera de la infra.
 
 ---
 
@@ -121,17 +128,17 @@ La UI debe consumir `evaluate()` y `askCoach()`, **no reimplementar reglas**.
   duplicar tipos.
 - **Datos demo**: los escenarios usan un presupuesto de radiación de 400 mSv para que el halo sea
   legible; 600 mSv sigue siendo la referencia del límite de carrera de NASA.
-- **Deploy**: Dokploy BCN + GitHub App + `autoDeploy` en `main`; sin previews por PR.
+- **Deploy**: Dokploy BCN + origen Git SSH con deploy key + runner self-hosted para el auto-deploy.
+  Sin previews por PR. La GitHub App de Dokploy queda como alternativa si se instala en la org.
 
 ---
 
 ## 6. Próximas 3 acciones
 
-1. **Desbloquear write/admin** y provisionar `ORBI` en Dokploy + `orbi.agustinpane.xyz` en
-   Cloudflare (ver `docs/DEPLOYMENT.md`).
-2. **UI Level 0**: reemplazar la consola por App shell + DemoBar + Today + Body + Decision,
+1. **UI Level 0**: reemplazar la consola por App shell + DemoBar + Today + Body + Decision,
    conectando `evaluate()` y `askCoach()`.
-3. **Verificar el auto-deploy**: push de prueba a `main` → CI verde → deploy → URL 200.
+2. **Verificar el auto-deploy con un cambio real**: push a `main` → CI → deploy → URL 200.
+3. **Trends + Mission Control** si el nivel 0 ya está en la URL; después, material de pitch.
 
 ---
 
@@ -147,8 +154,9 @@ Contratos que no se tocan sin avisar: `src/domain/types.ts`, `src/ai/types.ts`,
 
 ## 8. Branch y PR
 
-```
-feat/scaffold-baseline -> origin/feat/scaffold-baseline
-```
+Todo está en `main`. PRs integrados:
 
-PR: https://github.com/kosmic-nasa-hackathon/orbi/pull/new/feat/scaffold-baseline
+- #1 Scaffold, engine, coach and deployment baseline.
+- #2 ci: add gated Dokploy auto-deploy fallback.
+
+Repositorio: https://github.com/kosmic-nasa-hackathon/orbi
