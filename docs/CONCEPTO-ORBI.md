@@ -174,6 +174,8 @@ Las fuentes oficiales dejan claro que hay dos cosas que **no se pueden medir o f
 - NASA reconoce que no hay conocimiento suficiente para fijar límites de exposición en misiones largas (`recursos/06`).
 - ORBI muestra la dosis acumulada como **% de un presupuesto que fija el equipo médico de la misión** (`Scenario.exposureBudgetMSv`), con la tendencia y la tasa de dosis actual.
 - Los 600 mSv de NASA-STD-3001 se usan como **valor por defecto** del presupuesto, presentados como *"current NASA career limit"*.
+- Los escenarios de demo usan un presupuesto de **400 mSv** para que el halo sea legible en la tablet;
+  600 mSv sigue siendo la referencia del límite de carrera y el valor por defecto del contrato.
 
 **Textos "Why this matters" con respaldo oficial:**
 - **Musculoskeletal:** *"In weightlessness, weight-bearing bones lose 1–1.5% of their mineral density every month, roughly what an elderly person loses in a year. Resistance exercise and good nutrition are the countermeasures that work."*
@@ -251,68 +253,32 @@ Un tripulante, **14 días de pre-vuelo (basal) + 30 días de misión**, generado
 
 ---
 
-## 8. Contrato de tipos (se fija el viernes, después no se toca sin avisar)
+## 8. Contrato de tipos (congelado)
 
-```ts
-// src/domain/types.ts
-export type Level = "NOMINAL" | "WATCH" | "CONCERN" | "URGENT";
-export type SystemId = "cardio" | "msk" | "immune" | "metabolic" | "respiratory" | "behavioral" | "radiation";
-export type Mission = "ISS" | "MOON" | "MARS";
+El contrato canónico vive en **`src/domain/types.ts`**; los tipos del coach, en **`src/ai/types.ts`**.
+Este documento no duplica la definición para evitar deriva: la fuente de verdad es el código.
 
-export interface DailyReading {
-  day: number;              // negativos = pre-vuelo
-  sleepHours: number;
-  mood: 1 | 2 | 3 | 4 | 5;
-  fatigue: 1 | 2 | 3 | 4 | 5;
-  restingHr: number;
-  tempC: number;
-  spo2: number;
-  glucoseMgDl: number;
-  resistiveExerciseMin?: number; // del equipo de ejercicio (source: "device")
-  notes?: string;
-  // De dónde viene cada valor: la UI muestra "Synced" o "Manual"
-  sources?: Partial<Record<keyof DailyReading, "wearable" | "device" | "manual">>;
-}
+Incluye, como mínimo:
 
-export interface EnvReading {
-  day: number;
-  cabinCo2MmHg: number;
-  doseMSv: number;          // dosis del día (dosímetro personal)
-  spe: boolean;             // aviso de tormenta solar generado a bordo
-}
+- `Level`, `SystemId`, `Mission`, `MISSION_LATENCY_SECONDS`.
+- `DailyReading`, `EnvReading`, `Scenario` (con `description`, `exposureBudgetMSv`, `priorDoseMSv`
+  y `exerciseTargetMinPerDay`).
+- `Assessment` (nivel, sistema, regla, `title`, `because`, `actions`, `escalation`, `source`).
+- `Evaluation` (`bySystem`, `assessments`, `estimates`, `facts`, `latencySeconds`).
+- `CoachFact`, `Estimates`; el coach añade `CoachSuggestion` y `CoachRequest`.
 
-export interface Scenario {
-  id: string;
-  title: string;
-  firstMissionDay: number;  // p. ej. 119 → los 30 días de misión son 119–148
-  exposureBudgetMSv: number; // presupuesto de radiación fijado por el equipo médico (por defecto 600)
-  priorDoseMSv: number;      // dosis acumulada antes del día 1 de los datos
-  exerciseTargetMinPerDay: number; // objetivo de ejercicio resistivo
-  readings: DailyReading[];
-  env: EnvReading[];
-}
+Reglas del contrato:
 
-export interface Assessment {
-  level: Level;
-  system: SystemId;
-  ruleId: string;
-  because: string[];
-  actions: string[];
-  escalation: { now: string; next?: string; note: string };
-}
-
-// El motor: función pura, sin React
-export type Evaluate = (s: Scenario, day: number, mission: Mission) => {
-  bySystem: Record<SystemId, Level>;
-  assessments: Assessment[];
-};
-```
+- `src/domain/` no importa React, DOM ni APIs del navegador.
+- El formato de los JSON de escenarios se genera con `npm run gen` y se commitea.
+- Cambiar `src/domain/types.ts`, `src/ai/types.ts`, `src/content/systems.ts` o la forma del JSON
+  exige avisar a todo el equipo.
 
 ---
 
 ## 9. Stack y estructura
 
-Todo el detalle (dependencias, comandos, carpetas, CI y riesgos) está en **`STACK.md`**. En resumen: Vite + React 19 + TypeScript, Tailwind + shadcn/ui, Recharts 3, Zustand, Vitest y Vercel. Sin backend. Node 22 fijado con `.nvmrc`. El motor vive en `src/domain/` y no importa React.
+Todo el detalle (dependencias, comandos, carpetas, CI y riesgos) está en **`STACK.md`**. En resumen: Vite + React 19 + TypeScript, Tailwind, Recharts 3, Zustand, Vitest y Dokploy (Cloudflare delante). Sin backend. Node 22 fijado con `.nvmrc`. El motor vive en `src/domain/` y no importa React.
 
 ---
 
@@ -347,7 +313,7 @@ Todo el detalle (dependencias, comandos, carpetas, CI y riesgos) está en **`STA
 | Cuándo | Qué | Hecho cuando… |
 |---|---|---|
 | **Jueves noche** | Cerrar esta v2 + BRIEF | Cabe en una página |
-| **Viernes** | Leer recursos publicados · ajustar umbrales/fuentes · scaffold Vite + repo + CI + Vercel · `types.ts` · motor + tests · generador de datos | CI en verde, URL pública |
+| **Viernes** | Leer recursos publicados · ajustar umbrales/fuentes · scaffold Vite + repo + CI + Dokploy · `types.ts` · motor + tests · generador de datos | CI en verde, URL pública |
 | **Sábado mañana** | Onboarding (15 min con BRIEF) · bocetos en Figma/Excalidraw (30 min) · reparto de bloques · B y C en paralelo | Body muestra colores reales del motor |
 | **Sábado tarde** | Decision + escalado + DemoBar + racha | **Nivel 0 completo en la URL** |
 | **Sábado noche** | Si hay 4–5 personas: nivel 1 (Trends + Mission Control) | Nivel 1 demostrable |
@@ -360,7 +326,8 @@ Todo el detalle (dependencias, comandos, carpetas, CI y riesgos) está en **`STA
 ## 12. Roadmap (lo que no llegue, se cuenta al jurado como trabajo futuro)
 
 Lo que no se construya de los niveles 1 y 2 (§10), más: calendario de cadencia, score de confianza, modo "explain" completo, correlaciones ortostática/nutricional/conductual, sistemas vestibular y piel, integración con wearables reales, voz.
-**No construir:** ML, visión por computador, figura 3D, wearables reales, backend.
+**No construir:** ML de decisión, visión por computador, figura 3D, wearables reales, backend.
+El coach local opcional es una capa de explicación, no un modelo de decisión.
 
 ---
 
@@ -382,7 +349,7 @@ Respaldo: grabar el vídeo de la demo el domingo por la mañana.
 ## 14. Preguntas del jurado (respuestas cortas)
 
 - **¿Diagnostica?** No. Es soporte a la decisión: prioriza, explica y deriva.
-- **¿Por qué no ML?** Porque en medicina espacial la explicabilidad pesa más que la precisión: cada alerta muestra su regla, su umbral y su fuente.
+- **¿Por qué no ML?** Porque en medicina espacial la explicabilidad pesa más que la precisión: cada alerta muestra su regla, su umbral y su fuente. El motor de decisión es determinista. Un modelo local puede añadirse solo como capa de explicación opcional, validada por guardrails y con fallback al template; nunca calcula umbrales ni niveles.
 - **¿De dónde salen los umbrales?** De criterios clínicos estándar y de NASA-STD-3001, ajustados a la basal personal. Están en un solo archivo con su fuente, para que un médico pueda revisarlos.
 - **¿Y si se cae la comunicación?** ORBI está pensado para funcionar sin la Tierra: decide a bordo y el paquete se envía en la siguiente ventana.
 - **¿Cómo medís la densidad ósea en vuelo?** No la medimos: solo se puede con DXA en la Tierra. ORBI la **estima** con la evidencia del HRP (1–1,5 %/mes) y vigila la contramedida que sí se puede medir, el ejercicio.

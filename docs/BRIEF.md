@@ -35,7 +35,7 @@ Una app de tablet en la que el astronauta hace un **check-in diario de 90 segund
 No se empieza un nivel hasta que el anterior funciona en la URL desplegada.
 
 ## Stack
-Vite + React 19 + TypeScript · Tailwind + shadcn/ui · Recharts 3 · Zustand · Vitest · Vercel · Node 22. **UI y entrega en inglés.** Detalle en `STACK.md`.
+Vite + React 19 + TypeScript · Tailwind + shadcn/ui · Recharts 3 · Zustand · Vitest · Dokploy · Node 22. **UI y entrega en inglés.** Detalle en `STACK.md`.
 
 ## Bloques (elige uno)
 | Bloque | Qué | Perfil |
