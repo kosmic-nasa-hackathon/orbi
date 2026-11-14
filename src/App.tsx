@@ -7,8 +7,10 @@ import { scenarios } from "./data/scenarios";
 import { evaluate } from "./domain/evaluate";
 import { LEVEL_LABEL } from "./domain/levels";
 import { type Mission, SYSTEM_IDS } from "./domain/types";
+import Eva from "./screens/Eva";
 
 const MISSIONS: Mission[] = ["ISS", "MOON", "MARS"];
+type View = "console" | "eva";
 
 function latencyLabel(seconds: number): string {
   if (seconds < 1) return "0 s";
@@ -16,7 +18,7 @@ function latencyLabel(seconds: number): string {
   return `${Math.round(seconds / 60)} min`;
 }
 
-export default function App() {
+function EngineConsole({ onNavigate }: { onNavigate: (view: View) => void }) {
   const [scenarioId, setScenarioId] = useState(scenarios[1]?.id ?? scenarios[0]!.id);
   const scenario = scenarios.find((s) => s.id === scenarioId) ?? scenarios[0]!;
   const lastDay = scenario.readings[scenario.readings.length - 1]!.day;
@@ -66,6 +68,13 @@ export default function App() {
           <span className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1.5 text-cyan-200">
             {mission} · {latencyLabel(evaluation.latencySeconds)} one-way
           </span>
+          <button
+            type="button"
+            onClick={() => onNavigate("eva")}
+            className="rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1.5 text-amber-100 hover:bg-amber-400/15"
+          >
+            EVA demo →
+          </button>
         </div>
       </header>
 
@@ -225,11 +234,31 @@ export default function App() {
       </section>
 
       <footer className="text-[11px] text-white/35">
-        Deterministic engine · no diagnosis, no treatment · demo data is synthetic. UI screens,
-        Docker and CI are the next steps in HANDOFF.md.
+        Deterministic engine · no diagnosis, no treatment · demo data is synthetic. Open the EVA
+        demo to see the suit survive a loss of sync.
       </footer>
     </div>
   );
+}
+
+function initialView(): View {
+  if (typeof window === "undefined") return "eva";
+  return new URLSearchParams(window.location.search).get("view") === "console" ? "console" : "eva";
+}
+
+export default function App() {
+  const [view, setView] = useState<View>(initialView);
+
+  function navigate(next: View) {
+    setView(next);
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (next === "console") url.searchParams.set("view", "console");
+    else url.searchParams.delete("view");
+    window.history.replaceState(null, "", url);
+  }
+
+  return view === "eva" ? <Eva onNavigate={navigate} /> : <EngineConsole onNavigate={navigate} />;
 }
 
 function Stat({ label, value }: { label: string; value: string }) {

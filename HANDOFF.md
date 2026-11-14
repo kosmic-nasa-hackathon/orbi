@@ -2,8 +2,8 @@
 
 **Fecha:** 2026-11-14
 **Rama:** `main`
-**Estado:** scaffold, motor, coach, CI, deploy y auto-deploy funcionando en producción.
-**Falta:** UI de las pantallas, Trends/Mission Control y material de pitch.
+**Estado:** scaffold, motor, coach, CI, deploy, auto-deploy y demo EVA con pérdida de sync y retorno inercial.
+**Falta:** UI de las pantallas (Today/Body/Decision), Trends/Mission Control y material de pitch.
 
 Runbook: `docs/DEPLOYMENT.md` · Tareas: `docs/TASKS.md` · Reglas para agentes: `AGENTS.md`.
 
@@ -68,6 +68,16 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 - `coach.ts` — `askCoach()` valida y cae al template si el modelo falla o alucina.
 - Tests adversarios de alucinación incluidos.
 
+### EVA demo (`src/simulation/eva.ts`, `src/screens/Eva.tsx`)
+
+- Simulación 2D determinista: posición real, estimación inercial, deriva, cola de eventos y retorno a la esclusa.
+- Vista dividida Traje/Central: la central congela la última posición conocida cuando se pierde el sync.
+- Animaciones de sync perdido/recuperado, cono de deriva, línea de retorno y audit log autónomo.
+- Controles de demo: auto timeline, perder sync, reconectar, auto-return, 1x/2x/4x, pausa y reset.
+- La salud sale de `evaluate()` (early-infection, día 148, MARS); no se reimplementan reglas.
+- La demo abre por defecto; la consola del motor queda en `?view=console`.
+- Deep links de demo: `/` (inicio), `/?t=18` (sin sync), `/?t=24` (retorno inercial activo).
+
 ### Deploy/CI
 
 - `Dockerfile` multi-stage (Node 22 → nginx:alpine, puerto 80).
@@ -81,8 +91,8 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 - Repo: secret `DOKPLOY_TOKEN`, variable `DOKPLOY_AUTO_DEPLOY=true`.
 - `docs/DEPLOYMENT.md`: Dokploy, Cloudflare, túnel, nginx, auto-deploy, verificación y rollback.
 
-**Verificación actual:** `npm run check` verde, **21/21 tests**, `npm run build` OK. El deploy
-automático se probó con `workflow_dispatch` y terminó en `done`.
+**Verificación actual:** `npm run check` verde, **32/32 tests**, `npm run build` OK. El deploy
+automático se probó con `workflow_dispatch` y con un push real a `main`; ambos terminaron en `done`.
 
 ---
 
@@ -135,10 +145,9 @@ Notas de infraestructura:
 
 ## 6. Próximas 3 acciones
 
-1. **UI Level 0**: reemplazar la consola por App shell + DemoBar + Today + Body + Decision,
-   conectando `evaluate()` y `askCoach()`.
-2. **Verificar el auto-deploy con un cambio real**: push a `main` → CI → deploy → URL 200.
-3. **Trends + Mission Control** si el nivel 0 ya está en la URL; después, material de pitch.
+1. **Verificar la demo EVA en la URL**: push a `main` → CI → deploy → abrir la raíz y `?view=console`.
+2. **UI Level 0**: App shell + DemoBar + Today + Body + Decision, conectando `evaluate()` y `askCoach()`.
+3. **Trends + Mission Control** cuando el nivel 0 ya esté en la URL; después, material de pitch.
 
 ---
 

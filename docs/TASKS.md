@@ -11,6 +11,7 @@ Estado vivo y bloqueos: `HANDOFF.md`. Deploy: `docs/DEPLOYMENT.md`.
 - ✅ Datos deterministas (4 escenarios, día 148 fijo).
 - ✅ Coach determinista + adapter local opcional + guardrails (`src/ai/`).
 - ✅ Docker, CI, deploy en Dokploy y auto-deploy verificado.
+- ✅ Demo EVA: pérdida de sync, deriva inercial, retorno a la esclusa y auditoría.
 - ⏳ UI de las pantallas (Today, Body, Decision, Trends, Mission Control).
 
 ## Reparto (5 personas)
@@ -98,6 +99,12 @@ Primer PR (`ai/coach-panel`):
 - Conectar el coach determinista a la UI (badge “On-device”, botón “Explain”).
 - Feature flag para el adapter local: si no hay WebGPU/modelo, template y mensaje claro.
 - No bloquear la UI mientras “piensa”.
+
+### Demo EVA (adelanto del lane D)
+
+Hecho: `src/simulation/eva.ts`, `src/screens/Eva.tsx`, mapa Traje/Central, sync loss,
+retorno inercial, audit log y controles de demo. La raíz abre la demo; la consola del motor
+queda en `?view=console`.
 
 Segundo PR (`mission-control/window`):
 

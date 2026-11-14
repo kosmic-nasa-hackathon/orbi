@@ -24,3 +24,38 @@ body {
 ::selection {
   background: rgba(56, 189, 248, 0.3);
 }
+
+@keyframes orbi-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes orbi-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.orbi-pulse {
+  animation: orbi-pulse 2.4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.orbi-dash {
+  animation: orbi-dash 1.2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbi-pulse,
+  .orbi-dash {
+    animation: none;
+  }
+}
