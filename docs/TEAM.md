@@ -15,7 +15,7 @@ in `docs/PLAN.md`; state and blockers in `HANDOFF.md`.
 | Person | GitHub | Role | Skills | Focus in ORBI |
 |---|---|---|---|---|
 | Agustín Pane | `@Agupane` | Maintainer / integrator | Architecture, Vite + React, infra, deploy, pitch | P1 (done), P3 (stretch), integration and deploy (H), reviews |
-| Andrea Tapia | `@atapiamallea` | Fullstack frontend | React/TS, Tailwind, women's health research | F0/Today/Decision (done), Body (B), Trends (D, PR #71), consent (A.1); integration backup |
+| Andrea Tapia | `@atapiamallea` | Fullstack frontend | React/TS, Tailwind, women's health research | F0/Today/Decision/Trends (done), three-step flow (#72), Body (B), consent (A.1); integration backup |
 | Elena Almansa | `@elenaalmansacampos` | Fullstack | Java/Spring, React, JS, SQL, tests and data | P0/P2 (closed), deck/script/video (#48/#49), P4 (#33), final submission (I); supports E |
 | Yery Rodríguez | `@Yeryalex` | Frontend | JS/TS, 42 C, Odin/JS30, CSS | Supports Body and Mission Control; no primary lane after Trends moved to Andrea Tapia |
 | Andrea | `@amilege` | Programming (42 C) | C foundations; at ORBI works on UI with support | F0.1 (#31), visual (E), Mission Control (F), Level 2 (G) and EVA fix (#51) |
@@ -41,15 +41,15 @@ in `docs/PLAN.md`; state and blockers in `HANDOFF.md`.
 | #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | `decision/triage` | `../orbi-decision` | 5313 | M | Done (#64) |
 | #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | `design/motion-polish` | `../orbi-polish` | 5315 | M | Now |
 | #32 | H0 · Level 0 checkpoint | `@Agupane` | Whole team | `integration/level0` | `../orbi-integration` | 5318 | M | After B #14 |
-| #17 | H1 · Final integration/QA | `@Agupane` | Whole team | `integration/level0` | `../orbi-integration` | 5318 | L | After #32 + D/F/G |
+| #17 | H1 · Final integration/QA | `@Agupane` | Whole team | `integration/level0` | `../orbi-integration` | 5318 | L | After #32 + F/G |
 | #33 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | `@Agupane` | `docs/post-p3-sync` | `../orbi-docs-sync` | — | S | Now; re-run after P3 if it lands |
-| #18 | D · Trends | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `trends/charts` | `../orbi-trends` | 5314 | M | PR #71 green; held by #32 |
+| #18 | D · Trends | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `trends/charts` | `../orbi-trends` | 5314 | M | Done (#71) |
 | #19 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | `mission-control/window` | `../orbi-mission-control` | 5316 | M | After #32; C done |
 | #20 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | `level2/extras` | `../orbi-level2` | 5319 | M | After #32; stretch |
 | #21 | I · Final submission | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | `docs/submission` | `../orbi-submission` | — | M | After #17 |
 
-**Golden rule:** D and F are not merged until Today + Body + Decision are on the deployed URL.
-G is stretch: if Level 0 slips, it is cut first.
+**Golden rule:** F is not merged until Today + Body + Decision are on the deployed URL. D (#71) was
+merged early as an explicit integrator exception. G is stretch: if Level 0 slips, it is cut first.
 
 ---
 
@@ -58,12 +58,12 @@ G is stretch: if Level 0 slips, it is cut first.
 | Person | Sequence |
 |---|---|
 | `@Agupane` | #39 (admin) → #12 (stretch) → reviews/merges → #32 → #17 → #21 support |
-| `@atapiamallea` | #14 → #18 / PR #71 → #40 (after #12) → integration backup and reviews |
+| `@atapiamallea` | #14 → #72 (done) → #40 (after #12) → integration backup and reviews |
 | `@elenaalmansacampos` | #48 → #49 → #33 → #21; supports #16 and #15 |
 | `@Yeryalex` | supports #14 and #19; no primary lane after #18 moved |
 | `@amilege` | #31 → #16 → #51 → #19 → #20; supports #13 |
 
-Critical path: `#14 → gate #32 → #18/#19/#20 → close #17 → #21`.
+Critical path: `#14 → gate #32 → #19/#20 → close #17 → #21`.
 P3 (#12) is stretch and does not gate A/B/C. P4 (#33) can sync current counts now and re-runs after P3
 if it lands; it does not block H1.
 

@@ -10,7 +10,8 @@ the product, in `docs/BRIEF.md` and `docs/CONCEPT.md`.
 theme, tokens, primitives, nav and store) are ready. The code still uses a 14-day baseline,
 3 correlations and 4 scenarios; the documented target is a 90-day ground-training baseline, 4 correlations
 and 5 scenarios (closed by P3 if it lands). Still missing: Body/Level 0, Mission Control, visual
-polish, final submission and P3 (stretch). Trends is implemented in PR #71 and held by the Level 0 gate.
+polish, final submission and P3 (stretch). The three-step flow (#72) and Trends (#71) are merged;
+Trends landed early as an explicit integrator exception to the Level 0 gate.
 
 ---
 
@@ -54,7 +55,7 @@ URL.** Level 0 first; Level 1 after.
 - F0 design foundation: light/dark theme, tokens, UI primitives, motion, nav shell, store and
   route placeholders for the interactive screens.
 - CI, Docker, nginx, Dokploy, Cloudflare and auto-deploy.
-- **56/56 tests**, `npm run check` and `npm run build` green; `npm run gen` reproducible.
+- **103/103 tests**, `npm run check` and `npm run build` green; `npm run gen` reproducible.
 - Release preview: `/`, `?view=eva`, `?view=console` and `/pitch/` return `200`.
 
 What is missing is in the lanes in §4.
@@ -129,11 +130,11 @@ Only the integrator updates the **Status** column.
 | 2 | **B · Body** | #14 | `body/map` | SVG 6 systems + halo, detail panel, 30-day sparkline and ground baseline band | F0 (done) | ready; P3 is stretch and does not gate it |
 | 2 | **C · Decision** | #15 | `decision/triage` | Level, “Because…”, action card, escalation, coach and private packet | F0 (done) | done (#64) |
 | 2 | **E · Visual polish** | #16 | `design/motion-polish` | Redesign of Home/EVA/Console, less density and animations | F0 (done) | ready |
-| 3 | **D · Trends** | #18 | `trends/charts` | 30 days, system selector, “Your ground baseline” band and cycle | B + Level 0 gate (#32) | PR #71 green; held by the gate |
+| 3 | **D · Trends** | #18 | `trends/charts` | 30 days, system selector, “Your ground baseline” band and cycle | B + Level 0 gate (#32) | done (#71); merged early by explicit exception |
 | 3 | **F · Mission Control** | #19 | `mission-control/window` | `?view=ground`, BroadcastChannel, countdown and private packet | C (done) + Level 0 gate (#32) | blocked by #32 |
 | 3 | **G · Level 2** | #20 | `level2/extras` | Amsler, procedures, cycle notices and offline PWA | A/B/C + Level 0 gate (#32) | blocked; stretch |
-| 3 | **H0 · Level 0 checkpoint** | #32 | `integration/level0` | Integrate A/B/C, Playwright, deploy Level 0 and unblock D/F/G | A/B/C | blocked by B only |
-| 4 | **H1 · Final integration/QA** | #17 | `integration/level0` | Final routes, D/F/G, privacy, QA and release | H0 + D/F/G | blocked by #32 + D/F/G |
+| 3 | **H0 · Level 0 checkpoint** | #32 | `integration/level0` | Integrate A/B/C, Playwright, deploy Level 0 and unblock F/G | A/B/C | blocked by B only |
+| 4 | **H1 · Final integration/QA** | #17 | `integration/level0` | Final routes, F/G, privacy, QA and release | H0 + F/G | blocked by #32 + F/G |
 | 4 | **P4 · Post-P3 docs sync** | #33 | `docs/post-p3-sync` | Refresh counts, deck and docs after P3 | P3 if it lands | P0/P2 done; sync current counts |
 | 4 | **I · Final submission** | #21 | `docs/submission` | Video, README, form and rehearsal | H1 | blocked by #17 |
 
@@ -156,17 +157,16 @@ worktrees and rules are in `docs/TEAM.md`.
 | #14 | B · Body | `@atapiamallea` | `@Yeryalex`, `@Agupane` | L | Now; P3 optional |
 | #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | M | Done (#64) |
 | #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | M | Now |
-| #18 | D · Trends | `@atapiamallea` | `@Agupane`, `@Yeryalex` | M | PR #71 green; held by #32 |
+| #18 | D · Trends | `@atapiamallea` | `@Agupane`, `@Yeryalex` | M | Done (#71) |
 | #19 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | M | After #32; C done |
 | #20 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | M | After #32; stretch |
 | #32 | H0 · Level 0 checkpoint | `@Agupane` | Whole team | M | After B #14 |
-| #17 | H1 · Final integration/QA | `@Agupane` | Whole team | L | After #32 + D/F/G |
+| #17 | H1 · Final integration/QA | `@Agupane` | Whole team | L | After #32 + F/G |
 | #33 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | `@Agupane` | S | Now; re-run after P3 if it lands |
 | #21 | I · Final submission | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | M | After #17 |
 
-**Ready to start:** #12 (stretch), #14, #16, #31, #33, #39, #48, #49 and #51. **Held:** #18 /
-PR #71 until the Level 0 gate (#32). **Blocked:** #17, #19, #20 and #21; #40 waits for #12. #53 is the
-only unassigned stretch issue. Agustín remains integrator and sole merge to `development`; he also opens the
+**Ready to start:** #12 (stretch), #14, #16, #31, #33, #39, #48, #49 and #51. **Blocked:** #17,
+#19, #20 and #21; #40 waits for #12. #53 is the only unassigned stretch issue. Agustín remains integrator and sole merge to `development`; he also opens the
 `development` → `main` release. Andrea Tapia is backup.
 
 ### Merge order
@@ -177,7 +177,7 @@ only unassigned stretch issue. Agustín remains integrator and sole merge to `de
 3. B (#14) is the only remaining Level 0 screen: start it now. P3 is stretch and does not gate it.
    A (#13) and C (#15) are done; A.1 (#40) still waits for P3's `CrewProfile`.
 4. Level 0 checkpoint in H0 (#32): integrate B and deploy; that unblocks D, F and G.
-5. D #18 / PR #71 is green but held until H0; then F and G, and close H1 (#17).
+5. D #18 / PR #71 merged early as an explicit exception; after H0, finish F and G and close H1 (#17).
 6. #48/#49 cover deck, script and backup video; P4 (#33) syncs counts now and re-runs after P3 if it
    lands. I (#21) after H1.
 7. Release: the integrator opens `development` → `main`; merging it runs CI and the automatic
@@ -577,7 +577,7 @@ Trends, Mission Control and Level 2.
 - `npm run check`, `npm run build` and `npm run gen` with no diff.
 - Release `development` → `main`, wait for CI/deploy and verify production `200` on the three
   Level 0 routes.
-- Update the status tables and `HANDOFF.md`; mark D/F/G unblocked.
+- Update the status tables and `HANDOFF.md`; mark F/G unblocked.
 
 **Acceptance criteria:**
 
@@ -740,7 +740,7 @@ Minimum matrix:
   (opt-in, private, without relaxing absolute thresholds); implemented in P3.
 - Level 2: Amsler, procedures and cycle notices; offline PWA at the end. The CMO view is
   descoped and documented as future work.
-- Integration is two checkpoints: H0 (#32) deploys Level 0 and unblocks D/F/G; H1 (#17) closes
+- Integration is two checkpoints: H0 (#32) deploys Level 0 and unblocks F/G; H1 (#17) closes
   the final integration.
 - Video: script + auto-recording with Playwright, without committing the binary.
 - Parallelization: worktrees + CLI agents; Foundation and integration handled by the integrator.
@@ -765,10 +765,10 @@ Only the integrator updates this table.
 | B · Body | #14 | `@atapiamallea` | `body/map` | ready; P3 optional | — |
 | C · Decision | #15 | `@atapiamallea` | `decision/triage` | done | #64 |
 | E · Visual polish | #16 | `@amilege` | `design/motion-polish` | ready | — |
-| D · Trends | #18 | `@atapiamallea` | `trends/charts` | PR #71 green; held by #32 | #71 |
+| D · Trends | #18 | `@atapiamallea` | `trends/charts` | done; merged early by explicit exception | #71 |
 | F · Mission Control | #19 | `@amilege` | `mission-control/window` | blocked by #32 | — |
 | G · Level 2 | #20 | `@amilege` | `level2/extras` | blocked; stretch | — |
 | H0 · Level 0 checkpoint | #32 | `@Agupane` | `integration/level0` | blocked by B only | — |
-| H1 · Final integration/QA | #17 | `@Agupane` | `integration/level0` | blocked by #32 + D/F/G | — |
+| H1 · Final integration/QA | #17 | `@Agupane` | `integration/level0` | blocked by #32 + F/G | — |
 | P4 · Post-P3 docs sync | #33 | `@elenaalmansacampos` | `docs/post-p3-sync` | ready; re-run after P3 if it lands | — |
 | I · Final submission | #21 | `@elenaalmansacampos` | `docs/submission` | blocked by #17 | — |

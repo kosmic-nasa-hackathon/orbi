@@ -6,8 +6,9 @@
 design foundation, Today (#58), Decision (#64), the explainability rule-flow (#60) and Playwright
 smoke (#65) ready on `development`. P0 (#8) and P2 (#10) are closed; #48/#49 carry the remaining
 deck, script and video work. The code still has a 14-day baseline, 3 correlations and 4 scenarios.
-**Missing:** Body, the Level 0 checkpoint, Trends/Mission Control, visual polish, final submission and
-P3 (ground baseline + cycle, now stretch). Trends is implemented in PR #71, held by the Level 0 gate.
+**Missing:** Body, the Level 0 checkpoint, Mission Control, visual polish, final submission and P3
+(ground baseline + cycle, now stretch). The three-step flow (#72) and Trends (#71) are merged;
+Trends landed early as an explicit integrator exception to the Level 0 gate.
 **Parallel execution plan:** `docs/PLAN.md`
 **Assignment and onboarding:** `docs/TEAM.md`
 **Integrator:** `@Agupane` (backup: `@atapiamallea`)
@@ -63,7 +64,7 @@ There is no backend, database or environment variables.
 - GitHub issues as lock: the assignee is claimed with `gh issue edit <n> --add-assignee @me`
   before writing code.
 - All project docs are in English; source summaries live in `docs/resources/`.
-- **85/85 unit tests** and **12/12 Playwright smoke tests**; `npm run check`, `npm run build` and
+- **103/103 unit tests** and **12/12 Playwright smoke tests**; `npm run check`, `npm run build` and
   `npm run e2e` green.
 - Release #69 (`221c660`) is deployed and production responds `200` on `/`, `?view=today`,
   `?view=body`, `?view=decision`, `?view=eva`, `?view=console` and `/pitch/`. Today, Decision and the
@@ -92,21 +93,21 @@ The details, allowed files and acceptance criteria are in `docs/PLAN.md`.
 | 2 | B · Body | `@atapiamallea` | ready; P3 is stretch and does not gate it |
 | 2 | C · Result: body + decision | `@atapiamallea` | done (#15 / PR #64) |
 | 2 | E · Visual polish (less density, more animations) | `@amilege` | ready |
-| 3 | D · Trends | `@atapiamallea` | PR #71 green; held by the Level 0 gate (#32) |
+| 3 | D · Trends | `@atapiamallea` | done (#71); merged early by explicit exception |
 | 3 | F · Mission Control | `@amilege` | Level 0 gate (#32) |
 | 3 | G · Level 2 (Amsler, procedures, PWA) | `@amilege` | Level 0 gate (#32); stretch |
 | 3 | H0 · Level 0 checkpoint | `@Agupane` | blocked by B only |
-| 4 | H1 · Final integration/QA | `@Agupane` | blocked by #32; closes with Level 0 + D if it lands |
+| 4 | H1 · Final integration/QA | `@Agupane` | blocked by #32; closes with Level 0 + F/G if they land |
 | 4 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | ready; sync now, re-run after P3 if it lands |
 | 4 | I · Final submission | `@elenaalmansacampos` | blocked by #17 |
 
 **Dependencies:** F0, A and C are done; B is the remaining Level 0 screen; A.1 (#40) still needs P3's
 `CrewProfile`; E and F0.1 are ready; F0.1 must merge before E because both touch Home/EVA/Console;
-P3 is now stretch and no longer blocks A/B/C; D/F/G depend on the deployed Level 0 checkpoint from
-H0 (#32); H1 (#17) closes on Level 0 plus whatever D lands before the freeze.
+P3 is now stretch and no longer blocks A/B/C; F/G depend on the deployed Level 0 checkpoint from
+H0 (#32); D (#71) merged early by explicit exception; H1 (#17) closes on Level 0 + F/G.
 
-**Rule:** Trends and Mission Control do not start until Today + Body + Decision are on the deployed
-URL.
+**Rule:** Mission Control does not start until Today + Body + Decision are on the deployed URL.
+Trends (#71) merged early as an explicit exception.
 
 ---
 
@@ -191,9 +192,9 @@ Every state uses colour + icon + text.
   lanes replace their assigned screen without touching `App.tsx`. Home/EVA/Console stay dark until
   E (#16).
 - **Body #14:** owned by `@atapiamallea`; F0.1 (#31) is owned by `@amilege` with `@elenaalmansacampos`
-  as support; Trends (#18) moved to `@atapiamallea` and PR #71 is held by the Level 0 gate. The board
-  is the source of truth.
-- **Integration:** two checkpoints. H0 (#32) deploys Level 0 and unblocks D/F/G; H1 (#17) closes
+  as support; the three-step flow (#72) and Trends (#71, early exception) are merged. The board is the
+  source of truth.
+- **Integration:** two checkpoints. H0 (#32) deploys Level 0 and unblocks F/G; H1 (#17) closes
   the final integration.
 - **CMO view:** descoped from Level 2 and documented as future work in `docs/CONCEPT.md` §12.
 - **Parallelization:** branches in the main checkout; no separate worktrees unless explicitly requested. Foundation and integration stay with the integrator.
@@ -207,13 +208,12 @@ Every state uses colour + icon + text.
    not gate it; use the current engine baseline and adapt if P3 lands.
 2. H0 #32 when B is on `development`: release `development` → `main` and verify the Level 0 routes
    in production. Interim release #69 is already live with Today + Decision.
-3. D #18 / PR #71 (`@atapiamallea`): the PR is green but stays held until the Level 0 gate (#32)
-   passes on the deployed URL.
+3. D #18 / PR #71 (`@atapiamallea`) is merged early by explicit exception; no action needed.
 4. P2.1 #39 (`@Agupane`): decide public vs judge access, run the dedicated full-history secret scan,
    then verify the unauthenticated URL. License, credits and access docs are already merged (#63).
 5. P3 #12 only if there is time after Level 0: announce the contract in the issue before touching
    `types.ts`. It is stretch and must not delay H0.
-6. After H0: D #18, F #19, G #20; then H1 #17 and I #21. #48/#49 cover the deck, script and backup
+6. After H0: F #19 and G #20; then H1 #17 and I #21. #48/#49 cover the deck, script and backup
    video; P4 #33 can sync the current counts now and re-run after P3 if it lands.
 
 ---
@@ -290,5 +290,8 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #68 docs: record the Decision merge in handoff.
 - #69 release: Level 0 progress, explainability and QA.
 - #70 docs: record release #69 in handoff.
+- #71 feat: add the Trends screen with the ground-baseline band.
+- #72 feat: guide the daily check as a three-step flow.
+- #73 docs: sync the board after Today and Decision.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi
