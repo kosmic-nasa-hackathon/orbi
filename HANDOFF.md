@@ -220,6 +220,7 @@ Every state uses colour + icon + text.
 | F0.1 · Deployed version footer | `@Yeryalex` | `@atapiamallea` | `design/version-footer` | shared footer and build metadata |
 | P3 · Engine: baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `src/domain/`, generator and scenarios |
 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | `today/checkin` | `src/screens/Today.tsx`, DemoBar, store |
+| A.1 · Profile and consent | `@atapiamallea` | `@Yeryalex` | `today/profile-consent` | profile and `shareReproductiveWithGround` |
 | B · Body | `@atapiamallea` | `@Yeryalex`, `@Agupane` | `body/map` | `src/screens/Body.tsx`, `components/body/` |
 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | `decision/triage` | `src/screens/Decision.tsx`, `components/decision/` |
 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | `design/motion-polish` | Home, EVA, Console |
@@ -261,5 +262,7 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #36 feat: add the F0 design system foundation.
 - #37 release: F0 design foundation.
 - #38 docs: sync plan and handoff after F0.
+- #42 release: F0 docs sync.
+- #43 docs: sync ticket ownership and submission gaps.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi
