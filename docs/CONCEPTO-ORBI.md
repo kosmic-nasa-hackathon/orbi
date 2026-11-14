@@ -360,7 +360,7 @@ Todo el detalle (dependencias, comandos, carpetas, CI y riesgos) está en **`STA
 | **D · Mission Control + extras** | (n1) `MissionControl` · (n2) procedimientos, Amsler | — | 1 persona |
 | **E · Diseño + pitch** | Bocetos, textos "explain", página del proyecto, vídeo, slides | Lo reparten todos el domingo | 1 persona |
 
-**Integradora:** Andrea revisa y mergea los PR en `main`. Reglas del equipo en `STACK.md` §2. **Cambiar `src/domain/types.ts` exige avisar a todo el equipo.**
+**Integrador:** `@Agupane` revisa y mergea los PR en `main`; `@atapiamallea` es backup. Reparto en `docs/TEAM.md`. Reglas del equipo en `STACK.md` §2. **Cambiar `src/domain/types.ts` exige avisar a todo el equipo.**
 
 ---
 

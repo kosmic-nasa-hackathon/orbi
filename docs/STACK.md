@@ -145,8 +145,8 @@ jobs:
 ### Reglas del repo
 
 - `main` solo se actualiza por PR con la CI en verde. El repo privado free no permite branch
-  protection: el gate real es el PR + la integradora.
-- **Una persona integradora** (Andrea) revisa y mergea los PR. Así no se discute qué entra.
+  protection: el gate real es el PR + el integrador.
+- **Una persona integradora** (`@Agupane`; backup `@atapiamallea`) revisa y mergea los PR. Así no se discute qué entra.
 - Ramas por bloque: `engine/…`, `body/…`, `today/…`, `ai/…`, `mission-control/…`, `design/…`, `deploy/…`.
 - PR pequeños e integración cada 3–4 h. **Cambiar `src/domain/types.ts` exige avisar a todo el equipo.**
 
@@ -403,9 +403,9 @@ Dos ventanas del navegador, una junto a otra: la nave a la izquierda y la tierra
 | Riesgo | Mitigación |
 |---|---|
 | Versiones de Node distintas en el equipo | `.nvmrc` + `nvm use` + CI con la misma versión. |
-| Conflictos de dependencias con React 19 | Recharts 3. Si un paquete se queja, `npm ls` y fijar la versión. **Nada de `--force`** sin avisar a la integradora. |
+| Conflictos de dependencias con React 19 | Recharts 3. Si un paquete se queja, `npm ls` y fijar la versión. **Nada de `--force`** sin avisar al integrador. |
 | shadcn no arranca por los alias | Seguir la §2 al pie de la letra. Si falla, Tailwind a mano. |
-| Alguien rompe `main` | CI + revisión de la integradora. El repo privado free no permite branch protection; el gate es el PR. |
+| Alguien rompe `main` | CI + revisión del integrador. El repo privado free no permite branch protection; el gate es el PR. |
 | Repo privado en una org sin GitHub App | Resuelto con deploy key SSH + runner self-hosted; ver `docs/DEPLOYMENT.md`. |
 | El SVG anatómico no está listo | Silueta de 6 zonas como plan B desde el viernes. |
 | Licencia de las ilustraciones | Servier es CC BY 4.0: atribución visible desde el primer commit. |

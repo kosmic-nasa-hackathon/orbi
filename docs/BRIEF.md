@@ -48,7 +48,7 @@ Vite + React 19 + TypeScript · Tailwind + shadcn/ui · Recharts 3 · Zustand ·
 | D · Mission Control + extras | Ventana de tierra, procedimientos, Amsler | Front React |
 | E · Diseño + pitch | Bocetos, textos, página del proyecto, vídeo, slides | Comunicación / diseño |
 
-El contrato entre bloques es `src/domain/types.ts`: **no se cambia sin avisar a todo el equipo.** PR pequeños con CI en verde; Andrea integra en `main` cada 3–4 h.
+El contrato entre bloques es `src/domain/types.ts`: **no se cambia sin avisar a todo el equipo.** PR pequeños con CI en verde; `@Agupane` integra en `main` cada 3–4 h (`@atapiamallea` como backup). Reparto en `docs/TEAM.md`.
 
 ## Hitos
 - **Viernes:** repo + CI + URL desplegada, motor con tests en verde

@@ -2,6 +2,7 @@
 
 Este documento conserva los briefs originales por lane como contexto de producto.
 El plan vivo, las ramas y el reparto paralelo están en **[`docs/PLAN.md`](PLAN.md)**.
+El roster, owner/support y onboarding están en **[`docs/TEAM.md`](TEAM.md)**.
 El estado actual y los bloqueos están en `HANDOFF.md`; el deploy, en `docs/DEPLOYMENT.md`.
 
 **No usar este archivo para coordinar el trabajo actual.** Las lanes, waves y criterios de
