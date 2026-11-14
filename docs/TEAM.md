@@ -32,13 +32,13 @@ in `docs/PLAN.md`; state and blockers in `HANDOFF.md`.
 | #9 | P1 · Threshold audit | `@Agupane` | `@atapiamallea` | `engine/threshold-audit` | `../orbi-thresholds` | — | M | Now |
 | #10 | P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | `docs/submission` | `../orbi-submission` | — | M | Now |
 | #11 | F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `design/theme-foundation` | `../orbi-foundation` | 5310 | L | Done (#36) |
-| #31 | F0.1 · Deployed version footer | — (claim in issue) | `@atapiamallea` | `design/version-footer` | `../orbi-version-footer` | 5320 | S | Now |
+| #31 | F0.1 · Deployed version footer | — (claim in issue) | `@atapiamallea` | `design/version-footer` | `../orbi-version-footer` | 5320 | S | Now; claim |
 | #12 | P3 · Ground baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `../orbi-engine-cycle` | 5309 | L | After #9 |
 | #13 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | `today/checkin` | `../orbi-today` | 5311 | M | After #12 |
-| #14 | B · Body | `@atapiamallea` | `@Yeryalex`, `@Agupane` | `body/map` | `../orbi-body` | 5312 | L | After #12; SVG first |
+| #14 | B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | `body/map` | `../orbi-body` | 5312 | L | After #12; SVG first |
 | #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | `decision/triage` | `../orbi-decision` | 5313 | M | After #12 |
 | #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | `design/motion-polish` | `../orbi-polish` | 5315 | M | Now |
-| #32 | H0 · Level 0 checkpoint | `@Agupane` | Whole team | `integration/level0` | `../orbi-integration` | 5318 | M | After #11/#12 + A/B/C |
+| #32 | H0 · Level 0 checkpoint | `@Agupane` | Whole team | `integration/level0` | `../orbi-integration` | 5318 | M | After #12 + A/B/C |
 | #17 | H1 · Final integration/QA | `@Agupane` | Whole team | `integration/level0` | `../orbi-integration` | 5318 | L | After #32 + D/F/G |
 | #33 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | `@Agupane` | `docs/post-p3-sync` | `../orbi-docs-sync` | — | S | After #8/#10/#12 |
 | #18 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | `trends/charts` | `../orbi-trends` | 5314 | M | After #32 + #14 |
@@ -56,7 +56,7 @@ G is stretch: if Level 0 slips, it is cut first.
 | Person | Sequence |
 |---|---|
 | `@Agupane` | #9 → #12 → reviews/merges → #32 → #17 → #21 support |
-| `@atapiamallea` | #11 (done) → #13/#14/#15 → integration backup and reviews |
+| `@atapiamallea` | #11 (done) → #31 (if claimed) → #13/#15 → integration backup and reviews |
 | `@elenaalmansacampos` | #8 → #10 → #33 → #21; supports #16 and #15 |
 | `@Yeryalex` | #16 support → #18; supports #14 and #19 |
 | `@amilege` | #16 → #19 → #20; supports #13 |

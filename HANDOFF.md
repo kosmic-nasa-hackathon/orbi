@@ -2,11 +2,11 @@
 
 **Date:** 2026-11-14
 **Branch:** `development` (integration) · `main` (release)
-**State:** engine, data, coach, tests, Home, EVA, console, pitch, deploy and documentation of the product
-shift (women's health + ground training) ready in the release preview. The code still has a
-14-day baseline, 3 correlations and 4 scenarios.
-**Missing:** run the lanes in `docs/PLAN.md`: light theme, redesign, Level 0, P3 (ground baseline
-+ cycle), Trends/Mission Control, extras and submission.
+**State:** engine, data, coach, tests, Home, EVA, console, pitch, deploy, documentation and the F0
+design foundation (light/dark theme, tokens, primitives, nav and store) ready in the release preview.
+The code still has a 14-day baseline, 3 correlations and 4 scenarios.
+**Missing:** run the lanes in `docs/PLAN.md`: Level 0, P3 (ground baseline + cycle),
+Trends/Mission Control, visual polish, extras and submission.
 **Parallel execution plan:** `docs/PLAN.md`
 **Assignment and onboarding:** `docs/TEAM.md`
 **Integrator:** `@Agupane` (backup: `@atapiamallea`)
@@ -45,6 +45,8 @@ There is no backend, database or environment variables.
 
 - **Current code:** deterministic engine with 6 systems + halo, 3 correlations, 14-day baseline,
   4 scenarios, bone rules and estimates; `npm run gen` reproduces the JSON without diff.
+- **F0 shipped:** light/dark theme with `localStorage`, design tokens, UI primitives, motion helpers,
+  nav shell and Zustand store; route placeholders for Today/Body/Decision/Trends/Mission Control.
 - **Target documentation (post #5):** 90-day ground-training baseline, phase-aware cycle baseline
   (opt-in and private), 4 correlations and 5 scenarios. P3 implements it.
 - Template coach (default and fallback) + optional local adapter + guardrails.
@@ -56,8 +58,9 @@ There is no backend, database or environment variables.
 - GitHub issues as lock: the assignee is claimed with `gh issue edit <n> --add-assignee @me`
   before writing code.
 - All project docs are in English; source summaries live in `docs/resources/`.
-- **36/36 tests**; `npm run check` and `npm run build` green.
-- The release preview responds `200` at `/`, `?view=eva`, `?view=console` and `/pitch/`.
+- **51/51 tests**; `npm run check` and `npm run build` green.
+- The release preview responds `200` at `/`, `?view=eva`, `?view=console` and `/pitch/`; F0 is
+  deployed (`theme-init.js` and the new theme assets are present).
 
 **Known caveat:** Cloudflare injects an inline challenge script that the CSP blocks. It is
 external to the app; do not relax `script-src 'self'`.
@@ -73,23 +76,23 @@ The details, allowed files and acceptance criteria are in `docs/PLAN.md`.
 | 0 | P0 · Pitch light + motion | `@elenaalmansacampos` | ready |
 | 0 | P1 · Threshold audit | `@Agupane` | ready |
 | 0 | P2 · Submission groundwork | `@elenaalmansacampos` | ready |
-| 1 | F0 · Foundation (light theme, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | done (#36) |
-| 1 | F0.1 · Deployed version footer | — | unassigned; ready |
+| 1 | F0 · Foundation (light theme, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | done (#36, deployed) |
+| 1 | F0.1 · Deployed version footer | — | ready; unassigned |
 | 1 | P3 · Engine: ground baseline + cycle | `@Agupane` | blocked by #9 |
 | 2 | A · Today | `@atapiamallea` | blocked by #12 |
-| 2 | B · Body | `@atapiamallea` | blocked by #12 |
+| 2 | B · Body | `@Yeryalex` | blocked by #12 |
 | 2 | C · Decision | `@atapiamallea` | blocked by #12 |
 | 2 | E · Visual polish (less density, more animations) | `@amilege` | ready |
 | 3 | D · Trends | `@Yeryalex` | Level 0 gate (#32) |
 | 3 | F · Mission Control | `@amilege` | Level 0 gate (#32) |
 | 3 | G · Level 2 (Amsler, procedures, PWA) | `@amilege` | Level 0 gate (#32); stretch |
-| 3 | H0 · Level 0 checkpoint | `@Agupane` | blocked by #11/#12 + A/B/C |
+| 3 | H0 · Level 0 checkpoint | `@Agupane` | blocked by #12 + A/B/C |
 | 4 | H1 · Final integration/QA | `@Agupane` | blocked by #32 + D/F/G |
 | 4 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | blocked by #8/#10/#12 |
 | 4 | I · Final submission | `@elenaalmansacampos` | blocked by #17 |
 
-**Dependencies:** A/B/C depend on F0 + P3; E depends on F0; P3 waits for P1; D/F/G depend on the deployed Level 0
-checkpoint from H0 (#32); H1 (#17) closes after D/F/G.
+**Dependencies:** F0 is done; A/B/C depend on P3 (#12); E and F0.1 are ready; P3 waits for P1; D/F/G
+depend on the deployed Level 0 checkpoint from H0 (#32); H1 (#17) closes after D/F/G.
 
 **Rule:** Trends and Mission Control do not start until Today + Body + Decision are on the deployed
 URL.
@@ -112,7 +115,7 @@ Known risks:
   the code stays at 14/3/4 until P3.
 - **Cycle privacy:** reproductive data is opt-in; neither the packet nor Mission Control exposes it
   without `shareReproductiveWithGround`.
-- **Light theme:** the refactor touches all screens; use tokens and dark/light screenshots.
+- **Visual polish:** E (#16) now works on the F0 foundation; use tokens and dark/light screenshots.
 - **Parallel conflicts:** shared files are touched only by F0/Integration.
 - **PWA/service worker:** can break the cache; goes last and feature-flagged.
 - **Cloudflare + CSP:** the inline challenge script is blocked; it does not affect the app.
@@ -167,7 +170,7 @@ Every state uses colour + icon + text.
   yet in the code**: it requires announcing the contract extension before the `engine/…` PR. The
   600 mSv limit already has a source (single for all sexes and ages since 2022).
 - **Theme:** system + `localStorage` (key `orbi-theme`), dark fallback. Light in app and pitch.
-- **Design system (F0 #11):** direction **"Body in orbit"** approved by the team, documented in
+- **Design system (F0 #11, shipped):** direction **"Body in orbit"** approved by the team, documented in
   `docs/DESIGN.md`. Cyan/near-black and teal/ice palettes with a 28 px grid, verified AA; Sora + IBM
   Plex Mono (Inter and IBM Plex Sans removed); no shadcn. Primitives in `src/components/ui` and
   `src/components/motion`, store in `src/store/orbiStore.ts` (`useScenario`, `useEvaluation`,
@@ -185,12 +188,11 @@ Every state uses colour + icon + text.
 
 ## 7. Next action
 
-1. In progress: P0 #8 and P2 #10 (Elena), P1 #9 (Agustín). F0 #11 is merged (#36); E #16
-   (amilege) can start.
-2. Triage F0.1 #31 (unassigned, ready): claim it in the issue if someone has capacity.
+1. Start now: P0 #8 and P2 #10 (Elena), P1 #9 (Agustín), E #16 (amilege) and F0.1 #31 once claimed.
+2. F0.1 #31 is unblocked and unassigned; claim it in the issue before starting `design/version-footer`.
 3. When #9 merges, Agustín opens P3 #12; announce the contract in the issue before touching
    `types.ts`.
-4. With F0 + P3 on `development`, open A #13, B #14 and C #15 (Andrea Tapia).
+4. With P3 on `development`, open A #13 and C #15 (Andrea Tapia) and B #14 (Yery); E #16 is already ready.
 5. Level 0 checkpoint at H0 #32: integrate A/B/C and deploy. That unblocks D #18 (Yery), F #19 and
    G #20 (amilege).
 6. Close H1 #17, update the tables and open I #21 (Elena) with support from Agustín, Yery and Andrea Tapia.
@@ -244,5 +246,11 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #26 docs: finish team roster references.
 - #27 docs: adopt the development release flow and English core docs.
 - #28 docs: translate resources and normalize English doc paths.
+- #29 docs: record PR #28 in handoff.
+- #30 release: English docs and development integration flow.
+- #34 docs: split H checkpoint and sync ticket plan.
+- #35 release: docs plan sync.
+- #36 feat: add the F0 design system foundation.
+- #37 release: F0 design foundation.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi

@@ -48,6 +48,7 @@ The app is already created, deployed and with auto-deploy verified:
 
 - Release merge into `main` → CI → `deploy` workflow on the `dokploy` runner → Dokploy deploys `main`.
 - Domain `https://orbi.agustinpane.xyz` responds `200` with the current build.
+- F0 (#11) deployed on 2026-11-14 via release PR #37.
 - The runner runs on the Dokploy VM as the `actions-runner-orbi.service` service.
 - Repo secret: `DOKPLOY_TOKEN`. Variable: `DOKPLOY_AUTO_DEPLOY=true`.
 
@@ -66,6 +67,10 @@ Multi-stage `Dockerfile`:
 1. `node:22-bookworm-slim` installs with `npm ci`.
 2. `npm run build` (`tsc --noEmit && vite build`) generates `dist/`.
 3. `nginx:1.27-alpine` serves `dist/` with `nginx.conf` (SPA fallback, asset cache, healthcheck).
+
+`.dockerignore` excludes docs, markdown and `.github/`. A docs-only release can therefore reuse the
+Docker cache, keep the same image and avoid restarting the service; that is expected, not a failed
+deploy. App releases rebuild and update the container.
 
 ```bash
 npm ci

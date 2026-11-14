@@ -6,11 +6,11 @@ the product, in `docs/BRIEF.md` and `docs/CONCEPT.md`.
 
 **Date:** 2026-11-14
 **Base:** `development`
-**Status:** engine, data, coach, Home, EVA, console, pitch, deploy and documentation for the product
-pivot (women's health + ground training) are ready. The code still uses a 14-day baseline,
+**Status:** engine, data, coach, Home, EVA, console, pitch, deploy, documentation and F0 (light/dark
+theme, tokens, primitives, nav and store) are ready. The code still uses a 14-day baseline,
 3 correlations and 4 scenarios; the documented target is a 90-day ground-training baseline, 4 correlations
 and 5 scenarios (closed by P3). Still missing: the interactive product (Level 0), Trends/Mission Control,
-light theme, redesign and submission.
+visual polish, P3 and submission.
 
 ---
 
@@ -52,8 +52,10 @@ URL.** Level 0 first; Level 1 after.
   (opt-in and private), 4 correlations and 5 scenarios. P3 closes this gap.
 - Home `/`, EVA demo `?view=eva`, console `?view=console` and pitch `/pitch/`.
 - Sticky, responsive nav with icons and query-based routes.
+- F0 design foundation: light/dark theme, tokens, UI primitives, motion, nav shell, store and
+  route placeholders for the interactive screens.
 - CI, Docker, nginx, Dokploy, Cloudflare and auto-deploy.
-- **36/36 tests**, `npm run check` and `npm run build` green; `npm run gen` reproducible.
+- **51/51 tests**, `npm run check` and `npm run build` green; `npm run gen` reproducible.
 - Release preview: `/`, `?view=eva`, `?view=console` and `/pitch/` return `200`.
 
 What is missing is in the lanes in §4.
@@ -120,16 +122,16 @@ Only the integrator updates the **Status** column.
 | 0 | **P1 · Threshold audit** | #9 | `engine/threshold-audit` | Threshold review, boundary tests, 600 mSv with source and `verified` warning | — | assigned |
 | 0 | **P2 · Submission groundwork** | #10 | `docs/submission` | `docs/DEMO.md`, storyboard, final README and form | — | assigned |
 | 1 | **F0 · Foundation** | #11 | `design/theme-foundation` | Dark/light theme, switch, tokens, typography, UI primitives, motion, nav/routes and store skeleton | — | done (#36) |
-| 1 | **F0.1 · Deployed version footer** | #31 | `design/version-footer` | Shared footer with `package.json` version and optional commit SHA | F0 | unassigned |
+| 1 | **F0.1 · Deployed version footer** | #31 | `design/version-footer` | Shared footer with `package.json` version and optional commit SHA | F0 (done) | ready; unassigned |
 | 1 | **P3 · Engine: ground baseline + cycle** | #12 | `engine/cycle-baseline` | Contract, 90-day and phase-aware baseline, `cycle-aware`, `luteal-phase`, radiation from P1 and tests | P1 | assigned |
-| 2 | **A · Today** | #13 | `today/checkin` | 7-field check-in + opt-in cycle, DemoBar, streak and Confirm | F0 + P3 | assigned |
-| 2 | **B · Body** | #14 | `body/map` | SVG 6 systems + halo, detail panel, 30-day sparkline and ground baseline band | F0 + P3 | assigned |
-| 2 | **C · Decision** | #15 | `decision/triage` | Level, “Because…”, action card, escalation, coach and private packet | F0 + P3 | assigned |
-| 2 | **E · Visual polish** | #16 | `design/motion-polish` | Redesign of Home/EVA/Console, less density and animations | F0 | assigned |
-| 3 | **D · Trends** | #18 | `trends/charts` | 30 days, system selector, “Your ground baseline” band and cycle | F0 + P3 + B + Level 0 gate (#32) | assigned |
-| 3 | **F · Mission Control** | #19 | `mission-control/window` | `?view=ground`, BroadcastChannel, countdown and private packet | F0 + C + P3 + Level 0 gate (#32) | assigned |
-| 3 | **G · Level 2** | #20 | `level2/extras` | Amsler, procedures, cycle notices and offline PWA | F0 + A/B/C + P3 + Level 0 gate (#32) | assigned |
-| 3 | **H0 · Level 0 checkpoint** | #32 | `integration/level0` | Integrate A/B/C, Playwright, deploy Level 0 and unblock D/F/G | F0 + P3 + A/B/C | assigned |
+| 2 | **A · Today** | #13 | `today/checkin` | 7-field check-in + opt-in cycle, DemoBar, streak and Confirm | P3 | blocked by #12 |
+| 2 | **B · Body** | #14 | `body/map` | SVG 6 systems + halo, detail panel, 30-day sparkline and ground baseline band | P3 | blocked by #12 |
+| 2 | **C · Decision** | #15 | `decision/triage` | Level, “Because…”, action card, escalation, coach and private packet | P3 | blocked by #12 |
+| 2 | **E · Visual polish** | #16 | `design/motion-polish` | Redesign of Home/EVA/Console, less density and animations | F0 (done) | ready |
+| 3 | **D · Trends** | #18 | `trends/charts` | 30 days, system selector, “Your ground baseline” band and cycle | P3 + B + Level 0 gate (#32) | assigned |
+| 3 | **F · Mission Control** | #19 | `mission-control/window` | `?view=ground`, BroadcastChannel, countdown and private packet | C + P3 + Level 0 gate (#32) | assigned |
+| 3 | **G · Level 2** | #20 | `level2/extras` | Amsler, procedures, cycle notices and offline PWA | A/B/C + P3 + Level 0 gate (#32) | assigned |
+| 3 | **H0 · Level 0 checkpoint** | #32 | `integration/level0` | Integrate A/B/C, Playwright, deploy Level 0 and unblock D/F/G | P3 + A/B/C | blocked by #12 + A/B/C |
 | 4 | **H1 · Final integration/QA** | #17 | `integration/level0` | Final routes, D/F/G, privacy, QA and release | H0 + D/F/G | assigned |
 | 4 | **P4 · Post-P3 docs sync** | #33 | `docs/post-p3-sync` | Refresh counts, deck and docs after P3 | P0 + P2 + P3 | assigned |
 | 4 | **I · Final submission** | #21 | `docs/submission` | Video, README, form and rehearsal | H1 | assigned |
@@ -148,28 +150,28 @@ Issues are already created; #31 is unassigned. Onboarding details, worktrees and
 | #31 | F0.1 · Deployed version footer | — | `@atapiamallea` | S | Now; claim in issue |
 | #12 | P3 · Ground baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | L | After #9 |
 | #13 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | M | After #12 |
-| #14 | B · Body | `@atapiamallea` | `@Yeryalex`, `@Agupane` | L | After #12; SVG first |
+| #14 | B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | L | After #12; SVG first |
 | #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | M | After #12 |
 | #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | M | Now |
 | #18 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | M | Level 0 gate (#32) + #14 |
 | #19 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | M | Level 0 gate (#32) + #15 |
 | #20 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | M | Level 0 gate (#32) + A/B/C; stretch |
-| #32 | H0 · Level 0 checkpoint | `@Agupane` | Whole team | M | After #11 + #12 + A/B/C |
+| #32 | H0 · Level 0 checkpoint | `@Agupane` | Whole team | M | After #12 + A/B/C |
 | #17 | H1 · Final integration/QA | `@Agupane` | Whole team | L | After #32 + D/F/G |
 | #33 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | `@Agupane` | S | After #8 + #10 + #12 |
 | #21 | I · Final submission | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | M | After #17 |
 
-**Done:** #11 (PR #36). **Ready to start:** #8, #9, #10, #16 and #31. **Blocked:** #12, #13–#15,
-#17–#21, #32 and #33 until their dependencies are met. **Unassigned:** #31 (F0.1); claim it in the
-issue before starting. Agustín remains integrator and sole merge to `development`; he also opens the
+**Ready to start:** #8, #9, #10, #16 and #31. **Blocked:** #12, #13–#15, #17–#21, #32 and #33 until
+their dependencies are met. **Unassigned:** #31 (F0.1) is unblocked; claim it in the issue before
+starting. Agustín remains integrator and sole merge to `development`; he also opens the
 `development` → `main` release. Andrea Tapia is backup.
 
 ### Merge order
 
-1. P0, P1 and P2 can run in parallel from now on.
-2. F0 and P3 (P3 waits for P1 because of `rules.ts`; announce the contract before starting).
-   F0.1 (#31) can start after F0 if it is claimed.
-3. A, B, C and E in parallel against F0 + P3.
+1. P0, P1, P2, E and F0.1 can run in parallel from now on.
+2. F0 is done. P3 waits for P1 because of `rules.ts`; announce the contract before starting.
+   F0.1 (#31) is unblocked and only needs an owner.
+3. A, B and C in parallel against P3; E is already unblocked by F0.
 4. Level 0 checkpoint in H0 (#32): integrate A/B/C and deploy; that unblocks D, F and G.
 5. F and G; then close H1 (#17) with the final integration.
 6. P4 (#33) after P3/P0/P2 to sync counts; I (#21) after H1.
@@ -251,6 +253,8 @@ issue before starting. Agustín remains integrator and sole merge to `developmen
 
 **Goal:** a visual and navigation foundation so the rest can work in parallel.
 
+**Status:** shipped in PR #36 and deployed via release PR #37.
+
 **Allowed files:** the shared files from §3, plus `src/theme/*`, `src/components/ui/*`,
 `src/components/motion/*`, `src/store/orbiStore.ts`.
 
@@ -300,7 +304,7 @@ requires it, tests, and `Dockerfile`/`docs/DEPLOYMENT.md` only if build args are
 - `npm run check` and `npm run build` are green.
 - A test covers the version formatter/fallback.
 
-**Gate:** F0 (#11) is merged. The issue is unassigned; claim it before starting.
+**Gate:** unblocked by F0 (#11, PR #36). The issue is unassigned; claim it before starting.
 
 ### P3 · Engine: ground baseline + cycle
 
@@ -435,6 +439,8 @@ requires it, tests, and `Dockerfile`/`docs/DEPLOYMENT.md` only if build args are
 
 **Goal:** make the app look bigger, more modern and less cluttered.
 
+**Status:** ready; unblocked by F0 (#11, PR #36). Start on `design/motion-polish`.
+
 **Allowed files:** `src/screens/Home.tsx`, `src/screens/Eva.tsx`,
 `src/screens/Console.tsx`, `src/components/eva/*`, `src/components/ui/*` (consumption).
 
@@ -511,7 +517,7 @@ Trends, Mission Control and Level 2.
 
 **Deliverables:**
 
-- Integrate A (#13), B (#14) and C (#15) behind F0 (#11) + P3 (#12).
+- Integrate A (#13), B (#14) and C (#15) behind P3 (#12).
 - Keep `/`, `?view=eva`, `?view=console` and `/pitch/` working.
 - Add `@playwright/test`, `playwright.config.ts` and `npm run test:e2e`.
 - Smoke suite: routes, dark/light, 1440/1180/390 and no horizontal overflow.
@@ -568,13 +574,13 @@ after P3 lands.
 
 - Replace the 14-day baseline with the 90-day ground-training baseline.
 - Replace 3 correlations with 4 and 4 scenarios with 5.
-- Update the `36 tests` count and equivalents to the real post-P3 number.
+- Update the `51 tests` count and equivalents to the real post-P3 number.
 - Update the deck slides and the `docs/PITCH.md` checklist that state counts.
 - Keep `docs/TASKS.md` marked as historical.
 
 **Acceptance criteria:**
 
-- Grep for `14-day`, `3 correlations`, `4 scenarios` and `36 tests` returns only historical or
+- Grep for `14-day`, `3 correlations`, `4 scenarios` and `51 tests` returns only historical or
   roadmap contexts.
 - No doc promises 5 scenarios / 4 correlations before the deploy.
 - `npm run check` and `npm run build` green.
@@ -698,16 +704,16 @@ Only the integrator updates this table.
 | P1 · Threshold audit | #9 | `@Agupane` | `engine/threshold-audit` | ready | — |
 | P2 · Submission groundwork | #10 | `@elenaalmansacampos` | `docs/submission` | ready | — |
 | F0 · Foundation | #11 | `@atapiamallea` | `design/theme-foundation` | done | #36 |
-| F0.1 · Deployed version footer | #31 | — | `design/version-footer` | unassigned; ready | — |
+| F0.1 · Deployed version footer | #31 | — | `design/version-footer` | ready; unassigned | — |
 | P3 · Engine: baseline + cycle | #12 | `@Agupane` | `engine/cycle-baseline` | blocked by #9 | — |
 | A · Today | #13 | `@atapiamallea` | `today/checkin` | blocked by #12 | — |
-| B · Body | #14 | `@atapiamallea` | `body/map` | blocked by #12 | — |
+| B · Body | #14 | `@Yeryalex` | `body/map` | blocked by #12 | — |
 | C · Decision | #15 | `@atapiamallea` | `decision/triage` | blocked by #12 | — |
 | E · Visual polish | #16 | `@amilege` | `design/motion-polish` | ready | — |
 | D · Trends | #18 | `@Yeryalex` | `trends/charts` | blocked by Level 0 gate (#32) | — |
 | F · Mission Control | #19 | `@amilege` | `mission-control/window` | blocked by Level 0 gate (#32) | — |
 | G · Level 2 | #20 | `@amilege` | `level2/extras` | blocked; stretch | — |
-| H0 · Level 0 checkpoint | #32 | `@Agupane` | `integration/level0` | blocked by #11/#12 + A/B/C | — |
+| H0 · Level 0 checkpoint | #32 | `@Agupane` | `integration/level0` | blocked by #12 + A/B/C | — |
 | H1 · Final integration/QA | #17 | `@Agupane` | `integration/level0` | blocked by #32 + D/F/G | — |
 | P4 · Post-P3 docs sync | #33 | `@elenaalmansacampos` | `docs/post-p3-sync` | blocked by #8/#10/#12 | — |
 | I · Final submission | #21 | `@elenaalmansacampos` | `docs/submission` | blocked by #17 | — |
