@@ -167,7 +167,7 @@ orbi/                            # = raíz del repo kosmic-nasa-hackathon/orbi
 ├─ src/
 │  ├─ domain/                    # ⚠️ CERO imports de React aquí
 │  │  ├─ types.ts                # el contrato (ver CONCEPTO-ORBI.md §8)
-│  │  ├─ baseline.ts             # media ± σ de los 14 días pre-vuelo
+│  │  ├─ baseline.ts             # media ± σ de los 90 días de entrenamiento; por fase del ciclo si cycle = tracked (propuesta)
 │  │  ├─ rules.ts                # umbrales, fuentes y action cards
 │  │  ├─ levels.ts               # orden y etiquetas de nivel
 │  │  ├─ escalation.ts           # nivel × latencia
@@ -221,25 +221,25 @@ Regla: **no se empieza un nivel hasta que el anterior se puede demostrar complet
 
 | Nivel | Qué entra | Horas | Con cuántas personas |
 |---|---|---|---|
-| **0 · Núcleo** | Today (check-in + racha), Body (6 sistemas + halo), Decision (because, action card, escalado), DemoBar, 3 correlaciones + 2 reglas de hueso + 2 estimaciones, 4 escenarios | ~26,5 h | 2–3 |
-| **1 · Diferencial** | **Trends** (gráficas con banda basal) + **Mission Control** (nave ↔ tierra en dos ventanas, §8) | +8 h | 4–5 |
-| **2 · Extra** | 2 procedimientos guiados, **test de visión con rejilla de Amsler**, vista CMO con 3 tripulantes, PWA offline | +10 h | 5, y solo si el nivel 1 está el sábado por la noche |
+| **0 · Núcleo** | Today (check-in + racha), Body (6 sistemas + halo), Decision (because, action card, escalado), DemoBar (+ interruptor de ciclo), 4 correlaciones + 2 reglas de hueso + 2 estimaciones, 5 escenarios, basal de tierra por fase del ciclo | ~28 h | 2–3 |
+| **1 · Diferencial** | **Trends** (gráficas con la banda *"Your ground baseline"* + ciclo superpuesto) + **Mission Control** (nave ↔ tierra en dos ventanas, §8) | +8 h | 4–5 |
+| **2 · Extra** | 2 procedimientos guiados + ecografía yugular, aviso de reserva de anticonceptivo, **test de visión con rejilla de Amsler**, vista CMO con 3 tripulantes, PWA offline | +10 h | 5, y solo si el nivel 1 está el sábado por la noche |
 
 ### Presupuesto del nivel 0
 
 | Componente | Horas | ¿Recortable? |
 |---|---|---|
 | Setup + repo + CI + deploy | 2,5 | No |
-| `types.ts` + baseline + reglas con fuente | 3 | **No** |
-| Generador de datos + 4 escenarios | 2 | **No** |
-| Correlaciones + reglas de hueso + estimaciones + escalado + tests | 4 | **No** |
+| `types.ts` + baseline (con basal por fase del ciclo) + reglas con fuente | 3,5 | **No** |
+| Generador de datos (90 días de tierra + modelo de ciclo) + 5 escenarios | 2,5 | **No** |
+| Correlaciones (incl. `cycle-aware`) + reglas de hueso + estimaciones + escalado + tests | 4,5 | **No** |
 | Body (SVG + interacción + halo + ficha) | 4 | Parcialmente (silueta simple) |
 | Decision | 3 | **No** |
 | Today (check-in con "Synced" + racha) | 2 | Parcialmente |
 | DemoBar + reset | 1 | **No** |
 | Pulido visual en tablet | 2 | Parcialmente |
 | Guion, slides, vídeo de respaldo | 3 | **No** |
-| **Total** | **~26,5 h** | |
+| **Total** | **~28 h** | |
 
 ---
 
@@ -320,24 +320,33 @@ function mulberry32(seed: number) {
 }
 ```
 
-**Un tripulante, 14 días de pre-vuelo (basal) + 30 días de misión.** Por día: los 7 indicadores del check-in + minutos de ejercicio resistivo (dispositivo) + entorno (CO₂ de cabina, dosis, SPE). Los 30 días corresponden a los días **119–148** de la misión a Marte (campo `firstMissionDay`): siguen en tránsito, porque la ida dura 162–189 días según el HRP, así que el gancho "Day 148 on the way to Mars" cuadra.
+**Una tripulante, 90 días de entrenamiento en tierra (basal, días −90 a −1, `phase: "TRAINING"`) + 30 días de misión (`phase: "TRANSIT"`).** Por día: los 7 indicadores del check-in + minutos de ejercicio resistivo (dispositivo) + entorno (CO₂ de cabina, dosis, SPE). Los 30 días corresponden a los días **119–148** de la misión a Marte (campo `firstMissionDay`): siguen en tránsito, porque la ida dura 162–189 días según el HRP, así que el gancho "Day 148 on the way to Mars" cuadra.
 
 Campos de escenario que necesitan las estimaciones (ver `CONCEPTO-ORBI.md` §4.3 y §8):
 
 | Campo | Valor por defecto | Para qué |
 |---|---|---|
-| `exposureBudgetMSv` | 600 (límite de carrera actual de NASA, `TODO verify`); los escenarios demo usan 400 para que el halo sea legible | % del presupuesto en el halo |
+| `exposureBudgetMSv` | 600 (límite de carrera de NASA desde 2022, igual para todos los sexos y edades; `recursos/08`); los escenarios demo usan 400 para que el halo sea legible | % del presupuesto en el halo |
 | `priorDoseMSv` | la dosis acumulada en los días 1–118 | Que el halo no empiece en 0 el día 119 |
 | `exerciseTargetMinPerDay` | el objetivo de la misión | Regla de adherencia al ejercicio (hueso) |
+| `trainingDays` | 90 | Días de basal en tierra (2–3 ciclos) |
+| `crew` | `{ sex: "F", cycle: "tracked", contraception: "none", shareReproductiveWithGround: false }` | Basal por fase y privacidad del paquete |
 
 **Pérdida ósea estimada** (`evaluate.ts`): `mesesEnMicrogravedad × [1 %, 1,5 %]` → se devuelve como **rango**, nunca como un número único, y la UI lo etiqueta como *"Estimated · NASA HRP evidence"*. La adherencia cambia el estado (*on track* / *at risk*), no el porcentaje.
 
-Los mismos 4 escenarios que en `CONCEPTO-ORBI.md` §7:
+**Modelo de ciclo** (generador, solo si `crew.cycle === "tracked"`):
+- Ciclo de 28 ± 2 días, sembrado con el RNG. Regla (`menses: true`) los días 1–5. Ovulación hacia el día 14.
+- En la fase lútea (días ~15–28) se suma **+0,4 °C ± 0,1** a la temperatura y **+4 lpm ± 1** a la FC en reposo. Es el rango de `recursos/08`: +0,28–0,56 °C y +2–7 lpm.
+- `baseline.ts` calcula media ± σ por fase con los días de entrenamiento. Las reglas relativas ("+2σ", "+10 bpm") usan la basal de la fase actual; **los umbrales absolutos no cambian**.
+- Test obligatorio: con temperatura de 38,1 °C en fase lútea, sigue saltando CONCERN.
+
+Los mismos 5 escenarios que en `CONCEPTO-ORBI.md` §7:
 
 | Escenario | Qué cuenta | Qué demuestra |
 |---|---|---|
 | `nominal` | Todo dentro de rango | Cuerpo en verde, racha activa |
 | `early-infection` | Deuda de sueño → temperatura y FC suben | La correlación de conductual a fisiológico |
+| `luteal-phase` | Días 24–30 en fase lútea: temperatura y FC algo más altas, sueño normal | **"Expected cycle variation, not infection"**; con el interruptor apagado, WATCH |
 | `cabin-co2` | Sube el CO₂ de cabina, baja algo la SpO₂ | **"Cabin issue, not you"** |
 | `solar-event` | SPE el último día | Halo rojo, protocolo de refugio |
 
@@ -423,7 +432,7 @@ Dos ventanas del navegador, una junto a otra: la nave a la izquierda y la tierra
 - [ ] URL pública desplegada + QR en un slide
 - [ ] Botón **Reset demo** visible en la DemoBar
 - [ ] Funciona con el wifi apagado después de cargar
-- [ ] Tests verdes: correlaciones, 2 reglas de hueso, 2 estimaciones y guardrails del coach
+- [ ] Tests verdes: correlaciones (incl. `cycle-aware`), 2 reglas de hueso, 2 estimaciones, regla de seguridad del ciclo y guardrails del coach
 - [ ] Cada umbral de `rules.ts` tiene su `source`; los no verificados, marcados `TODO verify`
 - [ ] Estados con color + icono + texto
 - [ ] Probado en viewport de tablet **y** en la resolución del proyector

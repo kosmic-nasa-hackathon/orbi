@@ -7,6 +7,8 @@
 
 ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica ya traen los datos, y en un check-in diario de 90 segundos el astronauta los confirma. ORBI los convierte en una lectura del cuerpo (6 sistemas + un halo de radiación), una decisión de triaje explicada y un plan de acción, con un escalado que se adapta al retraso de comunicación con la Tierra.
 
+La línea base de cada astronauta se aprende **durante el entrenamiento en tierra** y **tiene en cuenta el ciclo menstrual** (opt-in y privado), para no confundir la fase lútea con una infección.
+
 ## Documentación
 
 | Documento | Para qué |
@@ -18,7 +20,7 @@ ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica y
 | [docs/TASKS.md](docs/TASKS.md) | Briefs históricos por lane (contexto de producto) |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Runbook de Dokploy + Cloudflare y auto-deploy |
 | [docs/PITCH.md](docs/PITCH.md) | Guion del pitch y deck navegable en `/pitch/` |
-| [docs/recursos/](docs/recursos/README.md) | Resúmenes de los recursos oficiales de NASA y CSA, y cómo los usamos |
+| [docs/recursos/](docs/recursos/README.md) | Resúmenes de los recursos oficiales de NASA y CSA, más salud de la mujer astronauta y entrenamiento en tierra, y cómo los usamos |
 | **[HANDOFF.md](HANDOFF.md)** | Estado actual, bloqueos y próximas acciones |
 | [AGENTS.md](AGENTS.md) · [CLAUDE.md](CLAUDE.md) | Reglas para agentes de código (OpenCode, Claude Code, Codex) |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Setup, ramas, PRs y commits |

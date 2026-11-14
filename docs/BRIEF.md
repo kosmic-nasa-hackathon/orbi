@@ -16,21 +16,23 @@ Una app de tablet en la que el astronauta hace un **check-in diario de 90 segund
 - **Reglas explicables** con fuente, no una caja negra.
 - **La latencia es una variable clínica**: en Marte se actúa a bordo primero.
 - Distingue **el cuerpo del entorno**: "Cabin issue, not you" (CO₂).
+- **Pensado también para la mujer astronauta.** En la fase lútea suben la temperatura y la FC, y ORBI no lo confunde con una infección: *"Expected cycle variation, not infection."* El dato es opt-in y **no viaja a la Tierra sin su permiso**. Los umbrales clínicos absolutos no se relajan nunca.
+- **"Train like you fly":** ORBI se usa desde el entrenamiento en tierra (90 días), y ahí aprende la **línea base personal** con la que compara cada lectura en vuelo.
 - **Es honesto con lo que no se puede medir:** la pérdida ósea se **estima** con evidencia de NASA (1–1,5 %/mes) y la radiación se muestra frente a un **presupuesto**, porque NASA reconoce que aún no hay límites para misiones largas.
-- **Todo con fuentes oficiales** de NASA y de la CSA, resumidas en `recursos/`.
+- **Todo con fuentes**: las oficiales de NASA y la CSA, más revisiones científicas sobre salud femenina y entrenamiento (`recursos/08` y `09`).
 
 ## Alcance por niveles
 **Nivel 0 · Núcleo (obligatorio)**
 - 3 pantallas: **Today** (check-in + racha), **Body**, **Decision**
-- 7 campos diarios: sueño, ánimo, fatiga, FC, temperatura, SpO₂, glucosa
-- 3 correlaciones: infección temprana · aire de cabina · evento solar
+- 7 campos diarios: sueño, ánimo, fatiga, FC, temperatura, SpO₂, glucosa, más un campo opt-in de ciclo ("period today?")
+- 4 correlaciones: infección temprana · **ciclo (falsa alarma evitada)** · aire de cabina · evento solar
 - 2 reglas de hueso: adherencia al ejercicio en misiones de más de 90 días / más de 6 meses o en superficie
 - 2 estimaciones: **pérdida ósea estimada** (Musculoskeletal) y **% del presupuesto de radiación** (halo)
-- Barra de demo: escenario · misión · "Next day ▶" · Reset
-- Datos sintéticos (14 días de basal + 30 de misión, días 119–148 de camino a Marte); sin backend
+- Barra de demo: escenario · misión · "Next day ▶" · Reset · interruptor "Cycle-aware baseline"
+- Datos sintéticos de una comandante: **90 días de entrenamiento en tierra** (basal) + 30 de misión (días 119–148 de camino a Marte); **5 escenarios** (nominal, early-infection, luteal-phase, cabin-co2, solar-event); sin backend
 
-**Nivel 1 · Si somos 4–5:** **Trends** (gráficas con línea base) + **Mission Control**: nave y tierra en dos ventanas, y el paquete del cirujano viaja con la cuenta atrás de la latencia.
-**Nivel 2 · Si sobra tiempo:** procedimientos guiados · test de visión (rejilla de Amsler) · vista CMO · offline.
+**Nivel 1 · Si somos 4–5:** **Trends** (gráficas con la banda *"Your ground baseline"* y el ciclo superpuesto) + **Mission Control**: nave y tierra en dos ventanas, y el paquete del cirujano viaja con la cuenta atrás de la latencia.
+**Nivel 2 · Si sobra tiempo:** procedimientos guiados (incl. ecografía yugular) · test de visión (rejilla de Amsler) · vista CMO · offline.
 
 No se empieza un nivel hasta que el anterior funciona en la URL desplegada.
 
@@ -40,7 +42,7 @@ Vite + React 19 + TypeScript · Tailwind + shadcn/ui · Recharts 3 · Zustand ·
 ## Bloques (elige uno)
 | Bloque | Qué | Perfil |
 |---|---|---|
-| A · Motor + datos | Reglas, correlaciones, estimaciones, `evaluate()`, tests (las 5 reglas), escenarios JSON | TS lógico |
+| A · Motor + datos | Reglas, correlaciones, estimaciones, `evaluate()`, basal por fase del ciclo, tests (las 6 reglas + la regla de seguridad del ciclo), escenarios JSON | TS lógico |
 | B · Body + Trends | Figura SVG clicable, sparkline, gráficas | Front / diseño |
 | C · Today + Decision | Check-in, racha, action card, escalado | Front React |
 | D · Mission Control + extras | Ventana de tierra, procedimientos, Amsler | Front React |
@@ -54,9 +56,9 @@ El contrato entre bloques es `src/domain/types.ts`: **no se cambia sin avisar a 
 - **Sábado noche:** nivel 1 (si somos 4–5)
 - **Domingo 12:00:** código congelado → vídeo + envío
 
-Detalle completo en `CONCEPTO-ORBI.md`. Fuentes oficiales resumidas en `recursos/README.md`.
+Detalle completo en `CONCEPTO-ORBI.md`. Fuentes resumidas en `recursos/README.md`.
 
 ---
 
 ### Project summary (EN, para el formulario de envío)
-ORBI is a health autonomy console for astronauts on long-duration missions. Wearables pre-fill sleep, heart rate, SpO₂ and temperature; in a 90-second daily check-in the astronaut confirms them and adds mood, fatigue and blood glucose. This feeds an auditable rules engine that compares each reading against the astronaut's personal pre-flight baseline. The result is shown on an interactive body map: six physiological systems, each mapped to one of NASA's five hazards of human spaceflight, plus a radiation "halo". When a pattern emerges, ORBI explains why, gives a step-by-step action card and adapts escalation to communication delay: on Mars, act on board first. It also tells cabin problems apart from crew health problems. Where something can't be measured in flight, ORBI says so: bone loss is estimated from NASA Human Research Program evidence and tracked through exercise adherence, and radiation is shown against an exposure budget, since NASA notes that deep-space limits are still an open question. ORBI doesn't diagnose: it prioritizes, explains and escalates.
+ORBI is a health autonomy console for astronauts on long-duration missions. Wearables pre-fill sleep, heart rate, SpO₂ and temperature; in a 90-second daily check-in the astronaut confirms them and adds mood, fatigue and blood glucose. This feeds an auditable rules engine that compares each reading against the astronaut's personal baseline, learned during ground training ("train like you fly"). The baseline is cycle-aware: when a crew member opts in, ORBI knows that temperature and resting heart rate rise naturally in the luteal phase and doesn't mistake that for an infection, while absolute clinical thresholds always apply. Reproductive data stays with her unless she chooses to share it with the ground. The result is shown on an interactive body map: six physiological systems, each mapped to one of NASA's five hazards of human spaceflight, plus a radiation "halo". When a pattern emerges, ORBI explains why, gives a step-by-step action card and adapts escalation to communication delay: on Mars, act on board first. It also tells cabin problems apart from crew health problems. Where something can't be measured in flight, ORBI says so: bone loss is estimated from NASA Human Research Program evidence and tracked through exercise adherence, and radiation is shown against an exposure budget, since NASA notes that deep-space limits are still an open question. ORBI doesn't diagnose: it prioritizes, explains and escalates.

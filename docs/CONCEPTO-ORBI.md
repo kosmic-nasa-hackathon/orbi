@@ -16,6 +16,12 @@ Este documento sustituye al concepto original (AURA) como documento de trabajo. 
 
 Tagline en inglés (para la UI y la entrega): ***"From drift to decision."*** · Pitch: *"ORBI keeps your body in orbit."*
 
+**El giro (nov 2026): una línea base que es tuya de verdad.**
+- **Empieza en tierra.** ORBI se usa desde el entrenamiento (*"Train like you fly"*): ahí aprende qué es normal para cada astronauta.
+- **Tiene en cuenta el ciclo menstrual.** En la fase lútea suben la temperatura y la FC. Sin tenerlo en cuenta, ORBI confundiría esa subida con el inicio de una infección.
+- **El dato reproductivo es de ella.** Es *opt-in* y no viaja a la Tierra sin su permiso.
+- Evidencia: `recursos/08` (mujer astronauta) y `recursos/09` (entrenamiento en tierra).
+
 **Por qué ORBI y no AURA:** "Aura" suena casi igual que *Oura*, un anillo de salud comercial muy conocido, y un juez podría pensar que es una copia. ORBI es cercano, suena a compañero de tripulación, evoca la órbita y encaja con la gamificación. El anillo alrededor de la figura se sigue llamando **halo** de radiación.
 
 ---
@@ -40,6 +46,7 @@ No hay un único aparato: los wearables y la estación miden solos, y el astrona
 | **Monitorización solar** (en tierra: SRAG de NASA, 24/7) | Aviso de tormenta solar (SPE) | ✅ Estación. En Marte, la alerta se genera **a bordo**: desde tierra llegaría hasta 20 min tarde |
 | **Sensores de cabina** | CO₂, calidad del aire | ✅ Estación |
 | **Tablet** | Ánimo, fatiga, síntomas | ✋ Astronauta |
+| **Tablet (opt-in)** | Ciclo menstrual: día de regla sí/no. ORBI calcula el día del ciclo | ✋ Astronauta. **No sale de la tablet sin su permiso** |
 
 ### Dónde están las pantallas
 
@@ -49,6 +56,13 @@ No hay un único aparato: los wearables y la estación miden solos, y el astrona
 | **Reloj** | El astronauta | Solo avisos: "check-in due", alertas | Solo en el pitch |
 | **Panel del módulo médico** | CMO | Estado de toda la tripulación | Solo en el pitch |
 | **Consola en tierra** | Cirujano de vuelo | El paquete recibido en la ventana de comunicación | Solo en el pitch |
+
+### Antes de despegar: ORBI en el entrenamiento
+
+- **~90 días antes del lanzamiento** (L-90), la astronauta empieza a usar ORBI en tierra, con los mismos wearables y el mismo check-in de 90 s.
+- ORBI aprende su **línea base personal**. Si ella activa el seguimiento del ciclo, aprende también su patrón por fase con 2–3 ciclos.
+- El cirujano de vuelo revisa con ella las reglas y los umbrales antes del vuelo.
+- Ya en vuelo, cada lectura se compara con *su* rango de tierra, igual que NASA compara sus medidas con la basal previa (L-180…L-30, ver `recursos/09`).
 
 ### Un día con ORBI
 
@@ -110,6 +124,7 @@ Fuera del MVP (trabajo futuro, se menciona en el pitch): neuro-ocular (SANS), ne
 | **Diario (~90 s)** | Los 7 campos del check-in (ver abajo) | **Se introduce a mano** |
 | **Semanal** | PA, masa corporal, adherencia a contramedidas, dosis de la semana | Viene en los datos sintéticos |
 | **Mensual** | Agudeza visual, dosis acumulada vs. presupuesto | Solo se menciona (trabajo futuro) |
+| **Entrenamiento en tierra (~L-90 → L-1)** | El mismo check-in diario → **línea base personal** (y por fase del ciclo, si está activado) | 90 días en los datos sintéticos |
 | **Pre/post-vuelo (en Tierra)** | **Densidad ósea por DXA** (no se puede medir en vuelo) | En vuelo, ORBI muestra una **estimación** (§4.3) |
 | **Evento** | SPE, lectura fuera de rango, síntoma agudo | Lo dispara el escenario |
 | **Sensores de cabina** | CO₂, dosímetro de área | Datos sintéticos (no los introduce el astronauta) |
@@ -127,6 +142,11 @@ Fuera del MVP (trabajo futuro, se menciona en el pitch): neuro-ocular (SANS), ne
 | 7 | Blood glucose | mg/dL | Balance metabólico y nutricional, uno de los riesgos del HRP. |
 
 Opcional: síntomas en texto libre (no lo usa el motor; va al paquete del cirujano).
+
+**Opcional y opt-in: ciclo menstrual.** Un toque, "period today: yes/no". Es un campo aparte y no cuenta como uno de los 7.
+- Solo aparece si el perfil tiene `cycle: "tracked"`.
+- *Why we ask:* "Your temperature and resting heart rate rise naturally after ovulation. Knowing your cycle keeps ORBI from mistaking that for an infection."
+- Si el ciclo está suprimido con anticonceptivo continuo, el campo no aparece.
 
 ---
 
@@ -154,11 +174,17 @@ Los umbrales son **orientativos y van marcados con su fuente**. Los recursos ofi
 | Sueño | < 6 h × 2 noches | < 6 h × 3 noches | — | HRP: riesgo de sueño y fatiga |
 | Ánimo | ≤ 2 × 3 días | ≤ 2 × 5 días | — | HRP: riesgo conductual |
 | CO₂ cabina | Por encima del límite de NASA | — | — | NASA-STD-3001 Vol. 2 (`TODO verify` valor exacto) |
-| Dosis acumulada | > 50 % del presupuesto | > 80 % del presupuesto | SPE activo | Presupuesto configurable (§4.3). Referencia: límite de carrera de NASA-STD-3001 Vol. 1, 600 mSv (`TODO verify`) |
+| Dosis acumulada | > 50 % del presupuesto | > 80 % del presupuesto | SPE activo | Presupuesto configurable (§4.3). Referencia: límite de carrera de NASA desde 2022, **600 mSv, igual para todos los sexos y edades** (`recursos/08`) |
 | Hueso (adherencia al ejercicio) | Misión > 90 días y adherencia < objetivo 2 semanas seguidas | Lo anterior + misión > 6 meses **o** fase de superficie (gravedad parcial) | — | HRP Evidence Report – Fracture (`recursos/07`) |
 | Hueso (actividad de riesgo) | — | Aviso en Decision si hay EVA o construcción planificada con Musculoskeletal en CONCERN | — | Fracture report: caídas laterales y saltos, eventos de más riesgo |
 
-**Línea base personal:** media ± desviación de los 14 días de pre-vuelo de los datos sintéticos. Las reglas de "+Nσ" usan esa basal.
+**Línea base personal:** media ± desviación de los **90 días de entrenamiento en tierra** (días −90 a −1) de los datos sintéticos. Las reglas de "+Nσ" y "+10 bpm sobre la basal" usan esa basal.
+
+**Línea base consciente del ciclo** (si `cycle: "tracked"`):
+- La basal de temperatura y FC se calcula **por fase**: folicular (desde el día 1 del ciclo hasta la ovulación, ~día 14) y lútea (desde ahí hasta la siguiente regla).
+- En la fase lútea es normal que la temperatura suba **+0,28–0,56 °C** y la FC **+2–7 lpm** (`recursos/08`). Con la basal por fase, esa subida no salta como anomalía.
+- **Regla de seguridad:** el ajuste solo afecta a las reglas relativas a la basal (+Nσ, +10 bpm). **Los umbrales absolutos (≥ 38,0 °C, > 100 bpm, etc.) no se relajan nunca.** Una fiebre real en fase lútea sigue saltando.
+- Cuando una lectura queda dentro de lo esperado gracias al ajuste, el "Because…" lo explica: *"Temperature +0.4 °C, within your luteal-phase range."*
 
 ### 4.3 Dos indicadores que ORBI estima en lugar de medir
 
@@ -173,23 +199,27 @@ Las fuentes oficiales dejan claro que hay dos cosas que **no se pueden medir o f
 **Presupuesto de exposición a la radiación (halo)**
 - NASA reconoce que no hay conocimiento suficiente para fijar límites de exposición en misiones largas (`recursos/06`).
 - ORBI muestra la dosis acumulada como **% de un presupuesto que fija el equipo médico de la misión** (`Scenario.exposureBudgetMSv`), con la tendencia y la tasa de dosis actual.
-- Los 600 mSv de NASA-STD-3001 se usan como **valor por defecto** del presupuesto, presentados como *"current NASA career limit"*.
+- Los 600 mSv se usan como **valor por defecto** del presupuesto, presentados como *"current NASA career limit"*.
 - Los escenarios de demo usan un presupuesto de **400 mSv** para que el halo sea legible en la tablet;
   600 mSv sigue siendo la referencia del límite de carrera y el valor por defecto del contrato.
+- Desde 2022 ese límite es **el mismo para todos los sexos y edades**. Antes, una mujer de 45 años tenía un límite de 187 días de misión frente a 344 para un hombre (`recursos/08`).
 
 **Textos "Why this matters" con respaldo oficial:**
 - **Musculoskeletal:** *"In weightlessness, weight-bearing bones lose 1–1.5% of their mineral density every month, roughly what an elderly person loses in a year. Resistance exercise and good nutrition are the countermeasures that work."*
 - **Halo:** *"You can't see or feel space radiation. It raises cancer risk and can affect your nervous system. NASA itself says deep-space exposure limits are still an open question, so ORBI tracks your budget and trend."*
 
-### 4.4 Las 3 correlaciones del MVP (aquí se gana el jurado)
+### 4.4 Las 4 correlaciones del MVP (aquí se gana el jurado)
 
 | Id | Señales | Lectura | Nivel | Action card |
 |---|---|---|---|---|
-| `early-infection` | Sueño < 6 h × 3 + temp ≥ 37.5 + FC ↑ | Posible infección temprana favorecida por la deuda de sueño | CONCERN | Medir temp cada 4 h · aislarse en el área de descanso · preparar paquete para el cirujano |
+| `early-infection` | Sueño < 6 h × 3 + temp ≥ 37.5 + FC ↑ | Posible infección temprana favorecida por la deuda de sueño. En mujeres, la infección urinaria es una causa frecuente en vuelo (`recursos/08`) | CONCERN | Medir temp cada 4 h · aislarse en el área de descanso · preparar paquete para el cirujano |
+| `cycle-aware` | Temp ↑ y FC ↑ sobre la basal general, pero **dentro del rango de su fase lútea**, con sueño normal y sin superar umbrales absolutos | **No es una infección, es el ciclo** | NOMINAL (con explicación) | Ninguna. *"Expected cycle variation, not infection."* Se revisa mañana como siempre |
 | `cabin-air` | SpO₂ ↓ **y** CO₂ de cabina ↑ en el mismo periodo | **No es el cuerpo, es el entorno** | WATCH (persona) + alerta de cabina | Revisar ventilación/scrubber · notificar · no tratar al paciente |
 | `solar-event` | SPE activo (evento) | Exposición aguda a radiación | URGENT | Ir al refugio · checklist · registrar dosis · posponer EVA |
 
-Las otras correlaciones del documento original (ortostática, nutricional, riesgo conductual) quedan como **trabajo futuro** y se mencionan en el pitch.
+`cycle-aware` y `cabin-air` son los dos momentos **"no eres tú"**: ORBI no solo detecta, también evita falsas alarmas y explica por qué.
+
+Las otras correlaciones del documento original (ortostática, nutricional, riesgo conductual) quedan como **trabajo futuro** y se mencionan en el pitch. La ortostática gana peso porque es más frecuente en mujeres al volver a la gravedad.
 
 ### 4.5 Salida del motor
 
@@ -224,6 +254,8 @@ La latencia cambia la respuesta: el mismo CONCERN no se maneja igual a 0 segundo
 
 > *"Communication delay isn't a network detail: it's a clinical variable."*
 
+**Privacidad en el paquete al cirujano.** Si `shareReproductiveWithGround` es `false` (el valor por defecto), el paquete no lleva el día del ciclo ni los días de regla. Solo lleva la conclusión, por ejemplo *"Temperature rise consistent with expected cycle variation (details private)"*. La astronauta puede autorizar compartir el detalle si el cirujano lo necesita.
+
 ---
 
 ## 6. Pantallas del MVP (UI en inglés)
@@ -242,11 +274,15 @@ La latencia cambia la respuesta: el mismo CONCERN no se maneja igual a 0 segundo
 
 ## 7. Datos y escenarios
 
-Un tripulante, **14 días de pre-vuelo (basal) + 30 días de misión**, generados por script con ruido realista.
+Una tripulante (la comandante) con **90 días de entrenamiento en tierra (basal) + 30 días de misión**, generados por script con ruido realista.
+- **Perfil por defecto:** `sex: "F"`, `cycle: "tracked"`, ciclo de ~28 días ± 2, `shareReproductiveWithGround: false`.
+- En la fase lútea, el generador suma ~+0,4 °C y ~+4 lpm.
+- Los escenarios que no tratan del ciclo también lo incluyen. Así, la basal por fase se ejercita siempre.
 
 | Escenario | Qué pasa | Qué debe mostrar ORBI |
 |---|---|---|
 | `nominal` | Todo dentro de rango | Cuerpo en verde, racha activa |
+| `luteal-phase` | Días 24–30 en fase lútea: la temperatura sube ~0,4 °C y la FC ~4 lpm sobre la basal general. El sueño es normal | Immune **en verde** con *"Expected cycle variation, not infection"*. Con la basal por ciclo desactivada (interruptor de la DemoBar), saldría WATCH |
 | `early-infection` | Días 24–30: el sueño cae, la temperatura y la FC suben | Immune + Behavioral en ámbar → CONCERN, paquete para el cirujano |
 | `cabin-co2` | Días 26–30: el CO₂ de cabina sube y la SpO₂ baja un poco | Respiratory en amarillo + **"Cabin issue, not you"** |
 | `solar-event` | Día 30: SPE | Halo rojo, modo emergencia, protocolo de refugio |
@@ -274,6 +310,26 @@ Reglas del contrato:
 - Cambiar `src/domain/types.ts`, `src/ai/types.ts`, `src/content/systems.ts` o la forma del JSON
   exige avisar a todo el equipo.
 
+### Propuesta de ampliación del contrato (pendiente de anunciar al equipo)
+
+Para la basal de tierra y la basal por ciclo (§4.2, §7) hacen falta estos campos. **No se han aplicado a `src/domain/types.ts`**: se anuncian al equipo y se implementan en un PR `engine/…` con `npm run gen`.
+
+```ts
+export type Phase = "TRAINING" | "TRANSIT" | "SURFACE" | "RETURN";
+
+export interface CrewProfile {
+  name: string;
+  sex: "F" | "M";
+  cycle: "tracked" | "suppressed" | "n/a";  // "n/a" para hombres o si ella no quiere registrarlo
+  contraception?: "oral-continuous" | "iud" | "implant" | "dmpa" | "none";
+  shareReproductiveWithGround: boolean;     // por defecto false
+}
+
+// DailyReading: + phase: Phase; menses?: boolean (dato privado); cycleDay?: number (lo calcula ORBI)
+// Scenario:     + crew: CrewProfile; trainingDays: number (por defecto 90)
+// evaluate():   + opts?: { cycleAware?: boolean } (interruptor de la DemoBar; por defecto true si cycle === "tracked")
+```
+
 ---
 
 ## 9. Stack y estructura
@@ -288,9 +344,9 @@ Todo el detalle (dependencias, comandos, carpetas, CI y riesgos) está en **`STA
 
 | Nivel | Qué entra | Con cuántas personas |
 |---|---|---|
-| **0 · Núcleo** | Today, Body, Decision, DemoBar, 3 correlaciones, 4 escenarios | 2–3 |
-| **1 · Diferencial** | **Trends** (gráficas con banda basal: el reto pide "dynamic charts") + **Mission Control** (nave ↔ tierra en dos ventanas con la cuenta atrás de la latencia) | 4–5 |
-| **2 · Extra** | 2 procedimientos guiados (PA en microgravedad, test ortostático) · **test de visión con rejilla de Amsler** (SANS, cubre "camera/images") · vista CMO con 3 tripulantes · PWA offline | 5, y solo si el nivel 1 está el sábado por la noche |
+| **0 · Núcleo** | Today (con el campo de ciclo opt-in), Body, Decision, DemoBar (con el interruptor "Cycle-aware baseline"), 4 correlaciones, 5 escenarios, basal de 90 días de tierra | 2–3 |
+| **1 · Diferencial** | **Trends** (gráficas con la banda *"Your ground baseline"* y el ciclo superpuesto: el reto pide "dynamic charts") + **Mission Control** (nave ↔ tierra en dos ventanas con la cuenta atrás de la latencia; respeta la privacidad del ciclo) | 4–5 |
+| **2 · Extra** | 2 procedimientos guiados (PA en microgravedad, test ortostático) · **ecografía yugular guiada** (caso de trombosis de 2019) · **test de visión con rejilla de Amsler** (SANS, cubre "camera/images") · aviso de reserva de anticonceptivo · vista CMO con 3 tripulantes · PWA offline | 5, y solo si el nivel 1 está el sábado por la noche |
 
 **Mission Control es el momento wow:** el jurado *ve* la distancia a la Tierra. El paquete del cirujano viaja de la ventana de la nave a la de tierra con una cuenta atrás de 14 min (acelerada), y la respuesta tarda lo mismo en volver.
 
@@ -325,7 +381,7 @@ Todo el detalle (dependencias, comandos, carpetas, CI y riesgos) está en **`STA
 
 ## 12. Roadmap (lo que no llegue, se cuenta al jurado como trabajo futuro)
 
-Lo que no se construya de los niveles 1 y 2 (§10), más: calendario de cadencia, score de confianza, modo "explain" completo, correlaciones ortostática/nutricional/conductual, sistemas vestibular y piel, integración con wearables reales, voz.
+Lo que no se construya de los niveles 1 y 2 (§10), más: calibración de umbrales con pruebas del entrenamiento (*"Calibrated on your training data"*, p. ej. recuperación de FC en el entrenamiento de EVA en piscina), exportación anonimizada con consentimiento a LSAH / Standard Measures (la "women's health database" que piden las revisiones), comparación antes/después del regreso (R+5, R+30), preparación ortostática antes de la llegada a la superficie, calendario de cadencia, score de confianza, modo "explain" completo, correlaciones ortostática/nutricional/conductual, sistemas vestibular y piel, integración con wearables reales, voz.
 **No construir:** ML de decisión, visión por computador, figura 3D, wearables reales, backend.
 El coach local opcional es una capa de explicación, no un modelo de decisión.
 
@@ -338,9 +394,10 @@ El coach local opcional es una capa de explicación, no un modelo de decisión.
 3. **Body (40 s):** Immune y Behavioral en ámbar; pulsar → sparkline con la basal. *"Six systems and a halo, each mapped to a NASA hazard."*
 4. **Decision (50 s):** CONCERN, "Because…", action card. Cambiar el selector de Mars a ISS: el escalado cambia. *"Delay is a clinical variable."*
    - *Con nivel 1:* pulsar "Send to flight surgeon". En la ventana de tierra, a la derecha, el paquete llega tras la cuenta atrás de 14 min (acelerada). *"This is what distance from Earth looks like."*
-5. **Cabin CO₂ (20 s):** *"Cabin issue, not you."* El sistema distingue el cuerpo del entorno.
-6. **Solar event (20 s):** halo rojo, protocolo de refugio.
-7. **Cierre (10 s):** *"ORBI doesn't diagnose. It prioritizes, explains and escalates."*
+5. **Luteal phase (25 s):** escenario `luteal-phase`. Temperatura +0,4 °C y FC +4 lpm, pero Immune está en verde: *"Expected cycle variation, not infection."* Apagar el interruptor "Cycle-aware baseline": pasa a WATCH. *"Most spaceflight data comes from men. ORBI learned her cycle during ground training, and she decides who sees it."*
+6. **Cabin CO₂ (15 s):** *"Cabin issue, not you."* El sistema distingue el cuerpo del entorno.
+7. **Solar event (15 s):** halo rojo, protocolo de refugio.
+8. **Cierre (10 s):** *"ORBI doesn't diagnose. It prioritizes, explains and escalates."*
 
 Respaldo: grabar el vídeo de la demo el domingo por la mañana.
 
@@ -354,5 +411,11 @@ Respaldo: grabar el vídeo de la demo el domingo por la mañana.
 - **¿Y si se cae la comunicación?** ORBI está pensado para funcionar sin la Tierra: decide a bordo y el paquete se envía en la siguiente ventana.
 - **¿Cómo medís la densidad ósea en vuelo?** No la medimos: solo se puede con DXA en la Tierra. ORBI la **estima** con la evidencia del HRP (1–1,5 %/mes) y vigila la contramedida que sí se puede medir, el ejercicio.
 - **¿Cuál es el límite de radiación para Marte?** NASA reconoce que todavía no se puede fijar. ORBI muestra la dosis contra un presupuesto que decide el equipo médico (por defecto, el límite de carrera actual de NASA).
+- **¿Las mujeres tienen otro límite de radiación?** Ya no. Desde 2022, NASA aplica 600 mSv a todos los sexos y edades. Antes, a los 45 años, una mujer podía estar 187 días frente a 344 de un hombre.
+- **¿Por qué registrar el ciclo?** Porque en la fase lútea la temperatura sube 0,28–0,56 °C y la FC 2–7 lpm. Sin tenerlo en cuenta, ORBI daría falsas alarmas de infección. Es opcional, y los umbrales clínicos absolutos nunca se relajan.
+- **¿Quién ve esos datos?** Solo ella, salvo que autorice compartirlos. Al cirujano le llega la conclusión, no el dato.
+- **¿Y si suprime la regla con anticonceptivos?** Es lo habitual, pero no obligatorio. Con `cycle: "suppressed"` ORBI usa la basal normal. En el roadmap: aviso de reserva de medicación, porque no se ha probado su estabilidad en misiones largas.
+- **¿Los datos del entrenamiento en tierra sirven de algo en vuelo?** Sí: son la línea base personal, igual que NASA compara sus medidas en vuelo con las de L-180…L-30. La predicción a partir de pruebas de tierra tiene indicios pero no modelos validados, así que ORBI solo la usaría como etiqueta prudente (roadmap). El resto es histórico para investigación (LSAH).
+- **¿Hay datos suficientes sobre mujeres?** No: son el 22,7 % de las personas que han ido al espacio y no hay medidas hormonales en vuelo. Las revisiones piden una base de datos de salud femenina, y ORBI podría alimentarla con consentimiento.
 
 **Vocabulario:** di "prioritizes and escalates", "decision support", "auditable rules on your personal baseline". No digas "diagnoses", "replaces the doctor", "AI predicts".

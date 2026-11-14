@@ -57,6 +57,7 @@ El detalle, archivos permitidos y criterios de aceptación están en `docs/PLAN.
 | 0 | P1 · Threshold audit | todo |
 | 0 | P2 · Submission groundwork | todo |
 | 1 | F0 · Fundación (tema light, switch, tokens, UI, motion, nav, store) | todo |
+| 1 | P3 · Engine: basal de tierra + ciclo | todo |
 | 2 | A · Today | todo |
 | 2 | B · Body | todo |
 | 2 | C · Decision | todo |
@@ -125,6 +126,11 @@ Cada estado usa color + icono + texto.
 - **Fuentes:** solo `bone` y `ada` verificadas; el resto queda `false` con `TODO verify`.
 - **Datos demo:** presupuesto de radiación de 400 mSv para que el halo sea legible; 600 mSv sigue
   siendo la referencia del límite de carrera.
+- **Giro de producto (docs):** salud de la mujer astronauta + fase de entrenamiento en tierra.
+  Evidencia en `docs/recursos/08` y `09`. Basal de 90 días, basal por fase (opt-in, privada, sin
+  relajar umbrales absolutos), correlación `cycle-aware` y escenario `luteal-phase`. **Aún no está
+  en el código**: requiere anunciar la ampliación del contrato antes del PR `engine/…`. El límite
+  de 600 mSv ya tiene fuente (único para todos los sexos y edades desde 2022).
 - **Tema:** sistema + `localStorage`, fallback dark. Light en app y pitch.
 - **Paralelización:** worktrees + agentes CLI; Fundación e integración a cargo del integrador.
 - **Vídeo:** guion + auto-grabación con Playwright, sin commitear el binario.
@@ -135,8 +141,8 @@ Cada estado usa color + icono + texto.
 
 1. Lanzar Wave 0 en paralelo: P0 (pitch light + motion), P1 (threshold audit) y P2 (submission
    groundwork).
-2. Ejecutar F0 (Fundación) y mergearla.
-3. Abrir A/B/C/D/E en paralelo contra F0.
+2. Ejecutar F0 (Fundación) y P3 (engine: basal de tierra + ciclo, tras anunciar el contrato).
+3. Abrir A/B/C/E contra F0 + P3; D espera al gate de Nivel 0 desplegado.
 4. Después de C, abrir F (Mission Control); después de A/B/C, abrir G (Level 2).
 5. Integrar todo en H y cerrar I.
 
@@ -150,6 +156,7 @@ Cada estado usa color + icono + texto.
 | P1 · Threshold audit | `engine/threshold-audit` | `src/domain/rules.ts`, tests |
 | P2 · Submission groundwork | `docs/submission` | `docs/DEMO.md`, README, formulario |
 | F0 · Fundación | `design/theme-foundation` | tema, tokens, UI, nav, store |
+| P3 · Engine: basal + ciclo | `engine/cycle-baseline` | `src/domain/`, generador y escenarios |
 | A · Today | `today/checkin` | `src/screens/Today.tsx`, DemoBar, store |
 | B · Body | `body/map` | `src/screens/Body.tsx`, `components/body/` |
 | C · Decision | `decision/triage` | `src/screens/Decision.tsx`, `components/decision/` |
@@ -170,5 +177,6 @@ Todo lo integrado está en `main`.
 - #2 ci: add gated Dokploy auto-deploy fallback.
 - #3 feat: add navigable pitch deck at `/pitch/`.
 - #4 feat: add product home with icon navigation and landing.
+- #5 docs: add women's health and ground-training research.
 
 Repositorio: https://github.com/kosmic-nasa-hackathon/orbi
