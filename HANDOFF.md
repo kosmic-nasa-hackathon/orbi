@@ -2,7 +2,7 @@
 
 **Fecha:** 2026-11-14
 **Rama:** `main`
-**Estado:** scaffold, motor, coach, CI, deploy, auto-deploy, demo EVA con pérdida de sync y retorno inercial, y pitch navegable en `/pitch/`.
+**Estado:** scaffold, motor, coach, CI, deploy, auto-deploy, home con navegación, demo EVA con pérdida de sync y retorno inercial, y pitch navegable en `/pitch/`.
 **Falta:** UI de las pantallas (Today/Body/Decision), Trends/Mission Control, ensayo y vídeo del pitch.
 
 Runbook: `docs/DEPLOYMENT.md` · Tareas: `docs/TASKS.md` · Reglas para agentes: `AGENTS.md`.
@@ -75,8 +75,17 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 - Animaciones de sync perdido/recuperado, cono de deriva, línea de retorno y audit log autónomo.
 - Controles de demo: auto timeline, perder sync, reconectar, auto-return, 1x/2x/4x, pausa y reset.
 - La salud sale de `evaluate()` (early-infection, día 148, MARS); no se reimplementan reglas.
-- La demo abre por defecto; la consola del motor queda en `?view=console`.
-- Deep links de demo: `/` (inicio), `/?t=18` (sin sync), `/?t=24` (retorno inercial activo).
+- Deep links de demo: `/?view=eva&t=18` (sin sync) y `/?view=eva&t=24` (retorno inercial activo).
+  `/?t=18` sigue abriendo la demo por compatibilidad.
+
+### Home y navegación (`src/screens/Home.tsx`, `src/components/SiteNav.tsx`)
+
+- La raíz `/` es una landing de producto: hero, estado de misión leído de `evaluate()`, accesos a
+  EVA, consola y pitch, y un snapshot de los 6 sistemas + halo.
+- Nav sticky con iconos (Home, EVA, Console, Pitch, GitHub) y rutas `?view=...`; la demo EVA queda
+  en `?view=eva` y la consola en `?view=console`.
+- Tipografía IBM Plex Sans (display) + IBM Plex Mono (telemetría), Inter para el cuerpo.
+- `src/navigation.ts` centraliza el parseo y la escritura de la URL; `popstate` mantiene atrás/adelante.
 
 ### Pitch (`public/pitch/`, `docs/PITCH.md`)
 
@@ -102,7 +111,7 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 - Repo: secret `DOKPLOY_TOKEN`, variable `DOKPLOY_AUTO_DEPLOY=true`.
 - `docs/DEPLOYMENT.md`: Dokploy, Cloudflare, túnel, nginx, auto-deploy, verificación y rollback.
 
-**Verificación actual:** `npm run check` verde, **32/32 tests**, `npm run build` OK. El deploy
+**Verificación actual:** `npm run check` verde, **36/36 tests**, `npm run build` OK. El deploy
 automático se probó con `workflow_dispatch` y con un push real a `main`; ambos terminaron en `done`.
 El commit `ed50dec` desplegó la demo EVA: la raíz y `/?t=18` responden `200` con la simulación.
 

@@ -173,6 +173,9 @@ button {
 }
 
 .topnav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
   padding: 0.38rem 0.62rem;
   border: 1px solid rgba(148, 163, 184, 0.14);
   border-radius: 999px;
@@ -184,6 +187,16 @@ button {
     border-color 0.16s ease,
     color 0.16s ease,
     background 0.16s ease;
+}
+
+.topnav-link svg {
+  width: 0.78rem;
+  height: 0.78rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 .topnav-link:hover {

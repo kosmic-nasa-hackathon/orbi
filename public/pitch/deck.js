@@ -380,7 +380,9 @@
     liveEl.textContent = `Slide ${state.index + 1} of ${total}. ${plain(
       slide.title || slide.quote || slide.kicker || "",
     )}`;
-    document.title = `${plain(slide.title || slide.quote || slide.kicker || "ORBI")} · ORBI`;
+    const slideTitle = plain(slide.title || slide.quote || slide.kicker || "ORBI");
+    document.title =
+      slideTitle === "ORBI" && state.meta.title ? state.meta.title : `${slideTitle} · ORBI`;
     updateOverview();
     renderNotes();
   }

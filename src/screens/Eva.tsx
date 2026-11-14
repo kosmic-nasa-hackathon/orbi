@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import {
   Activity,
-  ArrowLeft,
   Battery,
   HeartPulse,
+  Orbit,
   Pause,
   Play,
   Radio,
@@ -69,7 +69,7 @@ function initialEvaState(): ReturnType<typeof createEvaState> {
   return state;
 }
 
-export default function Eva({ onNavigate }: { onNavigate: (view: "console" | "eva") => void }) {
+export default function Eva() {
   const [state, setState] = useState(initialEvaState);
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState(1);
@@ -134,32 +134,27 @@ export default function Eva({ onNavigate }: { onNavigate: (view: "console" | "ev
   }
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-[1500px] flex-col gap-4 p-4 pb-10 sm:p-6">
-      <header className="flex flex-wrap items-start justify-between gap-3 border-b border-white/10 pb-4">
+    <div className="mx-auto flex min-h-full max-w-[1500px] flex-col gap-4 px-4 pt-6 pb-10 sm:px-6">
+      <header className="flex flex-wrap items-start justify-between gap-3 border-b border-white/[0.07] pb-4">
         <div className="flex items-start gap-3">
-          <button
-            type="button"
-            onClick={() => onNavigate("console")}
-            className="mt-1 inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-[11px] text-white/55 hover:text-white/85"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-            Console
-          </button>
+          <span className="mt-0.5 grid h-9 w-9 flex-none place-items-center rounded-xl border border-cyan-400/20 bg-cyan-400/[0.08] text-cyan-200">
+            <Orbit className="h-4 w-4" aria-hidden="true" />
+          </span>
           <div>
-            <p className="text-[11px] uppercase tracking-[0.28em] text-cyan-300/70">
+            <p className="font-mono text-[9px] tracking-[0.22em] text-cyan-300/60 uppercase">
               NASA Space Apps 2026 · Kosmic
             </p>
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight">
-              EVA autonomy <span className="text-white/40">· suit demo</span>
+            <h1 className="mt-1 font-display text-3xl font-semibold tracking-[-0.035em]">
+              EVA autonomy <span className="text-white/35">· suit demo</span>
             </h1>
-            <p className="mt-1 text-sm text-white/50">
+            <p className="mt-1 text-sm text-white/45">
               When the link disappears, the suit keeps deciding.
             </p>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] text-white/55">
-            SIMULATION · day {day} · MARS
+          <span className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 font-mono text-[9px] tracking-[0.12em] text-white/50 uppercase">
+            Simulation · day {day} · Mars
           </span>
           <SyncBadge link={state.link} age={linkAge} />
         </div>
