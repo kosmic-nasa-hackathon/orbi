@@ -55,7 +55,7 @@ nvm use            # Node 22
 npm ci
 npm run gen        # regenerates the deterministic scenarios
 npm run dev        # Vite
-npm run check      # typecheck + Biome + tests
+npm run check      # typecheck + check:domain + Biome CI + tests
 npm run build      # production build in dist/
 ```
 

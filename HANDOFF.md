@@ -74,19 +74,22 @@ The details, allowed files and acceptance criteria are in `docs/PLAN.md`.
 | 0 | P1 · Threshold audit | `@Agupane` | ready |
 | 0 | P2 · Submission groundwork | `@elenaalmansacampos` | ready |
 | 1 | F0 · Foundation (light theme, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | ready |
+| 1 | F0.1 · Deployed version footer | — | unassigned; blocked by #11 |
 | 1 | P3 · Engine: ground baseline + cycle | `@Agupane` | blocked by #9 |
 | 2 | A · Today | `@atapiamallea` | blocked by #11 + #12 |
 | 2 | B · Body | `@Yeryalex` | blocked by #11 + #12 |
 | 2 | C · Decision | `@atapiamallea` | blocked by #11 + #12 |
 | 2 | E · Visual polish (less density, more animations) | `@amilege` | blocked by #11 |
-| 3 | D · Trends | `@Yeryalex` | Level 0 gate |
-| 3 | F · Mission Control | `@amilege` | Level 0 gate |
-| 3 | G · Level 2 (Amsler, procedures, PWA) | `@amilege` | Level 0 gate; stretch |
-| 3 | H · Integration/QA | `@Agupane` | checkpoint pending |
+| 3 | D · Trends | `@Yeryalex` | Level 0 gate (#32) |
+| 3 | F · Mission Control | `@amilege` | Level 0 gate (#32) |
+| 3 | G · Level 2 (Amsler, procedures, PWA) | `@amilege` | Level 0 gate (#32); stretch |
+| 3 | H0 · Level 0 checkpoint | `@Agupane` | blocked by #11/#12 + A/B/C |
+| 4 | H1 · Final integration/QA | `@Agupane` | blocked by #32 + D/F/G |
+| 4 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | blocked by #8/#10/#12 |
 | 4 | I · Final submission | `@elenaalmansacampos` | blocked by #17 |
 
-**Dependencies:** A/B/C/E depend on F0 + P3; P3 waits for P1; D/F/G depend on the deployed Level 0
-checkpoint that H marks.
+**Dependencies:** A/B/C depend on F0 + P3; E depends on F0; P3 waits for P1; D/F/G depend on the deployed Level 0
+checkpoint from H0 (#32); H1 (#17) closes after D/F/G.
 
 **Rule:** Trends and Mission Control do not start until Today + Body + Decision are on the deployed
 URL.
@@ -164,6 +167,9 @@ Every state uses colour + icon + text.
   yet in the code**: it requires announcing the contract extension before the `engine/…` PR. The
   600 mSv limit already has a source (single for all sexes and ages since 2022).
 - **Theme:** system + `localStorage`, dark fallback. Light in app and pitch.
+- **Integration:** two checkpoints. H0 (#32) deploys Level 0 and unblocks D/F/G; H1 (#17) closes
+  the final integration.
+- **CMO view:** descoped from Level 2 and documented as future work in `docs/CONCEPT.md` §12.
 - **Parallelization:** worktrees + CLI agents; Foundation and integration handled by the integrator.
 - **Video:** script + auto-recording with Playwright, without committing the binary.
 
@@ -172,13 +178,15 @@ Every state uses colour + icon + text.
 ## 7. Next action
 
 1. Start now: P0 #8 and P2 #10 (Elena), P1 #9 (Agustín) and F0 #11 (Andrea Tapia).
-2. When #9 merges, Agustín opens P3 #12; announce the contract in the issue before touching
+2. Triage F0.1 #31 (unassigned): claim it in the issue after #11 if someone has capacity.
+3. When #9 merges, Agustín opens P3 #12; announce the contract in the issue before touching
    `types.ts`.
-3. With F0 + P3 on `development`, open A #13 and C #15 (Andrea Tapia), B #14 (Yery) and E #16 (amilege).
-4. Level 0 gate at #17: integrate A/B/C and deploy. That unblocks D #18 (Yery), F #19 and G #20
-   (amilege).
-5. Close H #17, update the tables and open I #21 (Elena) with support from Agustín, Yery and Andrea Tapia.
-6. Yery can prototype the B SVG before the gate, without merging; meanwhile amilege onboards and supports
+4. With F0 + P3 on `development`, open A #13 and C #15 (Andrea Tapia), B #14 (Yery) and E #16 (amilege).
+5. Level 0 checkpoint at H0 #32: integrate A/B/C and deploy. That unblocks D #18 (Yery), F #19 and
+   G #20 (amilege).
+6. Close H1 #17, update the tables and open I #21 (Elena) with support from Agustín, Yery and Andrea Tapia.
+7. P4 #33 (Elena) syncs counts and the deck after P3; it can run in parallel and does not block H1.
+8. Yery can prototype the B SVG before the gate, without merging; meanwhile amilege onboards and supports
    F0/E.
 
 ---
@@ -191,6 +199,7 @@ Every state uses colour + icon + text.
 | P1 · Threshold audit | `@Agupane` | `@atapiamallea` | `engine/threshold-audit` | `src/domain/rules.ts`, tests |
 | P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | `docs/submission` | `docs/DEMO.md`, README, form |
 | F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `design/theme-foundation` | theme, tokens, UI, nav, store |
+| F0.1 · Deployed version footer | — | `@atapiamallea` | `design/version-footer` | shared footer and build metadata |
 | P3 · Engine: baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `src/domain/`, generator and scenarios |
 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | `today/checkin` | `src/screens/Today.tsx`, DemoBar, store |
 | B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | `body/map` | `src/screens/Body.tsx`, `components/body/` |
@@ -199,11 +208,13 @@ Every state uses colour + icon + text.
 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | `trends/charts` | `src/screens/Trends.tsx`, `components/charts/` |
 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | `mission-control/window` | `src/screens/MissionControl.tsx` |
 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | `level2/extras` | Amsler, procedures, PWA |
-| H · Integration/QA | `@Agupane` | Whole team | `integration/level0` | routes, tests, deploy |
+| H0 · Level 0 checkpoint | `@Agupane` | Whole team | `integration/level0` | routes, Playwright, deploy |
+| H1 · Final integration/QA | `@Agupane` | Whole team | `integration/level0` | routes, tests, deploy |
+| P4 · Post-P3 docs sync | `@elenaalmansacampos` | `@Agupane` | `docs/post-p3-sync` | counts, deck and docs |
 | I · Final submission | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | `docs/submission` | video, README, form |
 
-Lane issues: P0 #8 · P1 #9 · P2 #10 · F0 #11 · P3 #12 · A #13 · B #14 · C #15 · E #16 ·
-H #17 · D #18 · F #19 · G #20 · I #21.
+Lane issues: P0 #8 · P1 #9 · P2 #10 · F0 #11 · F0.1 #31 · P3 #12 · A #13 · B #14 · C #15 · E #16 ·
+H0 #32 · H1 #17 · D #18 · F #19 · G #20 · P4 #33 · I #21.
 
 ---
 

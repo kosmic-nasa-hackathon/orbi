@@ -32,15 +32,18 @@ in `docs/PLAN.md`; state and blockers in `HANDOFF.md`.
 | #9 | P1 · Threshold audit | `@Agupane` | `@atapiamallea` | `engine/threshold-audit` | `../orbi-thresholds` | — | M | Now |
 | #10 | P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | `docs/submission` | `../orbi-submission` | — | M | Now |
 | #11 | F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `design/theme-foundation` | `../orbi-foundation` | 5310 | L | Now |
+| #31 | F0.1 · Deployed version footer | — (claim in issue) | `@atapiamallea` | `design/version-footer` | `../orbi-version-footer` | 5320 | S | After #11 |
 | #12 | P3 · Ground baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `../orbi-engine-cycle` | 5309 | L | After #9 |
 | #13 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | `today/checkin` | `../orbi-today` | 5311 | M | After #11 + #12 |
 | #14 | B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | `body/map` | `../orbi-body` | 5312 | L | After #11 + #12; SVG first |
 | #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | `decision/triage` | `../orbi-decision` | 5313 | M | After #11 + #12 |
 | #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | `design/motion-polish` | `../orbi-polish` | 5315 | M | After #11 |
-| #17 | H · Integration/QA | `@Agupane` | Whole team | `integration/level0` | `../orbi-integration` | 5318 | L | Checkpoint after A/B/C |
-| #18 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | `trends/charts` | `../orbi-trends` | 5314 | M | After Level 0 gate + #14 |
-| #19 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | `mission-control/window` | `../orbi-mission-control` | 5316 | M | After Level 0 gate + #15 |
-| #20 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | `level2/extras` | `../orbi-level2` | 5319 | M | After Level 0 gate + A/B/C; stretch |
+| #32 | H0 · Level 0 checkpoint | `@Agupane` | Whole team | `integration/level0` | `../orbi-integration` | 5318 | M | After #11/#12 + A/B/C |
+| #17 | H1 · Final integration/QA | `@Agupane` | Whole team | `integration/level0` | `../orbi-integration` | 5318 | L | After #32 + D/F/G |
+| #33 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | `@Agupane` | `docs/post-p3-sync` | `../orbi-docs-sync` | — | S | After #8/#10/#12 |
+| #18 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | `trends/charts` | `../orbi-trends` | 5314 | M | After #32 + #14 |
+| #19 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | `mission-control/window` | `../orbi-mission-control` | 5316 | M | After #32 + #15 |
+| #20 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | `level2/extras` | `../orbi-level2` | 5319 | M | After #32 + A/B/C; stretch |
 | #21 | I · Final submission | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | `docs/submission` | `../orbi-submission` | — | M | After #17 |
 
 **Golden rule:** D and F are not merged until Today + Body + Decision are on the deployed URL.
@@ -52,20 +55,22 @@ G is stretch: if Level 0 slips, it is cut first.
 
 | Person | Sequence |
 |---|---|
-| `@Agupane` | #9 → #12 → reviews/merges → #17 → #21 support |
-| `@atapiamallea` | #11 → #13/#15 → integration backup and reviews |
-| `@elenaalmansacampos` | #8 → #10 → #21; supports #16 and #15 |
+| `@Agupane` | #9 → #12 → reviews/merges → #32 → #17 → #21 support |
+| `@atapiamallea` | #11 → #31 (if claimed) → #13/#15 → integration backup and reviews |
+| `@elenaalmansacampos` | #8 → #10 → #33 → #21; supports #16 and #15 |
 | `@Yeryalex` | #14 (SVG pre-work) → #16 support → #18; supports #19 |
 | `@amilege` | #16 → #19 → #20; supports #13 |
 
-Critical path: `#9 → #12 → #13/#14/#15 → gate #17 → #18/#19/#20 → close #17 → #21`.
+Critical path: `#9 → #12 → #13/#14/#15 → gate #32 → #18/#19/#20 → close #17 → #21`.
+P4 (#33) runs in parallel after #12/#8/#10 and does not block H1.
 
 ---
 
 ## 4. Working rules
 
-- **The assignee is the lock.** Issues are already assigned; do not reassign without talking to the owner
-  and the integrator. When starting, comment branch, worktree and port in the issue.
+- **The assignee is the lock.** Most issues are already assigned; #31 (F0.1) is unassigned and can be
+  claimed. Do not reassign without talking to the owner and the integrator. When starting, comment
+  branch, worktree and port in the issue.
 - **Branches:** create every branch from `development` and open every PR against `development`.
   `main` is release-only: the integrator opens the `development` → `main` release PR, and that merge
   triggers the automatic deploy to the preview.
@@ -91,6 +96,7 @@ git worktree add ../orbi-pitch          pitch/light-motion
 git worktree add ../orbi-thresholds     engine/threshold-audit
 git worktree add ../orbi-submission     docs/submission
 git worktree add ../orbi-foundation     design/theme-foundation
+git worktree add ../orbi-version-footer design/version-footer
 git worktree add ../orbi-engine-cycle   engine/cycle-baseline
 git worktree add ../orbi-today          today/checkin
 git worktree add ../orbi-body           body/map
@@ -100,6 +106,7 @@ git worktree add ../orbi-trends         trends/charts
 git worktree add ../orbi-mission-control mission-control/window
 git worktree add ../orbi-level2         level2/extras
 git worktree add ../orbi-integration    integration/level0
+git worktree add ../orbi-docs-sync      docs/post-p3-sync
 
 # In each worktree
 npm ci
@@ -117,8 +124,11 @@ npm run dev -- --port 53xx
 | 5315 | E · polish |
 | 5316 | F · mission-control |
 | 5317 | P0 · pitch |
-| 5318 | H · integration |
+| 5318 | H0/H1 · integration |
 | 5319 | G · level2 |
+| 5320 | F0.1 · version-footer |
+
+P4 (#33) is docs-only and needs no port. F0.1 (#31) is unassigned: claim it in the issue.
 
 Do not share `node_modules` between worktrees. Rebase frequently on `development`.
 

@@ -346,7 +346,7 @@ All the detail (dependencies, commands, folders, CI and risks) is in **`STACK.md
 |---|---|---|
 | **0 · Core** | Today (with the opt-in cycle field), Body, Decision, DemoBar (with the "Cycle-aware baseline" toggle), 4 correlations, 5 scenarios, 90-day ground baseline | 2–3 |
 | **1 · Differentiator** | **Trends** (charts with the *"Your ground baseline"* band and the cycle overlaid: the challenge asks for "dynamic charts") + **Mission Control** (ship ↔ ground in two windows with the latency countdown; respects cycle privacy) | 4–5 |
-| **2 · Extra** | 2 guided procedures (BP in microgravity, orthostatic test) · **guided jugular ultrasound** (2019 thrombosis case) · **Amsler grid vision test** (SANS, covers "camera/images") · contraceptive supply warning · CMO view with 3 crew members · offline PWA | 5, and only if level 1 is done by Saturday night |
+| **2 · Extra** | 2 guided procedures (BP in microgravity, orthostatic test) · **guided jugular ultrasound** (2019 thrombosis case) · **Amsler grid vision test** (SANS, covers "camera/images") · contraceptive supply warning · offline PWA | 5, and only if level 1 is done by Saturday night |
 
 **Mission Control is the wow moment:** the jury *sees* the distance to Earth. The surgeon's packet travels from the ship window to the ground window with a 14 min countdown (accelerated), and the reply takes the same time to come back.
 
@@ -381,7 +381,7 @@ All the detail (dependencies, commands, folders, CI and risks) is in **`STACK.md
 
 ## 12. Roadmap (anything not shipped is told to the jury as future work)
 
-Anything not built from levels 1 and 2 (§10), plus: threshold calibration with training tests (*"Calibrated on your training data"*, e.g. HR recovery in pool EVA training), anonymized export with consent to LSAH / Standard Measures (the "women's health database" that reviews call for), before/after return comparison (R+5, R+30), orthostatic preparation before surface arrival, cadence calendar, confidence score, full "explain" mode, orthostatic/nutritional/behavioral correlations, vestibular and skin systems, integration with real wearables, voice.
+Anything not built from levels 1 and 2 (§10), plus: **CMO view with 3 crew members**, threshold calibration with training tests (*"Calibrated on your training data"*, e.g. HR recovery in pool EVA training), anonymized export with consent to LSAH / Standard Measures (the "women's health database" that reviews call for), before/after return comparison (R+5, R+30), orthostatic preparation before surface arrival, cadence calendar, confidence score, full "explain" mode, orthostatic/nutritional/behavioral correlations, vestibular and skin systems, integration with real wearables, voice.
 **Do not build:** decision ML, computer vision, 3D figure, real wearables, backend.
 The optional local coach is an explanation layer, not a decision model.
 
