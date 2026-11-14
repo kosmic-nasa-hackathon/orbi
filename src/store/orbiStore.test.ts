@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { scenarios } from "../data/scenarios";
-import { DEMO_DAY, useOrbiStore } from "./orbiStore";
+import { getScenario, scenarios } from "../data/scenarios";
+import { DEMO_DAY, type ManualEntry, useOrbiStore, withCheckIn } from "./orbiStore";
 
 const store = useOrbiStore;
 
@@ -43,5 +43,49 @@ describe("orbiStore", () => {
     store.getState().reset();
     expect(store.getState().cycleAware).toBe(true);
     expect(store.getState().mission).toBe("MARS");
+  });
+
+  it("confirms a valid check-in and starts the streak", () => {
+    const manual: ManualEntry = { mood: 4, fatigue: 2, glucoseMgDl: 95 };
+    expect(store.getState().confirmCheckIn(manual)).toBe(true);
+    const state = store.getState();
+    expect(state.checkInStatus).toBe("confirmed");
+    expect(state.checkIn).toEqual({ scenarioId: "early-infection", day: DEMO_DAY, manual });
+    expect(state.streak).toBe(1);
+  });
+
+  it("does not count the same day twice and grows the streak on consecutive days", () => {
+    store.getState().setDay(140);
+    store.getState().confirmCheckIn({ mood: 3, fatigue: 3, glucoseMgDl: 90 });
+    store.getState().confirmCheckIn({ mood: 3, fatigue: 3, glucoseMgDl: 92 });
+    expect(store.getState().streak).toBe(1);
+    store.getState().nextDay();
+    expect(store.getState().checkInStatus).toBe("empty");
+    store.getState().confirmCheckIn({ mood: 3, fatigue: 3, glucoseMgDl: 90 });
+    expect(store.getState().streak).toBe(2);
+    store.getState().setDay(145);
+    store.getState().confirmCheckIn({ mood: 3, fatigue: 3, glucoseMgDl: 90 });
+    expect(store.getState().streak).toBe(1);
+  });
+
+  it("rejects invalid manual values with the error state", () => {
+    expect(store.getState().confirmCheckIn({ mood: 3, fatigue: 3, glucoseMgDl: 5 })).toBe(false);
+    expect(store.getState().checkInStatus).toBe("error");
+    expect(store.getState().checkIn).toBeNull();
+    expect(store.getState().streak).toBe(0);
+  });
+
+  it("applies the confirmed values only to the checked-in day", () => {
+    store.getState().confirmCheckIn({ mood: 5, fatigue: 1, glucoseMgDl: 120 });
+    const scenario = getScenario("early-infection");
+    const applied = withCheckIn(scenario, store.getState().checkIn);
+    const day = applied.readings.find((reading) => reading.day === DEMO_DAY);
+    expect(day).toMatchObject({ mood: 5, fatigue: 1, glucoseMgDl: 120 });
+    expect(applied.readings.find((reading) => reading.day === DEMO_DAY - 1)).toEqual(
+      scenario.readings.find((reading) => reading.day === DEMO_DAY - 1),
+    );
+    expect(withCheckIn(getScenario("nominal"), store.getState().checkIn)).toBe(
+      getScenario("nominal"),
+    );
   });
 });
