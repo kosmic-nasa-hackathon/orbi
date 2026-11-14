@@ -8,7 +8,8 @@ NASA Space Apps Challenge 2026 · team Kosmic.
 - `docs/BRIEF.md` — product in 2 minutes, scope levels, work lanes.
 - `docs/CONCEPTO-ORBI.md` — full concept, rules, scenarios, demo script.
 - `docs/STACK.md` — stack, setup, folder structure, CI and risks.
-- `docs/TASKS.md` — current lane assignments, first PRs and acceptance criteria.
+- **`docs/PLAN.md` — live parallel plan: lanes, branches, file ownership and acceptance criteria.**
+- `docs/TASKS.md` — historical lane briefs (product context).
 - `HANDOFF.md` — live state, blockers and next actions.
 - `docs/DEPLOYMENT.md` — Dokploy/Cloudflare runbook.
 

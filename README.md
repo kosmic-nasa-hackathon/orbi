@@ -14,7 +14,8 @@ ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica y
 | **[docs/BRIEF.md](docs/BRIEF.md)** | **Empieza por aquí.** El proyecto en 2 minutos, los niveles de alcance y los bloques de trabajo |
 | [docs/CONCEPTO-ORBI.md](docs/CONCEPTO-ORBI.md) | Concepto completo: uso en la nave, reglas, escenarios, contrato de tipos, guion de demo |
 | [docs/STACK.md](docs/STACK.md) | Stack técnico, comandos de instalación, estructura de carpetas, CI y riesgos |
-| [docs/TASKS.md](docs/TASKS.md) | Reparto por lanes, primeros PRs y criterios de aceptación |
+| **[docs/PLAN.md](docs/PLAN.md)** | **Plan vivo:** lanes paralelas, ramas, archivos permitidos y criterios de aceptación |
+| [docs/TASKS.md](docs/TASKS.md) | Briefs históricos por lane (contexto de producto) |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Runbook de Dokploy + Cloudflare y auto-deploy |
 | [docs/PITCH.md](docs/PITCH.md) | Guion del pitch y deck navegable en `/pitch/` |
 | [docs/recursos/](docs/recursos/README.md) | Resúmenes de los recursos oficiales de NASA y CSA, y cómo los usamos |
@@ -33,7 +34,7 @@ ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica y
 - ✅ Demo EVA: pérdida de sync, navegación inercial y retorno a la nave
 - ✅ Pitch navegable en **`/pitch/`** (15 slides, notas del orador y modo lectura con `?view=scroll`)
 - ✅ Home de producto en `/` con navegación por iconos a EVA, consola y pitch
-- ⏳ UI de Today/Body/Decision
+- ⏳ Tema light + switch, Today/Body/Decision, Trends y Mission Control (ver `docs/PLAN.md`)
 
 La raíz abre la home. La demo EVA queda en `?view=eva` y la consola en `?view=console`.
 Para saltar a un momento de la demo: `/?view=eva&t=18` (sin sync) o `/?view=eva&t=24`
