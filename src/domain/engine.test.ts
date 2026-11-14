@@ -108,4 +108,15 @@ describe("evaluate", () => {
     expect(ids).toContain("bone-estimate");
     expect(result.facts.find((f) => f.id === "mission")?.value).toContain("14 min");
   });
+
+  it("raises the bone rule only when adherence is below target", () => {
+    const infection = evaluate(scenario("early-infection"), 148, "MARS");
+    expect(infection.assessments.find((a) => a.ruleId === "bone")?.level).toBe("WATCH");
+
+    const nominalLong = evaluate(scenario("nominal"), 190, "MARS");
+    expect(nominalLong.assessments.some((a) => a.ruleId === "bone")).toBe(false);
+
+    const infectionLong = evaluate(scenario("early-infection"), 190, "MARS");
+    expect(infectionLong.assessments.find((a) => a.ruleId === "bone")?.level).toBe("CONCERN");
+  });
 });

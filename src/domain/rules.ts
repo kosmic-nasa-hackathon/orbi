@@ -18,23 +18,23 @@ export const THRESHOLDS = {
 
 export const SOURCES = {
   clinical: {
-    label: "Standard clinical triage thresholds",
-    verified: true,
+    label: "Standard clinical triage thresholds — spaceflight adaptation pending",
+    verified: false,
   },
   ada: {
     label: "ADA Standards of Care — hypo/hyperglycemia ranges",
-    url: "https://diabetesjournals.org/care/issue",
+    url: "https://diabetesjournals.org/care",
     verified: true,
   },
   sleep: {
-    label: "NASA HRP — sleep and circadian risk",
+    label: "NASA HRP — sleep and circadian risk (qualitative; numeric cutoff pending)",
     url: "https://www.nasa.gov/hrp/risks/",
-    verified: true,
+    verified: false,
   },
   behavioral: {
-    label: "NASA HRP — behavioral health risk",
+    label: "NASA HRP — behavioral health risk (qualitative; numeric cutoff pending)",
     url: "https://www.nasa.gov/hrp/risks/",
-    verified: true,
+    verified: false,
   },
   co2: {
     label: "NASA-STD-3001 Vol. 2 — cabin CO₂ SMAC (value pending)",
@@ -42,9 +42,9 @@ export const SOURCES = {
     verified: false,
   },
   radiation: {
-    label: "NASA-STD-3001 Vol. 1 — 600 mSv career limit (deep-space limits open)",
+    label: "NASA-STD-3001 Vol. 1 — 600 mSv career limit (deep-space limits open; TODO verify)",
     url: "https://standards.nasa.gov/standard/NASA/NASA-STD-3001",
-    verified: true,
+    verified: false,
   },
   bone: {
     label: "NASA HRP Evidence Report — Bone Fracture (1–1.5% bone loss/month)",
@@ -52,9 +52,9 @@ export const SOURCES = {
     verified: true,
   },
   immune: {
-    label: "NASA HRP — immune system changes in spaceflight",
+    label: "NASA HRP — immune system changes in spaceflight (qualitative)",
     url: "https://www.nasa.gov/hrp/risks/",
-    verified: true,
+    verified: false,
   },
 } satisfies Record<string, SourceRef>;
 

@@ -47,12 +47,13 @@ function windowAvg(
   days: number,
   pick: (r: DailyReading) => number | undefined,
 ): number | undefined {
+  const relevant = readings.filter((r) => r.day <= day).sort((a, b) => a.day - b.day);
+  const window = relevant.filter((r) => r.day > day - days);
+  const sample = window.length > 0 ? window : relevant.slice(-days);
   const values: number[] = [];
-  for (const reading of readings) {
-    if (reading.day <= day && reading.day > day - days) {
-      const value = pick(reading);
-      if (typeof value === "number") values.push(value);
-    }
+  for (const reading of sample) {
+    const value = pick(reading);
+    if (typeof value === "number") values.push(value);
   }
   if (values.length === 0) return undefined;
   return values.reduce((a, b) => a + b, 0) / values.length;
@@ -260,13 +261,15 @@ export function evaluate(scenario: Scenario, day: number, mission: Mission): Eva
     exerciseAvg === undefined
       ? 0
       : Math.min(200, (exerciseAvg / scenario.exerciseTargetMinPerDay) * 100);
-  if (day > THRESHOLDS.bone.missionDaysWatch) {
+  const lowAdherence = (exerciseAvg ?? 0) < scenario.exerciseTargetMinPerDay * 0.9;
+  // Surface-phase missions are not modeled yet; the HRP rule also raises CONCERN there.
+  if (day > THRESHOLDS.bone.missionDaysWatch && lowAdherence) {
     if (day > THRESHOLDS.bone.missionDaysConcern) {
       add("bone", "CONCERN", [
         `Mission day ${day} (${(day / 30.44).toFixed(1)} months in microgravity)`,
         `Resistive exercise ${Math.round(exerciseAdherencePct)}% of target over the last 14 days`,
       ]);
-    } else if ((exerciseAvg ?? 0) < scenario.exerciseTargetMinPerDay * 0.9) {
+    } else {
       add("bone", "WATCH", [
         `Resistive exercise ${Math.round(exerciseAdherencePct)}% of target over the last 14 days`,
         `Target: ${scenario.exerciseTargetMinPerDay} min/day`,

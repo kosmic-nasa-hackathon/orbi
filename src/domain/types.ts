@@ -2,7 +2,7 @@
  * ORBI domain contract.
  *
  * This file is the boundary between the rules engine, the UI and the coach.
- * Do not change it without announcing it to the whole team (see docs/PLAN.md).
+ * Do not change it without announcing it to the whole team (see docs/TASKS.md).
  */
 
 export type Level = "NOMINAL" | "WATCH" | "CONCERN" | "URGENT";
