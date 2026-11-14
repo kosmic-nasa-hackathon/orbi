@@ -59,7 +59,10 @@ npm run gen        # regenerates the deterministic scenarios
 npm run dev        # Vite
 npm run check      # typecheck + check:domain + Biome CI + tests
 npm run build      # production build in dist/
+npm run e2e        # Playwright smoke tests against a local preview
 ```
+
+The first Playwright run needs `npx playwright install chromium`.
 
 ## Branching and release
 
