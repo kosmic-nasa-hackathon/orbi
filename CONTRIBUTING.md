@@ -1,6 +1,7 @@
 # Contribuir a ORBI
 
-Guía corta para el equipo. El contrato técnico está en `AGENTS.md`; las tareas, en `docs/TASKS.md`.
+Guía corta para el equipo. El contrato técnico está en `AGENTS.md`; el reparto y onboarding, en
+`docs/TEAM.md`; las lanes, en `docs/PLAN.md`.
 
 ## Setup
 
@@ -17,19 +18,18 @@ no agregues Next.js ni SSR.
 ## Antes de empezar: reclamá tu issue
 
 Cada lane tiene que estar ligada a un issue de GitHub. El assignee es el candado para que dos
-agentes no trabajen lo mismo:
+agentes no trabajen lo mismo. Los issues ya están creados y asignados en `docs/TEAM.md`:
 
-1. Buscá el issue de tu lane (`gh issue list --state open`) o el enlazado en `docs/PLAN.md`.
-2. Si no existe, creálo con la lane, alcance, archivos permitidos y criterios de aceptación.
-3. Reclamalo antes de escribir código:
+1. Buscá tu issue en `docs/TEAM.md` o con `gh issue list --assignee @me --state open`.
+2. Confirmá que el assignee seas vos; si no, no empieces: coordiná en el issue.
+3. Comentá rama, worktree y puerto antes de escribir código:
 
    ```bash
-   gh issue edit <número> --add-assignee @me
-   gh issue comment <número> --body "Claimed by <agente/modelo> on <rama> (worktree <ruta>)."
+   gh issue comment <número> --body "Arranco en <rama> (worktree <ruta>, puerto <puerto>)."
    ```
 
-4. Si ya está asignado a otra persona, no empieces: coordiná en el issue.
-5. En el PR, referencialo con `Closes #<número>`.
+4. En el PR, referencialo con `Closes #<número>`.
+5. No reasignes el issue de otra persona. Si necesitás moverlo, hablá con el owner y el integrador.
 
 ## Antes de abrir un PR
 
@@ -56,7 +56,8 @@ deploy/…          Docker, CI, Dokploy, Cloudflare
 docs/…            documentación
 ```
 
-No mezcles dos lanes en un PR. PRs pequeños; la integradora mergea cada 3–4 h.
+No mezcles dos lanes en un PR. PRs pequeños; el integrador (`@Agupane`, backup
+`@atapiamallea`) mergea cada 3–4 h.
 
 ## Contratos que no se tocan sin avisar
 
@@ -66,7 +67,7 @@ No mezcles dos lanes en un PR. PRs pequeños; la integradora mergea cada 3–4 h
 - La forma de los JSON de escenarios
 
 Si necesitas cambiarlos, avisa en el canal del equipo antes de abrir el PR y actualiza
-`docs/TASKS.md`/`HANDOFF.md` con el motivo.
+`docs/PLAN.md`/`HANDOFF.md` con el motivo.
 
 ## Reglas de producto
 

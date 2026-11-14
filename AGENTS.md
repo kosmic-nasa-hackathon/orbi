@@ -129,7 +129,8 @@ src/store/         Zustand store (scenario, day, mission, streak)
 - **Claim the GitHub issue for your lane before writing code** (see next section).
 - One branch per lane:
   `engine/…`, `body/…`, `today/…`, `ai/…`, `mission-control/…`, `design/…`, `deploy/…`.
-- Small PRs to `main`, CI green, one integrator merges (Andrea unless `docs/TASKS.md` says otherwise).
+- Small PRs to `main`, CI green, one integrator merges (`@Agupane`; backup `@atapiamallea`;
+  see `docs/TEAM.md`).
 - Commit messages use Conventional Commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`.
 - Before changing a contract file, announce it. After data changes, run `npm run gen` and commit the JSON.
 - Update `HANDOFF.md` whenever the state, a blocker or the next action changes.

@@ -8,6 +8,8 @@ basal de 14 días, 3 correlaciones y 4 escenarios.
 **Falta:** ejecutar las lanes de `docs/PLAN.md`: tema light, rediseño, Nivel 0, P3 (basal de tierra
 + ciclo), Trends/Mission Control, extras y entrega.
 **Plan de ejecución paralela:** `docs/PLAN.md`
+**Reparto y onboarding:** `docs/TEAM.md`
+**Integrador:** `@Agupane` (backup: `@atapiamallea`)
 **Producción:** **https://orbi.agustinpane.xyz** · App Dokploy `ORBI`
 (`pnNCsfPVhaq6_lgsFDTEF`) · `appName` `app-input-open-source-panel-hqyoop`.
 
@@ -61,22 +63,22 @@ externo a la app; no relajar `script-src 'self'`.
 
 El detalle, archivos permitidos y criterios de aceptación están en `docs/PLAN.md`.
 
-| Wave | Lane | Estado |
-|---|---|---|
-| 0 | P0 · Pitch light + motion | todo |
-| 0 | P1 · Threshold audit | todo |
-| 0 | P2 · Submission groundwork | todo |
-| 1 | F0 · Fundación (tema light, switch, tokens, UI, motion, nav, store) | todo |
-| 1 | P3 · Engine: basal de tierra + ciclo | todo |
-| 2 | A · Today | todo |
-| 2 | B · Body | todo |
-| 2 | C · Decision | todo |
-| 2 | E · Visual polish (menos densidad, más animaciones) | todo |
-| 3 | D · Trends | todo |
-| 3 | F · Mission Control | todo |
-| 3 | G · Level 2 (Amsler, procedimientos, PWA) | todo |
-| 3 | H · Integración/QA | todo |
-| 4 | I · Submission final | todo |
+| Wave | Lane | Owner | Estado |
+|---|---|---|---|
+| 0 | P0 · Pitch light + motion | `@elenaalmansacampos` | listo |
+| 0 | P1 · Threshold audit | `@Agupane` | listo |
+| 0 | P2 · Submission groundwork | `@elenaalmansacampos` | listo |
+| 1 | F0 · Fundación (tema light, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | listo |
+| 1 | P3 · Engine: basal de tierra + ciclo | `@Agupane` | bloqueado por #9 |
+| 2 | A · Today | `@atapiamallea` | bloqueado por #11 + #12 |
+| 2 | B · Body | `@Yeryalex` | bloqueado por #11 + #12 |
+| 2 | C · Decision | `@atapiamallea` | bloqueado por #11 + #12 |
+| 2 | E · Visual polish (menos densidad, más animaciones) | `@amilege` | bloqueado por #11 |
+| 3 | D · Trends | `@Yeryalex` | gate Nivel 0 |
+| 3 | F · Mission Control | `@amilege` | gate Nivel 0 |
+| 3 | G · Level 2 (Amsler, procedimientos, PWA) | `@amilege` | gate Nivel 0; stretch |
+| 3 | H · Integración/QA | `@Agupane` | checkpoint pendiente |
+| 4 | I · Submission final | `@elenaalmansacampos` | bloqueado por #17 |
 
 **Dependencias:** A/B/C/E dependen de F0 + P3; P3 espera a P1; D/F/G dependen del checkpoint de
 Nivel 0 desplegado que marca H.
@@ -164,33 +166,36 @@ Cada estado usa color + icono + texto.
 
 ## 7. Próxima acción
 
-1. Lanzar Wave 0 en paralelo: P0 (pitch light + motion), P1 (threshold audit) y P2 (submission
-   groundwork).
-2. Ejecutar F0 (Fundación) y P3 (engine: basal de tierra + ciclo, tras anunciar el contrato).
-3. Abrir A/B/C/E contra F0 + P3; D espera al gate de Nivel 0 desplegado.
-4. Después de C, abrir F (Mission Control); después de A/B/C, abrir G (Level 2).
-5. Integrar todo en H y cerrar I.
+1. Arrancar ya: P0 #8 y P2 #10 (Elena), P1 #9 (Agustín) y F0 #11 (Andrea Tapia).
+2. Cuando #9 mergee, Agustín abre P3 #12; anunciar el contrato en el issue antes de tocar
+   `types.ts`.
+3. Con F0 + P3 en `main`, abrir A #13 y C #15 (Andrea Tapia), B #14 (Yery) y E #16 (amilege).
+4. Gate de Nivel 0 en #17: integrar A/B/C y desplegar. Eso desbloquea D #18 (Yery), F #19 y G #20
+   (amilege).
+5. Cerrar H #17, actualizar tablas y abrir I #21 (Elena) con apoyo de Agustín, Yery y Andrea Tapia.
+6. Yery puede prototipar el SVG de B antes del gate, sin mergear; amilege hace onboarding y apoya
+   F0/E mientras tanto.
 
 ---
 
 ## 8. Reparto paralelo
 
-| Lane | Rama | Zona principal |
-|---|---|---|
-| P0 · Pitch light + motion | `pitch/light-motion` | `public/pitch/*` |
-| P1 · Threshold audit | `engine/threshold-audit` | `src/domain/rules.ts`, tests |
-| P2 · Submission groundwork | `docs/submission` | `docs/DEMO.md`, README, formulario |
-| F0 · Fundación | `design/theme-foundation` | tema, tokens, UI, nav, store |
-| P3 · Engine: basal + ciclo | `engine/cycle-baseline` | `src/domain/`, generador y escenarios |
-| A · Today | `today/checkin` | `src/screens/Today.tsx`, DemoBar, store |
-| B · Body | `body/map` | `src/screens/Body.tsx`, `components/body/` |
-| C · Decision | `decision/triage` | `src/screens/Decision.tsx`, `components/decision/` |
-| D · Trends | `trends/charts` | `src/screens/Trends.tsx`, `components/charts/` |
-| E · Visual polish | `design/motion-polish` | Home, EVA, Console |
-| F · Mission Control | `mission-control/window` | `src/screens/MissionControl.tsx` |
-| G · Level 2 | `level2/extras` | Amsler, procedimientos, PWA |
-| H · Integración/QA | `integration/level0` | rutas, tests, deploy |
-| I · Submission final | `docs/submission` | vídeo, README, formulario |
+| Lane | Owner | Support | Rama | Zona principal |
+|---|---|---|---|---|
+| P0 · Pitch light + motion | `@elenaalmansacampos` | `@Agupane` | `pitch/light-motion` | `public/pitch/*` |
+| P1 · Threshold audit | `@Agupane` | `@atapiamallea` | `engine/threshold-audit` | `src/domain/rules.ts`, tests |
+| P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | `docs/submission` | `docs/DEMO.md`, README, formulario |
+| F0 · Fundación | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `design/theme-foundation` | tema, tokens, UI, nav, store |
+| P3 · Engine: basal + ciclo | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `src/domain/`, generador y escenarios |
+| A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | `today/checkin` | `src/screens/Today.tsx`, DemoBar, store |
+| B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | `body/map` | `src/screens/Body.tsx`, `components/body/` |
+| C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | `decision/triage` | `src/screens/Decision.tsx`, `components/decision/` |
+| E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | `design/motion-polish` | Home, EVA, Console |
+| D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | `trends/charts` | `src/screens/Trends.tsx`, `components/charts/` |
+| F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | `mission-control/window` | `src/screens/MissionControl.tsx` |
+| G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | `level2/extras` | Amsler, procedimientos, PWA |
+| H · Integración/QA | `@Agupane` | Todo el equipo | `integration/level0` | rutas, tests, deploy |
+| I · Submission final | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | `docs/submission` | vídeo, README, formulario |
 
 Issues de las lanes: P0 #8 · P1 #9 · P2 #10 · F0 #11 · P3 #12 · A #13 · B #14 · C #15 · E #16 ·
 H #17 · D #18 · F #19 · G #20 · I #21.
@@ -206,6 +211,9 @@ Todo lo integrado está en `main`.
 - #3 feat: add navigable pitch deck at `/pitch/`.
 - #4 feat: add product home with icon navigation and landing.
 - #5 docs: add women's health and ground-training research.
+- #6 docs: add parallel execution plan and refresh handoff.
+- #7 docs: correct pending threshold source count.
+- #22 chore: unify lint, typing and issue-ownership rules.
 - #23 docs: sync plan and handoff with cycle-aware direction.
 
 Repositorio: https://github.com/kosmic-nasa-hackathon/orbi

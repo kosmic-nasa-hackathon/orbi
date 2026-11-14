@@ -17,6 +17,7 @@ La línea base de cada astronauta se aprende **durante el entrenamiento en tierr
 | [docs/CONCEPTO-ORBI.md](docs/CONCEPTO-ORBI.md) | Concepto completo: uso en la nave, reglas, escenarios, contrato de tipos, guion de demo |
 | [docs/STACK.md](docs/STACK.md) | Stack técnico, comandos de instalación, estructura de carpetas, CI y riesgos |
 | **[docs/PLAN.md](docs/PLAN.md)** | **Plan vivo:** lanes paralelas, ramas, archivos permitidos y criterios de aceptación |
+| **[docs/TEAM.md](docs/TEAM.md)** | **Reparto vivo:** roster, owner/support, worktrees, puertos y onboarding |
 | [docs/TASKS.md](docs/TASKS.md) | Briefs históricos por lane (contexto de producto) |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Runbook de Dokploy + Cloudflare y auto-deploy |
 | [docs/PITCH.md](docs/PITCH.md) | Guion del pitch y deck navegable en `/pitch/` |
@@ -39,7 +40,7 @@ La línea base de cada astronauta se aprende **durante el entrenamiento en tierr
 - ✅ Giro de producto documentado: basal de entrenamiento en tierra y ciclo menstrual opt-in
   (`docs/recursos/08` y `09`)
 - ⏳ P3 · Engine: basal de 90 días, `cycle-aware`, `luteal-phase`, 5 escenarios y 4 correlaciones
-- ⏳ Tema light + switch, Today/Body/Decision, Trends y Mission Control (ver `docs/PLAN.md`)
+- ⏳ Tema light + switch, P3 (basal + ciclo), Today/Body/Decision, Trends y Mission Control (ver `docs/PLAN.md` y `docs/TEAM.md`)
 
 El código actual sigue usando basal de 14 días, 3 correlaciones y 4 escenarios; P3 cierra la brecha.
 
@@ -74,7 +75,7 @@ Detalle y troubleshooting: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Cómo trabajamos
 
-- Una rama por bloque y PR pequeños hacia `main`. La integradora (Andrea) revisa y mergea.
+- Una rama por bloque y PR pequeños hacia `main`. El integrador (`@Agupane`, backup `@atapiamallea`) revisa y mergea.
 - El contrato entre bloques es `src/domain/types.ts`: **no se cambia sin avisar a todo el equipo.**
 - UI, README final y entrega **en inglés**; la documentación interna, en español.
 - Antes de cada PR: `npm run check` y `npm run build`.
