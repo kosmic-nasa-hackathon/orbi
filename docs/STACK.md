@@ -7,7 +7,7 @@
 
 ## Decisión en una línea
 
-**Una SPA en React + TypeScript con Vite. Tailwind + shadcn/ui para la piel, Recharts para las gráficas, el motor de reglas en TypeScript puro, los datos en JSON local y despliegue estático en Vercel. Sin backend, sin base de datos, sin autenticación. Diseño *tablet-first* y UI en inglés.**
+**Una SPA en React + TypeScript con Vite. Tailwind + shadcn/ui para la piel, Recharts para las gráficas, el motor de reglas en TypeScript puro, los datos en JSON local y despliegue estático en Dokploy (Cloudflare delante). Sin backend, sin base de datos, sin autenticación. Diseño *tablet-first* y UI en inglés.**
 
 Es el stack con el que un equipo pequeño puede tener algo impresionante y *estable* en 48 horas, y el que menos falla en una demo en vivo.
 
@@ -36,11 +36,15 @@ Es el stack con el que un equipo pequeño puede tener algo impresionante y *esta
 | **Datos** | **Generador TS con RNG sembrado → JSON** | Demo determinista: siempre el mismo día 148, siempre la misma curva. | mocks a mano (frágiles) | 1 h |
 | **Calidad** | **Biome** | Lint + format en una herramienta y en milisegundos. | ESLint + Prettier | 5 min |
 | **Repo** | **GitHub** + **GitHub Actions** | CI con `test` + `build` en cada PR: nadie rompe `main` sin enterarse. | — | 15 min |
-| **Deploy** | **Vercel** | URL pública en 2 minutos, HTTPS y **una URL de preview por cada PR**: cada persona enseña su parte sin tocar `main`. | Netlify | 5 min |
+| **Deploy** | **Dokploy BCN** | App Dockerfile + nginx en `orbi.agustinpane.xyz`, auto-deploy en `main` y TLS en Cloudflare. Sin previews por PR. | Vercel (previews) | 15 min |
 | **Bocetos** | **Figma** o **Excalidraw** | 30 minutos el sábado para bocetar las pantallas antes de programar. Se discute el diseño en un dibujo, no en el código. | papel | 30 min |
 | **Offline** (nivel 2) | **vite-plugin-pwa** | Hace verificable la promesa de funcionar sin la Tierra (modo avión en la demo). | — | 15 min |
 
 **Total real de setup:** ~2,5 h (incluyendo repo, CI y deploy). Se hace **el viernes**, no el sábado.
+
+> **Estado real (14 nov 2026):** el scaffold ya existe (Vite 8, React 19.3, TypeScript 5.9,
+> Tailwind 4, Vitest 5, Biome 2), el motor y el coach están implementados, y CI/Dockerfile/nginx
+> están en el repo. Falta la UI de las pantallas y provisionar Dokploy/Cloudflare. Ver `HANDOFF.md`.
 
 ---
 
@@ -74,10 +78,12 @@ Scripts en `package.json`:
 ```json
 "scripts": {
   "dev": "vite",
-  "build": "tsc -b && vite build",
-  "test": "vitest",
+  "build": "tsc --noEmit && vite build",
+  "typecheck": "tsc --noEmit",
+  "lint": "biome check .",
+  "test": "vitest run",
   "gen": "tsx scripts/generate-mission.ts",
-  "check": "biome check ."
+  "check": "npm run typecheck && npm run lint && npm run test"
 }
 ```
 
@@ -120,7 +126,9 @@ Componentes que se usarán de verdad: `card`, `button`, `badge`, `dialog`, `shee
 
 ```yaml
 name: ci
-on: [pull_request, push]
+on:
+  push: { branches: [main] }
+  pull_request:
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -129,15 +137,17 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version-file: .nvmrc, cache: npm }
       - run: npm ci
-      - run: npx vitest run
+      - run: npm run gen && git diff --exit-code -- src/data/scenarios
+      - run: npm run check
       - run: npm run build
 ```
 
 ### Reglas del repo
 
-- `main` protegida: solo se entra por PR con la CI en verde.
+- `main` solo se actualiza por PR con la CI en verde. El repo privado free no permite branch
+  protection: el gate real es el PR + la integradora.
 - **Una persona integradora** (Andrea) revisa y mergea los PR. Así no se discute qué entra.
-- Ramas por bloque: `engine/…`, `body/…`, `today/…`, `mission-control/…`.
+- Ramas por bloque: `engine/…`, `body/…`, `today/…`, `ai/…`, `mission-control/…`, `design/…`, `deploy/…`.
 - PR pequeños e integración cada 3–4 h. **Cambiar `src/domain/types.ts` exige avisar a todo el equipo.**
 
 ---
@@ -158,18 +168,22 @@ orbi/                            # = raíz del repo kosmic-nasa-hackathon/orbi
 │  ├─ domain/                    # ⚠️ CERO imports de React aquí
 │  │  ├─ types.ts                # el contrato (ver CONCEPTO-ORBI.md §8)
 │  │  ├─ baseline.ts             # media ± σ de los 14 días pre-vuelo
-│  │  ├─ rules.ts                # umbrales simples + 2 reglas de hueso, con fuente
-│  │  ├─ correlations.ts         # early-infection, cabin-air, solar-event
-│  │  ├─ estimates.ts            # pérdida ósea estimada + % del presupuesto de radiación
-│  │  ├─ evaluate.ts             # evaluate(scenario, day, mission) → resultado
-│  │  ├─ escalation.ts           # nivel × latencia → L0–L4
-│  │  ├─ actions.ts              # textos de las action cards
+│  │  ├─ rules.ts                # umbrales, fuentes y action cards
+│  │  ├─ levels.ts               # orden y etiquetas de nivel
+│  │  ├─ escalation.ts           # nivel × latencia
+│  │  ├─ evaluate.ts             # correlaciones, estimaciones, facts y evaluate()
 │  │  └─ *.test.ts
+│  ├─ ai/                        # coach determinista + adapter local + guardrails
+│  │  ├─ types.ts
+│  │  ├─ coach.ts
+│  │  ├─ guardrails.ts
+│  │  └─ providers/
 │  ├─ data/
 │  │  ├─ rng.ts                  # mulberry32 sembrado
+│  │  ├─ generate.ts             # generador de escenarios
 │  │  └─ scenarios/*.json        # generados (se suben al repo)
 │  ├─ content/
-│  │  └─ explain.ts              # "Why this matters" / "Why we ask"
+│  │  └─ systems.ts              # etiquetas, "why this matters" y colores
 │  ├─ store/
 │  │  └─ orbiStore.ts            # Zustand: escenario, día, misión, racha
 │  ├─ components/
@@ -312,11 +326,11 @@ Campos de escenario que necesitan las estimaciones (ver `CONCEPTO-ORBI.md` §4.3
 
 | Campo | Valor por defecto | Para qué |
 |---|---|---|
-| `exposureBudgetMSv` | 600 (límite de carrera actual de NASA, `TODO verify`) | % del presupuesto en el halo |
+| `exposureBudgetMSv` | 600 (límite de carrera actual de NASA, `TODO verify`); los escenarios demo usan 400 para que el halo sea legible | % del presupuesto en el halo |
 | `priorDoseMSv` | la dosis acumulada en los días 1–118 | Que el halo no empiece en 0 el día 119 |
 | `exerciseTargetMinPerDay` | el objetivo de la misión | Regla de adherencia al ejercicio (hueso) |
 
-**Pérdida ósea estimada** (`estimates.ts`): `mesesEnMicrogravedad × [1 %, 1,5 %]` → se devuelve como **rango**, nunca como un número único, y la UI lo etiqueta como *"Estimated · NASA HRP evidence"*. La adherencia cambia el estado (*on track* / *at risk*), no el porcentaje.
+**Pérdida ósea estimada** (`evaluate.ts`): `mesesEnMicrogravedad × [1 %, 1,5 %]` → se devuelve como **rango**, nunca como un número único, y la UI lo etiqueta como *"Estimated · NASA HRP evidence"*. La adherencia cambia el estado (*on track* / *at risk*), no el porcentaje.
 
 Los mismos 4 escenarios que en `CONCEPTO-ORBI.md` §7:
 
@@ -343,9 +357,9 @@ Cada valor lleva su `sources` (`wearable` / `device` / `manual`) para que Today 
 | Base de datos (Postgres, Supabase, Firebase) | `localStorage` + JSON bastan para un fin de semana. |
 | Autenticación | No hay usuarios en una demo. |
 | three.js / react-three-fiber | El 3D se come 8 horas y falla en el proyector. El SVG da el 90 % del efecto. |
-| ML de cualquier tipo | No lo necesitáis y no lo podríais explicar. |
+| ML de decisión | El jurado premia explicabilidad; el motor es determinista. El coach local es solo una capa de explicación opcional. |
 | MUI / Ant Design | Pesados y con una personalidad visual que no es la vuestra. |
-| Docker | Es una carpeta estática. |
+| Docker para desarrollo | La app es estática; Docker solo se usa como artefacto de deploy (nginx + `dist/`). |
 | React Router | Una pantalla extra en otra ventana se resuelve con `?view=ground`. |
 
 ---
@@ -382,7 +396,8 @@ Dos ventanas del navegador, una junto a otra: la nave a la izquierda y la tierra
 | Versiones de Node distintas en el equipo | `.nvmrc` + `nvm use` + CI con la misma versión. |
 | Conflictos de dependencias con React 19 | Recharts 3. Si un paquete se queja, `npm ls` y fijar la versión. **Nada de `--force`** sin avisar a la integradora. |
 | shadcn no arranca por los alias | Seguir la §2 al pie de la letra. Si falla, Tailwind a mano. |
-| Alguien rompe `main` | Rama protegida + CI + una sola persona mergea. |
+| Alguien rompe `main` | CI + revisión de la integradora. El repo privado free no permite branch protection; el gate es el PR. |
+| Repo privado en una org sin GitHub App | Instalar la GitHub App de Dokploy en la org; fallback temporal: fork en una cuenta con la App. |
 | El SVG anatómico no está listo | Silueta de 6 zonas como plan B desde el viernes. |
 | Licencia de las ilustraciones | Servier es CC BY 4.0: atribución visible desde el primer commit. |
 | La demo no es reproducible | RNG sembrado + botón Reset. Nunca datos aleatorios en vivo. |
@@ -402,15 +417,17 @@ Dos ventanas del navegador, una junto a otra: la nave a la izquierda y la tierra
 
 ## 11. Checklist de "esto se puede enseñar"
 
-- [ ] `npm run build` pasa sin errores; CI en verde en `main`
+- [ ] `npm run check` y `npm run build` pasan; CI en verde en cada PR
+- [ ] `npm run gen` reproduce los JSON sin diff (`git diff --exit-code -- src/data/scenarios`)
+- [ ] `src/domain/` no importa React, DOM ni APIs del navegador
 - [ ] URL pública desplegada + QR en un slide
 - [ ] Botón **Reset demo** visible en la DemoBar
 - [ ] Funciona con el wifi apagado después de cargar
-- [ ] `npx vitest run` en verde: las 3 correlaciones, las 2 reglas de hueso y las 2 estimaciones, cada una con su test
+- [ ] Tests verdes: correlaciones, 2 reglas de hueso, 2 estimaciones y guardrails del coach
 - [ ] Cada umbral de `rules.ts` tiene su `source`; los no verificados, marcados `TODO verify`
 - [ ] Estados con color + icono + texto
 - [ ] Probado en viewport de tablet **y** en la resolución del proyector
 - [ ] Toda la UI en inglés
 - [ ] Créditos de ilustraciones visibles
 - [ ] Vídeo de respaldo grabado
-- [ ] Repo público con README en inglés (qué es, cómo ejecutarlo, fuentes de los umbrales)
+- [ ] README final en inglés (qué es, cómo ejecutarlo, fuentes de los umbrales)

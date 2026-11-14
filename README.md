@@ -14,12 +14,38 @@ ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica y
 | **[docs/BRIEF.md](docs/BRIEF.md)** | **Empieza por aquí.** El proyecto en 2 minutos, los niveles de alcance y los bloques de trabajo |
 | [docs/CONCEPTO-ORBI.md](docs/CONCEPTO-ORBI.md) | Concepto completo: uso en la nave, reglas, escenarios, contrato de tipos, guion de demo |
 | [docs/STACK.md](docs/STACK.md) | Stack técnico, comandos de instalación, estructura de carpetas, CI y riesgos |
+| [docs/TASKS.md](docs/TASKS.md) | Reparto por lanes, primeros PRs y criterios de aceptación |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Runbook de Dokploy + Cloudflare y auto-deploy |
 | [docs/recursos/](docs/recursos/README.md) | Resúmenes de los recursos oficiales de NASA y CSA, y cómo los usamos |
+| **[HANDOFF.md](HANDOFF.md)** | Estado actual, bloqueos y próximas acciones |
+| [AGENTS.md](AGENTS.md) · [CLAUDE.md](CLAUDE.md) | Reglas para agentes de código (OpenCode, Claude Code, Codex) |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Setup, ramas, PRs y commits |
 
 ## Estado
 
 - ✅ Concepto, stack y recursos documentados
-- ⏳ Proyecto Vite + repo + CI + despliegue (ver [STACK.md §2](docs/STACK.md))
+- ✅ Scaffold Vite + React 19 + TS + Tailwind + Vitest
+- ✅ Motor de dominio (`src/domain/`) y datos deterministas
+- ✅ Coach determinista + adapter local opcional (`src/ai/`)
+- ✅ Dockerfile, nginx y CI
+- ⏳ UI de Today/Body/Decision y deploy en `https://orbi.agustinpane.xyz`
+
+## Desarrollo
+
+```bash
+nvm use            # Node 22
+npm ci
+npm run gen        # regenera los escenarios deterministas
+npm run dev        # Vite
+npm run check      # typecheck + Biome + tests
+npm run build      # build de producción en dist/
+```
+
+## Deploy
+
+Producción: **https://orbi.agustinpane.xyz** (Dokploy BCN, Cloudflare delante).
+El build usa el `Dockerfile` de la raíz y se publica con auto-deploy en `main`.
+Detalle y troubleshooting: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Fechas clave
 
@@ -34,3 +60,4 @@ ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica y
 - Una rama por bloque y PR pequeños hacia `main`. La integradora (Andrea) revisa y mergea.
 - El contrato entre bloques es `src/domain/types.ts`: **no se cambia sin avisar a todo el equipo.**
 - UI, README final y entrega **en inglés**; la documentación interna, en español.
+- Antes de cada PR: `npm run check` y `npm run build`.
