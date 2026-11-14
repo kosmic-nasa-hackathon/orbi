@@ -16,6 +16,8 @@ import {
   type SystemId,
 } from "./types";
 
+const CORRELATION_RULES = new Set(["solar-event", "early-infection", "cabin-air"]);
+
 function findAtOrBefore<T extends { day: number }>(items: T[], day: number): T | undefined {
   let best: T | undefined;
   for (const item of items) {
@@ -313,7 +315,11 @@ export function evaluate(scenario: Scenario, day: number, mission: Mission): Eva
     exerciseAdherencePct: round(exerciseAdherencePct, 0),
   };
 
-  assessments.sort((a, b) => LEVEL_ORDER[b.level] - LEVEL_ORDER[a.level]);
+  assessments.sort((a, b) => {
+    const byLevel = LEVEL_ORDER[b.level] - LEVEL_ORDER[a.level];
+    if (byLevel !== 0) return byLevel;
+    return Number(CORRELATION_RULES.has(b.ruleId)) - Number(CORRELATION_RULES.has(a.ruleId));
+  });
 
   const facts: CoachFact[] = assessments.map((a) => ({
     id: a.ruleId,

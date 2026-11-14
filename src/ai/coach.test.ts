@@ -42,6 +42,12 @@ describe("deterministic coach", () => {
     expect(suggestion.factIds).toContain("mission");
   });
 
+  it("headlines the correlation instead of a single signal", async () => {
+    const request = requestFor("early-infection");
+    const suggestion = await createTemplateCoach().suggest(request);
+    expect(suggestion.summary).toContain("Possible early infection");
+  });
+
   it("passes its own guardrails for every scenario", async () => {
     for (const name of ["nominal", "early-infection", "cabin-co2", "solar-event"]) {
       const request = requestFor(name);

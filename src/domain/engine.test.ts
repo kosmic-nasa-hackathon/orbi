@@ -79,6 +79,12 @@ describe("evaluate", () => {
     expect(infection?.escalation.now).toBe("Start the local protocol now");
   });
 
+  it("ranks a correlation above single-signal rules at the same level", () => {
+    const s = scenario("early-infection");
+    const result = evaluate(s, lastDay(s), "MARS");
+    expect(result.assessments[0]?.ruleId).toBe("early-infection");
+  });
+
   it("explains a sigma-only temperature WATCH without the absolute cutoff", () => {
     const base = scenario("nominal");
     const s = withReadingPatches("nominal", [[lastDay(base), { tempC: 37.0 }]]);
