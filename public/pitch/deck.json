@@ -370,7 +370,7 @@
         "tone": "cyan"
       },
       "notes": [
-        "We read the official resources before writing the rules. The summaries live in docs/recursos.",
+        "We read the official resources before writing the rules. The summaries live in docs/resources.",
         "Only the bone evidence gives directly applicable numbers. Most other thresholds are standard clinical ranges or NASA-STD-3001 references, and they are flagged for verification.",
         "That is deliberate. A clinician should be able to audit the rules file without reading the UI."
       ]

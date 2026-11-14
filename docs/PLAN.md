@@ -2,7 +2,7 @@
 
 Living plan to execute the remaining work in parallel with several agents.
 Current state and blockers are in `HANDOFF.md`; assignment and onboarding, in `docs/TEAM.md`;
-the product, in `docs/BRIEF.md` and `docs/CONCEPTO-ORBI.md`.
+the product, in `docs/BRIEF.md` and `docs/CONCEPT.md`.
 
 **Date:** 2026-11-14
 **Base:** `development`
@@ -78,7 +78,7 @@ Pending announcement to the whole team before touching `src/domain/types.ts`:
 - `CrewProfile` with `sex`, `cycle`, `contraception` and `shareReproductiveWithGround`.
 - `DailyReading.phase/menses/cycleDay`, `Scenario.crew/trainingDays` and
   `evaluate(..., { cycleAware })`.
-- Details in `docs/CONCEPTO-ORBI.md` §8. **Not applied to the code until P3 is merged.**
+- Details in `docs/CONCEPT.md` §8. **Not applied to the code until P3 is merged.**
 
 **P3 files:** `src/domain/baseline.ts`, `src/domain/evaluate.ts`, `src/domain/rules.ts`,
 domain tests, `scripts/generate-mission.ts` and `src/data/scenarios/*.json`.
@@ -194,15 +194,15 @@ the `development` → `main` release. Andrea Tapia is backup.
 
 **Goal:** close the threshold debt without inventing numbers.
 
-**Allowed files:** `src/domain/rules.ts`, `src/domain/*.test.ts`, `docs/recursos/*` (read-only).
+**Allowed files:** `src/domain/rules.ts`, `src/domain/*.test.ts`, `docs/resources/*` (read-only).
 
 **Deliverables:**
 
-- Review every `verified: false` against `docs/recursos/`.
+- Review every `verified: false` against `docs/resources/`.
 - Mark `verified: true` only with a primary source.
-- Incorporate `docs/recursos/08`: the 600 mSv career limit is a single limit for all sexes and
+- Incorporate `docs/resources/08`: the 600 mSv career limit is a single limit for all sexes and
   ages since 2022; update the radiation source and remove the `TODO verify`.
-- Reconcile `docs/recursos/06` with that source.
+- Reconcile `docs/resources/06` with that source.
 - Leave `TODO verify` where evidence is still missing.
 - Boundary tests for exact WATCH/CONCERN/URGENT thresholds and for the bone case with good adherence.
 - Visible notice of pending thresholds in the UI (coordinate with E).
@@ -222,7 +222,7 @@ the `development` → `main` release. Andrea Tapia is backup.
 
 **Deliverables:**
 
-- 3-minute demo script aligned with `CONCEPTO-ORBI.md` §13, with the `luteal-phase` beat and
+- 3-minute demo script aligned with `CONCEPT.md` §13, with the `luteal-phase` beat and
   “Train like you fly”.
 - Video storyboard and shot list.
 - Final README (completed at the end); all project docs and UI in English.
@@ -287,7 +287,7 @@ the `development` → `main` release. Andrea Tapia is backup.
 - Safety rule: the adjustment only affects relative rules; absolute thresholds are never
   relaxed.
 - Private packet: no `menses`/`cycleDay` unless `shareReproductiveWithGround`.
-- `rules.ts`: radiation to `docs/recursos/08` (single 600 mSv since 2022) and `verified: true`.
+- `rules.ts`: radiation to `docs/resources/08` (single 600 mSv since 2022) and `verified: true`.
 - Tests for phase-aware baseline, toggle on/off, real fever in the luteal phase, privacy and determinism.
 - `npm run gen` and commit the JSON.
 

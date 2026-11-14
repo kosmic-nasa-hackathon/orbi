@@ -20,7 +20,7 @@ Tagline in English (for the UI and the submission): ***"From drift to decision."
 - **It starts on the ground.** ORBI is used from training (*"Train like you fly"*): that is where it learns what is normal for each astronaut.
 - **It accounts for the menstrual cycle.** In the luteal phase, temperature and HR rise. Without accounting for it, ORBI would mistake that rise for the start of an infection.
 - **The reproductive data belongs to her.** It is *opt-in* and does not travel to Earth without her permission.
-- Evidence: `recursos/08` (woman astronaut) and `recursos/09` (ground training).
+- Evidence: `resources/08` (women's health in spaceflight) and `resources/09` (ground training).
 
 **Why ORBI and not AURA:** "Aura" sounds almost the same as *Oura*, a very well-known commercial health ring, and a judge might think it is a copy. ORBI is approachable, sounds like a crewmate, evokes orbit and fits the gamification. The ring around the figure is still called the **halo** of radiation.
 
@@ -62,7 +62,7 @@ There is no single device: wearables and the station measure on their own, and t
 - **~90 days before launch** (L-90), the astronaut starts using ORBI on the ground, with the same wearables and the same 90 s check-in.
 - ORBI learns her **personal baseline**. If she enables cycle tracking, it also learns her phase pattern over 2–3 cycles.
 - The flight surgeon reviews the rules and thresholds with her before the flight.
-- Once in flight, each reading is compared with *her* ground range, just as NASA compares its measurements with the prior baseline (L-180…L-30, see `recursos/09`).
+- Once in flight, each reading is compared with *her* ground range, just as NASA compares its measurements with the prior baseline (L-180…L-30, see `resources/09`).
 
 ### A day with ORBI
 
@@ -163,7 +163,7 @@ Optional: free-text symptoms (not used by the engine; goes into the surgeon's pa
 
 ### 4.2 Simple rules (one signal → one level)
 
-Thresholds are **indicative and are marked with their source**. The official resources have already been reviewed (`recursos/`): only the fracture report gives applicable numbers. The rest is still pending verification against NASA-STD-3001 and clinical criteria. Anything that cannot be verified is marked `TODO verify` and said in the pitch.
+Thresholds are **indicative and are marked with their source**. The official resources have already been reviewed (`resources/`): only the fracture report gives applicable numbers. The rest is still pending verification against NASA-STD-3001 and clinical criteria. Anything that cannot be verified is marked `TODO verify` and said in the pitch.
 
 | Indicator | WATCH | CONCERN | URGENT | Source (to verify) |
 |---|---|---|---|---|
@@ -174,15 +174,15 @@ Thresholds are **indicative and are marked with their source**. The official res
 | Sleep | < 6 h × 2 nights | < 6 h × 3 nights | — | HRP: sleep and fatigue risk |
 | Mood | ≤ 2 × 3 days | ≤ 2 × 5 days | — | HRP: behavioral risk |
 | Cabin CO₂ | Above NASA's limit | — | — | NASA-STD-3001 Vol. 2 (`TODO verify` exact value) |
-| Accumulated dose | > 50 % of the budget | > 80 % of the budget | SPE active | Configurable budget (§4.3). Reference: NASA career limit since 2022, **600 mSv, the same for all sexes and ages** (`recursos/08`) |
-| Bone (exercise adherence) | Mission > 90 days and adherence < target for 2 weeks in a row | The above + mission > 6 months **or** surface phase (partial gravity) | — | HRP Evidence Report – Fracture (`recursos/07`) |
+| Accumulated dose | > 50 % of the budget | > 80 % of the budget | SPE active | Configurable budget (§4.3). Reference: NASA career limit since 2022, **600 mSv, the same for all sexes and ages** (`resources/08`) |
+| Bone (exercise adherence) | Mission > 90 days and adherence < target for 2 weeks in a row | The above + mission > 6 months **or** surface phase (partial gravity) | — | HRP Evidence Report – Fracture (`resources/07`) |
 | Bone (risk activity) | — | Notice in Decision if an EVA or construction is planned with Musculoskeletal in CONCERN | — | Fracture report: lateral falls and jumps, the highest-risk events |
 
 **Personal baseline:** mean ± deviation of the **90 days of ground training** (days −90 to −1) from the synthetic data. The "+Nσ" and "+10 bpm over baseline" rules use that baseline.
 
 **Cycle-aware baseline** (if `cycle: "tracked"`):
 - The temperature and HR baseline is computed **per phase**: follicular (from cycle day 1 to ovulation, ~day 14) and luteal (from there to the next period).
-- In the luteal phase it is normal for temperature to rise **+0.28–0.56 °C** and HR **+2–7 bpm** (`recursos/08`). With the phase-aware baseline, that rise does not surface as an anomaly.
+- In the luteal phase it is normal for temperature to rise **+0.28–0.56 °C** and HR **+2–7 bpm** (`resources/08`). With the phase-aware baseline, that rise does not surface as an anomaly.
 - **Safety rule:** the adjustment only affects the rules relative to the baseline (+Nσ, +10 bpm). **The absolute thresholds (≥ 38.0 °C, > 100 bpm, etc.) are never relaxed.** A real fever in the luteal phase still fires.
 - When a reading stays within expectations thanks to the adjustment, the "Because…" explains it: *"Temperature +0.4 °C, within your luteal-phase range."*
 
@@ -197,12 +197,12 @@ The official sources make it clear that there are two things that **cannot be pr
 - Demo (day 148, ~4.9 months): **~4.9–7.4 % estimated without countermeasures**.
 
 **Radiation exposure budget (halo)**
-- NASA recognizes that there is not enough knowledge to set exposure limits for long missions (`recursos/06`).
+- NASA recognizes that there is not enough knowledge to set exposure limits for long missions (`resources/06`).
 - ORBI shows the accumulated dose as a **% of a budget set by the mission's medical team** (`Scenario.exposureBudgetMSv`), with the trend and the current dose rate.
 - The 600 mSv are used as the **default value** of the budget, presented as *"current NASA career limit"*.
 - The demo scenarios use a budget of **400 mSv** so that the halo is legible on the tablet;
   600 mSv remains the career-limit reference and the contract default.
-- Since 2022 that limit is **the same for all sexes and ages**. Before, a 45-year-old woman had a mission limit of 187 days versus 344 for a man (`recursos/08`).
+- Since 2022 that limit is **the same for all sexes and ages**. Before, a 45-year-old woman had a mission limit of 187 days versus 344 for a man (`resources/08`).
 
 **"Why this matters" texts with official backing:**
 - **Musculoskeletal:** *"In weightlessness, weight-bearing bones lose 1–1.5% of their mineral density every month, roughly what an elderly person loses in a year. Resistance exercise and good nutrition are the countermeasures that work."*
@@ -212,7 +212,7 @@ The official sources make it clear that there are two things that **cannot be pr
 
 | Id | Signals | Reading | Level | Action card |
 |---|---|---|---|---|
-| `early-infection` | Sleep < 6 h × 3 + temp ≥ 37.5 + HR ↑ | Possible early infection favoured by sleep debt. In women, urinary infection is a frequent cause in flight (`recursos/08`) | CONCERN | Measure temp every 4 h · isolate in the rest area · prepare packet for the surgeon |
+| `early-infection` | Sleep < 6 h × 3 + temp ≥ 37.5 + HR ↑ | Possible early infection favoured by sleep debt. In women, urinary infection is a frequent cause in flight (`resources/08`) | CONCERN | Measure temp every 4 h · isolate in the rest area · prepare packet for the surgeon |
 | `cycle-aware` | Temp ↑ and HR ↑ over the general baseline, but **within her luteal-phase range**, with normal sleep and without exceeding absolute thresholds | **It is not an infection, it is the cycle** | NOMINAL (with explanation) | None. *"Expected cycle variation, not infection."* Reviewed tomorrow as usual |
 | `cabin-air` | SpO₂ ↓ **and** cabin CO₂ ↑ in the same period | **It is not the body, it is the environment** | WATCH (person) + cabin alert | Check ventilation/scrubber · notify · do not treat the patient |
 | `solar-event` | SPE active (event) | Acute radiation exposure | URGENT | Go to the shelter · checklist · log dose · postpone EVA |

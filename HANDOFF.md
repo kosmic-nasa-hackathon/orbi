@@ -100,7 +100,7 @@ auto-deploy works.
 Known risks:
 
 - **Unverified thresholds:** 6 sources remain `verified: false` (clinical, sleep, behavioral,
-  co2, radiation and immune). P1 will verify radiation with `recursos/08` and 5 will remain. Do not
+  co2, radiation and immune). P1 will verify radiation with `resources/08` and 5 will remain. Do not
   invent numbers.
 - **Contract extension (P3):** touches `types.ts`, generated JSON and tests; announce it beforehand
   and do not start until P1 is closed to avoid conflicts in `rules.ts`.
@@ -135,7 +135,7 @@ Infrastructure:
 
 **Proposed contract extension (P3, not yet applied):** `Phase`, `CrewProfile`,
 `DailyReading.phase/menses/cycleDay`, `Scenario.crew/trainingDays` and `evaluate(..., { cycleAware })`.
-Details in `docs/CONCEPTO-ORBI.md` §8. Announce it before the `engine/…` PR.
+Details in `docs/CONCEPT.md` §8. Announce it before the `engine/…` PR.
 
 **F0/Integration only:**
 
@@ -154,11 +154,11 @@ Every state uses colour + icon + text.
   default and fallback.
 - **Bone:** CONCERN requires low adherence **and** mission > 6 months.
 - **Sources:** only `bone` and `ada` verified; 6 remain `false` with `TODO verify`. P1 will verify
-  radiation with `recursos/08` (600 mSv single limit since 2022) and 5 will remain.
+  radiation with `resources/08` (600 mSv single limit since 2022) and 5 will remain.
 - **Demo data:** radiation budget of 400 mSv so the halo is legible; 600 mSv remains
   the reference for the career limit.
 - **Product shift (docs):** astronaut women's health + ground-training phase.
-  Evidence in `docs/recursos/08` and `09`. 90-day baseline, phase-aware baseline (opt-in, private,
+  Evidence in `docs/resources/08` and `09`. 90-day baseline, phase-aware baseline (opt-in, private,
   without relaxing absolute thresholds), `cycle-aware` correlation and `luteal-phase` scenario. **Not
   yet in the code**: it requires announcing the contract extension before the `engine/…` PR. The
   600 mSv limit already has a source (single for all sexes and ages since 2022).
@@ -219,5 +219,9 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #7 docs: correct pending threshold source count.
 - #22 chore: unify lint, typing and issue-ownership rules.
 - #23 docs: sync plan and handoff with cycle-aware direction.
+- #24 docs: record PR #23 in handoff.
+- #25 docs: add team roster and assignment status.
+- #26 docs: finish team roster references.
+- #27 docs: adopt the development release flow and English core docs.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi

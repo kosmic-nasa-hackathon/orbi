@@ -8,7 +8,7 @@ The rules in `AGENTS.md` apply here too. This file only adds Claude-specific wor
 
 - Read `docs/PLAN.md` to find the active lane, branch and file ownership.
 - Read `HANDOFF.md` for the current state and blockers.
-- For UI work, read `docs/CONCEPTO-ORBI.md` §6 (screens), `docs/STACK.md` §5 (body map),
+- For UI work, read `docs/CONCEPT.md` §6 (screens), `docs/STACK.md` §5 (body map),
   `src/screens/Home.tsx` (landing and nav) and `src/screens/Console.tsx` (engine reference).
 - For engine work, read `src/domain/types.ts` and `src/domain/rules.ts` before touching `evaluate()`.
 

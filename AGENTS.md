@@ -6,7 +6,7 @@ NASA Space Apps Challenge 2026 · team Kosmic.
 **Read this first, then the source docs:**
 
 - `docs/BRIEF.md` — product in 2 minutes, scope levels, work lanes.
-- `docs/CONCEPTO-ORBI.md` — full concept, rules, scenarios, demo script.
+- `docs/CONCEPT.md` — full concept, rules, scenarios, demo script.
 - `docs/STACK.md` — stack, setup, folder structure, CI and risks.
 - **`docs/PLAN.md` — live parallel plan: lanes, branches, file ownership and acceptance criteria.**
 - `docs/TEAM.md` — live roster, owners, worktrees, ports and onboarding.
@@ -34,13 +34,13 @@ pre-flight baseline, 3 correlations and 4 scenarios; keep that distinction visib
 2. `src/domain/types.ts` is the contract between the engine, UI and coach. Do not change it
    without announcing it to the whole team. The same applies to `src/ai/types.ts`,
    `src/content/systems.ts` and the scenario JSON shape. The cycle/ground-baseline extension
-   (`Phase`, `CrewProfile`, cycle fields) is **proposed in `docs/CONCEPTO-ORBI.md` §8 but not
+   (`Phase`, `CrewProfile`, cycle fields) is **proposed in `docs/CONCEPT.md` §8 but not
    applied**; announce it before the `engine/cycle-baseline` PR.
 3. The UI consumes `evaluate()` and `askCoach()`. **Never reimplement clinical rules in components.**
 4. Every threshold lives in `src/domain/rules.ts` with a `SourceRef` and a `verified` flag.
    Do not invent a number. If a value still needs a primary source, keep `verified: false` and
    mark it as pending in the UI/pitch. The 600 mSv career limit has a primary source since 2022
-   (`docs/recursos/08`, single limit for all sexes and ages); keep `radiation` pending in code
+   (`docs/resources/08`, single limit for all sexes and ages); keep `radiation` pending in code
    until P1/P3 updates `rules.ts`.
 5. UI copy, the final README, the submission and all project docs are **in English**.
 6. No backend, database, auth, ML decision model, computer vision or 3D. The app is a static SPA.

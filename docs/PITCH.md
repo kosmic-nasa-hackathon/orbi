@@ -67,7 +67,7 @@ Full notes for each slide are in `deck.json` (`notes`) and are shown with `S`.
 - Do not say **"diagnoses"**, **"replaces the doctor"**, **"AI predicts"**.
 - Bone loss is **estimated** (DXA only on Earth); radiation is shown against a
   **budget** because NASA acknowledges that deep-space limits remain open. The
-  default value of 600 mSv has a source (single limit since 2022, `recursos/08`).
+  default value of 600 mSv has a source (single limit since 2022, `resources/08`).
 - Cycle data is **opt-in and private**; absolute thresholds are never relaxed to hide
   a real fever.
 - Unverified thresholds are shown as such. Do not invent numbers in the talk.
@@ -78,5 +78,5 @@ To change the pitch, edit `public/pitch/deck.json` and reload. No need to touch 
 unless a new slide type is added. If a layout is added, also update the CSS and
 test at `1280×720`, `1180×820` (tablet) and mobile.
 
-The deck does not replace `docs/CONCEPTO-ORBI.md` or `docs/BRIEF.md`: it is the presentation layer.
+The deck does not replace `docs/CONCEPT.md` or `docs/BRIEF.md`: it is the presentation layer.
 If a rule, a scenario or the product state changes, update both.
