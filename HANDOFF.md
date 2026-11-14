@@ -1,210 +1,215 @@
 # HANDOFF — ORBI
 
-**Fecha:** 2026-11-14
-**Rama:** `main`
-**Estado:** motor, datos, coach, tests, Home, EVA, consola, pitch, deploy y documentación del giro
-de producto (salud de la mujer + entrenamiento en tierra) listos en producción. El código sigue con
-basal de 14 días, 3 correlaciones y 4 escenarios.
-**Falta:** ejecutar las lanes de `docs/PLAN.md`: tema light, rediseño, Nivel 0, P3 (basal de tierra
-+ ciclo), Trends/Mission Control, extras y entrega.
-**Plan de ejecución paralela:** `docs/PLAN.md`
-**Reparto y onboarding:** `docs/TEAM.md`
-**Integrador:** `@Agupane` (backup: `@atapiamallea`)
-**Producción:** **https://orbi.agustinpane.xyz** · App Dokploy `ORBI`
+**Date:** 2026-11-14
+**Branch:** `development` (integration) · `main` (release)
+**State:** engine, data, coach, tests, Home, EVA, console, pitch, deploy and documentation of the product
+shift (women's health + ground training) ready in the release preview. The code still has a
+14-day baseline, 3 correlations and 4 scenarios.
+**Missing:** run the lanes in `docs/PLAN.md`: light theme, redesign, Level 0, P3 (ground baseline
++ cycle), Trends/Mission Control, extras and submission.
+**Parallel execution plan:** `docs/PLAN.md`
+**Assignment and onboarding:** `docs/TEAM.md`
+**Integrator:** `@Agupane` (backup: `@atapiamallea`)
+**Release preview:** **https://orbi.agustinpane.xyz** · Dokploy app `ORBI`
 (`pnNCsfPVhaq6_lgsFDTEF`) · `appName` `app-input-open-source-panel-hqyoop`.
 
 ---
 
-## 1. Cómo arrancar
+## 1. How to start
 
 ```bash
 git fetch origin
-git checkout main
+git checkout development
+git pull --ff-only
 npm ci
 npm run gen
 npm run dev
 ```
 
-Verificación:
+Branch model: every PR targets `development`. The integrator opens `development` → `main` as the
+release PR; merging it runs CI and the automatic deploy to the preview.
+
+Verification:
 
 ```bash
 npm run check    # typecheck + check:domain + Biome CI + tests
 npm run build    # tsc --noEmit + vite build
 ```
 
-Node 22 y npm 10 fijados (`.nvmrc`, `packageManager`, `engines`; `.npmrc` con `engine-strict`).
-No hay backend, base de datos ni variables de entorno.
+Node 22 and npm 10 pinned (`.nvmrc`, `packageManager`, `engines`; `.npmrc` with `engine-strict`).
+There is no backend, database or environment variables.
 
 ---
 
-## 2. Estado actual (verificado)
+## 2. Current state (verified)
 
-- **Código actual:** motor determinista con 6 sistemas + halo, 3 correlaciones, basal de 14 días,
-  4 escenarios, reglas de hueso y estimaciones; `npm run gen` reproduce los JSON sin diff.
-- **Documentación objetivo (post #5):** basal de 90 días de entrenamiento en tierra, basal por fase
-  del ciclo (opt-in y privada), 4 correlaciones y 5 escenarios. Lo implementa P3.
-- Coach template (default y fallback) + adapter local opcional + guardrails.
-- Home `/`, demo EVA `?view=eva`, consola `?view=console` y pitch `/pitch/`.
-- Nav sticky con iconos, rutas por query y back/forward.
-- CI, Docker, nginx, Dokploy, Cloudflare y auto-deploy funcionando.
-- Calidad unificada: TypeScript 5.9 estricto, `tsconfig.domain.json` sin lib DOM, Biome 2.6 con
-  overrides de capas puras y `biome ci` dentro de `npm run check`.
-- Issues de GitHub como lock: el assignee se reclama con `gh issue edit <n> --add-assignee @me`
-  antes de escribir código.
-- **36/36 tests**; `npm run check` y `npm run build` verdes.
-- Producción responde `200` en `/`, `?view=eva`, `?view=console` y `/pitch/`.
+- **Current code:** deterministic engine with 6 systems + halo, 3 correlations, 14-day baseline,
+  4 scenarios, bone rules and estimates; `npm run gen` reproduces the JSON without diff.
+- **Target documentation (post #5):** 90-day ground-training baseline, phase-aware cycle baseline
+  (opt-in and private), 4 correlations and 5 scenarios. P3 implements it.
+- Template coach (default and fallback) + optional local adapter + guardrails.
+- Home `/`, EVA demo `?view=eva`, console `?view=console` and pitch `/pitch/`.
+- Sticky nav with icons, query routes and back/forward.
+- CI, Docker, nginx, Dokploy, Cloudflare and auto-deploy working.
+- Unified quality: strict TypeScript 5.9, `tsconfig.domain.json` without the DOM lib, Biome 2.6 with
+  pure-layer overrides and `biome ci` inside `npm run check`.
+- GitHub issues as lock: the assignee is claimed with `gh issue edit <n> --add-assignee @me`
+  before writing code.
+- All project docs are in English; source summaries live in `docs/resources/`.
+- **36/36 tests**; `npm run check` and `npm run build` green.
+- The release preview responds `200` at `/`, `?view=eva`, `?view=console` and `/pitch/`.
 
-**Caveat conocido:** Cloudflare inyecta un script inline de challenge que la CSP bloquea. Es
-externo a la app; no relajar `script-src 'self'`.
+**Known caveat:** Cloudflare injects an inline challenge script that the CSP blocks. It is
+external to the app; do not relax `script-src 'self'`.
 
 ---
 
-## 3. Lo que falta
+## 3. What is missing
 
-El detalle, archivos permitidos y criterios de aceptación están en `docs/PLAN.md`.
+The details, allowed files and acceptance criteria are in `docs/PLAN.md`.
 
-| Wave | Lane | Owner | Estado |
+| Wave | Lane | Owner | Status |
 |---|---|---|---|
-| 0 | P0 · Pitch light + motion | `@elenaalmansacampos` | listo |
-| 0 | P1 · Threshold audit | `@Agupane` | listo |
-| 0 | P2 · Submission groundwork | `@elenaalmansacampos` | listo |
-| 1 | F0 · Fundación (tema light, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | listo |
-| 1 | P3 · Engine: basal de tierra + ciclo | `@Agupane` | bloqueado por #9 |
-| 2 | A · Today | `@atapiamallea` | bloqueado por #11 + #12 |
-| 2 | B · Body | `@Yeryalex` | bloqueado por #11 + #12 |
-| 2 | C · Decision | `@atapiamallea` | bloqueado por #11 + #12 |
-| 2 | E · Visual polish (menos densidad, más animaciones) | `@amilege` | bloqueado por #11 |
-| 3 | D · Trends | `@Yeryalex` | gate Nivel 0 |
-| 3 | F · Mission Control | `@amilege` | gate Nivel 0 |
-| 3 | G · Level 2 (Amsler, procedimientos, PWA) | `@amilege` | gate Nivel 0; stretch |
-| 3 | H · Integración/QA | `@Agupane` | checkpoint pendiente |
-| 4 | I · Submission final | `@elenaalmansacampos` | bloqueado por #17 |
+| 0 | P0 · Pitch light + motion | `@elenaalmansacampos` | ready |
+| 0 | P1 · Threshold audit | `@Agupane` | ready |
+| 0 | P2 · Submission groundwork | `@elenaalmansacampos` | ready |
+| 1 | F0 · Foundation (light theme, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | ready |
+| 1 | P3 · Engine: ground baseline + cycle | `@Agupane` | blocked by #9 |
+| 2 | A · Today | `@atapiamallea` | blocked by #11 + #12 |
+| 2 | B · Body | `@Yeryalex` | blocked by #11 + #12 |
+| 2 | C · Decision | `@atapiamallea` | blocked by #11 + #12 |
+| 2 | E · Visual polish (less density, more animations) | `@amilege` | blocked by #11 |
+| 3 | D · Trends | `@Yeryalex` | Level 0 gate |
+| 3 | F · Mission Control | `@amilege` | Level 0 gate |
+| 3 | G · Level 2 (Amsler, procedures, PWA) | `@amilege` | Level 0 gate; stretch |
+| 3 | H · Integration/QA | `@Agupane` | checkpoint pending |
+| 4 | I · Final submission | `@elenaalmansacampos` | blocked by #17 |
 
-**Dependencias:** A/B/C/E dependen de F0 + P3; P3 espera a P1; D/F/G dependen del checkpoint de
-Nivel 0 desplegado que marca H.
+**Dependencies:** A/B/C/E depend on F0 + P3; P3 waits for P1; D/F/G depend on the deployed Level 0
+checkpoint that H marks.
 
-**Regla:** no se empieza Trends ni Mission Control hasta que Today + Body + Decision estén en la
-URL desplegada.
-
----
-
-## 4. Bloqueos y riesgos
-
-No hay bloqueos de infraestructura: el repo tiene write, el deploy está en producción y el
-auto-deploy funciona.
-
-Riesgos conocidos:
-
-- **Umbrales sin verificar:** 6 fuentes siguen `verified: false` (clinical, sleep, behavioral,
-  co2, radiation e immune). P1 verificará radiación con `recursos/08` y quedarán 5. No inventar
-  números.
-- **Ampliación de contrato (P3):** toca `types.ts`, JSON generados y tests; anunciar antes y no
-  empezar hasta cerrar P1 para evitar conflictos en `rules.ts`.
-- **Drift docs/código:** la documentación ya describe 90 días, 4 correlaciones y 5 escenarios; el
-  código sigue en 14/3/4 hasta P3.
-- **Privacidad del ciclo:** el dato reproductivo es opt-in; ni el packet ni Mission Control lo
-  exponen sin `shareReproductiveWithGround`.
-- **Tema light:** el refactor toca todas las pantallas; usar tokens y screenshots dark/light.
-- **Conflictos en paralelo:** los archivos compartidos los toca solo F0/Integración.
-- **PWA/service worker:** puede romper la caché; va al final y feature-flagged.
-- **Cloudflare + CSP:** el script inline de challenge queda bloqueado; no afecta la app.
-
-Infraestructura:
-
-- La org tiene deploy keys habilitadas (`deploy_keys_enabled_for_repositories=true`).
-- El origen de Dokploy es Git SSH (`git@github.com:kosmic-nasa-hackathon/orbi.git`) con la deploy key
-  `orbi-deploy`; no usa la GitHub App.
-- El token webhook de Dokploy está detrás de Cloudflare Access, por eso el deploy corre desde el
-  runner self-hosted de la LAN y no desde un runner GitHub-hosted.
-- Rotar la deploy key o el `DOKPLOY_TOKEN` si se comparten fuera de la infra.
+**Rule:** Trends and Mission Control do not start until Today + Body + Decision are on the deployed
+URL.
 
 ---
 
-## 5. Contratos y archivos compartidos
+## 4. Blockers and risks
 
-**Contratos congelados** (no cambiar sin avisar):
+There are no infrastructure blockers: the repo has write access, the release deploy is live and
+auto-deploy works.
+
+Known risks:
+
+- **Unverified thresholds:** 6 sources remain `verified: false` (clinical, sleep, behavioral,
+  co2, radiation and immune). P1 will verify radiation with `resources/08` and 5 will remain. Do not
+  invent numbers.
+- **Contract extension (P3):** touches `types.ts`, generated JSON and tests; announce it beforehand
+  and do not start until P1 is closed to avoid conflicts in `rules.ts`.
+- **Docs/code drift:** the documentation already describes 90 days, 4 correlations and 5 scenarios;
+  the code stays at 14/3/4 until P3.
+- **Cycle privacy:** reproductive data is opt-in; neither the packet nor Mission Control exposes it
+  without `shareReproductiveWithGround`.
+- **Light theme:** the refactor touches all screens; use tokens and dark/light screenshots.
+- **Parallel conflicts:** shared files are touched only by F0/Integration.
+- **PWA/service worker:** can break the cache; goes last and feature-flagged.
+- **Cloudflare + CSP:** the inline challenge script is blocked; it does not affect the app.
+
+Infrastructure:
+
+- The org has deploy keys enabled (`deploy_keys_enabled_for_repositories=true`).
+- The Dokploy source is Git SSH (`git@github.com:kosmic-nasa-hackathon/orbi.git`) with the `orbi-deploy`
+  deploy key; it does not use the GitHub App.
+- The Dokploy webhook token is behind Cloudflare Access, which is why the deploy runs from the
+  self-hosted LAN runner and not from a GitHub-hosted runner.
+- Rotate the deploy key or `DOKPLOY_TOKEN` if they are shared outside the infrastructure.
+
+---
+
+## 5. Contracts and shared files
+
+**Frozen contracts** (do not change without notice):
 
 - `src/domain/types.ts`
 - `src/ai/types.ts`
 - `src/content/systems.ts`
-- La forma de los JSON de escenarios
+- The shape of the scenario JSON files
 
-**Ampliación de contrato propuesta (P3, aún no aplicada):** `Phase`, `CrewProfile`,
-`DailyReading.phase/menses/cycleDay`, `Scenario.crew/trainingDays` y `evaluate(..., { cycleAware })`.
-Detalle en `docs/CONCEPTO-ORBI.md` §8. Anunciar antes del PR `engine/…`.
+**Proposed contract extension (P3, not yet applied):** `Phase`, `CrewProfile`,
+`DailyReading.phase/menses/cycleDay`, `Scenario.crew/trainingDays` and `evaluate(..., { cycleAware })`.
+Details in `docs/CONCEPT.md` §8. Announce it before the `engine/…` PR.
 
-**Solo F0/Integración:**
+**F0/Integration only:**
 
 - `src/App.tsx`, `src/navigation.ts`, `src/components/SiteNav.tsx`, `src/index.css`,
   `src/main.tsx`, `index.html`, `package.json`, `package-lock.json`, `vite.config.ts`,
-  `nginx.conf`, `.github/*` y la tabla de estado de `docs/PLAN.md`.
+  `nginx.conf`, `.github/*` and the status table in `docs/PLAN.md`.
 
-**Regla de UI:** consumir `evaluate()` y `askCoach()`; nunca reimplementar reglas clínicas.
-Cada estado usa color + icono + texto.
-
----
-
-## 6. Decisiones de esta fase
-
-- **Coach local:** capa de explicación opcional, nunca de decisión. Template determinista por
-  defecto y fallback.
-- **Hueso:** CONCERN exige baja adherencia **y** misión > 6 meses.
-- **Fuentes:** solo `bone` y `ada` verificadas; 6 quedan `false` con `TODO verify`. P1 verificará
-  radiación con `recursos/08` (600 mSv único desde 2022) y quedarán 5.
-- **Datos demo:** presupuesto de radiación de 400 mSv para que el halo sea legible; 600 mSv sigue
-  siendo la referencia del límite de carrera.
-- **Giro de producto (docs):** salud de la mujer astronauta + fase de entrenamiento en tierra.
-  Evidencia en `docs/recursos/08` y `09`. Basal de 90 días, basal por fase (opt-in, privada, sin
-  relajar umbrales absolutos), correlación `cycle-aware` y escenario `luteal-phase`. **Aún no está
-  en el código**: requiere anunciar la ampliación del contrato antes del PR `engine/…`. El límite
-  de 600 mSv ya tiene fuente (único para todos los sexos y edades desde 2022).
-- **Tema:** sistema + `localStorage`, fallback dark. Light en app y pitch.
-- **Paralelización:** worktrees + agentes CLI; Fundación e integración a cargo del integrador.
-- **Vídeo:** guion + auto-grabación con Playwright, sin commitear el binario.
+**UI rule:** consume `evaluate()` and `askCoach()`; never reimplement clinical rules.
+Every state uses colour + icon + text.
 
 ---
 
-## 7. Próxima acción
+## 6. Decisions of this phase
 
-1. Arrancar ya: P0 #8 y P2 #10 (Elena), P1 #9 (Agustín) y F0 #11 (Andrea Tapia).
-2. Cuando #9 mergee, Agustín abre P3 #12; anunciar el contrato en el issue antes de tocar
+- **Local coach:** optional explanation layer, never decision. Deterministic template by
+  default and fallback.
+- **Bone:** CONCERN requires low adherence **and** mission > 6 months.
+- **Sources:** only `bone` and `ada` verified; 6 remain `false` with `TODO verify`. P1 will verify
+  radiation with `resources/08` (600 mSv single limit since 2022) and 5 will remain.
+- **Demo data:** radiation budget of 400 mSv so the halo is legible; 600 mSv remains
+  the reference for the career limit.
+- **Product shift (docs):** astronaut women's health + ground-training phase.
+  Evidence in `docs/resources/08` and `09`. 90-day baseline, phase-aware baseline (opt-in, private,
+  without relaxing absolute thresholds), `cycle-aware` correlation and `luteal-phase` scenario. **Not
+  yet in the code**: it requires announcing the contract extension before the `engine/…` PR. The
+  600 mSv limit already has a source (single for all sexes and ages since 2022).
+- **Theme:** system + `localStorage`, dark fallback. Light in app and pitch.
+- **Parallelization:** worktrees + CLI agents; Foundation and integration handled by the integrator.
+- **Video:** script + auto-recording with Playwright, without committing the binary.
+
+---
+
+## 7. Next action
+
+1. Start now: P0 #8 and P2 #10 (Elena), P1 #9 (Agustín) and F0 #11 (Andrea Tapia).
+2. When #9 merges, Agustín opens P3 #12; announce the contract in the issue before touching
    `types.ts`.
-3. Con F0 + P3 en `main`, abrir A #13 y C #15 (Andrea Tapia), B #14 (Yery) y E #16 (amilege).
-4. Gate de Nivel 0 en #17: integrar A/B/C y desplegar. Eso desbloquea D #18 (Yery), F #19 y G #20
+3. With F0 + P3 on `development`, open A #13 and C #15 (Andrea Tapia), B #14 (Yery) and E #16 (amilege).
+4. Level 0 gate at #17: integrate A/B/C and deploy. That unblocks D #18 (Yery), F #19 and G #20
    (amilege).
-5. Cerrar H #17, actualizar tablas y abrir I #21 (Elena) con apoyo de Agustín, Yery y Andrea Tapia.
-6. Yery puede prototipar el SVG de B antes del gate, sin mergear; amilege hace onboarding y apoya
-   F0/E mientras tanto.
+5. Close H #17, update the tables and open I #21 (Elena) with support from Agustín, Yery and Andrea Tapia.
+6. Yery can prototype the B SVG before the gate, without merging; meanwhile amilege onboards and supports
+   F0/E.
 
 ---
 
-## 8. Reparto paralelo
+## 8. Parallel assignment
 
-| Lane | Owner | Support | Rama | Zona principal |
+| Lane | Owner | Support | Branch | Main zone |
 |---|---|---|---|---|
 | P0 · Pitch light + motion | `@elenaalmansacampos` | `@Agupane` | `pitch/light-motion` | `public/pitch/*` |
 | P1 · Threshold audit | `@Agupane` | `@atapiamallea` | `engine/threshold-audit` | `src/domain/rules.ts`, tests |
-| P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | `docs/submission` | `docs/DEMO.md`, README, formulario |
-| F0 · Fundación | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `design/theme-foundation` | tema, tokens, UI, nav, store |
-| P3 · Engine: basal + ciclo | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `src/domain/`, generador y escenarios |
+| P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | `docs/submission` | `docs/DEMO.md`, README, form |
+| F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `design/theme-foundation` | theme, tokens, UI, nav, store |
+| P3 · Engine: baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `src/domain/`, generator and scenarios |
 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | `today/checkin` | `src/screens/Today.tsx`, DemoBar, store |
 | B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | `body/map` | `src/screens/Body.tsx`, `components/body/` |
 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | `decision/triage` | `src/screens/Decision.tsx`, `components/decision/` |
 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | `design/motion-polish` | Home, EVA, Console |
 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | `trends/charts` | `src/screens/Trends.tsx`, `components/charts/` |
 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | `mission-control/window` | `src/screens/MissionControl.tsx` |
-| G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | `level2/extras` | Amsler, procedimientos, PWA |
-| H · Integración/QA | `@Agupane` | Todo el equipo | `integration/level0` | rutas, tests, deploy |
-| I · Submission final | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | `docs/submission` | vídeo, README, formulario |
+| G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | `level2/extras` | Amsler, procedures, PWA |
+| H · Integration/QA | `@Agupane` | Whole team | `integration/level0` | routes, tests, deploy |
+| I · Final submission | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | `docs/submission` | video, README, form |
 
-Issues de las lanes: P0 #8 · P1 #9 · P2 #10 · F0 #11 · P3 #12 · A #13 · B #14 · C #15 · E #16 ·
+Lane issues: P0 #8 · P1 #9 · P2 #10 · F0 #11 · P3 #12 · A #13 · B #14 · C #15 · E #16 ·
 H #17 · D #18 · F #19 · G #20 · I #21.
 
 ---
 
-## 9. PRs y ramas
+## 9. PRs and branches
 
-Todo lo integrado está en `main`.
+Everything integrated is on `development`; `main` holds the latest release.
 
 - #1 Scaffold, engine, coach and deployment baseline.
 - #2 ci: add gated Dokploy auto-deploy fallback.
@@ -215,5 +220,10 @@ Todo lo integrado está en `main`.
 - #7 docs: correct pending threshold source count.
 - #22 chore: unify lint, typing and issue-ownership rules.
 - #23 docs: sync plan and handoff with cycle-aware direction.
+- #24 docs: record PR #23 in handoff.
+- #25 docs: add team roster and assignment status.
+- #26 docs: finish team roster references.
+- #27 docs: adopt the development release flow and English core docs.
+- #28 docs: translate resources and normalize English doc paths.
 
-Repositorio: https://github.com/kosmic-nasa-hackathon/orbi
+Repository: https://github.com/kosmic-nasa-hackathon/orbi

@@ -2,80 +2,90 @@
 
 > *From drift to decision.* Health autonomy console for astronauts on long-duration missions · NASA Space Apps Challenge 2026
 
-**Reto:** [Create Health Monitoring Software for Astronauts on Space Missions](https://www.spaceappschallenge.org/2026/challenges/health-monitoring-software/)
-**Equipo:** Kosmic
+**Challenge:** [Create Health Monitoring Software for Astronauts on Space Missions](https://www.spaceappschallenge.org/2026/challenges/health-monitoring-software/)
+**Team:** Kosmic
 
-ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica ya traen los datos, y en un check-in diario de 90 segundos el astronauta los confirma. ORBI los convierte en una lectura del cuerpo (6 sistemas + un halo de radiación), una decisión de triaje explicada y un plan de acción, con un escalado que se adapta al retraso de comunicación con la Tierra.
+ORBI is a tablet app for astronauts. The watch and the biometric shirt already carry the data, and in a 90-second daily check-in the astronaut confirms it. ORBI turns it into a body reading (6 systems + a radiation halo), an explained triage decision and an action plan, with an escalation that adapts to the communication delay with Earth.
 
-La línea base de cada astronauta se aprende **durante el entrenamiento en tierra** y **tiene en cuenta el ciclo menstrual** (opt-in y privado), para no confundir la fase lútea con una infección.
+Each astronaut's baseline is learned **during ground training** and **takes the menstrual cycle into account** (opt-in and private), so a luteal phase is not mistaken for an infection.
 
-## Documentación
+## Documentation
 
-| Documento | Para qué |
+| Document | Purpose |
 |---|---|
-| **[docs/BRIEF.md](docs/BRIEF.md)** | **Empieza por aquí.** El proyecto en 2 minutos, los niveles de alcance y los bloques de trabajo |
-| [docs/CONCEPTO-ORBI.md](docs/CONCEPTO-ORBI.md) | Concepto completo: uso en la nave, reglas, escenarios, contrato de tipos, guion de demo |
-| [docs/STACK.md](docs/STACK.md) | Stack técnico, comandos de instalación, estructura de carpetas, CI y riesgos |
-| **[docs/PLAN.md](docs/PLAN.md)** | **Plan vivo:** lanes paralelas, ramas, archivos permitidos y criterios de aceptación |
-| **[docs/TEAM.md](docs/TEAM.md)** | **Reparto vivo:** roster, owner/support, worktrees, puertos y onboarding |
-| [docs/TASKS.md](docs/TASKS.md) | Briefs históricos por lane (contexto de producto) |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Runbook de Dokploy + Cloudflare y auto-deploy |
-| [docs/PITCH.md](docs/PITCH.md) | Guion del pitch y deck navegable en `/pitch/` |
-| [docs/recursos/](docs/recursos/README.md) | Resúmenes de los recursos oficiales de NASA y CSA, más salud de la mujer astronauta y entrenamiento en tierra, y cómo los usamos |
-| **[HANDOFF.md](HANDOFF.md)** | Estado actual, bloqueos y próximas acciones |
-| [AGENTS.md](AGENTS.md) · [CLAUDE.md](CLAUDE.md) | Reglas para agentes de código (OpenCode, Claude Code, Codex) |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Setup, ramas, PRs y commits |
+| **[docs/BRIEF.md](docs/BRIEF.md)** | **Start here.** The project in 2 minutes, scope levels and work lanes |
+| [docs/CONCEPT.md](docs/CONCEPT.md) | Full concept: use on the ship, rules, scenarios, type contract, demo script |
+| [docs/STACK.md](docs/STACK.md) | Technical stack, setup commands, folder structure, CI and risks |
+| **[docs/PLAN.md](docs/PLAN.md)** | **Live plan:** parallel lanes, branches, allowed files and acceptance criteria |
+| **[docs/TEAM.md](docs/TEAM.md)** | **Live assignment:** roster, owner/support, worktrees, ports and onboarding |
+| [docs/TASKS.md](docs/TASKS.md) | Historical briefs per lane (product context) |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Dokploy + Cloudflare runbook and auto-deploy |
+| [docs/PITCH.md](docs/PITCH.md) | Pitch script and navigable deck at `/pitch/` |
+| [docs/resources/](docs/resources/README.md) | Summaries of the official NASA and CSA resources, plus women's health in spaceflight and ground training, and how we use them |
+| **[HANDOFF.md](HANDOFF.md)** | Current state, blockers and next actions |
+| [AGENTS.md](AGENTS.md) · [CLAUDE.md](CLAUDE.md) | Rules for coding agents (OpenCode, Claude Code, Codex) |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Setup, branches, PRs and commits |
 
-## Estado
+## Status
 
-- ✅ Concepto, stack y recursos documentados
-- ✅ Scaffold Vite + React 19 + TS + Tailwind + Vitest
-- ✅ Motor de dominio (`src/domain/`) y datos deterministas
-- ✅ Coach determinista + adapter local opcional (`src/ai/`)
-- ✅ Dockerfile, nginx y CI
-- ✅ Desplegado en **https://orbi.agustinpane.xyz** con auto-deploy en `main`
-- ✅ Demo EVA: pérdida de sync, navegación inercial y retorno a la nave
-- ✅ Pitch navegable en **`/pitch/`** (15 slides, notas del orador y modo lectura con `?view=scroll`)
-- ✅ Home de producto en `/` con navegación por iconos a EVA, consola y pitch
-- ✅ Giro de producto documentado: basal de entrenamiento en tierra y ciclo menstrual opt-in
-  (`docs/recursos/08` y `09`)
-- ⏳ P3 · Engine: basal de 90 días, `cycle-aware`, `luteal-phase`, 5 escenarios y 4 correlaciones
-- ⏳ Tema light + switch, P3 (basal + ciclo), Today/Body/Decision, Trends y Mission Control (ver `docs/PLAN.md` y `docs/TEAM.md`)
+- ✅ Concept, stack and resources documented
+- ✅ Vite + React 19 + TS + Tailwind + Vitest scaffold
+- ✅ Domain engine (`src/domain/`) and deterministic data
+- ✅ Deterministic coach + optional local adapter (`src/ai/`)
+- ✅ Dockerfile, nginx and CI
+- ✅ Release preview at **https://orbi.agustinpane.xyz**; `main` is release-only and auto-deploys
+- ✅ EVA demo: link loss, inertial navigation and return to the ship
+- ✅ Navigable pitch at **`/pitch/`** (15 slides, speaker notes and reading mode with `?view=scroll`)
+- ✅ Product home at `/` with icon navigation to EVA, console and pitch
+- ✅ Documented product shift: ground-training baseline and opt-in menstrual cycle
+  (`docs/resources/08` and `09`)
+- ⏳ P3 · Engine: 90-day baseline, `cycle-aware`, `luteal-phase`, 5 scenarios and 4 correlations
+- ⏳ Light theme + switch, P3 (baseline + cycle), Today/Body/Decision, Trends and Mission Control (see `docs/PLAN.md` and `docs/TEAM.md`)
 
-El código actual sigue usando basal de 14 días, 3 correlaciones y 4 escenarios; P3 cierra la brecha.
+The current code still uses a 14-day baseline, 3 correlations and 4 scenarios; P3 closes the gap.
 
-La raíz abre la home. La demo EVA queda en `?view=eva` y la consola en `?view=console`.
-Para saltar a un momento de la demo: `/?view=eva&t=18` (sin sync) o `/?view=eva&t=24`
-(retorno inercial activo).
+The root opens the home. The EVA demo lives at `?view=eva` and the console at `?view=console`.
+To jump to a moment of the demo: `/?view=eva&t=18` (no sync) or `/?view=eva&t=24`
+(inertial return active).
 
-## Desarrollo
+## Development
 
 ```bash
 nvm use            # Node 22
 npm ci
-npm run gen        # regenera los escenarios deterministas
+npm run gen        # regenerates the deterministic scenarios
 npm run dev        # Vite
 npm run check      # typecheck + Biome + tests
-npm run build      # build de producción en dist/
+npm run build      # production build in dist/
 ```
+
+## Branching and release
+
+- `development` is the default branch and the integration target for every PR.
+- Create work branches from `development` and rebase on `development`, not `main`.
+- The integrator (`@Agupane`, backup `@atapiamallea`) merges PRs into `development`.
+- Release: the integrator opens a `development` → `main` PR. Merging it runs CI and the
+  automatic deploy to the preview at **https://orbi.agustinpane.xyz**.
+- `main` is release-only. Do not push directly to it or open feature PRs against it.
 
 ## Deploy
 
-Producción: **https://orbi.agustinpane.xyz** (Dokploy BCN, Cloudflare delante).
-El build usa el `Dockerfile` de la raíz y se publica con auto-deploy en `main`.
-Detalle y troubleshooting: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Release preview: **https://orbi.agustinpane.xyz** (Dokploy BCN, Cloudflare in front).
+The build uses the root `Dockerfile`; a release merge into `main` triggers the automatic deploy.
+Details and troubleshooting: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
-## Fechas clave
+## Key dates
 
-| Hito | Cuándo |
+| Milestone | When |
 |---|---|
-| Nivel 0 (núcleo) funcionando en la URL | Sábado por la tarde |
-| Código congelado | **Domingo 12:00** |
-| Envío del proyecto | **Domingo 14:00** (plazo oficial: 16:00) |
+| Level 0 (core) running at the URL | Saturday afternoon |
+| Code freeze | **Sunday 12:00** |
+| Project submission | **Sunday 14:00** (official deadline: 16:00) |
 
-## Cómo trabajamos
+## How we work
 
-- Una rama por bloque y PR pequeños hacia `main`. El integrador (`@Agupane`, backup `@atapiamallea`) revisa y mergea.
-- El contrato entre bloques es `src/domain/types.ts`: **no se cambia sin avisar a todo el equipo.**
-- UI, README final y entrega **en inglés**; la documentación interna, en español.
-- Antes de cada PR: `npm run check` y `npm run build`.
+- One branch per block and small PRs to `development`. The integrator (`@Agupane`, backup `@atapiamallea`) reviews and merges.
+- `main` is release-only: the integrator promotes `development` to `main`, and that merge deploys the preview.
+- The contract between blocks is `src/domain/types.ts`: **it is not changed without notifying the whole team.**
+- UI, final README and submission **in English**; all project docs are in English.
+- Before each PR: `npm run check` and `npm run build`.

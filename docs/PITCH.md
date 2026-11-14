@@ -1,82 +1,82 @@
 # PITCH — ORBI
 
-Deck navegable en **`/pitch/`** (misma URL de la app). Es una página estática dentro de
-`public/pitch/`, así que Vite la copia tal cual a `dist/` y no necesita backend ni build aparte.
+Navigable deck at **`/pitch/`** (same app URL). It is a static page inside
+`public/pitch/`, so Vite copies it as-is to `dist/` and it needs no backend or separate build.
 
-- Producción: `https://orbi.agustinpane.xyz/pitch/`
-- Local: `npm run dev` y abrir `http://localhost:5173/pitch/`
-- Modo lectura: `/pitch/?view=scroll`
-- Fuente de contenido: `public/pitch/deck.json`
-- Motor y estilos: `public/pitch/deck.js` + `public/pitch/theme.css`
+- Production: `https://orbi.agustinpane.xyz/pitch/`
+- Local: `npm run dev` and open `http://localhost:5173/pitch/`
+- Reading mode: `/pitch/?view=scroll`
+- Content source: `public/pitch/deck.json`
+- Engine and styles: `public/pitch/deck.js` + `public/pitch/theme.css`
 
-La arquitectura replica la de `agents-101`: un `index.html` mínimo, el contenido en `deck.json`
-y un motor que renderiza slides. La diferencia es que acá el motor es propio y liviano, sin
-dependencias externas, para respetar la CSP de nginx (`script-src 'self'`).
+The architecture replicates the one in `agents-101`: a minimal `index.html`, the content in `deck.json`
+and an engine that renders slides. The difference is that here the engine is our own and lightweight,
+with no external dependencies, to respect nginx's CSP (`script-src 'self'`).
 
-## Cómo presentar
+## How to present
 
-| Tecla | Acción |
+| Key | Action |
 |---|---|
-| `→` · `↓` · `Espacio` | Siguiente slide |
-| `←` · `↑` | Slide anterior |
-| `Home` / `End` | Primera / última |
-| `G` | Grilla de slides |
-| `S` | Notas del orador |
-| `F` | Pantalla completa |
-| `P` | Imprimir / guardar como PDF |
-| `Esc` | Cerrar paneles |
-| `?` | Ayuda de teclado |
+| `→` · `↓` · `Space` | Next slide |
+| `←` · `↑` | Previous slide |
+| `Home` / `End` | First / last |
+| `G` | Slide grid |
+| `S` | Speaker notes |
+| `F` | Full screen |
+| `P` | Print / save as PDF |
+| `Esc` | Close panels |
+| `?` | Keyboard help |
 
-En tablet o teléfono se puede pasar de slide con swipe horizontal.
+On tablet or phone you can advance slides with a horizontal swipe.
 
-## Guion (15 slides)
+## Script (15 slides)
 
 1. **Cover** — ORBI, from drift to decision.
-2. **The problem** — Day 148, 14 minutos de latencia, sin clínica a bordo.
-3. **The insight** — la latencia es una variable clínica.
-4. **The product** — check-in de 90 s → basal de tierra + ciclo opt-in → motor → decisión → escalado.
-5. **Challenge fit** — tabla enunciado → ORBI.
-6. **Body** — 6 sistemas + halo, mapeados a las 5 amenazas de NASA.
-7. **Decision** — nivel, “Because…”, action card, escalado.
-8. **Correlations** — infección temprana, ciclo (`cycle-aware`), aire de cabina, evento solar.
-9. **Honesty** — hueso estimado, radiación como presupuesto, umbrales auditables.
-10. **Architecture** — dominio puro, UI consumidora, coach opcional con guardrails.
-11. **Evidence** — NASA HRP, NASA-STD-3001, CSA, salud de la mujer y entrenamiento en tierra.
-12. **Live now** — qué se puede abrir hoy y los 4 escenarios actuales del demo.
-13. **Roadmap** — Nivel 0 + P3 (basal de 90 días y ciclo), Trends/Mission Control, extras.
-14. **Team** — qué traemos, qué necesitamos (revisión clínica y un piloto).
-15. **Close** — “ORBI doesn't diagnose. It prioritizes, explains and escalates.”
+2. **The problem** — Day 148, 14 minutes of latency, no clinician on board.
+3. **The insight** — latency is a clinical variable.
+4. **The product** — 90 s check-in → ground baseline + opt-in cycle → engine → decision → escalation.
+5. **Challenge fit** — prompt → ORBI table.
+6. **Body** — 6 systems + halo, mapped to NASA's 5 hazards.
+7. **Decision** — level, "Because…", action card, escalation.
+8. **Correlations** — early infection, cycle (`cycle-aware`), cabin air, solar event.
+9. **Honesty** — estimated bone, radiation as a budget, auditable thresholds.
+10. **Architecture** — pure domain, consuming UI, optional coach with guardrails.
+11. **Evidence** — NASA HRP, NASA-STD-3001, CSA, women's health and ground training.
+12. **Live now** — what can be opened today and the 4 current demo scenarios.
+13. **Roadmap** — Level 0 + P3 (90-day baseline and cycle), Trends/Mission Control, extras.
+14. **Team** — what we bring, what we need (clinical review and a pilot).
+15. **Close** — "ORBI doesn't diagnose. It prioritizes, explains and escalates."
 
-Las notas completas de cada slide están en `deck.json` (`notes`) y se ven con `S`.
+Full notes for each slide are in `deck.json` (`notes`) and are shown with `S`.
 
-## Antes de presentar
+## Before presenting
 
-- [ ] Abrir `/pitch/` en la tablet o en la laptop que se va a usar y probar `F`, `S` y `G`.
-- [ ] Verificar que `/?view=console` responde en producción.
-- [ ] Tener el video de respaldo de la demo descargado, no solo el link.
-- [ ] Confirmar el escenario del demo: `early-infection`, día 148, Mars → ISS.
-- [ ] Revisar que los números del deck sigan alineados con `src/domain/rules.ts` y `HANDOFF.md`.
-- [ ] No prometer Today/Body/Decision como terminadas si todavía no están en la URL.
-- [ ] No presentar `cycle-aware`/`luteal-phase` como live hasta que P3 esté desplegado; el deck los
-  muestra como diseño/roadmap.
-- [ ] Verificar que los conteos live sigan siendo 4 escenarios y 3 correlaciones hasta P3.
+- [ ] Open `/pitch/` on the tablet or the laptop that will be used and test `F`, `S` and `G`.
+- [ ] Verify that `/?view=console` responds in production.
+- [ ] Have the backup demo video downloaded, not just the link.
+- [ ] Confirm the demo scenario: `early-infection`, day 148, Mars → ISS.
+- [ ] Check that the deck's numbers stay aligned with `src/domain/rules.ts` and `HANDOFF.md`.
+- [ ] Do not promise Today/Body/Decision as finished if they are not on the URL yet.
+- [ ] Do not present `cycle-aware`/`luteal-phase` as live until P3 is deployed; the deck shows them
+  as design/roadmap.
+- [ ] Verify that the live counts are still 4 scenarios and 3 correlations until P3.
 
-## Reglas de honestidad
+## Honesty rules
 
-- Decir **“decision support”**, **“prioritizes, explains and escalates”**, **“auditable rules”**.
-- No decir **“diagnoses”**, **“replaces the doctor”**, **“AI predicts”**.
-- La pérdida ósea se **estima** (DXA solo en Tierra); la radiación se muestra contra un
-  **presupuesto** porque NASA reconoce que los límites de espacio profundo siguen abiertos. El
-  valor por defecto de 600 mSv tiene fuente (límite único desde 2022, `recursos/08`).
-- El dato del ciclo es **opt-in y privado**; los umbrales absolutos nunca se relajan para ocultar
-  una fiebre real.
-- Los umbrales no verificados se muestran como tales. No inventar números en la charla.
+- Say **"decision support"**, **"prioritizes, explains and escalates"**, **"auditable rules"**.
+- Do not say **"diagnoses"**, **"replaces the doctor"**, **"AI predicts"**.
+- Bone loss is **estimated** (DXA only on Earth); radiation is shown against a
+  **budget** because NASA acknowledges that deep-space limits remain open. The
+  default value of 600 mSv has a source (single limit since 2022, `resources/08`).
+- Cycle data is **opt-in and private**; absolute thresholds are never relaxed to hide
+  a real fever.
+- Unverified thresholds are shown as such. Do not invent numbers in the talk.
 
-## Mantenimiento
+## Maintenance
 
-Para cambiar el pitch, editar `public/pitch/deck.json` y recargar. No hace falta tocar el motor
-salvo que se agregue un tipo nuevo de slide. Si se agrega un layout, actualizar también el CSS y
-probar en `1280×720`, `1180×820` (tablet) y mobile.
+To change the pitch, edit `public/pitch/deck.json` and reload. No need to touch the engine
+unless a new slide type is added. If a layout is added, also update the CSS and
+test at `1280×720`, `1180×820` (tablet) and mobile.
 
-El deck no reemplaza `docs/CONCEPTO-ORBI.md` ni `docs/BRIEF.md`: es la capa de presentación.
-Si cambia una regla, un escenario o el estado del producto, actualizar ambos.
+The deck does not replace `docs/CONCEPT.md` or `docs/BRIEF.md`: it is the presentation layer.
+If a rule, a scenario or the product state changes, update both.

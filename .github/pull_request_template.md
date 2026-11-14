@@ -1,29 +1,32 @@
-## Qué cambia
+## What changes
 
-<!-- Una frase. Enlaza la tarea de docs/TASKS.md o el issue. -->
+<!-- One sentence. Link the docs/TASKS.md task or the issue. -->
 
 Closes #
 
+Target branch: `development` (not `main`). `main` is release-only and is promoted by the integrator.
+
 ## Lane
 
-- [ ] A · Motor + datos
+- [ ] A · Engine + data
 - [ ] B · Body + Trends
 - [ ] C · Today + Decision
 - [ ] D · Coach + Mission Control
-- [ ] E · Diseño + pitch
-- [ ] Integración / deploy / docs
+- [ ] E · Design + pitch
+- [ ] Integration / deploy / docs
 
 ## Checklist
 
-- [ ] Issue reclamado/asignado y referenciado con `Closes #<número>`
-- [ ] `npm run check` en verde (typecheck + check:domain + Biome CI + tests)
-- [ ] `npm run build` pasa
-- [ ] No he cambiado `src/domain/types.ts` ni `src/ai/types.ts` sin avisar al equipo
-- [ ] La UI nueva está en inglés; los docs internos, en español
-- [ ] No hay secretos, tokens ni `.env` en el diff
-- [ ] Si toca UI, adjunto captura o descripción de cómo probarlo
-- [ ] He actualizado `HANDOFF.md` si cambia el estado o quedan bloqueos
+- [ ] Issue claimed/assigned and referenced with `Closes #<number>`
+- [ ] PR targets `development` (not `main`)
+- [ ] `npm run check` green (typecheck + check:domain + Biome CI + tests)
+- [ ] `npm run build` passes
+- [ ] I have not changed `src/domain/types.ts` or `src/ai/types.ts` without notifying the team
+- [ ] New UI is in English; all project docs are in English
+- [ ] No secrets, tokens or `.env` in the diff
+- [ ] If it touches UI, I attach a screenshot or a description of how to test it
+- [ ] I have updated `HANDOFF.md` if the state changes or blockers remain
 
-## Riesgos / notas
+## Risks / notes
 
-<!-- Qué puede romper, qué falta, qué decisión hay que tomar. -->
+<!-- What can break, what is missing, what decision needs to be made. -->

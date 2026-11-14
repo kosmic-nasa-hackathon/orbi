@@ -1,169 +1,169 @@
-# TASKS — ORBI (histórico)
+# TASKS — ORBI (historical)
 
-Este documento conserva los briefs originales por lane como contexto de producto.
-El plan vivo, las ramas y el reparto paralelo están en **[`docs/PLAN.md`](PLAN.md)**.
-El roster, owner/support y onboarding están en **[`docs/TEAM.md`](TEAM.md)**.
-El estado actual y los bloqueos están en `HANDOFF.md`; el deploy, en `docs/DEPLOYMENT.md`.
+This document keeps the original per-lane briefs as product context.
+The live plan, branches and parallel assignment are in **[`docs/PLAN.md`](PLAN.md)**.
+The roster, owner/support and onboarding are in **[`docs/TEAM.md`](TEAM.md)**.
+Current state and blockers are in `HANDOFF.md`; deployment is in `docs/DEPLOYMENT.md`.
 
-**No usar este archivo para coordinar el trabajo actual.** Las lanes, waves y criterios de
-aceptación vigentes están en `docs/PLAN.md`.
+**Do not use this file to coordinate current work.** The active lanes, waves and acceptance
+criteria are in `docs/PLAN.md`.
 
-Los conteos de este documento (14 días de basal, 3 correlaciones, 4 escenarios) son históricos.
-El objetivo documentado actual es basal de 90 días de entrenamiento en tierra, 4 correlaciones,
-5 escenarios y basal por fase del ciclo (P3 en `docs/PLAN.md`).
+The counts in this document (14-day baseline, 3 correlations, 4 scenarios) are historical.
+The current documented target is a 90-day ground-training baseline, 4 correlations,
+5 scenarios and a phase-aware baseline (P3 in `docs/PLAN.md`).
 
-## Reparto (5 personas)
+## Assignment (5 people)
 
-| Lane | Dueño/a | Rama | Primer PR |
+| Lane | Owner | Branch | First PR |
 |---|---|---|---|
-| A · Motor + datos | _(nombre)_ | `engine/…` | `engine/threshold-audit` |
-| B · Body + Trends | _(nombre)_ | `body/…` | `body/skeleton` |
-| C · Today + Decision | _(nombre)_ | `today/…` | `today/checkin` |
-| D · Coach + Mission Control | _(nombre)_ | `ai/…` o `mission-control/…` | `ai/coach-panel` |
-| E · Diseño + pitch | _(nombre)_ | `design/…` | `design/tokens` |
-| Integración + deploy | Andrea / Agustín | `main`, `deploy/…` | — |
+| A · Engine + data | _(name)_ | `engine/…` | `engine/threshold-audit` |
+| B · Body + Trends | _(name)_ | `body/…` | `body/skeleton` |
+| C · Today + Decision | _(name)_ | `today/…` | `today/checkin` |
+| D · Coach + Mission Control | _(name)_ | `ai/…` or `mission-control/…` | `ai/coach-panel` |
+| E · Design + pitch | _(name)_ | `design/…` | `design/tokens` |
+| Integration + deploy | Agustín (backup: Andrea Tapia) | `development`, `main` (release), `deploy/…` | — |
 
-Los nombres se completan en la primera reunión. Mientras tanto, cada lane puede avanzar
-contra los contratos ya congelados.
+Names are filled in at the first meeting. Meanwhile, each lane can move forward
+against the already-frozen contracts.
 
-## Regla de niveles
+## Level rule
 
-**No se empieza el nivel 1 hasta que Today + Body + Decision funcionen en la URL desplegada.**
-El orden es: nivel 0 → deploy → nivel 1 → extras.
+**Level 1 is not started until Today + Body + Decision work on the deployed URL.**
+The order is: level 0 → deploy → level 1 → extras.
 
-## Lane A · Motor + datos
+## Lane A · Engine + data
 
-Zona: `src/domain/`, `src/data/`, `scripts/`, `src/domain/*.test.ts`.
+Area: `src/domain/`, `src/data/`, `scripts/`, `src/domain/*.test.ts`.
 
-Hecho: contrato, baseline, reglas simples, correlaciones, hueso, estimaciones, escalado,
-evaluación, datos y tests.
+Done: contract, baseline, simple rules, correlations, bone, estimates, escalation,
+evaluation, data and tests.
 
-Primer PR (`engine/threshold-audit`):
+First PR (`engine/threshold-audit`):
 
-- Revisar cada umbral de `src/domain/rules.ts` contra `docs/recursos/` y marcar `verified`
-  solo cuando haya fuente primaria. Los que no, quedan `false` y con nota `TODO verify`.
-- Añadir tests para los límites exactos (WATCH/CONCERN/URGENT) y para el caso de hueso con
-  buena adherencia en misión larga.
-- Revisar que `evaluate()` no dependa de la UI y que `npm run gen` no cambie los JSON.
+- Review every threshold in `src/domain/rules.ts` against `docs/resources/` and mark `verified`
+  only when there is a primary source. Those without one stay `false` with a `TODO verify` note.
+- Add tests for the exact limits (WATCH/CONCERN/URGENT) and for the bone case with
+  good adherence on a long mission.
+- Verify that `evaluate()` does not depend on the UI and that `npm run gen` does not change the JSON.
 
-Criterios de aceptación:
+Acceptance criteria:
 
-- `npm run check` verde y sin cambios en los JSON generados.
-- Cada regla tiene `SourceRef`; los no verificados son visibles para la UI.
-- No hay imports de React/DOM en `src/domain/`.
+- `npm run check` green and no changes to the generated JSON.
+- Every rule has a `SourceRef`; unverified ones are visible to the UI.
+- No React/DOM imports in `src/domain/`.
 
 ## Lane B · Body + Trends
 
-Zona: `src/components/body/`, `src/components/charts/`, `src/screens/Body.tsx`,
+Area: `src/components/body/`, `src/components/charts/`, `src/screens/Body.tsx`,
 `src/screens/Trends.tsx`.
 
-Primer PR (`body/skeleton`):
+First PR (`body/skeleton`):
 
-- `BodyMap` SVG con las 6 zonas + halo, colores desde `LEVEL_COLOR`/`LEVEL_BG`, icono y texto
-  por estado (nunca solo color).
-- Ficha de sistema al pulsar: estado, `why`, fuente, sparkline de 30 días con banda basal.
-- Datos desde `evaluate(scenario, day, mission)`; no recalcular reglas.
+- `BodyMap` SVG with the 6 zones + halo, colors from `LEVEL_COLOR`/`LEVEL_BG`, icon and text
+  per state (never color alone).
+- System card on tap: state, `why`, source, 30-day sparkline with baseline band.
+- Data from `evaluate(scenario, day, mission)`; do not recompute rules.
 
-Criterios:
+Criteria:
 
-- Funciona a 1180 × 820 (tablet) y con teclado/táctil.
-- Si un sistema está en WATCH+ se entiende sin color.
-- Tests de componente para la ficha y el estado vacío.
+- Works at 1180 × 820 (tablet) and with keyboard/touch.
+- If a system is at WATCH+ it is understood without color.
+- Component tests for the card and the empty state.
 
 ## Lane C · Today + Decision
 
-Zona: `src/screens/Today.tsx`, `src/screens/Decision.tsx`, `src/components/DemoBar.tsx`,
+Area: `src/screens/Today.tsx`, `src/screens/Decision.tsx`, `src/components/DemoBar.tsx`,
 `src/store/orbiStore.ts`.
 
-Primer PR (`today/checkin`):
+First PR (`today/checkin`):
 
-- Check-in de 7 campos con etiquetas “Synced from wearable” / “Manual”.
-- Racha y estado general; `Confirm` actualiza el store y el día.
-- DemoBar: escenario, misión ISS/Moon/Mars, “Next day ▶”, Reset.
-- Decision: nivel, “Because…”, action card y escalado por latencia.
+- 7-field check-in with "Synced from wearable" / "Manual" labels.
+- Streak and overall state; `Confirm` updates the store and the day.
+- DemoBar: scenario, mission ISS/Moon/Mars, "Next day ▶", Reset.
+- Decision: level, "Because…", action card and escalation by latency.
 
-Criterios:
+Criteria:
 
-- 90 segundos de check-in, sin teclear los campos automáticos.
-- El cambio de misión cambia el escalado sin recargar.
-- La UI no reimplementa umbrales: solo muestra `Assessment`.
+- 90-second check-in, without typing the automatic fields.
+- Changing mission changes escalation without reloading.
+- The UI does not reimplement thresholds: it only displays `Assessment`.
 
 ## Lane D · Coach + Mission Control
 
-Zona: `src/ai/`, `src/screens/MissionControl.tsx`, `src/components/decision/`.
+Area: `src/ai/`, `src/screens/MissionControl.tsx`, `src/components/decision/`.
 
-Primer PR (`ai/coach-panel`):
+First PR (`ai/coach-panel`):
 
-- Conectar el coach determinista a la UI (badge “On-device”, botón “Explain”).
-- Feature flag para el adapter local: si no hay WebGPU/modelo, template y mensaje claro.
-- No bloquear la UI mientras “piensa”.
+- Connect the deterministic coach to the UI ("On-device" badge, "Explain" button).
+- Feature flag for the local adapter: if there is no WebGPU/model, template and a clear message.
+- Do not block the UI while it "thinks".
 
-### Demo EVA (adelanto del lane D)
+### EVA demo (preview of lane D)
 
-Hecho: `src/simulation/eva.ts`, `src/screens/Eva.tsx`, mapa Traje/Central, sync loss,
-retorno inercial, audit log y controles de demo. La raíz abre la demo; la consola del motor
-queda en `?view=console`.
+Done: `src/simulation/eva.ts`, `src/screens/Eva.tsx`, Suit/Central map, sync loss,
+inertial return, audit log and demo controls. The root opens the demo; the engine console
+stays at `?view=console`.
 
-Segundo PR (`mission-control/window`):
+Second PR (`mission-control/window`):
 
-- Ventana `?view=ground` con `BroadcastChannel('orbi-comms')` y cuenta atrás de latencia
-  acelerada en demo (14 min).
-- Paquete del cirujano y respuesta con la misma latencia.
+- `?view=ground` window with `BroadcastChannel('orbi-comms')` and latency countdown
+  accelerated in the demo (14 min).
+- Surgeon's packet and reply with the same latency.
 
-Criterios:
+Criteria:
 
-- 0 violaciones de guardrails en los 4 escenarios.
-- La app se comporta igual que el template si el modelo falla.
-- Mission Control no necesita backend.
+- 0 guardrail violations in the 4 scenarios.
+- The app behaves like the template if the model fails.
+- Mission Control needs no backend.
 
-## Lane E · Diseño + pitch
+## Lane E · Design + pitch
 
-Zona: `docs/`, `public/`, página del proyecto, vídeo y slides.
+Area: `docs/`, `public/`, project page, video and slides.
 
-Primer PR (`design/tokens`):
+First PR (`design/tokens`):
 
-- Tokens visuales (color, tipografía, espaciado), estados y componentes base.
-- Bocetos de Today/Body/Decision para que B y C no inventen layout.
-- Textos “Why we ask” y “Why this matters” en inglés.
+- Visual tokens (color, typography, spacing), states and base components.
+- Today/Body/Decision sketches so B and C don't invent layout.
+- "Why we ask" and "Why this matters" copy in English.
 
-Criterios:
+Criteria:
 
-- Contraste y estados accesibles; color + icono + texto.
-- Créditos de ilustraciones (Servier CC BY 4.0) visibles.
-- Guion de demo alineado con `CONCEPTO-ORBI.md` §13.
+- Accessible contrast and states; color + icon + text.
+- Illustration credits (Servier CC BY 4.0) visible.
+- Demo script aligned with `CONCEPT.md` §13.
 
-## Integración + deploy
+## Integration + deploy
 
-- CI en verde en cada PR; `main` solo por PR.
-- ✅ Dokploy (`ORBI`) y Cloudflare (`orbi.agustinpane.xyz`) provisionados.
-- ✅ Auto-deploy activo: push a `main` → CI → workflow `deploy` en runner self-hosted → Dokploy.
-- Mantener `HANDOFF.md` y `docs/DEPLOYMENT.md` al día.
+- CI green on every PR; work merges to `development`; `main` only receives the release PR.
+- ✅ Dokploy (`ORBI`) and Cloudflare (`orbi.agustinpane.xyz`) provisioned.
+- ✅ Auto-deploy active: release merge into `main` → CI → `deploy` workflow on self-hosted runner → Dokploy.
+- Keep `HANDOFF.md` and `docs/DEPLOYMENT.md` up to date.
 
-## Contratos
+## Contracts
 
-No cambiar sin avisar al equipo:
+Do not change without notifying the team:
 
 - `src/domain/types.ts`
 - `src/ai/types.ts`
 - `src/content/systems.ts`
-- Forma de los JSON de escenarios
+- Shape of the scenario JSON
 
-## Calendario
+## Schedule
 
-| Cuándo | Qué | Hecho cuando… |
+| When | What | Done when… |
 |---|---|---|
-| Viernes | Scaffold, motor, datos, CI, docs | `npm run check` verde; deploy provisionado |
-| Sábado mañana | Onboarding, bocetos, B y C en paralelo | Body y Today muestran datos reales del motor |
-| Sábado tarde | Decision + DemoBar + racha | Nivel 0 completo en la URL |
-| Sábado noche | Trends + Mission Control (si hay 5) | Nivel 1 demostrable |
-| Domingo 12:00 | Código congelado | Solo ensayo y envío |
-| Domingo 14:00 | Envío | Formulario completo |
+| Friday | Scaffold, engine, data, CI, docs | `npm run check` green; deploy provisioned |
+| Saturday morning | Onboarding, sketches, B and C in parallel | Body and Today show real engine data |
+| Saturday afternoon | Decision + DemoBar + streak | Level 0 complete on the URL |
+| Saturday night | Trends + Mission Control (if there are 5) | Level 1 demonstrable |
+| Sunday 12:00 | Code frozen | Rehearsal and submission only |
+| Sunday 14:00 | Submission | Form complete |
 
 ## Definition of done
 
-- `npm run check` y `npm run build` pasan.
-- El cambio se ve en la UI o en el motor, no solo en un test.
-- Tests cubren la regla/correlación/estimación o el guardrail.
-- UI en inglés, docs internos actualizados.
-- Sin secretos ni deriva de datos generados.
-- `HANDOFF.md` refleja el estado y la siguiente acción.
+- `npm run check` and `npm run build` pass.
+- The change is visible in the UI or in the engine, not only in a test.
+- Tests cover the rule/correlation/estimate or the guardrail.
+- UI and docs in English.
+- No secrets or generated-data drift.
+- `HANDOFF.md` reflects the state and the next action.

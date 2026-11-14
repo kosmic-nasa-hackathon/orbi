@@ -6,9 +6,10 @@ NASA Space Apps Challenge 2026 · team Kosmic.
 **Read this first, then the source docs:**
 
 - `docs/BRIEF.md` — product in 2 minutes, scope levels, work lanes.
-- `docs/CONCEPTO-ORBI.md` — full concept, rules, scenarios, demo script.
+- `docs/CONCEPT.md` — full concept, rules, scenarios, demo script.
 - `docs/STACK.md` — stack, setup, folder structure, CI and risks.
 - **`docs/PLAN.md` — live parallel plan: lanes, branches, file ownership and acceptance criteria.**
+- `docs/TEAM.md` — live roster, owners, worktrees, ports and onboarding.
 - `docs/TASKS.md` — historical lane briefs (product context).
 - `HANDOFF.md` — live state, blockers and next actions.
 - `docs/DEPLOYMENT.md` — Dokploy/Cloudflare runbook.
@@ -33,15 +34,15 @@ pre-flight baseline, 3 correlations and 4 scenarios; keep that distinction visib
 2. `src/domain/types.ts` is the contract between the engine, UI and coach. Do not change it
    without announcing it to the whole team. The same applies to `src/ai/types.ts`,
    `src/content/systems.ts` and the scenario JSON shape. The cycle/ground-baseline extension
-   (`Phase`, `CrewProfile`, cycle fields) is **proposed in `docs/CONCEPTO-ORBI.md` §8 but not
+   (`Phase`, `CrewProfile`, cycle fields) is **proposed in `docs/CONCEPT.md` §8 but not
    applied**; announce it before the `engine/cycle-baseline` PR.
 3. The UI consumes `evaluate()` and `askCoach()`. **Never reimplement clinical rules in components.**
 4. Every threshold lives in `src/domain/rules.ts` with a `SourceRef` and a `verified` flag.
    Do not invent a number. If a value still needs a primary source, keep `verified: false` and
    mark it as pending in the UI/pitch. The 600 mSv career limit has a primary source since 2022
-   (`docs/recursos/08`, single limit for all sexes and ages); keep `radiation` pending in code
+   (`docs/resources/08`, single limit for all sexes and ages); keep `radiation` pending in code
    until P1/P3 updates `rules.ts`.
-5. UI copy, the final README and the submission are **in English**. Internal docs stay in Spanish.
+5. UI copy, the final README, the submission and all project docs are **in English**.
 6. No backend, database, auth, ML decision model, computer vision or 3D. The app is a static SPA.
 7. Scenario data is synthetic and deterministic: `npm run gen` must reproduce the committed JSON.
    The demo always shows mission day 148. Never randomize data at runtime.
@@ -129,8 +130,11 @@ src/store/         Zustand store (scenario, day, mission, streak)
 - **Claim the GitHub issue for your lane before writing code** (see next section).
 - One branch per lane:
   `engine/…`, `body/…`, `today/…`, `ai/…`, `mission-control/…`, `design/…`, `deploy/…`.
-- Small PRs to `main`, CI green, one integrator merges (`@Agupane`; backup `@atapiamallea`;
-  see `docs/TEAM.md`).
+- Cut branches from `development` and open PRs against `development`.
+- Small PRs to `development`, CI green, one integrator merges (`@Agupane`; backup
+  `@atapiamallea`; see `docs/TEAM.md`).
+- `main` is release-only: the integrator opens the `development` → `main` release PR, and that
+  merge triggers the automatic deploy to the preview.
 - Commit messages use Conventional Commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`.
 - Before changing a contract file, announce it. After data changes, run `npm run gen` and commit the JSON.
 - Update `HANDOFF.md` whenever the state, a blocker or the next action changes.
@@ -168,11 +172,12 @@ someone else, do not start it.**
 
 ## Deployment
 
-- Production: **Dokploy BCN**, domain `https://orbi.agustinpane.xyz` (see `docs/DEPLOYMENT.md`).
+- Release preview: **Dokploy BCN**, domain `https://orbi.agustinpane.xyz` (see `docs/DEPLOYMENT.md`).
 - Build: root `Dockerfile` (Node 22 build → `nginx:alpine` serving `dist/`).
-- CI: `.github/workflows/ci.yml` runs on PRs and pushes to `main`.
-- Auto-deploy: push to `main` → CI → `.github/workflows/deploy.yml` on the self-hosted runner
-  (label `orbi`) → Dokploy token webhook. A Dokploy GitHub App is an alternative, not required.
+- CI: `.github/workflows/ci.yml` runs on PRs and pushes to `main` and `development`.
+- Auto-deploy: release merge into `main` → CI → `.github/workflows/deploy.yml` on the self-hosted
+  runner (label `orbi`) → Dokploy token webhook. A Dokploy GitHub App is an alternative, not
+  required.
 - The Dokploy source is Git over SSH with the `orbi-deploy` deploy key; do not replace it with a PAT.
 - Do not enable Let's Encrypt in Dokploy: Cloudflare terminates TLS.
 - Do not put secrets in the repo; tokens live in Dokploy/Cloudflare/Vaultwarden.
@@ -183,7 +188,7 @@ someone else, do not start it.**
 - `npm run check` and `npm run build` pass.
 - The change is reachable from the UI or the engine, not only in a test.
 - Tests cover the new rule/correlation/estimate or the guardrail case.
-- UI copy is in English; internal docs are updated.
+- UI copy and project docs are in English.
 - No contract, secret or generated-data drift is left unexplained.
 - The issue is claimed, referenced with `Closes #<number>` and closed; if blocked, it stays
   assigned with a comment explaining the blocker and next action.
