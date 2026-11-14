@@ -10,7 +10,7 @@ smoke (#65) ready on `development`. The code still has a 14-day baseline, 3 corr
 **Parallel execution plan:** `docs/PLAN.md`
 **Assignment and onboarding:** `docs/TEAM.md`
 **Integrator:** `@Agupane` (backup: `@atapiamallea`)
-**Release preview:** **https://orbi.agustinpane.xyz** · Dokploy app `ORBI`
+**Release preview:** **https://orbi.agustinpane.xyz** · `main` at `221c660` (release #69) · Dokploy app `ORBI`
 (`pnNCsfPVhaq6_lgsFDTEF`) · `appName` `app-input-open-source-panel-hqyoop`.
 
 ---
@@ -64,8 +64,9 @@ There is no backend, database or environment variables.
 - All project docs are in English; source summaries live in `docs/resources/`.
 - **85/85 unit tests** and **12/12 Playwright smoke tests**; `npm run check`, `npm run build` and
   `npm run e2e` green.
-- The release preview responds `200` at `/`, `?view=eva`, `?view=console` and `/pitch/`; F0 is
-  deployed (`theme-init.js` and the new theme assets are present).
+- Release #69 (`221c660`) is deployed and production responds `200` on `/`, `?view=today`,
+  `?view=body`, `?view=decision`, `?view=eva`, `?view=console` and `/pitch/`. Today, Decision and the
+  rule-flow are live; Body/Trends/Mission Control still show placeholders.
 
 **Known caveat:** Cloudflare injects an inline challenge script that the CSP blocks. It is
 external to the app; do not relax `script-src 'self'`.
@@ -201,8 +202,8 @@ Every state uses colour + icon + text.
 ## 7. Next action
 
 1. Review and merge C #15 / PR #64; start B #14 (`@atapiamallea`) and A.1 #40 after A.
-2. H0 #32 when B is on `development`: run the Playwright smoke, release `development` → `main` and
-   verify the Level 0 routes in production.
+2. H0 #32 when B is on `development`: release `development` → `main` again and verify the Level 0
+   routes in production. Interim release #69 is already live with Today + Decision.
 3. P2.1 #39 (`@Agupane`): decide public vs judge access, run the dedicated full-history secret scan,
    then verify the unauthenticated URL. License, credits and access docs are already merged (#63).
 4. P3 #12 only if there is time after Level 0: announce the contract in the issue before touching
@@ -279,5 +280,6 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #63 docs: add license, credits and submission access prep.
 - #64 feat: add the Decision triage screen and flight-surgeon packet.
 - #65 test: add the Playwright smoke suite.
+- #69 release: Level 0 progress, explainability and QA.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi
