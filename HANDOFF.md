@@ -2,11 +2,11 @@
 
 **Date:** 2026-11-14
 **Branch:** `development` (integration) · `main` (release)
-**State:** engine, data, coach, tests, Home, EVA, console, pitch, deploy, documentation and the F0
-design foundation (light/dark theme, tokens, primitives, nav and store) ready in the release preview.
-The code still has a 14-day baseline, 3 correlations and 4 scenarios.
-**Missing:** run the lanes in `docs/PLAN.md`: Level 0, P3 (ground baseline + cycle),
-Trends/Mission Control, visual polish, extras and submission.
+**State:** engine, data, coach, tests, Home, EVA, console, pitch, deploy, documentation, the F0
+design foundation, Today (#58), Decision (#64), the explainability rule-flow (#60) and Playwright
+smoke (#65) ready on `development`. The code still has a 14-day baseline, 3 correlations and 4 scenarios.
+**Missing:** Body, the Level 0 checkpoint, Trends/Mission Control, visual polish, submission and P3
+(ground baseline + cycle, now stretch).
 **Parallel execution plan:** `docs/PLAN.md`
 **Assignment and onboarding:** `docs/TEAM.md`
 **Integrator:** `@Agupane` (backup: `@atapiamallea`)
@@ -34,6 +34,7 @@ Verification:
 ```bash
 npm run check    # typecheck + check:domain + Biome CI + tests
 npm run build    # tsc --noEmit + vite build
+npm run e2e      # Playwright smoke (requires `npx playwright install chromium` once)
 ```
 
 Node 22 and npm 10 pinned (`.nvmrc`, `packageManager`, `engines`; `.npmrc` with `engine-strict`).
@@ -46,7 +47,10 @@ There is no backend, database or environment variables.
 - **Current code:** deterministic engine with 6 systems + halo, 3 correlations, 14-day baseline,
   4 scenarios, bone rules and estimates; `npm run gen` reproduces the JSON without diff.
 - **F0 shipped:** light/dark theme with `localStorage`, design tokens, UI primitives, motion helpers,
-  nav shell and Zustand store; route placeholders for Today/Body/Decision/Trends/Mission Control.
+  nav shell and Zustand store. Today and Decision are implemented; Body/Trends/Mission Control still
+  have route shells.
+- **Explainability shipped:** the Engine console has a `Rule flow` tab that animates
+  signal → rule check → level → action for the fired rules (#59/#60).
 - **Target documentation (post #5):** 90-day ground-training baseline, phase-aware cycle baseline
   (opt-in and private), 4 correlations and 5 scenarios. P3 implements it.
 - Template coach (default and fallback) + optional local adapter + guardrails.
@@ -58,7 +62,8 @@ There is no backend, database or environment variables.
 - GitHub issues as lock: the assignee is claimed with `gh issue edit <n> --add-assignee @me`
   before writing code.
 - All project docs are in English; source summaries live in `docs/resources/`.
-- **51/51 tests**; `npm run check` and `npm run build` green.
+- **85/85 unit tests** and **12/12 Playwright smoke tests**; `npm run check`, `npm run build` and
+  `npm run e2e` green.
 - The release preview responds `200` at `/`, `?view=eva`, `?view=console` and `/pitch/`; F0 is
   deployed (`theme-init.js` and the new theme assets are present).
 
@@ -74,28 +79,29 @@ The details, allowed files and acceptance criteria are in `docs/PLAN.md`.
 | Wave | Lane | Owner | Status |
 |---|---|---|---|
 | 0 | P0 · Pitch light + motion | `@elenaalmansacampos` | ready |
-| 0 | P1 · Threshold audit | `@Agupane` | ready |
+| 0 | P1 · Threshold audit | `@Agupane` | done (#9) |
 | 0 | P2 · Submission groundwork | `@elenaalmansacampos` | ready |
-| 0 | P2.1 · Public repo and submission access | `@Agupane` | ready |
+| 0 | P2.1 · Public repo and submission access | `@Agupane` | partial: license, credits and access docs; visibility decision pending |
 | 1 | F0 · Foundation (light theme, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | done (#36, deployed) |
-| 1 | F0.1 · Deployed version footer | `@Yeryalex` | ready |
-| 1 | P3 · Engine: ground baseline + cycle | `@Agupane` | blocked by #9 |
-| 2 | A · Today | `@atapiamallea` | blocked by #12 |
-| 2 | A.1 · Profile and consent | `@atapiamallea` | blocked by #12 + #13 |
-| 2 | B · Body | `@atapiamallea` | blocked by #12 |
-| 2 | C · Decision | `@atapiamallea` | blocked by #12 |
+| 1 | F0.1 · Deployed version footer | `@amilege` + `@elenaalmansacampos` | ready |
+| 1 | P3 · Engine: ground baseline + cycle | `@Agupane` | stretch; unblocked, does not gate A/B/C |
+| 2 | A · Today | `@atapiamallea` | done (#13 / PR #58) |
+| 2 | A.1 · Profile and consent | `@atapiamallea` | after A; independent of P3 |
+| 2 | B · Body | `@atapiamallea` | ready |
+| 2 | C · Result: body + decision | `@atapiamallea` | done (#15 / PR #64) |
 | 2 | E · Visual polish (less density, more animations) | `@amilege` | ready |
 | 3 | D · Trends | `@Yeryalex` | Level 0 gate (#32) |
 | 3 | F · Mission Control | `@amilege` | Level 0 gate (#32) |
 | 3 | G · Level 2 (Amsler, procedures, PWA) | `@amilege` | Level 0 gate (#32); stretch |
-| 3 | H0 · Level 0 checkpoint | `@Agupane` | blocked by #12 + A/B/C |
-| 4 | H1 · Final integration/QA | `@Agupane` | blocked by #32 + D/F/G |
+| 3 | H0 · Level 0 checkpoint | `@Agupane` | blocked by B only |
+| 4 | H1 · Final integration/QA | `@Agupane` | blocked by #32; closes with Level 0 + D if it lands |
 | 4 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | blocked by #8/#10/#12 |
 | 4 | I · Final submission | `@elenaalmansacampos` | blocked by #17 |
 
-**Dependencies:** F0 is done; A/B/C depend on P3 (#12); A.1 (#40) follows A; E and F0.1 are ready;
-F0.1 must merge before E because both touch Home/EVA/Console; P3 waits for P1; D/F/G depend on the
-deployed Level 0 checkpoint from H0 (#32); H1 (#17) closes after D/F/G.
+**Dependencies:** F0, A and C are done; B is the remaining Level 0 screen; A.1 (#40) follows A; E and F0.1 are
+ready; F0.1 must merge before E because both touch Home/EVA/Console; P3 is now stretch and no longer
+blocks A/B/C; D/F/G depend on the deployed Level 0 checkpoint from H0 (#32); H1 (#17) closes on
+Level 0 plus whatever D lands before the freeze.
 
 **Rule:** Trends and Mission Control do not start until Today + Body + Decision are on the deployed
 URL.
@@ -110,11 +116,11 @@ amilege), the release deploy is live and auto-deploy works. P2 still needs its l
 
 Known risks:
 
-- **Unverified thresholds:** 6 sources remain `verified: false` (clinical, sleep, behavioral,
-  co2, radiation and immune). P1 will verify radiation with `resources/08` and 5 will remain. Do not
-  invent numbers.
-- **Contract extension (P3):** touches `types.ts`, generated JSON and tests; announce it beforehand
-  and do not start until P1 is closed to avoid conflicts in `rules.ts`.
+- **Unverified thresholds:** 6 sources remain `verified: false` (clinical, glucose, sleep,
+  behavioral, co2 and immune). Radiation is now verified; glucose joined the pending set because the
+  exact triage cut-offs are not ADA values. Do not invent numbers.
+- **Contract extension (P3):** touches `types.ts`, generated JSON and tests; announce it beforehand.
+  It is stretch and no longer blocks A/B/C.
 - **Docs/code drift:** the documentation already describes 90 days, 4 correlations and 5 scenarios;
   the code stays at 14/3/4 until P3.
 - **Cycle privacy:** reproductive data is opt-in; neither the packet nor Mission Control exposes it
@@ -164,8 +170,9 @@ Every state uses colour + icon + text.
 - **Local coach:** optional explanation layer, never decision. Deterministic template by
   default and fallback.
 - **Bone:** CONCERN requires low adherence **and** mission > 6 months.
-- **Sources:** only `bone` and `ada` verified; 6 remain `false` with `TODO verify`. P1 will verify
-  radiation with `resources/08` (600 mSv single limit since 2022) and 5 will remain.
+- **Sources:** `bone` and `radiation` verified; 6 remain `false` with pending-source labels.
+  Radiation cites the 2022 single 600 mSv career limit; glucose is pending because its exact triage
+  cut-offs are not ADA values. The UI must keep the pending state visible.
 - **Demo data:** radiation budget of 400 mSv so the halo is legible; 600 mSv remains
   the reference for the career limit.
 - **Product shift (docs):** astronaut women's health + ground-training phase.
@@ -178,33 +185,29 @@ Every state uses colour + icon + text.
   `docs/DESIGN.md`. Cyan/near-black and teal/ice palettes with a 28 px grid, verified AA; Sora + IBM
   Plex Mono (Inter and IBM Plex Sans removed); no shadcn. Primitives in `src/components/ui` and
   `src/components/motion`, store in `src/store/orbiStore.ts` (`useScenario`, `useEvaluation`,
-  `cycleAware`). Routes `?view=today|body|decision|trends|ground` with placeholders in `src/screens/*`:
-  each lane replaces its file without touching `App.tsx`. Home/EVA/Console stay dark until E (#16).
-- **Body #14:** reassigned to `@atapiamallea` at her request; Yery keeps F0.1 (#31) and Trends (#18).
-  The tables and issue assignments are synchronized.
+  `cycleAware`). Routes `?view=today|body|decision|trends|ground`; Today is implemented and the other
+  lanes replace their assigned screen without touching `App.tsx`. Home/EVA/Console stay dark until
+  E (#16).
+- **Body #14:** owned by `@atapiamallea`; F0.1 (#31) is owned by `@amilege` with `@elenaalmansacampos`
+  as support; Yery keeps Trends (#18). The board is the source of truth.
 - **Integration:** two checkpoints. H0 (#32) deploys Level 0 and unblocks D/F/G; H1 (#17) closes
   the final integration.
 - **CMO view:** descoped from Level 2 and documented as future work in `docs/CONCEPT.md` §12.
-- **Parallelization:** worktrees + CLI agents; Foundation and integration handled by the integrator.
+- **Parallelization:** branches in the main checkout; no separate worktrees unless explicitly requested. Foundation and integration stay with the integrator.
 - **Video:** script + auto-recording with Playwright, without committing the binary.
 
 ---
 
 ## 7. Next action
 
-1. Start now: P0 #8 and P2 #10 (Elena), P1 #9 and P2.1 #39 (Agustín), E #16 (amilege) and F0.1 #31
-   (Yery).
-2. F0.1 #31 is unblocked and assigned to `@Yeryalex`; merge it before E (#16).
-3. When #9 merges, Agustín opens P3 #12; announce the contract in the issue before touching
-   `types.ts`.
-4. With P3 on `development`, open A #13 and C #15 and B #14 (Andrea Tapia), A.1 #40 after A, and
-   E #16 is already ready.
-5. Level 0 checkpoint at H0 #32: integrate A/B/C and deploy. That unblocks D #18 (Yery), F #19 and
-   G #20 (amilege).
-6. Close H1 #17, update the tables and open I #21 (Elena) with support from Agustín, Yery and Andrea Tapia.
-7. P4 #33 (Elena) syncs counts and the deck after P3; it can run in parallel and does not block H1.
-8. P2.1 #39 (Agustín) decides public/judge access, adds the license and credits, and verifies the
-   URL without org access.
+1. Review and merge C #15 / PR #64; start B #14 (`@atapiamallea`) and A.1 #40 after A.
+2. H0 #32 when B is on `development`: run the Playwright smoke, release `development` → `main` and
+   verify the Level 0 routes in production.
+3. P2.1 #39 (`@Agupane`): decide public vs judge access, run the dedicated full-history secret scan,
+   then verify the unauthenticated URL. License, credits and access docs are already merged (#63).
+4. P3 #12 only if there is time after Level 0: announce the contract in the issue before touching
+   `types.ts`. It is stretch and must not delay H0.
+5. After H0: D #18, F #19, G #20; then H1 #17 and I #21. P4 #33 syncs the final docs/deck after P3.
 
 ---
 
@@ -264,5 +267,17 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #38 docs: sync plan and handoff after F0.
 - #42 release: F0 docs sync.
 - #43 docs: sync ticket ownership and submission gaps.
+- #44 docs: record A.1 and release PRs in handoff.
+- #45 release: ticket ownership and submission gaps.
+- #54 fix: correct early-infection data and explanations.
+- #55 fix: cache hashed assets and revalidate HTML/pitch.
+- #56 fix: rank correlations above single signals.
+- #57 docs: record engine and deploy fixes.
+- #58 feat: add the Today check-in.
+- #60 feat: add the animated rule flow to the Engine console.
+- #62 fix: verify the radiation source and harden threshold tests.
+- #63 docs: add license, credits and submission access prep.
+- #64 feat: add the Decision triage screen and flight-surgeon packet.
+- #65 test: add the Playwright smoke suite.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi

@@ -77,7 +77,7 @@ function missionReadings(kind: Kind, seed: number): DailyReading[] {
     if (kind === "early-infection" && t >= -4) {
       reading.sleepHours = round(clamp(gaussian(rng, 4.9, 0.3), 4.2, 5.6), 1);
       reading.tempC = round(clamp(gaussian(rng, 37.5 + ((t + 4) / 4) * 0.4, 0.1), 37.4, 38.0), 1);
-      reading.restingHr = Math.round(clamp(gaussian(rng, 73 + -t, 2), 70, 82));
+      reading.restingHr = Math.round(clamp(gaussian(rng, 73 + (t + 4), 2), 70, 82));
       reading.mood = clampMood(2);
       reading.fatigue = clampMood(4.6);
       reading.resistiveExerciseMin = Math.round(clamp(gaussian(rng, 17, 3), 8, 25));

@@ -23,7 +23,7 @@ import { LEVEL_BG, LEVEL_COLOR } from "../content/systems";
 import { scenarios } from "../data/scenarios";
 import { evaluate } from "../domain/evaluate";
 import { LEVEL_LABEL } from "../domain/levels";
-import { LEVEL_ORDER, type Level } from "../domain/types";
+import type { Level } from "../domain/types";
 import {
   createEvaState,
   type EvaConfig,
@@ -36,12 +36,7 @@ const scenario = scenarios.find((item) => item.id === "early-infection") ?? scen
 const day = scenario.readings.at(-1)!.day;
 const reading = scenario.readings.find((item) => item.day === day)!;
 const evaluation = evaluate(scenario, day, "MARS");
-const correlationRules = new Set(["solar-event", "early-infection", "cabin-air"]);
-const topAssessment = [...evaluation.assessments].sort((a, b) => {
-  const byLevel = LEVEL_ORDER[b.level] - LEVEL_ORDER[a.level];
-  if (byLevel !== 0) return byLevel;
-  return Number(correlationRules.has(b.ruleId)) - Number(correlationRules.has(a.ruleId));
-})[0];
+const topAssessment = evaluation.assessments[0];
 const topLevel: Level = topAssessment?.level ?? "NOMINAL";
 
 const evaConfig: EvaConfig = {

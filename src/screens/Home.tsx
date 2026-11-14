@@ -24,7 +24,6 @@ import { LEVEL_LABEL } from "../domain/levels";
 import {
   type Assessment,
   type Evaluation,
-  LEVEL_ORDER,
   type Level,
   SYSTEM_IDS,
   type SystemId,
@@ -35,12 +34,7 @@ const scenario = scenarios.find((item) => item.id === "early-infection") ?? scen
 const day = scenario.readings.at(-1)!.day;
 const evaluation = evaluate(scenario, day, "MARS");
 
-const CORRELATION_RULES = new Set(["solar-event", "early-infection", "cabin-air"]);
-const topAssessment = [...evaluation.assessments].sort((a, b) => {
-  const byLevel = LEVEL_ORDER[b.level] - LEVEL_ORDER[a.level];
-  if (byLevel !== 0) return byLevel;
-  return Number(CORRELATION_RULES.has(b.ruleId)) - Number(CORRELATION_RULES.has(a.ruleId));
-})[0];
+const topAssessment = evaluation.assessments[0];
 const topLevel: Level = topAssessment?.level ?? "NOMINAL";
 
 const SYSTEM_ICONS: Record<SystemId, LucideIcon> = {
