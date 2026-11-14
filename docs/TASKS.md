@@ -1,19 +1,11 @@
-# TASKS — ORBI
+# TASKS — ORBI (histórico)
 
-Estado a 2026-11-14. Fuente de producto: `docs/BRIEF.md` y `docs/CONCEPTO-ORBI.md`.
-Estado vivo y bloqueos: `HANDOFF.md`. Deploy: `docs/DEPLOYMENT.md`.
+Este documento conserva los briefs originales por lane como contexto de producto.
+El plan vivo, las ramas y el reparto paralelo están en **[`docs/PLAN.md`](PLAN.md)**.
+El estado actual y los bloqueos están en `HANDOFF.md`; el deploy, en `docs/DEPLOYMENT.md`.
 
-## Estado actual
-
-- ✅ Docs de producto, concepto, stack y recursos.
-- ✅ Scaffold Vite + React 19 + TypeScript + Tailwind 4 + Vitest.
-- ✅ Motor de dominio (`src/domain/`) con 21 tests verdes.
-- ✅ Datos deterministas (4 escenarios, día 148 fijo).
-- ✅ Coach determinista + adapter local opcional + guardrails (`src/ai/`).
-- ✅ Docker, CI, deploy en Dokploy y auto-deploy verificado.
-- ✅ Demo EVA: pérdida de sync, deriva inercial, retorno a la esclusa y auditoría.
-- ✅ Home de producto en `/` con nav por iconos y accesos a EVA, consola y pitch.
-- ⏳ UI de las pantallas (Today, Body, Decision, Trends, Mission Control).
+**No usar este archivo para coordinar el trabajo actual.** Las lanes, waves y criterios de
+aceptación vigentes están en `docs/PLAN.md`.
 
 ## Reparto (5 personas)
 

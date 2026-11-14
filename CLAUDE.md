@@ -6,7 +6,7 @@ The rules in `AGENTS.md` apply here too. This file only adds Claude-specific wor
 
 ## Before coding
 
-- Read `docs/TASKS.md` to find the lane and the first PR for your task.
+- Read `docs/PLAN.md` to find the active lane, branch and file ownership.
 - Read `HANDOFF.md` for the current state and blockers.
 - For UI work, read `docs/CONCEPTO-ORBI.md` §6 (screens), `docs/STACK.md` §5 (body map),
   `src/screens/Home.tsx` (landing and nav) and `src/screens/Console.tsx` (engine reference).
