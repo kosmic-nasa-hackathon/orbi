@@ -41,7 +41,8 @@ Each astronaut's baseline is learned **during ground training** and **takes the 
 - ✅ Documented product shift: ground-training baseline and opt-in menstrual cycle
   (`docs/resources/08` and `09`)
 - ⏳ P3 · Engine: 90-day baseline, `cycle-aware`, `luteal-phase`, 5 scenarios and 4 correlations
-- ⏳ Light theme + switch, P3 (baseline + cycle), Today/Body/Decision, Trends and Mission Control (see `docs/PLAN.md` and `docs/TEAM.md`)
+- ✅ F0 design foundation: light/dark theme, switch, tokens, primitives, nav and store (PR #36)
+- ⏳ P3 (baseline + cycle), Today/Body/Decision, Trends and Mission Control (see `docs/PLAN.md` and `docs/TEAM.md`)
 
 The current code still uses a 14-day baseline, 3 correlations and 4 scenarios; P3 closes the gap.
 

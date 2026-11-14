@@ -17,9 +17,8 @@ visual polish, P3 and submission.
 ## 1. How to use this document
 
 1. Read `AGENTS.md`, `HANDOFF.md`, `docs/TEAM.md` and your lane section.
-2. **Issues are already created** (see `docs/TEAM.md` §2); most are assigned. If one is unassigned
-   (#31), claim it before starting. Comment the branch, worktree and port when starting; do not
-   reassign someone else's issue.
+2. **Issues are already created** (see `docs/TEAM.md` §2); all are assigned. Comment the branch,
+   worktree and port when starting; do not reassign someone else's issue.
 3. Work **one lane per branch and, if possible, per worktree**.
 4. Touch only the lane's allowed files. If you need a shared file, ask the
    integrator; do not edit it yourself.
@@ -121,10 +120,12 @@ Only the integrator updates the **Status** column.
 | 0 | **P0 · Pitch light + motion** | #8 | `pitch/light-motion` | Theme toggle, light tokens and deck animations | — | assigned |
 | 0 | **P1 · Threshold audit** | #9 | `engine/threshold-audit` | Threshold review, boundary tests, 600 mSv with source and `verified` warning | — | assigned |
 | 0 | **P2 · Submission groundwork** | #10 | `docs/submission` | `docs/DEMO.md`, storyboard, final README and form | — | assigned |
+| 0 | **P2.1 · Public repo and submission access** | #39 | `docs/submission-access` | Public visibility, license, credits and jury access | P2 | ready |
 | 1 | **F0 · Foundation** | #11 | `design/theme-foundation` | Dark/light theme, switch, tokens, typography, UI primitives, motion, nav/routes and store skeleton | — | done (#36) |
-| 1 | **F0.1 · Deployed version footer** | #31 | `design/version-footer` | Shared footer with `package.json` version and optional commit SHA | F0 (done) | ready; unassigned |
+| 1 | **F0.1 · Deployed version footer** | #31 | `design/version-footer` | Shared footer with `package.json` version and optional commit SHA | F0 (done) | ready; assigned |
 | 1 | **P3 · Engine: ground baseline + cycle** | #12 | `engine/cycle-baseline` | Contract, 90-day and phase-aware baseline, `cycle-aware`, `luteal-phase`, radiation from P1 and tests | P1 | assigned |
 | 2 | **A · Today** | #13 | `today/checkin` | 7-field check-in + opt-in cycle, DemoBar, streak and Confirm | P3 | blocked by #12 |
+| 2 | **A.1 · Profile and consent** | #40 | `today/profile-consent` | Crew profile, reproductive-data consent and packet privacy | P3 + A | blocked by #12 + #13 |
 | 2 | **B · Body** | #14 | `body/map` | SVG 6 systems + halo, detail panel, 30-day sparkline and ground baseline band | P3 | blocked by #12 |
 | 2 | **C · Decision** | #15 | `decision/triage` | Level, “Because…”, action card, escalation, coach and private packet | P3 | blocked by #12 |
 | 2 | **E · Visual polish** | #16 | `design/motion-polish` | Redesign of Home/EVA/Console, less density and animations | F0 (done) | ready |
@@ -138,7 +139,7 @@ Only the integrator updates the **Status** column.
 
 ### Assignment and startup
 
-Issues are already created; #31 is unassigned. Onboarding details, worktrees and rules are in
+Issues are already created; all are assigned. Onboarding details, worktrees and rules are in
 `docs/TEAM.md`.
 
 | Issue | Lane | Owner | Support | Size | Starts |
@@ -146,11 +147,13 @@ Issues are already created; #31 is unassigned. Onboarding details, worktrees and
 | #8 | P0 · Pitch light + motion | `@elenaalmansacampos` | `@Agupane` | S | Now |
 | #9 | P1 · Threshold audit | `@Agupane` | `@atapiamallea` | M | Now |
 | #10 | P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | M | Now |
+| #39 | P2.1 · Public repo and submission access | `@Agupane` | `@elenaalmansacampos` | S | Now |
 | #11 | F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | L | Done (#36) |
-| #31 | F0.1 · Deployed version footer | — | `@atapiamallea` | S | Now; claim in issue |
+| #31 | F0.1 · Deployed version footer | `@Yeryalex` | `@atapiamallea` | S | Now |
 | #12 | P3 · Ground baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | L | After #9 |
 | #13 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | M | After #12 |
-| #14 | B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | L | After #12; SVG first |
+| #40 | A.1 · Profile and reproductive-data consent | `@atapiamallea` | `@Yeryalex` | S | After #12 + #13 |
+| #14 | B · Body | `@atapiamallea` | `@Yeryalex`, `@Agupane` | L | After #12; SVG first |
 | #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | M | After #12 |
 | #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | M | Now |
 | #18 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | M | Level 0 gate (#32) + #14 |
@@ -161,17 +164,17 @@ Issues are already created; #31 is unassigned. Onboarding details, worktrees and
 | #33 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | `@Agupane` | S | After #8 + #10 + #12 |
 | #21 | I · Final submission | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | M | After #17 |
 
-**Ready to start:** #8, #9, #10, #16 and #31. **Blocked:** #12, #13–#15, #17–#21, #32 and #33 until
-their dependencies are met. **Unassigned:** #31 (F0.1) is unblocked; claim it in the issue before
-starting. Agustín remains integrator and sole merge to `development`; he also opens the
-`development` → `main` release. Andrea Tapia is backup.
+**Ready to start:** #8, #9, #10, #16, #31 and #39. **Blocked:** #12, #13–#15, #17–#21, #32, #33 and
+#40 until their dependencies are met. All issues are assigned. Agustín remains integrator and sole
+merge to `development`; he also opens the `development` → `main` release. Andrea Tapia is backup.
 
 ### Merge order
 
-1. P0, P1, P2, E and F0.1 can run in parallel from now on.
+1. P0, P1, P2, P2.1, E and F0.1 can run in parallel from now on.
 2. F0 is done. P3 waits for P1 because of `rules.ts`; announce the contract before starting.
-   F0.1 (#31) is unblocked and only needs an owner.
-3. A, B and C in parallel against P3; E is already unblocked by F0.
+   F0.1 (#31) is unblocked and assigned to `@Yeryalex`; merge it before E (#16) because both touch
+   Home, EVA and Console.
+3. A, B and C in parallel against P3; A.1 (#40) follows A, and E is already unblocked by F0.
 4. Level 0 checkpoint in H0 (#32): integrate A/B/C and deploy; that unblocks D, F and G.
 5. F and G; then close H1 (#17) with the final integration.
 6. P4 (#33) after P3/P0/P2 to sync counts; I (#21) after H1.
@@ -249,6 +252,26 @@ starting. Agustín remains integrator and sole merge to `development`; he also o
 - All links and commands are verifiable.
 - Live counts (scenarios/correlations) are accurate until P3 is deployed.
 
+### P2.1 · Public repo and submission access
+
+**Goal:** make the code and submission package reachable for the jury, with a license and credits.
+
+**Allowed files:** `LICENSE`, `README.md`, `docs/submission/*` and repository settings through a
+GitHub admin.
+
+**Deliverables:**
+
+- Decide the access model: public repo, judge access or downloadable archive.
+- Add a license and visible Servier/NASA/CSA credits.
+- Verify the chosen URL or archive without an org account.
+- Confirm the history and the build contain no secrets.
+
+**Acceptance criteria:**
+
+- A judge can open the code with no org membership.
+- `LICENSE` and credits are visible.
+- No token, deploy key or `.env` is exposed.
+
 ### F0 · Foundation
 
 **Goal:** a visual and navigation foundation so the rest can work in parallel.
@@ -304,7 +327,8 @@ requires it, tests, and `Dockerfile`/`docs/DEPLOYMENT.md` only if build args are
 - `npm run check` and `npm run build` are green.
 - A test covers the version formatter/fallback.
 
-**Gate:** unblocked by F0 (#11, PR #36). The issue is unassigned; claim it before starting.
+**Gate:** unblocked by F0 (#11, PR #36). Assigned to `@Yeryalex`; merge it before E (#16) because both
+touch Home, EVA and Console.
 
 ### P3 · Engine: ground baseline + cycle
 
@@ -365,6 +389,29 @@ requires it, tests, and `Dockerfile`/`docs/DEPLOYMENT.md` only if build args are
 - Tests for prefill, manual editing, Confirm, Next day and cycle toggle.
 - The cycle field is hidden if `cycle` is `suppressed` or `n/a`.
 - Dark/light and tablet 1180×820.
+
+### A.1 · Profile and reproductive-data consent
+
+**Goal:** make `shareReproductiveWithGround` a real astronaut choice instead of a scenario constant.
+
+**Allowed files:** `src/components/profile/*`, the profile entry point in `src/screens/Today.tsx`,
+`src/screens/Decision.tsx` only if the consent action belongs there, profile actions in
+`src/store/orbiStore.ts` and tests.
+
+**Deliverables:**
+
+- Show `cycle`, optional `contraception` and the sharing state.
+- Let the astronaut turn sharing on/off; default is off.
+- Explain that only the conclusion travels, never cycle or period data.
+- Connect the choice to C (#15) and F (#19) packet construction.
+- Tests for default privacy, toggle, packet contents and no leak when off.
+
+**Acceptance criteria:**
+
+- Default is private.
+- The next packet reflects the choice without a reload.
+- No reproductive detail travels without consent.
+- No backend, network call or analytics for this data.
 
 ### B · Body
 
@@ -703,11 +750,13 @@ Only the integrator updates this table.
 | P0 · Pitch light + motion | #8 | `@elenaalmansacampos` | `pitch/light-motion` | ready | — |
 | P1 · Threshold audit | #9 | `@Agupane` | `engine/threshold-audit` | ready | — |
 | P2 · Submission groundwork | #10 | `@elenaalmansacampos` | `docs/submission` | ready | — |
+| P2.1 · Public repo and submission access | #39 | `@Agupane` | `docs/submission-access` | ready | — |
 | F0 · Foundation | #11 | `@atapiamallea` | `design/theme-foundation` | done | #36 |
-| F0.1 · Deployed version footer | #31 | — | `design/version-footer` | ready; unassigned | — |
+| F0.1 · Deployed version footer | #31 | `@Yeryalex` | `design/version-footer` | ready | — |
 | P3 · Engine: baseline + cycle | #12 | `@Agupane` | `engine/cycle-baseline` | blocked by #9 | — |
 | A · Today | #13 | `@atapiamallea` | `today/checkin` | blocked by #12 | — |
-| B · Body | #14 | `@Yeryalex` | `body/map` | blocked by #12 | — |
+| A.1 · Profile and consent | #40 | `@atapiamallea` | `today/profile-consent` | blocked by #12 + #13 | — |
+| B · Body | #14 | `@atapiamallea` | `body/map` | blocked by #12 | — |
 | C · Decision | #15 | `@atapiamallea` | `decision/triage` | blocked by #12 | — |
 | E · Visual polish | #16 | `@amilege` | `design/motion-polish` | ready | — |
 | D · Trends | #18 | `@Yeryalex` | `trends/charts` | blocked by Level 0 gate (#32) | — |
