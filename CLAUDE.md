@@ -15,6 +15,8 @@ The rules in `AGENTS.md` apply here too. This file only adds Claude-specific wor
 ## Working style
 
 - Keep diffs small; one lane per branch. Do not mix UI, engine and docs in one PR.
+- Branch from `development` and open PRs against `development`. `main` is release-only; the
+  integrator promotes `development` to `main` and that merge deploys the preview.
 - Prefer explicit code over new abstractions. No comments that restate the code.
 - Do not add a dependency unless it is already listed in `docs/STACK.md` or the task needs it.
 - If a task requires changing a contract file, stop and announce it first.

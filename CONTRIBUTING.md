@@ -1,81 +1,85 @@
-# Contribuir a ORBI
+# Contributing to ORBI
 
-Guía corta para el equipo. El contrato técnico está en `AGENTS.md`; el reparto y onboarding, en
-`docs/TEAM.md`; las lanes, en `docs/PLAN.md`.
+Short guide for the team. The technical contract is in `AGENTS.md`; assignment and onboarding in
+`docs/TEAM.md`; the lanes in `docs/PLAN.md`.
 
 ## Setup
 
 ```bash
-nvm use            # Node 22 (.nvmrc); npm 10 fijado en package.json
+nvm use            # Node 22 (.nvmrc); npm 10 pinned in package.json
 npm ci
-npm run gen        # datos sintéticos deterministas
+npm run gen        # deterministic synthetic data
 npm run dev
 ```
 
-No hace falta backend, base de datos ni variables de entorno. El stack es Vite + React 19:
-no agregues Next.js ni SSR.
+No backend, database or environment variables needed. The stack is Vite + React 19:
+do not add Next.js or SSR.
 
-## Antes de empezar: reclamá tu issue
+## Before you start: claim your issue
 
-Cada lane tiene que estar ligada a un issue de GitHub. El assignee es el candado para que dos
-agentes no trabajen lo mismo. Los issues ya están creados y asignados en `docs/TEAM.md`:
+Every lane must be tied to a GitHub issue. The assignee is the lock so two
+agents do not work on the same thing. Issues are already created and assigned in `docs/TEAM.md`:
 
-1. Buscá tu issue en `docs/TEAM.md` o con `gh issue list --assignee @me --state open`.
-2. Confirmá que el assignee seas vos; si no, no empieces: coordiná en el issue.
-3. Comentá rama, worktree y puerto antes de escribir código:
+1. Find your issue in `docs/TEAM.md` or with `gh issue list --assignee @me --state open`.
+2. Confirm the assignee is you; if not, do not start: coordinate in the issue.
+3. Comment branch, worktree and port before writing code:
 
    ```bash
-   gh issue comment <número> --body "Arranco en <rama> (worktree <ruta>, puerto <puerto>)."
+   gh issue comment <number> --body "Starting on <branch> (worktree <path>, port <port>)."
    ```
 
-4. En el PR, referencialo con `Closes #<número>`.
-5. No reasignes el issue de otra persona. Si necesitás moverlo, hablá con el owner y el integrador.
+4. In the PR, reference it with `Closes #<number>`.
+5. Do not reassign someone else's issue. If you need to move it, talk to the owner and the integrator.
 
-## Antes de abrir un PR
+## Before opening a PR
 
 ```bash
 npm run check      # typecheck + check:domain + Biome CI + tests
 npm run build
 ```
 
-Si tocaste `src/data/generate.ts` o los escenarios, ejecuta `npm run gen` y commitea el JSON.
-Si tocaste la UI, pruébala en viewport de tablet (1180 × 820) y adjunta captura.
+If you touched `src/data/generate.ts` or the scenarios, run `npm run gen` and commit the JSON.
+If you touched the UI, test it in a tablet viewport (1180 × 820) and attach a screenshot.
 
-## Ramas
+## Branches
 
-Una rama por lane, con prefijo:
+One branch per lane, with prefix:
 
 ```text
-engine/…          motor, reglas, datos, tests
-body/…            BodyMap, ficha de sistema, sparkline, Trends
-today/…           check-in, racha, DemoBar
-ai/…              coach, guardrails, integración local opcional
-mission-control/… ventana de tierra, procedimientos
-design/…          estilos, textos, pitch
+engine/…          engine, rules, data, tests
+body/…            BodyMap, system sheet, sparkline, Trends
+today/…           check-in, streak, DemoBar
+ai/…              coach, guardrails, optional local integration
+mission-control/… ground window, procedures
+design/…          styles, copy, pitch
 deploy/…          Docker, CI, Dokploy, Cloudflare
-docs/…            documentación
+docs/…            documentation
 ```
 
-No mezcles dos lanes en un PR. PRs pequeños; el integrador (`@Agupane`, backup
-`@atapiamallea`) mergea cada 3–4 h.
+Create every branch from `development` and open the PR against `development`. `main` is
+release-only: the integrator opens a `development` → `main` release PR, and that merge triggers the
+automatic deploy to the preview. Do not open feature PRs against `main` or push directly to it.
 
-## Contratos que no se tocan sin avisar
+Do not mix two lanes in one PR. Small PRs; the integrator (`@Agupane`, backup
+`@atapiamallea`) merges into `development` every 3–4 h.
+
+## Contracts that are not touched without notice
 
 - `src/domain/types.ts`
 - `src/ai/types.ts`
 - `src/content/systems.ts`
-- La forma de los JSON de escenarios
+- The shape of the scenario JSON files
 
-Si necesitas cambiarlos, avisa en el canal del equipo antes de abrir el PR y actualiza
-`docs/PLAN.md`/`HANDOFF.md` con el motivo.
+If you need to change them, say so in the team channel before opening the PR and update
+`docs/PLAN.md`/`HANDOFF.md` with the reason.
 
-## Reglas de producto
+## Product rules
 
-- La UI en inglés; los docs internos en español.
-- El motor no diagnostica: prioriza, explica y escala.
-- Cada umbral tiene fuente y flag `verified` en `src/domain/rules.ts`. No inventes números.
-- El color nunca es la única señal: color + icono + texto.
-- Sin backend, base de datos, auth, ML de decisión, visión por computador ni 3D.
+- UI in English; all project docs are in English.
+- The engine does not diagnose: it prioritizes, explains and escalates.
+- Every threshold has a source and a `verified` flag in `src/domain/rules.ts`. Do not invent numbers.
+- Colour is never the only signal: colour + icon + text.
+- No backend, database, auth, decision ML, computer vision or 3D.
 
 ## Commits
 
@@ -92,10 +96,11 @@ refactor: extract baseline statistics
 
 ## Handoff
 
-Si terminas una sesión con trabajo a medias, actualiza `HANDOFF.md`: estado, qué falta,
-bloqueos y siguiente acción concreta. No dejes el contexto solo en el chat.
+If you end a session with work in progress, update `HANDOFF.md`: state, what's missing,
+blockers and the concrete next action. Do not leave the context only in chat.
 
 ## Deploy
 
-Producción: `https://orbi.agustinpane.xyz` (Dokploy BCN, Cloudflare delante).
-Runbook completo: `docs/DEPLOYMENT.md`. No hay previews por PR.
+Release preview: `https://orbi.agustinpane.xyz` (Dokploy BCN, Cloudflare in front).
+Full runbook: `docs/DEPLOYMENT.md`. There are no per-PR previews: the preview is updated by a
+release merge into `main`.
