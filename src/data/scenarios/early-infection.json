@@ -1,0 +1,1117 @@
+{
+  "id": "early-infection",
+  "title": "Early infection",
+  "description": "Sleep debt, a low-grade fever and a rising resting heart rate converge.",
+  "firstMissionDay": 119,
+  "exposureBudgetMSv": 400,
+  "priorDoseMSv": 80,
+  "exerciseTargetMinPerDay": 30,
+  "readings": [
+    {
+      "day": -14,
+      "sleepHours": 7.1,
+      "mood": 4,
+      "fatigue": 1,
+      "restingHr": 64,
+      "tempC": 36.6,
+      "spo2": 99,
+      "glucoseMgDl": 95,
+      "resistiveExerciseMin": 28,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -13,
+      "sleepHours": 7.6,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 54,
+      "tempC": 36.5,
+      "spo2": 97,
+      "glucoseMgDl": 86,
+      "resistiveExerciseMin": 29,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -12,
+      "sleepHours": 7.9,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 62,
+      "tempC": 36.7,
+      "spo2": 98,
+      "glucoseMgDl": 95,
+      "resistiveExerciseMin": 41,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -11,
+      "sleepHours": 7.1,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 60,
+      "tempC": 36.4,
+      "spo2": 99,
+      "glucoseMgDl": 93,
+      "resistiveExerciseMin": 25,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -10,
+      "sleepHours": 8,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 62,
+      "tempC": 36.6,
+      "spo2": 98,
+      "glucoseMgDl": 103,
+      "resistiveExerciseMin": 35,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -9,
+      "sleepHours": 7.5,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 64,
+      "tempC": 36.7,
+      "spo2": 98,
+      "glucoseMgDl": 87,
+      "resistiveExerciseMin": 38,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -8,
+      "sleepHours": 8.4,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 60,
+      "tempC": 36.6,
+      "spo2": 98,
+      "glucoseMgDl": 90,
+      "resistiveExerciseMin": 36,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -7,
+      "sleepHours": 7.2,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 64,
+      "tempC": 36.6,
+      "spo2": 98,
+      "glucoseMgDl": 87,
+      "resistiveExerciseMin": 23,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -6,
+      "sleepHours": 7.4,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 57,
+      "tempC": 36.7,
+      "spo2": 98,
+      "glucoseMgDl": 93,
+      "resistiveExerciseMin": 24,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -5,
+      "sleepHours": 8.5,
+      "mood": 5,
+      "fatigue": 2,
+      "restingHr": 59,
+      "tempC": 36.7,
+      "spo2": 97,
+      "glucoseMgDl": 97,
+      "resistiveExerciseMin": 28,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -4,
+      "sleepHours": 7,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 50,
+      "tempC": 36.5,
+      "spo2": 99,
+      "glucoseMgDl": 93,
+      "resistiveExerciseMin": 42,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -3,
+      "sleepHours": 8.5,
+      "mood": 4,
+      "fatigue": 1,
+      "restingHr": 59,
+      "tempC": 36.7,
+      "spo2": 98,
+      "glucoseMgDl": 103,
+      "resistiveExerciseMin": 29,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -2,
+      "sleepHours": 6.7,
+      "mood": 3,
+      "fatigue": 3,
+      "restingHr": 62,
+      "tempC": 36.7,
+      "spo2": 99,
+      "glucoseMgDl": 108,
+      "resistiveExerciseMin": 37,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": -1,
+      "sleepHours": 6.9,
+      "mood": 4,
+      "fatigue": 4,
+      "restingHr": 60,
+      "tempC": 36.7,
+      "spo2": 98,
+      "glucoseMgDl": 90,
+      "resistiveExerciseMin": 30,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 119,
+      "sleepHours": 6.9,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 55,
+      "tempC": 36.7,
+      "spo2": 98,
+      "glucoseMgDl": 91,
+      "resistiveExerciseMin": 32,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 120,
+      "sleepHours": 8.6,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 54,
+      "tempC": 36.6,
+      "spo2": 97,
+      "glucoseMgDl": 83,
+      "resistiveExerciseMin": 31,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 121,
+      "sleepHours": 7.8,
+      "mood": 3,
+      "fatigue": 3,
+      "restingHr": 60,
+      "tempC": 36.8,
+      "spo2": 98,
+      "glucoseMgDl": 100,
+      "resistiveExerciseMin": 26,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 122,
+      "sleepHours": 8.2,
+      "mood": 5,
+      "fatigue": 2,
+      "restingHr": 60,
+      "tempC": 36.6,
+      "spo2": 99,
+      "glucoseMgDl": 91,
+      "resistiveExerciseMin": 28,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 123,
+      "sleepHours": 7.4,
+      "mood": 3,
+      "fatigue": 2,
+      "restingHr": 53,
+      "tempC": 36.6,
+      "spo2": 98,
+      "glucoseMgDl": 77,
+      "resistiveExerciseMin": 32,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 124,
+      "sleepHours": 6.8,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 56,
+      "tempC": 36.6,
+      "spo2": 98,
+      "glucoseMgDl": 102,
+      "resistiveExerciseMin": 33,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 125,
+      "sleepHours": 8.2,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 53,
+      "tempC": 36.6,
+      "spo2": 98,
+      "glucoseMgDl": 100,
+      "resistiveExerciseMin": 31,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 126,
+      "sleepHours": 8.4,
+      "mood": 4,
+      "fatigue": 1,
+      "restingHr": 56,
+      "tempC": 36.6,
+      "spo2": 99,
+      "glucoseMgDl": 81,
+      "resistiveExerciseMin": 32,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 127,
+      "sleepHours": 7.6,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 58,
+      "tempC": 36.7,
+      "spo2": 98,
+      "glucoseMgDl": 85,
+      "resistiveExerciseMin": 34,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 128,
+      "sleepHours": 7.9,
+      "mood": 5,
+      "fatigue": 2,
+      "restingHr": 58,
+      "tempC": 36.4,
+      "spo2": 98,
+      "glucoseMgDl": 93,
+      "resistiveExerciseMin": 27,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 129,
+      "sleepHours": 7.4,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 58,
+      "tempC": 36.4,
+      "spo2": 98,
+      "glucoseMgDl": 89,
+      "resistiveExerciseMin": 26,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 130,
+      "sleepHours": 7.2,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 57,
+      "tempC": 36.4,
+      "spo2": 98,
+      "glucoseMgDl": 90,
+      "resistiveExerciseMin": 28,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 131,
+      "sleepHours": 8,
+      "mood": 4,
+      "fatigue": 3,
+      "restingHr": 58,
+      "tempC": 36.7,
+      "spo2": 98,
+      "glucoseMgDl": 90,
+      "resistiveExerciseMin": 33,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 132,
+      "sleepHours": 7.7,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 59,
+      "tempC": 36.5,
+      "spo2": 98,
+      "glucoseMgDl": 96,
+      "resistiveExerciseMin": 24,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 133,
+      "sleepHours": 7.1,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 54,
+      "tempC": 36.7,
+      "spo2": 98,
+      "glucoseMgDl": 105,
+      "resistiveExerciseMin": 27,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 134,
+      "sleepHours": 7.3,
+      "mood": 3,
+      "fatigue": 2,
+      "restingHr": 57,
+      "tempC": 36.5,
+      "spo2": 98,
+      "glucoseMgDl": 94,
+      "resistiveExerciseMin": 28,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 135,
+      "sleepHours": 7.6,
+      "mood": 5,
+      "fatigue": 2,
+      "restingHr": 58,
+      "tempC": 36.8,
+      "spo2": 98,
+      "glucoseMgDl": 91,
+      "resistiveExerciseMin": 33,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 136,
+      "sleepHours": 7.9,
+      "mood": 5,
+      "fatigue": 2,
+      "restingHr": 59,
+      "tempC": 36.7,
+      "spo2": 98,
+      "glucoseMgDl": 86,
+      "resistiveExerciseMin": 32,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 137,
+      "sleepHours": 7.2,
+      "mood": 4,
+      "fatigue": 3,
+      "restingHr": 57,
+      "tempC": 36.6,
+      "spo2": 97,
+      "glucoseMgDl": 97,
+      "resistiveExerciseMin": 29,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 138,
+      "sleepHours": 7.1,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 58,
+      "tempC": 36.5,
+      "spo2": 97,
+      "glucoseMgDl": 91,
+      "resistiveExerciseMin": 28,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 139,
+      "sleepHours": 7.9,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 61,
+      "tempC": 36.5,
+      "spo2": 98,
+      "glucoseMgDl": 90,
+      "resistiveExerciseMin": 37,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 140,
+      "sleepHours": 7.3,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 55,
+      "tempC": 36.5,
+      "spo2": 98,
+      "glucoseMgDl": 104,
+      "resistiveExerciseMin": 35,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 141,
+      "sleepHours": 8.2,
+      "mood": 4,
+      "fatigue": 2,
+      "restingHr": 63,
+      "tempC": 36.5,
+      "spo2": 98,
+      "glucoseMgDl": 92,
+      "resistiveExerciseMin": 29,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 142,
+      "sleepHours": 7.6,
+      "mood": 4,
+      "fatigue": 1,
+      "restingHr": 55,
+      "tempC": 36.8,
+      "spo2": 98,
+      "glucoseMgDl": 86,
+      "resistiveExerciseMin": 35,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 143,
+      "sleepHours": 7.9,
+      "mood": 5,
+      "fatigue": 2,
+      "restingHr": 60,
+      "tempC": 36.7,
+      "spo2": 97,
+      "glucoseMgDl": 96,
+      "resistiveExerciseMin": 29,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 144,
+      "sleepHours": 4.7,
+      "mood": 2,
+      "fatigue": 5,
+      "restingHr": 77,
+      "tempC": 37.5,
+      "spo2": 98,
+      "glucoseMgDl": 89,
+      "resistiveExerciseMin": 17,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 145,
+      "sleepHours": 5.1,
+      "mood": 2,
+      "fatigue": 5,
+      "restingHr": 76,
+      "tempC": 37.6,
+      "spo2": 98,
+      "glucoseMgDl": 104,
+      "resistiveExerciseMin": 16,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 146,
+      "sleepHours": 4.8,
+      "mood": 2,
+      "fatigue": 5,
+      "restingHr": 74,
+      "tempC": 37.6,
+      "spo2": 98,
+      "glucoseMgDl": 88,
+      "resistiveExerciseMin": 15,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 147,
+      "sleepHours": 4.5,
+      "mood": 2,
+      "fatigue": 5,
+      "restingHr": 76,
+      "tempC": 37.7,
+      "spo2": 98,
+      "glucoseMgDl": 105,
+      "resistiveExerciseMin": 9,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    },
+    {
+      "day": 148,
+      "sleepHours": 5,
+      "mood": 2,
+      "fatigue": 5,
+      "restingHr": 73,
+      "tempC": 37.9,
+      "spo2": 98,
+      "glucoseMgDl": 87,
+      "resistiveExerciseMin": 15,
+      "sources": {
+        "sleepHours": "wearable",
+        "mood": "manual",
+        "fatigue": "manual",
+        "restingHr": "wearable",
+        "tempC": "wearable",
+        "spo2": "wearable",
+        "glucoseMgDl": "manual",
+        "resistiveExerciseMin": "device"
+      }
+    }
+  ],
+  "env": [
+    {
+      "day": 119,
+      "cabinCo2MmHg": 2.59,
+      "doseMSv": 0.84,
+      "spe": false
+    },
+    {
+      "day": 120,
+      "cabinCo2MmHg": 2.41,
+      "doseMSv": 0.64,
+      "spe": false
+    },
+    {
+      "day": 121,
+      "cabinCo2MmHg": 2.45,
+      "doseMSv": 0.89,
+      "spe": false
+    },
+    {
+      "day": 122,
+      "cabinCo2MmHg": 2.26,
+      "doseMSv": 0.91,
+      "spe": false
+    },
+    {
+      "day": 123,
+      "cabinCo2MmHg": 1.98,
+      "doseMSv": 0.78,
+      "spe": false
+    },
+    {
+      "day": 124,
+      "cabinCo2MmHg": 2.39,
+      "doseMSv": 0.84,
+      "spe": false
+    },
+    {
+      "day": 125,
+      "cabinCo2MmHg": 2.61,
+      "doseMSv": 0.74,
+      "spe": false
+    },
+    {
+      "day": 126,
+      "cabinCo2MmHg": 2.35,
+      "doseMSv": 0.67,
+      "spe": false
+    },
+    {
+      "day": 127,
+      "cabinCo2MmHg": 2.65,
+      "doseMSv": 0.63,
+      "spe": false
+    },
+    {
+      "day": 128,
+      "cabinCo2MmHg": 2.46,
+      "doseMSv": 0.68,
+      "spe": false
+    },
+    {
+      "day": 129,
+      "cabinCo2MmHg": 2.64,
+      "doseMSv": 0.81,
+      "spe": false
+    },
+    {
+      "day": 130,
+      "cabinCo2MmHg": 2.52,
+      "doseMSv": 0.93,
+      "spe": false
+    },
+    {
+      "day": 131,
+      "cabinCo2MmHg": 2.26,
+      "doseMSv": 0.96,
+      "spe": false
+    },
+    {
+      "day": 132,
+      "cabinCo2MmHg": 2.41,
+      "doseMSv": 0.68,
+      "spe": false
+    },
+    {
+      "day": 133,
+      "cabinCo2MmHg": 2.28,
+      "doseMSv": 0.76,
+      "spe": false
+    },
+    {
+      "day": 134,
+      "cabinCo2MmHg": 2.5,
+      "doseMSv": 0.77,
+      "spe": false
+    },
+    {
+      "day": 135,
+      "cabinCo2MmHg": 2.18,
+      "doseMSv": 0.76,
+      "spe": false
+    },
+    {
+      "day": 136,
+      "cabinCo2MmHg": 2.4,
+      "doseMSv": 0.69,
+      "spe": false
+    },
+    {
+      "day": 137,
+      "cabinCo2MmHg": 2.3,
+      "doseMSv": 0.67,
+      "spe": false
+    },
+    {
+      "day": 138,
+      "cabinCo2MmHg": 2.35,
+      "doseMSv": 0.67,
+      "spe": false
+    },
+    {
+      "day": 139,
+      "cabinCo2MmHg": 2.53,
+      "doseMSv": 0.83,
+      "spe": false
+    },
+    {
+      "day": 140,
+      "cabinCo2MmHg": 2.38,
+      "doseMSv": 0.72,
+      "spe": false
+    },
+    {
+      "day": 141,
+      "cabinCo2MmHg": 2.33,
+      "doseMSv": 1.05,
+      "spe": false
+    },
+    {
+      "day": 142,
+      "cabinCo2MmHg": 2.35,
+      "doseMSv": 0.94,
+      "spe": false
+    },
+    {
+      "day": 143,
+      "cabinCo2MmHg": 2.28,
+      "doseMSv": 0.84,
+      "spe": false
+    },
+    {
+      "day": 144,
+      "cabinCo2MmHg": 2.27,
+      "doseMSv": 0.66,
+      "spe": false
+    },
+    {
+      "day": 145,
+      "cabinCo2MmHg": 2.57,
+      "doseMSv": 0.84,
+      "spe": false
+    },
+    {
+      "day": 146,
+      "cabinCo2MmHg": 2.33,
+      "doseMSv": 0.8,
+      "spe": false
+    },
+    {
+      "day": 147,
+      "cabinCo2MmHg": 2.42,
+      "doseMSv": 0.79,
+      "spe": false
+    },
+    {
+      "day": 148,
+      "cabinCo2MmHg": 2.43,
+      "doseMSv": 0.83,
+      "spe": false
+    }
+  ]
+}

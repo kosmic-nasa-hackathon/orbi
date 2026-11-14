@@ -15,11 +15,15 @@ ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica y
 | [docs/CONCEPTO-ORBI.md](docs/CONCEPTO-ORBI.md) | Concepto completo: uso en la nave, reglas, escenarios, contrato de tipos, guion de demo |
 | [docs/STACK.md](docs/STACK.md) | Stack técnico, comandos de instalación, estructura de carpetas, CI y riesgos |
 | [docs/recursos/](docs/recursos/README.md) | Resúmenes de los recursos oficiales de NASA y CSA, y cómo los usamos |
+| **[HANDOFF.md](HANDOFF.md)** | **Estado actual del scaffold, qué falta y cómo deployar** |
 
 ## Estado
 
 - ✅ Concepto, stack y recursos documentados
-- ⏳ Proyecto Vite + repo + CI + despliegue (ver [STACK.md §2](docs/STACK.md))
+- ✅ Scaffold Vite + React + TS + Tailwind + Vitest
+- ✅ Motor de dominio (`src/domain/`) con 20 tests verdes
+- ✅ Capa de coach determinista + adapter para modelo local (`src/ai/`)
+- ⏳ UI, Docker/CI y despliegue (ver [HANDOFF.md](HANDOFF.md))
 
 ## Fechas clave
 

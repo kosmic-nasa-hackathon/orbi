@@ -4,6 +4,8 @@ node_modules/
 # Build
 dist/
 coverage/
+*.tsbuildinfo
+.vite/
 
 # Env
 .env
@@ -22,3 +24,6 @@ npm-debug.log*
 
 # Vercel
 .vercel
+
+# Local
+*.local
