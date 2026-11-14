@@ -73,13 +73,13 @@ The details, allowed files and acceptance criteria are in `docs/PLAN.md`.
 | 0 | P0 · Pitch light + motion | `@elenaalmansacampos` | ready |
 | 0 | P1 · Threshold audit | `@Agupane` | ready |
 | 0 | P2 · Submission groundwork | `@elenaalmansacampos` | ready |
-| 1 | F0 · Foundation (light theme, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | ready |
-| 1 | F0.1 · Deployed version footer | — | unassigned; blocked by #11 |
+| 1 | F0 · Foundation (light theme, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | done (#36) |
+| 1 | F0.1 · Deployed version footer | — | unassigned; ready |
 | 1 | P3 · Engine: ground baseline + cycle | `@Agupane` | blocked by #9 |
-| 2 | A · Today | `@atapiamallea` | blocked by #11 + #12 |
-| 2 | B · Body | `@Yeryalex` | blocked by #11 + #12 |
-| 2 | C · Decision | `@atapiamallea` | blocked by #11 + #12 |
-| 2 | E · Visual polish (less density, more animations) | `@amilege` | blocked by #11 |
+| 2 | A · Today | `@atapiamallea` | blocked by #12 |
+| 2 | B · Body | `@atapiamallea` | blocked by #12 |
+| 2 | C · Decision | `@atapiamallea` | blocked by #12 |
+| 2 | E · Visual polish (less density, more animations) | `@amilege` | ready |
 | 3 | D · Trends | `@Yeryalex` | Level 0 gate (#32) |
 | 3 | F · Mission Control | `@amilege` | Level 0 gate (#32) |
 | 3 | G · Level 2 (Amsler, procedures, PWA) | `@amilege` | Level 0 gate (#32); stretch |
@@ -173,8 +173,8 @@ Every state uses colour + icon + text.
   `src/components/motion`, store in `src/store/orbiStore.ts` (`useScenario`, `useEvaluation`,
   `cycleAware`). Routes `?view=today|body|decision|trends|ground` with placeholders in `src/screens/*`:
   each lane replaces its file without touching `App.tsx`. Home/EVA/Console stay dark until E (#16).
-- **Body #14:** reassigned to `@atapiamallea` at her request; Yery keeps Trends #18. Tables pending
-  integrator update.
+- **Body #14:** reassigned to `@atapiamallea` at her request; Yery keeps Trends #18 and supports B.
+  Issue and tables updated.
 - **Integration:** two checkpoints. H0 (#32) deploys Level 0 and unblocks D/F/G; H1 (#17) closes
   the final integration.
 - **CMO view:** descoped from Level 2 and documented as future work in `docs/CONCEPT.md` §12.
@@ -185,17 +185,17 @@ Every state uses colour + icon + text.
 
 ## 7. Next action
 
-1. Start now: P0 #8 and P2 #10 (Elena), P1 #9 (Agustín) and F0 #11 (Andrea Tapia).
-2. Triage F0.1 #31 (unassigned): claim it in the issue after #11 if someone has capacity.
+1. In progress: P0 #8 and P2 #10 (Elena), P1 #9 (Agustín). F0 #11 is merged (#36); E #16
+   (amilege) can start.
+2. Triage F0.1 #31 (unassigned, ready): claim it in the issue if someone has capacity.
 3. When #9 merges, Agustín opens P3 #12; announce the contract in the issue before touching
    `types.ts`.
-4. With F0 + P3 on `development`, open A #13 and C #15 (Andrea Tapia), B #14 (Yery) and E #16 (amilege).
+4. With F0 + P3 on `development`, open A #13, B #14 and C #15 (Andrea Tapia).
 5. Level 0 checkpoint at H0 #32: integrate A/B/C and deploy. That unblocks D #18 (Yery), F #19 and
    G #20 (amilege).
 6. Close H1 #17, update the tables and open I #21 (Elena) with support from Agustín, Yery and Andrea Tapia.
 7. P4 #33 (Elena) syncs counts and the deck after P3; it can run in parallel and does not block H1.
-8. Yery can prototype the B SVG before the gate, without merging; meanwhile amilege onboards and supports
-   F0/E.
+8. Andrea Tapia can prototype A/B/C before P3 lands, without merging; Yery supports the B SVG.
 
 ---
 
@@ -210,7 +210,7 @@ Every state uses colour + icon + text.
 | F0.1 · Deployed version footer | — | `@atapiamallea` | `design/version-footer` | shared footer and build metadata |
 | P3 · Engine: baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `src/domain/`, generator and scenarios |
 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | `today/checkin` | `src/screens/Today.tsx`, DemoBar, store |
-| B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | `body/map` | `src/screens/Body.tsx`, `components/body/` |
+| B · Body | `@atapiamallea` | `@Yeryalex`, `@Agupane` | `body/map` | `src/screens/Body.tsx`, `components/body/` |
 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | `decision/triage` | `src/screens/Decision.tsx`, `components/decision/` |
 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | `design/motion-polish` | Home, EVA, Console |
 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | `trends/charts` | `src/screens/Trends.tsx`, `components/charts/` |

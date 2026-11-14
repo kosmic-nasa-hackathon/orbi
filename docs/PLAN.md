@@ -119,7 +119,7 @@ Only the integrator updates the **Status** column.
 | 0 | **P0 · Pitch light + motion** | #8 | `pitch/light-motion` | Theme toggle, light tokens and deck animations | — | assigned |
 | 0 | **P1 · Threshold audit** | #9 | `engine/threshold-audit` | Threshold review, boundary tests, 600 mSv with source and `verified` warning | — | assigned |
 | 0 | **P2 · Submission groundwork** | #10 | `docs/submission` | `docs/DEMO.md`, storyboard, final README and form | — | assigned |
-| 1 | **F0 · Foundation** | #11 | `design/theme-foundation` | Dark/light theme, switch, tokens, typography, UI primitives, motion, nav/routes and store skeleton | — | assigned |
+| 1 | **F0 · Foundation** | #11 | `design/theme-foundation` | Dark/light theme, switch, tokens, typography, UI primitives, motion, nav/routes and store skeleton | — | done (#36) |
 | 1 | **F0.1 · Deployed version footer** | #31 | `design/version-footer` | Shared footer with `package.json` version and optional commit SHA | F0 | unassigned |
 | 1 | **P3 · Engine: ground baseline + cycle** | #12 | `engine/cycle-baseline` | Contract, 90-day and phase-aware baseline, `cycle-aware`, `luteal-phase`, radiation from P1 and tests | P1 | assigned |
 | 2 | **A · Today** | #13 | `today/checkin` | 7-field check-in + opt-in cycle, DemoBar, streak and Confirm | F0 + P3 | assigned |
@@ -144,13 +144,13 @@ Issues are already created; #31 is unassigned. Onboarding details, worktrees and
 | #8 | P0 · Pitch light + motion | `@elenaalmansacampos` | `@Agupane` | S | Now |
 | #9 | P1 · Threshold audit | `@Agupane` | `@atapiamallea` | M | Now |
 | #10 | P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | M | Now |
-| #11 | F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | L | Now |
-| #31 | F0.1 · Deployed version footer | — | `@atapiamallea` | S | After #11; claim in issue |
+| #11 | F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | L | Done (#36) |
+| #31 | F0.1 · Deployed version footer | — | `@atapiamallea` | S | Now; claim in issue |
 | #12 | P3 · Ground baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | L | After #9 |
-| #13 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | M | After #11 + #12 |
-| #14 | B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | L | After #11 + #12; SVG first |
-| #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | M | After #11 + #12 |
-| #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | M | After #11 |
+| #13 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | M | After #12 |
+| #14 | B · Body | `@atapiamallea` | `@Yeryalex`, `@Agupane` | L | After #12; SVG first |
+| #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | M | After #12 |
+| #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | M | Now |
 | #18 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | M | Level 0 gate (#32) + #14 |
 | #19 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | M | Level 0 gate (#32) + #15 |
 | #20 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | M | Level 0 gate (#32) + A/B/C; stretch |
@@ -159,9 +159,9 @@ Issues are already created; #31 is unassigned. Onboarding details, worktrees and
 | #33 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | `@Agupane` | S | After #8 + #10 + #12 |
 | #21 | I · Final submission | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | M | After #17 |
 
-**Ready to start:** #8, #9, #10 and #11. **Blocked:** #12, #13–#21, #32 and #33 until their
-dependencies are met. **Unassigned:** #31 (F0.1), blocked by #11; claim it in the issue before
-starting. Agustín remains integrator and sole merge to `development`; he also opens the
+**Done:** #11 (PR #36). **Ready to start:** #8, #9, #10, #16 and #31. **Blocked:** #12, #13–#15,
+#17–#21, #32 and #33 until their dependencies are met. **Unassigned:** #31 (F0.1); claim it in the
+issue before starting. Agustín remains integrator and sole merge to `development`; he also opens the
 `development` → `main` release. Andrea Tapia is backup.
 
 ### Merge order
@@ -300,7 +300,7 @@ requires it, tests, and `Dockerfile`/`docs/DEPLOYMENT.md` only if build args are
 - `npm run check` and `npm run build` are green.
 - A test covers the version formatter/fallback.
 
-**Gate:** blocked by F0 (#11). The issue is unassigned; claim it before starting.
+**Gate:** F0 (#11) is merged. The issue is unassigned; claim it before starting.
 
 ### P3 · Engine: ground baseline + cycle
 
@@ -697,13 +697,13 @@ Only the integrator updates this table.
 | P0 · Pitch light + motion | #8 | `@elenaalmansacampos` | `pitch/light-motion` | ready | — |
 | P1 · Threshold audit | #9 | `@Agupane` | `engine/threshold-audit` | ready | — |
 | P2 · Submission groundwork | #10 | `@elenaalmansacampos` | `docs/submission` | ready | — |
-| F0 · Foundation | #11 | `@atapiamallea` | `design/theme-foundation` | ready | — |
-| F0.1 · Deployed version footer | #31 | — | `design/version-footer` | unassigned; blocked by #11 | — |
+| F0 · Foundation | #11 | `@atapiamallea` | `design/theme-foundation` | done | #36 |
+| F0.1 · Deployed version footer | #31 | — | `design/version-footer` | unassigned; ready | — |
 | P3 · Engine: baseline + cycle | #12 | `@Agupane` | `engine/cycle-baseline` | blocked by #9 | — |
-| A · Today | #13 | `@atapiamallea` | `today/checkin` | blocked by #11 + #12 | — |
-| B · Body | #14 | `@Yeryalex` | `body/map` | blocked by #11 + #12 | — |
-| C · Decision | #15 | `@atapiamallea` | `decision/triage` | blocked by #11 + #12 | — |
-| E · Visual polish | #16 | `@amilege` | `design/motion-polish` | blocked by #11 | — |
+| A · Today | #13 | `@atapiamallea` | `today/checkin` | blocked by #12 | — |
+| B · Body | #14 | `@atapiamallea` | `body/map` | blocked by #12 | — |
+| C · Decision | #15 | `@atapiamallea` | `decision/triage` | blocked by #12 | — |
+| E · Visual polish | #16 | `@amilege` | `design/motion-polish` | ready | — |
 | D · Trends | #18 | `@Yeryalex` | `trends/charts` | blocked by Level 0 gate (#32) | — |
 | F · Mission Control | #19 | `@amilege` | `mission-control/window` | blocked by Level 0 gate (#32) | — |
 | G · Level 2 | #20 | `@amilege` | `level2/extras` | blocked; stretch | — |
