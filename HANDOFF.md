@@ -2,8 +2,11 @@
 
 **Fecha:** 2026-11-14
 **Rama:** `main`
-**Estado:** motor, datos, coach, tests, Home, EVA, consola, pitch y deploy funcionando en producción.
-**Falta:** ejecutar las lanes de `docs/PLAN.md`: tema light, rediseño, Nivel 0, Trends/Mission Control, extras y entrega.
+**Estado:** motor, datos, coach, tests, Home, EVA, consola, pitch, deploy y documentación del giro
+de producto (salud de la mujer + entrenamiento en tierra) listos en producción. El código sigue con
+basal de 14 días, 3 correlaciones y 4 escenarios.
+**Falta:** ejecutar las lanes de `docs/PLAN.md`: tema light, rediseño, Nivel 0, P3 (basal de tierra
++ ciclo), Trends/Mission Control, extras y entrega.
 **Plan de ejecución paralela:** `docs/PLAN.md`
 **Producción:** **https://orbi.agustinpane.xyz** · App Dokploy `ORBI`
 (`pnNCsfPVhaq6_lgsFDTEF`) · `appName` `app-input-open-source-panel-hqyoop`.
@@ -34,8 +37,10 @@ No hay backend, base de datos ni variables de entorno.
 
 ## 2. Estado actual (verificado)
 
-- Motor determinista con 6 sistemas + halo, 3 correlaciones, reglas de hueso y estimaciones.
-- 4 escenarios deterministas; `npm run gen` reproduce los JSON sin diff.
+- **Código actual:** motor determinista con 6 sistemas + halo, 3 correlaciones, basal de 14 días,
+  4 escenarios, reglas de hueso y estimaciones; `npm run gen` reproduce los JSON sin diff.
+- **Documentación objetivo (post #5):** basal de 90 días de entrenamiento en tierra, basal por fase
+  del ciclo (opt-in y privada), 4 correlaciones y 5 escenarios. Lo implementa P3.
 - Coach template (default y fallback) + adapter local opcional + guardrails.
 - Home `/`, demo EVA `?view=eva`, consola `?view=console` y pitch `/pitch/`.
 - Nav sticky con iconos, rutas por query y back/forward.
@@ -66,12 +71,15 @@ El detalle, archivos permitidos y criterios de aceptación están en `docs/PLAN.
 | 2 | A · Today | todo |
 | 2 | B · Body | todo |
 | 2 | C · Decision | todo |
-| 2 | D · Trends | todo |
 | 2 | E · Visual polish (menos densidad, más animaciones) | todo |
+| 3 | D · Trends | todo |
 | 3 | F · Mission Control | todo |
 | 3 | G · Level 2 (Amsler, procedimientos, PWA) | todo |
 | 3 | H · Integración/QA | todo |
 | 4 | I · Submission final | todo |
+
+**Dependencias:** A/B/C/E dependen de F0 + P3; P3 espera a P1; D/F/G dependen del checkpoint de
+Nivel 0 desplegado que marca H.
 
 **Regla:** no se empieza Trends ni Mission Control hasta que Today + Body + Decision estén en la
 URL desplegada.
@@ -86,7 +94,14 @@ auto-deploy funciona.
 Riesgos conocidos:
 
 - **Umbrales sin verificar:** 6 fuentes siguen `verified: false` (clinical, sleep, behavioral,
-  co2, radiation e immune). Es deliberado; no inventar números. Lo cubre P1.
+  co2, radiation e immune). P1 verificará radiación con `recursos/08` y quedarán 5. No inventar
+  números.
+- **Ampliación de contrato (P3):** toca `types.ts`, JSON generados y tests; anunciar antes y no
+  empezar hasta cerrar P1 para evitar conflictos en `rules.ts`.
+- **Drift docs/código:** la documentación ya describe 90 días, 4 correlaciones y 5 escenarios; el
+  código sigue en 14/3/4 hasta P3.
+- **Privacidad del ciclo:** el dato reproductivo es opt-in; ni el packet ni Mission Control lo
+  exponen sin `shareReproductiveWithGround`.
 - **Tema light:** el refactor toca todas las pantallas; usar tokens y screenshots dark/light.
 - **Conflictos en paralelo:** los archivos compartidos los toca solo F0/Integración.
 - **PWA/service worker:** puede romper la caché; va al final y feature-flagged.
@@ -112,6 +127,10 @@ Infraestructura:
 - `src/content/systems.ts`
 - La forma de los JSON de escenarios
 
+**Ampliación de contrato propuesta (P3, aún no aplicada):** `Phase`, `CrewProfile`,
+`DailyReading.phase/menses/cycleDay`, `Scenario.crew/trainingDays` y `evaluate(..., { cycleAware })`.
+Detalle en `docs/CONCEPTO-ORBI.md` §8. Anunciar antes del PR `engine/…`.
+
 **Solo F0/Integración:**
 
 - `src/App.tsx`, `src/navigation.ts`, `src/components/SiteNav.tsx`, `src/index.css`,
@@ -128,7 +147,8 @@ Cada estado usa color + icono + texto.
 - **Coach local:** capa de explicación opcional, nunca de decisión. Template determinista por
   defecto y fallback.
 - **Hueso:** CONCERN exige baja adherencia **y** misión > 6 meses.
-- **Fuentes:** solo `bone` y `ada` verificadas; el resto queda `false` con `TODO verify`.
+- **Fuentes:** solo `bone` y `ada` verificadas; 6 quedan `false` con `TODO verify`. P1 verificará
+  radiación con `recursos/08` (600 mSv único desde 2022) y quedarán 5.
 - **Datos demo:** presupuesto de radiación de 400 mSv para que el halo sea legible; 600 mSv sigue
   siendo la referencia del límite de carrera.
 - **Giro de producto (docs):** salud de la mujer astronauta + fase de entrenamiento en tierra.
@@ -171,6 +191,9 @@ Cada estado usa color + icono + texto.
 | G · Level 2 | `level2/extras` | Amsler, procedimientos, PWA |
 | H · Integración/QA | `integration/level0` | rutas, tests, deploy |
 | I · Submission final | `docs/submission` | vídeo, README, formulario |
+
+Issues de las lanes: P0 #8 · P1 #9 · P2 #10 · F0 #11 · P3 #12 · A #13 · B #14 · C #15 · E #16 ·
+H #17 · D #18 · F #19 · G #20 · I #21.
 
 ---
 

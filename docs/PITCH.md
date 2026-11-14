@@ -34,16 +34,16 @@ En tablet o teléfono se puede pasar de slide con swipe horizontal.
 1. **Cover** — ORBI, from drift to decision.
 2. **The problem** — Day 148, 14 minutos de latencia, sin clínica a bordo.
 3. **The insight** — la latencia es una variable clínica.
-4. **The product** — check-in de 90 s → motor → decisión → escalado.
+4. **The product** — check-in de 90 s → basal de tierra + ciclo opt-in → motor → decisión → escalado.
 5. **Challenge fit** — tabla enunciado → ORBI.
 6. **Body** — 6 sistemas + halo, mapeados a las 5 amenazas de NASA.
 7. **Decision** — nivel, “Because…”, action card, escalado.
-8. **Correlations** — infección temprana, aire de cabina, evento solar.
+8. **Correlations** — infección temprana, ciclo (`cycle-aware`), aire de cabina, evento solar.
 9. **Honesty** — hueso estimado, radiación como presupuesto, umbrales auditables.
 10. **Architecture** — dominio puro, UI consumidora, coach opcional con guardrails.
-11. **Evidence** — NASA HRP, NASA-STD-3001, CSA, criterios clínicos/ADA.
-12. **Live now** — qué se puede abrir hoy y los 3 escenarios del demo.
-13. **Roadmap** — nivel 0, Trends/Mission Control, extras; qué no se construye.
+11. **Evidence** — NASA HRP, NASA-STD-3001, CSA, salud de la mujer y entrenamiento en tierra.
+12. **Live now** — qué se puede abrir hoy y los 4 escenarios actuales del demo.
+13. **Roadmap** — Nivel 0 + P3 (basal de 90 días y ciclo), Trends/Mission Control, extras.
 14. **Team** — qué traemos, qué necesitamos (revisión clínica y un piloto).
 15. **Close** — “ORBI doesn't diagnose. It prioritizes, explains and escalates.”
 
@@ -57,13 +57,19 @@ Las notas completas de cada slide están en `deck.json` (`notes`) y se ven con `
 - [ ] Confirmar el escenario del demo: `early-infection`, día 148, Mars → ISS.
 - [ ] Revisar que los números del deck sigan alineados con `src/domain/rules.ts` y `HANDOFF.md`.
 - [ ] No prometer Today/Body/Decision como terminadas si todavía no están en la URL.
+- [ ] No presentar `cycle-aware`/`luteal-phase` como live hasta que P3 esté desplegado; el deck los
+  muestra como diseño/roadmap.
+- [ ] Verificar que los conteos live sigan siendo 4 escenarios y 3 correlaciones hasta P3.
 
 ## Reglas de honestidad
 
 - Decir **“decision support”**, **“prioritizes, explains and escalates”**, **“auditable rules”**.
 - No decir **“diagnoses”**, **“replaces the doctor”**, **“AI predicts”**.
 - La pérdida ósea se **estima** (DXA solo en Tierra); la radiación se muestra contra un
-  **presupuesto** porque NASA reconoce que los límites de espacio profundo siguen abiertos.
+  **presupuesto** porque NASA reconoce que los límites de espacio profundo siguen abiertos. El
+  valor por defecto de 600 mSv tiene fuente (límite único desde 2022, `recursos/08`).
+- El dato del ciclo es **opt-in y privado**; los umbrales absolutos nunca se relajan para ocultar
+  una fiebre real.
 - Los umbrales no verificados se muestran como tales. No inventar números en la charla.
 
 ## Mantenimiento
