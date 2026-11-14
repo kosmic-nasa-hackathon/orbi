@@ -4,7 +4,7 @@ import { isPacketFor, useOrbiStore } from "../../store/orbiStore";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
-import { formatLatency } from "./EscalationPanel";
+import { formatLatency } from "./latency";
 
 /** "Send to flight surgeon": marks the packet for Mission Control. */
 export function PacketAction({ evaluation }: { evaluation: Evaluation }) {

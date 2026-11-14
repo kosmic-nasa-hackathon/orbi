@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { isMissionView, MISSION_VIEWS, readView, viewHref } from "./navigation";
+import { describe, expect, it, vi } from "vitest";
+import { goTo, isMissionView, MISSION_VIEWS, readView, viewHref } from "./navigation";
 
 describe("navigation", () => {
   it("opens the home by default", () => {
@@ -31,5 +31,15 @@ describe("navigation", () => {
     expect(viewHref("eva")).toBe("/?view=eva");
     expect(viewHref("console")).toBe("/?view=console");
     expect(viewHref("ground")).toBe("/?view=ground");
+  });
+
+  it("moves between screens and tells the app through popstate", () => {
+    const listener = vi.fn();
+    window.addEventListener("popstate", listener);
+    goTo("body");
+    window.removeEventListener("popstate", listener);
+    expect(window.location.search).toBe("?view=body");
+    expect(readView()).toBe("body");
+    expect(listener).toHaveBeenCalledTimes(1);
   });
 });
