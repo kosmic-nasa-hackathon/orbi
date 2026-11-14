@@ -58,7 +58,7 @@ There is no backend, database or environment variables.
 - GitHub issues as lock: the assignee is claimed with `gh issue edit <n> --add-assignee @me`
   before writing code.
 - All project docs are in English; source summaries live in `docs/resources/`.
-- **51/51 tests**; `npm run check` and `npm run build` green.
+- **56/56 tests**; `npm run check` and `npm run build` green.
 - The release preview responds `200` at `/`, `?view=eva`, `?view=console` and `/pitch/`; F0 is
   deployed (`theme-init.js` and the new theme assets are present).
 
@@ -264,5 +264,10 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #38 docs: sync plan and handoff after F0.
 - #42 release: F0 docs sync.
 - #43 docs: sync ticket ownership and submission gaps.
+- #44 docs: record A.1 and release PRs in handoff.
+- #45 release: ticket ownership and submission gaps.
+- #54 fix: correct early-infection data and explanations.
+- #55 fix: cache hashed assets and revalidate HTML/pitch.
+- #56 fix: rank correlations above single signals.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi

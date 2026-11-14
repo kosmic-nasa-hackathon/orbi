@@ -54,7 +54,7 @@ URL.** Level 0 first; Level 1 after.
 - F0 design foundation: light/dark theme, tokens, UI primitives, motion, nav shell, store and
   route placeholders for the interactive screens.
 - CI, Docker, nginx, Dokploy, Cloudflare and auto-deploy.
-- **51/51 tests**, `npm run check` and `npm run build` green; `npm run gen` reproducible.
+- **56/56 tests**, `npm run check` and `npm run build` green; `npm run gen` reproducible.
 - Release preview: `/`, `?view=eva`, `?view=console` and `/pitch/` return `200`.
 
 What is missing is in the lanes in §4.
@@ -621,13 +621,13 @@ after P3 lands.
 
 - Replace the 14-day baseline with the 90-day ground-training baseline.
 - Replace 3 correlations with 4 and 4 scenarios with 5.
-- Update the `51 tests` count and equivalents to the real post-P3 number.
+- Update the `56 tests` count and equivalents to the real post-P3 number.
 - Update the deck slides and the `docs/PITCH.md` checklist that state counts.
 - Keep `docs/TASKS.md` marked as historical.
 
 **Acceptance criteria:**
 
-- Grep for `14-day`, `3 correlations`, `4 scenarios` and `51 tests` returns only historical or
+- Grep for `14-day`, `3 correlations`, `4 scenarios` and `56 tests` returns only historical or
   roadmap contexts.
 - No doc promises 5 scenarios / 4 correlations before the deploy.
 - `npm run check` and `npm run build` green.
