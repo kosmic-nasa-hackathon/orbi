@@ -2,12 +2,10 @@
 
 **Fecha:** 2026-11-14
 **Rama:** `main`
-**Estado:** scaffold, motor, coach, CI, deploy, auto-deploy, home con navegación, demo EVA con pérdida de sync y retorno inercial, y pitch navegable en `/pitch/`.
-**Falta:** UI de las pantallas (Today/Body/Decision), Trends/Mission Control, ensayo y vídeo del pitch.
-
-Runbook: `docs/DEPLOYMENT.md` · Tareas: `docs/TASKS.md` · Reglas para agentes: `AGENTS.md`.
-
-Producción: **https://orbi.agustinpane.xyz** · App Dokploy `ORBI`
+**Estado:** motor, datos, coach, tests, Home, EVA, consola, pitch y deploy funcionando en producción.
+**Falta:** ejecutar las lanes de `docs/PLAN.md`: tema light, rediseño, Nivel 0, Trends/Mission Control, extras y entrega.
+**Plan de ejecución paralela:** `docs/PLAN.md`
+**Producción:** **https://orbi.agustinpane.xyz** · App Dokploy `ORBI`
 (`pnNCsfPVhaq6_lgsFDTEF`) · `appName` `app-input-open-source-panel-hqyoop`.
 
 ---
@@ -33,110 +31,62 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 
 ---
 
-## 2. Qué está hecho y verificado
+## 2. Estado actual (verificado)
 
-### Scaffold
+- Motor determinista con 6 sistemas + halo, 3 correlaciones, reglas de hueso y estimaciones.
+- 4 escenarios deterministas; `npm run gen` reproduce los JSON sin diff.
+- Coach template (default y fallback) + adapter local opcional + guardrails.
+- Home `/`, demo EVA `?view=eva`, consola `?view=console` y pitch `/pitch/`.
+- Nav sticky con iconos, rutas por query y back/forward.
+- CI, Docker, nginx, Dokploy, Cloudflare y auto-deploy funcionando.
+- **36/36 tests**; `npm run check` y `npm run build` verdes.
+- Producción responde `200` en `/`, `?view=eva`, `?view=console` y `/pitch/`.
 
-- Vite 8 + React 19 + TypeScript 5.9 + Tailwind 4 + Vitest 5 + Biome.
-- `.nvmrc`, `vite.config.ts`, `tsconfig.json`, `biome.json`, `.dockerignore`.
-- Dependencias de UI preparadas: Recharts, Motion, lucide-react, date-fns, clsx,
-  tailwind-merge e Inter. Testing: jsdom + Testing Library.
-
-### Dominio (`src/domain/`, cero imports de React)
-
-- `types.ts` — contrato del motor, UI y coach.
-- `baseline.ts` — media ± σ de los 14 días pre-vuelo.
-- `rules.ts` — umbrales con fuente y flag `verified`; un solo archivo auditable.
-- `levels.ts`, `escalation.ts` — niveles y escalado por latencia (ISS/Luna/Marte).
-- `evaluate.ts` — 6 sistemas + halo, 3 correlaciones, 2 reglas de hueso, estimaciones y facts.
-- `engine.test.ts` — tests de escenarios, correlaciones, escalado, hueso y facts.
-
-### Datos
-
-- `scripts/generate-mission.ts` → `src/data/scenarios/*.json`.
-- 4 escenarios: `nominal`, `early-infection`, `cabin-co2`, `solar-event`.
-- 14 días pre-vuelo + 30 de misión (días 119–148). RNG sembrado: el día 148 siempre es el mismo.
-- `npm run gen` reproduce los JSON sin diff.
-
-### Coach (`src/ai/`)
-
-- `types.ts` — `CoachProvider`, `CoachSuggestion`, `CoachRequest`.
-- `providers/template.ts` — coach determinista (default y fallback).
-- `providers/llm.ts` — adapter para un modelo local inyectado (WebLLM, etc.).
-- `guardrails.ts` — prohíbe diagnóstico/medicación, números no presentes en los facts y acciones
-  no disparadas.
-- `coach.ts` — `askCoach()` valida y cae al template si el modelo falla o alucina.
-- Tests adversarios de alucinación incluidos.
-
-### EVA demo (`src/simulation/eva.ts`, `src/screens/Eva.tsx`)
-
-- Simulación 2D determinista: posición real, estimación inercial, deriva, cola de eventos y retorno a la esclusa.
-- Vista dividida Traje/Central: la central congela la última posición conocida cuando se pierde el sync.
-- Animaciones de sync perdido/recuperado, cono de deriva, línea de retorno y audit log autónomo.
-- Controles de demo: auto timeline, perder sync, reconectar, auto-return, 1x/2x/4x, pausa y reset.
-- La salud sale de `evaluate()` (early-infection, día 148, MARS); no se reimplementan reglas.
-- Deep links de demo: `/?view=eva&t=18` (sin sync) y `/?view=eva&t=24` (retorno inercial activo).
-  `/?t=18` sigue abriendo la demo por compatibilidad.
-
-### Home y navegación (`src/screens/Home.tsx`, `src/components/SiteNav.tsx`)
-
-- La raíz `/` es una landing de producto: hero, estado de misión leído de `evaluate()`, accesos a
-  EVA, consola y pitch, y un snapshot de los 6 sistemas + halo.
-- Nav sticky con iconos (Home, EVA, Console, Pitch, GitHub) y rutas `?view=...`; la demo EVA queda
-  en `?view=eva` y la consola en `?view=console`.
-- Tipografía IBM Plex Sans (display) + IBM Plex Mono (telemetría), Inter para el cuerpo.
-- `src/navigation.ts` centraliza el parseo y la escritura de la URL; `popstate` mantiene atrás/adelante.
-
-### Pitch (`public/pitch/`, `docs/PITCH.md`)
-
-- Deck estático en **`/pitch/`**: 15 slides, notas del orador (`S`), overview (`G`), fullscreen
-  (`F`), print a PDF (`P`) y modo lectura en `?view=scroll`.
-- Contenido en `public/pitch/deck.json`; motor y estilos propios en `deck.js` y `theme.css`.
-- Sin dependencias externas ni backend: Vite copia `public/pitch/` a `dist/` y nginx sirve el
-  directorio. La CSP existente (`script-src 'self'`) se respeta.
-- `vite.config.ts` reescribe `/pitch/` a `/pitch/index.html` en dev y preview para que la URL sea
-  la misma que en producción.
-- Guion, atajos y checklist de ensayo en `docs/PITCH.md`.
-
-### Deploy/CI
-
-- `Dockerfile` multi-stage (Node 22 → nginx:alpine, puerto 80).
-- `nginx.conf` con fallback SPA, cache de assets y healthcheck.
-- `.github/workflows/ci.yml`: `npm ci`, `npm run gen` + diff, `npm run check`, `npm run build`.
-- `.github/workflows/deploy.yml`: auto-deploy activo tras CI en `main`, en un runner self-hosted.
-- Producción verificada: **https://orbi.agustinpane.xyz** responde `200`.
-- Dokploy: app `ORBI`, `appName` `app-input-open-source-panel-hqyoop`, origen Git SSH con deploy key
-  `orbi-deploy`, dominio HTTP detrás de Cloudflare.
-- Runner: `dokploy` en la VM de Dokploy, label `orbi`, servicio `actions-runner-orbi.service`.
-- Repo: secret `DOKPLOY_TOKEN`, variable `DOKPLOY_AUTO_DEPLOY=true`.
-- `docs/DEPLOYMENT.md`: Dokploy, Cloudflare, túnel, nginx, auto-deploy, verificación y rollback.
-
-**Verificación actual:** `npm run check` verde, **36/36 tests**, `npm run build` OK. El deploy
-automático se probó con `workflow_dispatch` y con un push real a `main`; ambos terminaron en `done`.
-El commit `ed50dec` desplegó la demo EVA: la raíz y `/?t=18` responden `200` con la simulación.
+**Caveat conocido:** Cloudflare inyecta un script inline de challenge que la CSP bloquea. Es
+externo a la app; no relajar `script-src 'self'`.
 
 ---
 
-## 3. Qué falta
+## 3. Lo que falta
 
-| # | Tarea | Estimación | Zona |
-|---|---|---|---|
-| 1 | **UI Level 0**: App shell + DemoBar + Today + Body + Decision | 2–3 h | `src/App.tsx`, `src/screens/*`, `src/components/*`, `src/store/` |
-| 2 | **Trends** con banda basal (nivel 1) | 1 h | `src/screens/Trends.tsx`, `src/components/charts/` |
-| 3 | **Mission Control** (nivel 1) | 1–2 h | `src/screens/MissionControl.tsx` |
-| 4 | Página del proyecto, README final, vídeo y slides | — | lane E |
-| 5 | Nivel 2 opcional: Amsler, procedimientos, PWA offline | — | — |
+El detalle, archivos permitidos y criterios de aceptación están en `docs/PLAN.md`.
 
-La UI debe consumir `evaluate()` y `askCoach()`, **no reimplementar reglas**.
+| Wave | Lane | Estado |
+|---|---|---|
+| 0 | P0 · Pitch light + motion | todo |
+| 0 | P1 · Threshold audit | todo |
+| 0 | P2 · Submission groundwork | todo |
+| 1 | F0 · Fundación (tema light, switch, tokens, UI, motion, nav, store) | todo |
+| 2 | A · Today | todo |
+| 2 | B · Body | todo |
+| 2 | C · Decision | todo |
+| 2 | D · Trends | todo |
+| 2 | E · Visual polish (menos densidad, más animaciones) | todo |
+| 3 | F · Mission Control | todo |
+| 3 | G · Level 2 (Amsler, procedimientos, PWA) | todo |
+| 3 | H · Integración/QA | todo |
+| 4 | I · Submission final | todo |
+
+**Regla:** no se empieza Trends ni Mission Control hasta que Today + Body + Decision estén en la
+URL desplegada.
 
 ---
 
-## 4. Bloqueos actuales
+## 4. Bloqueos y riesgos
 
 No hay bloqueos de infraestructura: el repo tiene write, el deploy está en producción y el
-auto-deploy funciona. Pendiente de producto: UI, Trends/Mission Control y material de pitch.
+auto-deploy funciona.
 
-Notas de infraestructura:
+Riesgos conocidos:
+
+- **Umbrales sin verificar:** 5 fuentes siguen `verified: false` con nota `TODO verify`. Es
+  deliberado; no inventar números. Lo cubre P1.
+- **Tema light:** el refactor toca todas las pantallas; usar tokens y screenshots dark/light.
+- **Conflictos en paralelo:** los archivos compartidos los toca solo F0/Integración.
+- **PWA/service worker:** puede romper la caché; va al final y feature-flagged.
+- **Cloudflare + CSP:** el script inline de challenge queda bloqueado; no afecta la app.
+
+Infraestructura:
 
 - La org tiene deploy keys habilitadas (`deploy_keys_enabled_for_repositories=true`).
 - El origen de Dokploy es Git SSH (`git@github.com:kosmic-nasa-hackathon/orbi.git`) con la deploy key
@@ -147,46 +97,78 @@ Notas de infraestructura:
 
 ---
 
-## 5. Decisiones tomadas (y cambios de esta sesión)
+## 5. Contratos y archivos compartidos
 
-- **Coach local**: se mantiene como capa de explicación opcional, nunca de decisión. El template
-  determinista es el default y el fallback; los guardrails ya están testeados.
-- **Hueso**: se corrigió la regla para que CONCERN exija baja adherencia **y** misión > 6 meses;
-  antes se disparaba siempre a partir del día 180.
-- **Fuentes**: solo `bone` y `ada` quedan `verified: true`; el resto se marca `false` con nota
-  `TODO verify` (incluido el límite de 600 mSv). Es deliberado y se explica en el pitch.
-- **Contrato**: el canónico es `src/domain/types.ts`; `CONCEPTO-ORBI.md §8` se actualiza para no
-  duplicar tipos.
-- **Datos demo**: los escenarios usan un presupuesto de radiación de 400 mSv para que el halo sea
-  legible; 600 mSv sigue siendo la referencia del límite de carrera de NASA.
-- **Deploy**: Dokploy BCN + origen Git SSH con deploy key + runner self-hosted para el auto-deploy.
-  Sin previews por PR. La GitHub App de Dokploy queda como alternativa si se instala en la org.
+**Contratos congelados** (no cambiar sin avisar):
 
----
+- `src/domain/types.ts`
+- `src/ai/types.ts`
+- `src/content/systems.ts`
+- La forma de los JSON de escenarios
 
-## 6. Próximas 3 acciones
+**Solo F0/Integración:**
 
-1. **UI Level 0**: App shell + DemoBar + Today + Body + Decision, conectando `evaluate()` y `askCoach()`.
-2. **Integrar la demo EVA** con Today/Body/Decision y el pitch; la raíz ya la muestra.
-3. **Trends + Mission Control** cuando el nivel 0 ya esté en la URL; después, material de pitch.
+- `src/App.tsx`, `src/navigation.ts`, `src/components/SiteNav.tsx`, `src/index.css`,
+  `src/main.tsx`, `index.html`, `package.json`, `package-lock.json`, `vite.config.ts`,
+  `nginx.conf`, `.github/*` y la tabla de estado de `docs/PLAN.md`.
+
+**Regla de UI:** consumir `evaluate()` y `askCoach()`; nunca reimplementar reglas clínicas.
+Cada estado usa color + icono + texto.
 
 ---
 
-## 7. Reparto
+## 6. Decisiones de esta fase
 
-Ver `docs/TASKS.md`. Resumen: 5 lanes (A motor/datos, B Body/Trends, C Today/Decision,
-D Coach/Mission Control, E diseño/pitch) + integración/deploy de Andrea/Agustín.
-
-Contratos que no se tocan sin avisar: `src/domain/types.ts`, `src/ai/types.ts`,
-`src/content/systems.ts` y la forma de los JSON.
+- **Coach local:** capa de explicación opcional, nunca de decisión. Template determinista por
+  defecto y fallback.
+- **Hueso:** CONCERN exige baja adherencia **y** misión > 6 meses.
+- **Fuentes:** solo `bone` y `ada` verificadas; el resto queda `false` con `TODO verify`.
+- **Datos demo:** presupuesto de radiación de 400 mSv para que el halo sea legible; 600 mSv sigue
+  siendo la referencia del límite de carrera.
+- **Tema:** sistema + `localStorage`, fallback dark. Light en app y pitch.
+- **Paralelización:** worktrees + agentes CLI; Fundación e integración a cargo del integrador.
+- **Vídeo:** guion + auto-grabación con Playwright, sin commitear el binario.
 
 ---
 
-## 8. Branch y PR
+## 7. Próxima acción
 
-Todo está en `main`. PRs integrados:
+1. Lanzar Wave 0 en paralelo: P0 (pitch light + motion), P1 (threshold audit) y P2 (submission
+   groundwork).
+2. Ejecutar F0 (Fundación) y mergearla.
+3. Abrir A/B/C/D/E en paralelo contra F0.
+4. Después de C, abrir F (Mission Control); después de A/B/C, abrir G (Level 2).
+5. Integrar todo en H y cerrar I.
+
+---
+
+## 8. Reparto paralelo
+
+| Lane | Rama | Zona principal |
+|---|---|---|
+| P0 · Pitch light + motion | `pitch/light-motion` | `public/pitch/*` |
+| P1 · Threshold audit | `engine/threshold-audit` | `src/domain/rules.ts`, tests |
+| P2 · Submission groundwork | `docs/submission` | `docs/DEMO.md`, README, formulario |
+| F0 · Fundación | `design/theme-foundation` | tema, tokens, UI, nav, store |
+| A · Today | `today/checkin` | `src/screens/Today.tsx`, DemoBar, store |
+| B · Body | `body/map` | `src/screens/Body.tsx`, `components/body/` |
+| C · Decision | `decision/triage` | `src/screens/Decision.tsx`, `components/decision/` |
+| D · Trends | `trends/charts` | `src/screens/Trends.tsx`, `components/charts/` |
+| E · Visual polish | `design/motion-polish` | Home, EVA, Console |
+| F · Mission Control | `mission-control/window` | `src/screens/MissionControl.tsx` |
+| G · Level 2 | `level2/extras` | Amsler, procedimientos, PWA |
+| H · Integración/QA | `integration/level0` | rutas, tests, deploy |
+| I · Submission final | `docs/submission` | vídeo, README, formulario |
+
+---
+
+## 9. PRs y ramas
+
+Todo lo integrado está en `main`.
 
 - #1 Scaffold, engine, coach and deployment baseline.
 - #2 ci: add gated Dokploy auto-deploy fallback.
+- #3 feat: add navigable pitch deck at `/pitch/`.
+- #4 feat: add product home with icon navigation and landing.
 
 Repositorio: https://github.com/kosmic-nasa-hackathon/orbi
