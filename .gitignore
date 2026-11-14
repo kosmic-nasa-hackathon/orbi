@@ -27,3 +27,8 @@ npm-debug.log*
 
 # Local
 *.local
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
