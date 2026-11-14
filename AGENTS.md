@@ -76,8 +76,8 @@ src/
   data/        seeded RNG, scenario generator, generated JSON
   content/     system labels, "why this matters" copy, level colours
   simulation/  deterministic EVA demo: link loss, inertial drift, return guidance
-  screens/     Eva demo (Today/Body/Decision planned)
-  App.tsx      view switch: EVA demo (default) and engine console (?view=console)
+  screens/     Home (default), Eva demo, engine console (Today/Body/Decision planned)
+  App.tsx      routing shell: Home, EVA (?view=eva) and console (?view=console)
 scripts/       generate-mission.ts
 docs/          product/stack/tasks/deployment docs and NASA/CSA summaries
 ```

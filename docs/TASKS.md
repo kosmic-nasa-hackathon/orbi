@@ -12,6 +12,7 @@ Estado vivo y bloqueos: `HANDOFF.md`. Deploy: `docs/DEPLOYMENT.md`.
 - ✅ Coach determinista + adapter local opcional + guardrails (`src/ai/`).
 - ✅ Docker, CI, deploy en Dokploy y auto-deploy verificado.
 - ✅ Demo EVA: pérdida de sync, deriva inercial, retorno a la esclusa y auditoría.
+- ✅ Home de producto en `/` con nav por iconos y accesos a EVA, consola y pitch.
 - ⏳ UI de las pantallas (Today, Body, Decision, Trends, Mission Control).
 
 ## Reparto (5 personas)

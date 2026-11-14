@@ -32,10 +32,12 @@ ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica y
 - ✅ Desplegado en **https://orbi.agustinpane.xyz** con auto-deploy en `main`
 - ✅ Demo EVA: pérdida de sync, navegación inercial y retorno a la nave
 - ✅ Pitch navegable en **`/pitch/`** (15 slides, notas del orador y modo lectura con `?view=scroll`)
+- ✅ Home de producto en `/` con navegación por iconos a EVA, consola y pitch
 - ⏳ UI de Today/Body/Decision
 
-La raíz abre la demo EVA. La consola del motor queda en `?view=console`. Para saltar a un momento
-de la demo: `/?t=18` (sin sync) o `/?t=24` (retorno inercial activo).
+La raíz abre la home. La demo EVA queda en `?view=eva` y la consola en `?view=console`.
+Para saltar a un momento de la demo: `/?view=eva&t=18` (sin sync) o `/?view=eva&t=24`
+(retorno inercial activo).
 
 ## Desarrollo
 
