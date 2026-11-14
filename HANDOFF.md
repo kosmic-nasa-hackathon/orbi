@@ -3,10 +3,10 @@
 **Date:** 2026-11-14
 **Branch:** `development` (integration) · `main` (release)
 **State:** engine, data, coach, tests, Home, EVA, console, pitch, deploy, documentation, the F0
-design foundation, Today (#58), the explainability rule-flow (#60) and Playwright smoke (#65) ready
-on `development`. The code still has a 14-day baseline, 3 correlations and 4 scenarios.
-**Missing:** Body/Decision, the Level 0 checkpoint, Trends/Mission Control, visual polish, submission
-and P3 (ground baseline + cycle, now stretch).
+design foundation, Today (#58), Decision (#64), the explainability rule-flow (#60) and Playwright
+smoke (#65) ready on `development`. The code still has a 14-day baseline, 3 correlations and 4 scenarios.
+**Missing:** Body, the Level 0 checkpoint, Trends/Mission Control, visual polish, submission and P3
+(ground baseline + cycle, now stretch).
 **Parallel execution plan:** `docs/PLAN.md`
 **Assignment and onboarding:** `docs/TEAM.md`
 **Integrator:** `@Agupane` (backup: `@atapiamallea`)
@@ -47,8 +47,8 @@ There is no backend, database or environment variables.
 - **Current code:** deterministic engine with 6 systems + halo, 3 correlations, 14-day baseline,
   4 scenarios, bone rules and estimates; `npm run gen` reproduces the JSON without diff.
 - **F0 shipped:** light/dark theme with `localStorage`, design tokens, UI primitives, motion helpers,
-  nav shell and Zustand store. Today is implemented; Body/Decision/Trends/Mission Control still have
-  route shells.
+  nav shell and Zustand store. Today and Decision are implemented; Body/Trends/Mission Control still
+  have route shells.
 - **Explainability shipped:** the Engine console has a `Rule flow` tab that animates
   signal → rule check → level → action for the fired rules (#59/#60).
 - **Target documentation (post #5):** 90-day ground-training baseline, phase-aware cycle baseline
@@ -62,7 +62,7 @@ There is no backend, database or environment variables.
 - GitHub issues as lock: the assignee is claimed with `gh issue edit <n> --add-assignee @me`
   before writing code.
 - All project docs are in English; source summaries live in `docs/resources/`.
-- **78/78 unit tests** and **12/12 Playwright smoke tests**; `npm run check`, `npm run build` and
+- **85/85 unit tests** and **12/12 Playwright smoke tests**; `npm run check`, `npm run build` and
   `npm run e2e` green.
 - The release preview responds `200` at `/`, `?view=eva`, `?view=console` and `/pitch/`; F0 is
   deployed (`theme-init.js` and the new theme assets are present).
@@ -88,17 +88,17 @@ The details, allowed files and acceptance criteria are in `docs/PLAN.md`.
 | 2 | A · Today | `@atapiamallea` | done (#13 / PR #58) |
 | 2 | A.1 · Profile and consent | `@atapiamallea` | after A; independent of P3 |
 | 2 | B · Body | `@atapiamallea` | ready |
-| 2 | C · Result: body + decision | `@atapiamallea` | in review (PR #64) |
+| 2 | C · Result: body + decision | `@atapiamallea` | done (#15 / PR #64) |
 | 2 | E · Visual polish (less density, more animations) | `@amilege` | ready |
 | 3 | D · Trends | `@Yeryalex` | Level 0 gate (#32) |
 | 3 | F · Mission Control | `@amilege` | Level 0 gate (#32) |
 | 3 | G · Level 2 (Amsler, procedures, PWA) | `@amilege` | Level 0 gate (#32); stretch |
-| 3 | H0 · Level 0 checkpoint | `@Agupane` | blocked by A/B/C only |
+| 3 | H0 · Level 0 checkpoint | `@Agupane` | blocked by B only |
 | 4 | H1 · Final integration/QA | `@Agupane` | blocked by #32; closes with Level 0 + D if it lands |
 | 4 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | blocked by #8/#10/#12 |
 | 4 | I · Final submission | `@elenaalmansacampos` | blocked by #17 |
 
-**Dependencies:** F0 is done; A is done; B/C are unblocked; A.1 (#40) follows A; E and F0.1 are
+**Dependencies:** F0, A and C are done; B is the remaining Level 0 screen; A.1 (#40) follows A; E and F0.1 are
 ready; F0.1 must merge before E because both touch Home/EVA/Console; P3 is now stretch and no longer
 blocks A/B/C; D/F/G depend on the deployed Level 0 checkpoint from H0 (#32); H1 (#17) closes on
 Level 0 plus whatever D lands before the freeze.
@@ -201,8 +201,8 @@ Every state uses colour + icon + text.
 ## 7. Next action
 
 1. Review and merge C #15 / PR #64; start B #14 (`@atapiamallea`) and A.1 #40 after A.
-2. H0 #32 when A/B/C are on `development`: run the Playwright smoke, release `development` → `main`
-   and verify the Level 0 routes in production.
+2. H0 #32 when B is on `development`: run the Playwright smoke, release `development` → `main` and
+   verify the Level 0 routes in production.
 3. P2.1 #39 (`@Agupane`): decide public vs judge access, run the dedicated full-history secret scan,
    then verify the unauthenticated URL. License, credits and access docs are already merged (#63).
 4. P3 #12 only if there is time after Level 0: announce the contract in the issue before touching
@@ -277,6 +277,7 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #60 feat: add the animated rule flow to the Engine console.
 - #62 fix: verify the radiation source and harden threshold tests.
 - #63 docs: add license, credits and submission access prep.
+- #64 feat: add the Decision triage screen and flight-surgeon packet.
 - #65 test: add the Playwright smoke suite.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi
