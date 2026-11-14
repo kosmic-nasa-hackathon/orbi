@@ -206,5 +206,6 @@ Todo lo integrado está en `main`.
 - #3 feat: add navigable pitch deck at `/pitch/`.
 - #4 feat: add product home with icon navigation and landing.
 - #5 docs: add women's health and ground-training research.
+- #23 docs: sync plan and handoff with cycle-aware direction.
 
 Repositorio: https://github.com/kosmic-nasa-hackathon/orbi
