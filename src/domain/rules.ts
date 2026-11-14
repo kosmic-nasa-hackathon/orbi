@@ -22,9 +22,9 @@ export const SOURCES = {
     verified: false,
   },
   ada: {
-    label: "ADA Standards of Care — hypo/hyperglycemia ranges",
+    label: "ADA Standards of Care — glucose ranges (exact triage cut-offs pending)",
     url: "https://diabetesjournals.org/care",
-    verified: true,
+    verified: false,
   },
   sleep: {
     label: "NASA HRP — sleep and circadian risk (qualitative; numeric cutoff pending)",
@@ -42,9 +42,10 @@ export const SOURCES = {
     verified: false,
   },
   radiation: {
-    label: "NASA-STD-3001 Vol. 1 — 600 mSv career limit (deep-space limits open; TODO verify)",
-    url: "https://standards.nasa.gov/standard/NASA/NASA-STD-3001",
-    verified: false,
+    label:
+      "NASA career limit — 600 mSv since 2022, single limit for all sexes and ages (deep-space limits still open)",
+    url: "https://www.frontiersin.org/articles/10.3389/fnume.2022.997718",
+    verified: true,
   },
   bone: {
     label: "NASA HRP Evidence Report — Bone Fracture (1–1.5% bone loss/month)",

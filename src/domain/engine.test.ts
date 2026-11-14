@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { scenarios } from "../data/scenarios";
 import { computeBaseline } from "./baseline";
 import { evaluate } from "./evaluate";
+import { SOURCES } from "./rules";
 import type { DailyReading, Scenario } from "./types";
 
 function scenario(id: string): Scenario {
@@ -164,6 +165,11 @@ describe("evaluate", () => {
     expect(result.facts.find((f) => f.id === "mission")?.value).toContain("14 min");
   });
 
+  it("keeps bone quiet with good adherence beyond 180 days", () => {
+    const result = evaluate(scenario("nominal"), 190, "MARS");
+    expect(result.assessments.some((a) => a.ruleId === "bone")).toBe(false);
+  });
+
   it("raises the bone rule only when adherence is below target", () => {
     const infection = evaluate(scenario("early-infection"), 148, "MARS");
     expect(infection.assessments.find((a) => a.ruleId === "bone")?.level).toBe("WATCH");
@@ -173,5 +179,86 @@ describe("evaluate", () => {
 
     const infectionLong = evaluate(scenario("early-infection"), 190, "MARS");
     expect(infectionLong.assessments.find((a) => a.ruleId === "bone")?.level).toBe("CONCERN");
+  });
+
+  it("treats the temperature boundaries as WATCH, CONCERN and URGENT", () => {
+    const base = scenario("nominal");
+    const day = lastDay(base);
+
+    const watch = evaluate(withReadingPatches("nominal", [[day, { tempC: 37.5 }]]), day, "MARS");
+    const watchRule = watch.assessments.find((a) => a.ruleId === "temperature");
+    expect(watchRule?.level).toBe("WATCH");
+    expect(watchRule?.because.join(" ")).toContain("watch ≥ 37.5");
+
+    const concern = evaluate(withReadingPatches("nominal", [[day, { tempC: 38 }]]), day, "MARS");
+    expect(concern.assessments.find((a) => a.ruleId === "temperature")?.level).toBe("CONCERN");
+
+    const urgent = evaluate(withReadingPatches("nominal", [[day, { tempC: 39.5 }]]), day, "MARS");
+    expect(urgent.assessments.find((a) => a.ruleId === "temperature")?.level).toBe("URGENT");
+  });
+
+  it("keeps SpO₂ 95 nominal and 94 as WATCH", () => {
+    const base = scenario("nominal");
+    const day = lastDay(base);
+
+    const nominal = evaluate(withReadingPatches("nominal", [[day, { spo2: 95 }]]), day, "MARS");
+    expect(nominal.assessments.some((a) => a.ruleId === "spo2")).toBe(false);
+
+    const watch = evaluate(withReadingPatches("nominal", [[day, { spo2: 94 }]]), day, "MARS");
+    expect(watch.assessments.find((a) => a.ruleId === "spo2")?.level).toBe("WATCH");
+  });
+
+  it("keeps glucose 70 and 54 as the exact lower boundaries", () => {
+    const base = scenario("nominal");
+    const day = lastDay(base);
+
+    const normal = evaluate(
+      withReadingPatches("nominal", [[day, { glucoseMgDl: 70 }]]),
+      day,
+      "MARS",
+    );
+    expect(normal.assessments.some((a) => a.ruleId === "glucose")).toBe(false);
+
+    const highNormal = evaluate(
+      withReadingPatches("nominal", [[day, { glucoseMgDl: 140 }]]),
+      day,
+      "MARS",
+    );
+    expect(highNormal.assessments.some((a) => a.ruleId === "glucose")).toBe(false);
+
+    const highWatch = evaluate(
+      withReadingPatches("nominal", [[day, { glucoseMgDl: 141 }]]),
+      day,
+      "MARS",
+    );
+    expect(highWatch.assessments.find((a) => a.ruleId === "glucose")?.level).toBe("WATCH");
+
+    const watch = evaluate(
+      withReadingPatches("nominal", [[day, { glucoseMgDl: 54 }]]),
+      day,
+      "MARS",
+    );
+    expect(watch.assessments.find((a) => a.ruleId === "glucose")?.level).toBe("WATCH");
+
+    const concern = evaluate(
+      withReadingPatches("nominal", [[day, { glucoseMgDl: 53 }]]),
+      day,
+      "MARS",
+    );
+    expect(concern.assessments.find((a) => a.ruleId === "glucose")?.level).toBe("CONCERN");
+
+    const urgent = evaluate(
+      withReadingPatches("nominal", [[day, { glucoseMgDl: 39 }]]),
+      day,
+      "MARS",
+    );
+    expect(urgent.assessments.find((a) => a.ruleId === "glucose")?.level).toBe("URGENT");
+  });
+
+  it("reports the radiation source as verified and glucose as still pending", () => {
+    expect(SOURCES.radiation.verified).toBe(true);
+    expect(SOURCES.radiation.label).not.toContain("TODO");
+    expect(SOURCES.ada.verified).toBe(false);
+    expect(Object.values(SOURCES).filter((source) => !source.verified)).toHaveLength(6);
   });
 });
