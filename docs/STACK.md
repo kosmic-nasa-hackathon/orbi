@@ -1,7 +1,7 @@
 # STACK — ORBI
 
 > What to install, in what order and why. No theory: decisions and commands.
-> Scope and product: `CONCEPTO-ORBI.md` · Team summary: `BRIEF.md`
+> Scope and product: `CONCEPT.md` · Team summary: `BRIEF.md`
 
 ---
 
@@ -164,7 +164,7 @@ jobs:
 ```
 orbi/                            # = root of the kosmic-nasa-hackathon/orbi repo
 ├─ README.md
-├─ docs/                         # BRIEF, CONCEPTO-ORBI, STACK, recursos/
+├─ docs/                         # BRIEF, CONCEPT, STACK, resources/
 ├─ .nvmrc
 ├─ .github/workflows/ci.yml
 ├─ public/
@@ -173,7 +173,7 @@ orbi/                            # = root of the kosmic-nasa-hackathon/orbi repo
 │  └─ generate-mission.ts        # npm run gen → src/data/scenarios/*.json
 ├─ src/
 │  ├─ domain/                    # ⚠️ ZERO React imports here
-│  │  ├─ types.ts                # the contract (see CONCEPTO-ORBI.md §8)
+│  │  ├─ types.ts                # the contract (see CONCEPT.md §8)
 │  │  ├─ baseline.ts             # mean ± σ of the 90 training days; per cycle phase if cycle = tracked (proposal)
 │  │  ├─ rules.ts                # thresholds, sources and action cards
 │  │  ├─ levels.ts               # level order and labels
@@ -329,11 +329,11 @@ function mulberry32(seed: number) {
 
 **One crew member, 90 days of ground training (baseline, days −90 to −1, `phase: "TRAINING"`) + 30 days of mission (`phase: "TRANSIT"`).** Per day: the 7 check-in indicators + minutes of resistive exercise (device) + environment (cabin CO₂, dose, SPE). The 30 days correspond to days **119–148** of the Mars mission (`firstMissionDay` field): they are still in transit, because the outbound leg lasts 162–189 days according to the HRP, so the "Day 148 on the way to Mars" hook fits.
 
-Scenario fields that the estimates need (see `CONCEPTO-ORBI.md` §4.3 and §8):
+Scenario fields that the estimates need (see `CONCEPT.md` §4.3 and §8):
 
 | Field | Default value | What for |
 |---|---|---|
-| `exposureBudgetMSv` | 600 (NASA career limit since 2022, the same for all sexes and ages; `recursos/08`); the demo scenarios use 400 so the halo is legible | % of the budget in the halo |
+| `exposureBudgetMSv` | 600 (NASA career limit since 2022, the same for all sexes and ages; `resources/08`); the demo scenarios use 400 so the halo is legible | % of the budget in the halo |
 | `priorDoseMSv` | the accumulated dose on days 1–118 | So the halo does not start at 0 on day 119 |
 | `exerciseTargetMinPerDay` | the mission target | Exercise adherence rule (bone) |
 | `trainingDays` | 90 | Ground baseline days (2–3 cycles) |
@@ -343,11 +343,11 @@ Scenario fields that the estimates need (see `CONCEPTO-ORBI.md` §4.3 and §8):
 
 **Cycle model** (generator, only if `crew.cycle === "tracked"`):
 - Cycle of 28 ± 2 days, seeded with the RNG. Period (`menses: true`) on days 1–5. Ovulation around day 14.
-- In the luteal phase (days ~15–28) **+0.4 °C ± 0.1** is added to temperature and **+4 bpm ± 1** to resting HR. It is the `recursos/08` range: +0.28–0.56 °C and +2–7 bpm.
+- In the luteal phase (days ~15–28) **+0.4 °C ± 0.1** is added to temperature and **+4 bpm ± 1** to resting HR. It is the `resources/08` range: +0.28–0.56 °C and +2–7 bpm.
 - `baseline.ts` computes mean ± σ per phase with the training days. The relative rules ("+2σ", "+10 bpm") use the current phase's baseline; **the absolute thresholds do not change**.
 - Mandatory test: with a temperature of 38.1 °C in the luteal phase, it still fires CONCERN.
 
-The same 5 scenarios as in `CONCEPTO-ORBI.md` §7:
+The same 5 scenarios as in `CONCEPT.md` §7:
 
 | Scenario | What it tells | What it demonstrates |
 |---|---|---|

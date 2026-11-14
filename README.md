@@ -14,14 +14,14 @@ Each astronaut's baseline is learned **during ground training** and **takes the 
 | Document | Purpose |
 |---|---|
 | **[docs/BRIEF.md](docs/BRIEF.md)** | **Start here.** The project in 2 minutes, scope levels and work lanes |
-| [docs/CONCEPTO-ORBI.md](docs/CONCEPTO-ORBI.md) | Full concept: use on the ship, rules, scenarios, type contract, demo script |
+| [docs/CONCEPT.md](docs/CONCEPT.md) | Full concept: use on the ship, rules, scenarios, type contract, demo script |
 | [docs/STACK.md](docs/STACK.md) | Technical stack, setup commands, folder structure, CI and risks |
 | **[docs/PLAN.md](docs/PLAN.md)** | **Live plan:** parallel lanes, branches, allowed files and acceptance criteria |
 | **[docs/TEAM.md](docs/TEAM.md)** | **Live assignment:** roster, owner/support, worktrees, ports and onboarding |
 | [docs/TASKS.md](docs/TASKS.md) | Historical briefs per lane (product context) |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Dokploy + Cloudflare runbook and auto-deploy |
 | [docs/PITCH.md](docs/PITCH.md) | Pitch script and navigable deck at `/pitch/` |
-| [docs/recursos/](docs/recursos/README.md) | Summaries of the official NASA and CSA resources, plus astronaut women's health and ground training, and how we use them |
+| [docs/resources/](docs/resources/README.md) | Summaries of the official NASA and CSA resources, plus women's health in spaceflight and ground training, and how we use them |
 | **[HANDOFF.md](HANDOFF.md)** | Current state, blockers and next actions |
 | [AGENTS.md](AGENTS.md) · [CLAUDE.md](CLAUDE.md) | Rules for coding agents (OpenCode, Claude Code, Codex) |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Setup, branches, PRs and commits |
@@ -38,7 +38,7 @@ Each astronaut's baseline is learned **during ground training** and **takes the 
 - ✅ Navigable pitch at **`/pitch/`** (15 slides, speaker notes and reading mode with `?view=scroll`)
 - ✅ Product home at `/` with icon navigation to EVA, console and pitch
 - ✅ Documented product shift: ground-training baseline and opt-in menstrual cycle
-  (`docs/recursos/08` and `09`)
+  (`docs/resources/08` and `09`)
 - ⏳ P3 · Engine: 90-day baseline, `cycle-aware`, `luteal-phase`, 5 scenarios and 4 correlations
 - ⏳ Light theme + switch, P3 (baseline + cycle), Today/Body/Decision, Trends and Mission Control (see `docs/PLAN.md` and `docs/TEAM.md`)
 

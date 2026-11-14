@@ -19,7 +19,7 @@ A tablet app where the astronaut does a **90-second daily check-in**. The watch 
 - **Also designed for the female astronaut.** In the luteal phase temperature and HR rise, and ORBI does not mistake it for an infection: *"Expected cycle variation, not infection."* The data is opt-in and **does not travel to Earth without her permission**. Absolute clinical thresholds are never relaxed.
 - **"Train like you fly":** ORBI is used from ground training (90 days), and there it learns the **personal baseline** against which it compares each in-flight reading.
 - **It is honest about what cannot be measured:** bone loss is **estimated** with NASA evidence (1–1.5%/month) and radiation is shown against a **budget**, because NASA acknowledges that there are still no limits for long missions.
-- **Everything with sources**: NASA's and CSA's official ones, plus scientific reviews on female health and training (`recursos/08` and `09`).
+- **Everything with sources**: NASA's and CSA's official ones, plus scientific reviews on female health and training (`resources/08` and `09`).
 
 ## Scope by levels
 **Level 0 · Core (mandatory)**
@@ -56,7 +56,7 @@ The contract between blocks is `src/domain/types.ts`: **it is not changed withou
 - **Saturday night:** Level 1 (if we are 4–5)
 - **Sunday 12:00:** code frozen → video + submission
 
-Full detail in `CONCEPTO-ORBI.md`. Sources summarized in `recursos/README.md`.
+Full detail in `CONCEPT.md`. Sources summarized in `resources/README.md`.
 
 ---
 

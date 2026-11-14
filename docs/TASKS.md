@@ -40,7 +40,7 @@ evaluation, data and tests.
 
 First PR (`engine/threshold-audit`):
 
-- Review every threshold in `src/domain/rules.ts` against `docs/recursos/` and mark `verified`
+- Review every threshold in `src/domain/rules.ts` against `docs/resources/` and mark `verified`
   only when there is a primary source. Those without one stay `false` with a `TODO verify` note.
 - Add tests for the exact limits (WATCH/CONCERN/URGENT) and for the bone case with
   good adherence on a long mission.
@@ -130,7 +130,7 @@ Criteria:
 
 - Accessible contrast and states; color + icon + text.
 - Illustration credits (Servier CC BY 4.0) visible.
-- Demo script aligned with `CONCEPTO-ORBI.md` §13.
+- Demo script aligned with `CONCEPT.md` §13.
 
 ## Integration + deploy
 
