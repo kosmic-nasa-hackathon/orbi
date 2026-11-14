@@ -1,8 +1,9 @@
 name: ci
 
+# development is the integration branch; main is release-only.
 on:
   push:
-    branches: [main]
+    branches: [main, development]
   pull_request:
 
 concurrency:

@@ -1,5 +1,6 @@
 name: deploy
 
+# Release-only: main is updated by the development -> main release PR.
 on:
   workflow_run:
     workflows: [ci]
