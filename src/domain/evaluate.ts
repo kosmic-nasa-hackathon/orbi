@@ -143,8 +143,13 @@ export function evaluate(scenario: Scenario, day: number, mission: Mission): Eva
       `Temperature ${temp.toFixed(1)} °C (concern ≥ ${THRESHOLDS.tempC.concern} °C)`,
     ]);
   } else if (temp >= THRESHOLDS.tempC.watch || tempSigma >= 2) {
-    const because = [`Temperature ${temp.toFixed(1)} °C (watch ≥ ${THRESHOLDS.tempC.watch} °C)`];
-    if (tempSigma >= 2) because.push(`${tempSigma.toFixed(1)}σ above your pre-flight baseline`);
+    const because: string[] = [];
+    if (temp >= THRESHOLDS.tempC.watch) {
+      because.push(`Temperature ${temp.toFixed(1)} °C (watch ≥ ${THRESHOLDS.tempC.watch} °C)`);
+    }
+    if (tempSigma >= 2) {
+      because.push(`${tempSigma.toFixed(1)}σ above your pre-flight baseline`);
+    }
     add("temperature", "WATCH", because);
   }
 
@@ -162,9 +167,13 @@ export function evaluate(scenario: Scenario, day: number, mission: Mission): Eva
     add("restingHr", "URGENT", [
       `Resting HR ${hr} bpm (urgent > ${THRESHOLDS.restingHr.urgent} bpm)`,
     ]);
-  } else if (hr > THRESHOLDS.restingHr.concern || (hrAvg2 ?? 0) > THRESHOLDS.restingHr.concern) {
+  } else if (hr > THRESHOLDS.restingHr.concern) {
     add("restingHr", "CONCERN", [
       `Resting HR ${hr} bpm (concern > ${THRESHOLDS.restingHr.concern} bpm)`,
+    ]);
+  } else if ((hrAvg2 ?? 0) > THRESHOLDS.restingHr.concern) {
+    add("restingHr", "CONCERN", [
+      `Resting HR ${Math.round(hrAvg2 ?? hr)} bpm over 2 days (concern > ${THRESHOLDS.restingHr.concern} bpm)`,
     ]);
   } else if ((hrAvg2 ?? 0) > baseline.restingHr.mean + THRESHOLDS.restingHr.baselineDelta) {
     add("restingHr", "WATCH", [
