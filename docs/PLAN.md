@@ -1,8 +1,8 @@
 # PLAN — ORBI
 
 Plan vivo para ejecutar lo que falta en paralelo con varios agentes.
-El estado actual y los bloqueos están en `HANDOFF.md`; el producto, en `docs/BRIEF.md` y
-`docs/CONCEPTO-ORBI.md`.
+El estado actual y los bloqueos están en `HANDOFF.md`; el reparto y onboarding, en `docs/TEAM.md`;
+el producto, en `docs/BRIEF.md` y `docs/CONCEPTO-ORBI.md`.
 
 **Fecha:** 2026-11-14
 **Base:** `main`
@@ -500,7 +500,7 @@ dependencias. Agustín queda como integrador y único merge a `main`; Andrea Tap
 
 ## 6. Paralelización con worktrees
 
-Ejemplo de arranque:
+Ejemplo de arranque (lista completa en `docs/TEAM.md` §5):
 
 ```bash
 git fetch origin
