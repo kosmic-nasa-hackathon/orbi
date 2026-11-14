@@ -181,9 +181,10 @@ en verde. No hay previews por PR.
 Los webhooks por token (`/api/deploy/<refreshToken>`) **siguen detrás de Cloudflare Access**; por eso
 no funcionan desde un runner GitHub-hosted. Si no se puede usar la GitHub App:
 
-1. Registra un runner self-hosted en la LAN (el runner 100 ya tiene 6; sería el séptimo).
-2. Guarda `DOKPLOY_TOKEN` como secret del repo.
-3. Añade un workflow que, tras el CI, haga:
+1. Registra un runner self-hosted en la LAN con el label `orbi`.
+2. Crea el secret del repo `DOKPLOY_TOKEN` con el `refreshToken` de la app en Dokploy.
+3. Crea la variable del repo `DOKPLOY_AUTO_DEPLOY=true`.
+4. El workflow `.github/workflows/deploy.yml` se dispara cuando termina `ci` en `main` y llama:
 
 ```bash
 curl -X POST "http://192.168.1.115:3000/api/deploy/$DOKPLOY_TOKEN" \
@@ -191,6 +192,9 @@ curl -X POST "http://192.168.1.115:3000/api/deploy/$DOKPLOY_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"ref":"refs/heads/main"}'
 ```
+
+Mientras `DOKPLOY_AUTO_DEPLOY` no exista o sea distinto de `true`, el job se salta y no falla.
+También se puede lanzar a mano con **Actions → deploy → Run workflow**.
 
 Un `301` con `{"message":"Branch Not Match"}` significa que el branch del payload no coincide con
 el configurado en Dokploy; no lo reintentes como si fuera un error de red.
