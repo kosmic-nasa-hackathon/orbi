@@ -8,6 +8,7 @@ NASA Space Apps Challenge 2026 · team Kosmic.
 - `docs/BRIEF.md` — product in 2 minutes, scope levels, work lanes.
 - `docs/CONCEPT.md` — full concept, rules, scenarios, demo script.
 - `docs/STACK.md` — stack, setup, folder structure, CI and risks.
+- `docs/DESIGN.md` — design system "Body in orbit": tokens, type, components, patterns.
 - **`docs/PLAN.md` — live parallel plan: lanes, branches, file ownership and acceptance criteria.**
 - `docs/TEAM.md` — live roster, owners, worktrees, ports and onboarding.
 - `docs/TASKS.md` — historical lane briefs (product context).
@@ -48,6 +49,8 @@ pre-flight baseline, 3 correlations and 4 scenarios; keep that distinction visib
    The demo always shows mission day 148. Never randomize data at runtime.
 8. No secrets in the repo. No `.env`, tokens or credentials in commits, logs, screenshots or docs.
 9. Colour is never the only signal: every state uses colour + icon + text.
+10. UI uses the design-system tokens and primitives (`docs/DESIGN.md`). No hex colours or
+    one-off font stacks in components.
 
 ## AI coach rules
 
