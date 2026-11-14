@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
-import { useOrbiStore } from "../store/orbiStore";
+import { getScenario } from "../data/scenarios";
+import { DEMO_DAY, useOrbiStore } from "../store/orbiStore";
 import Today, { TodayScreen } from "./Today";
 
 const store = useOrbiStore;
@@ -20,10 +21,11 @@ describe("Today", () => {
       .closest("section");
     expect(wearable).not.toBeNull();
     const panel = within(wearable as HTMLElement);
-    expect(panel.getByText("5.0")).toBeInTheDocument();
-    expect(panel.getByText("73")).toBeInTheDocument();
-    expect(panel.getByText("37.9")).toBeInTheDocument();
-    expect(panel.getByText("98")).toBeInTheDocument();
+    const reading = getScenario("early-infection").readings.find((r) => r.day === DEMO_DAY)!;
+    expect(panel.getByText(reading.sleepHours.toFixed(1))).toBeInTheDocument();
+    expect(panel.getByText(String(reading.restingHr))).toBeInTheDocument();
+    expect(panel.getByText(reading.tempC.toFixed(1))).toBeInTheDocument();
+    expect(panel.getByText(String(reading.spo2))).toBeInTheDocument();
     expect(panel.queryAllByRole("textbox")).toHaveLength(0);
     expect(screen.getAllByRole("textbox")).toEqual([glucoseInput()]);
   });
