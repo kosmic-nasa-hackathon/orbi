@@ -93,6 +93,7 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 
 **Verificación actual:** `npm run check` verde, **32/32 tests**, `npm run build` OK. El deploy
 automático se probó con `workflow_dispatch` y con un push real a `main`; ambos terminaron en `done`.
+El commit `ed50dec` desplegó la demo EVA: la raíz y `/?t=18` responden `200` con la simulación.
 
 ---
 
@@ -145,8 +146,8 @@ Notas de infraestructura:
 
 ## 6. Próximas 3 acciones
 
-1. **Verificar la demo EVA en la URL**: push a `main` → CI → deploy → abrir la raíz y `?view=console`.
-2. **UI Level 0**: App shell + DemoBar + Today + Body + Decision, conectando `evaluate()` y `askCoach()`.
+1. **UI Level 0**: App shell + DemoBar + Today + Body + Decision, conectando `evaluate()` y `askCoach()`.
+2. **Integrar la demo EVA** con Today/Body/Decision y el pitch; la raíz ya la muestra.
 3. **Trends + Mission Control** cuando el nivel 0 ya esté en la URL; después, material de pitch.
 
 ---
