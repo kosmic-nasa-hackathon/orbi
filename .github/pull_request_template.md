@@ -2,6 +2,8 @@
 
 <!-- Una frase. Enlaza la tarea de docs/TASKS.md o el issue. -->
 
+Closes #
+
 ## Lane
 
 - [ ] A · Motor + datos
@@ -13,7 +15,8 @@
 
 ## Checklist
 
-- [ ] `npm run check` en verde (typecheck + Biome + tests)
+- [ ] Issue reclamado/asignado y referenciado con `Closes #<número>`
+- [ ] `npm run check` en verde (typecheck + check:domain + Biome CI + tests)
 - [ ] `npm run build` pasa
 - [ ] No he cambiado `src/domain/types.ts` ni `src/ai/types.ts` sin avisar al equipo
 - [ ] La UI nueva está en inglés; los docs internos, en español

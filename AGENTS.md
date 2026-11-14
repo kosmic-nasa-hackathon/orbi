@@ -53,7 +53,7 @@ an optional **explanation layer**:
 
 ## Commands
 
-Node 22 is pinned in `.nvmrc`.
+Node 22 and npm 10 are pinned in `.nvmrc`, `packageManager` and `engines`; `.npmrc` enforces them.
 
 ```bash
 nvm use                 # or: nvm install 22
@@ -61,12 +61,36 @@ npm ci
 npm run dev             # Vite dev server
 npm run gen             # regenerate src/data/scenarios/*.json
 npm run test            # Vitest
-npm run typecheck       # tsc --noEmit
-npm run lint            # Biome
-npm run check           # typecheck + lint + tests (run before every PR)
+npm run typecheck       # tsc --noEmit (full app)
+npm run check:domain    # tsc over pure layers with no DOM lib
+npm run lint            # Biome (local check mode)
+npm run lint:ci         # Biome CI mode (same gate as GitHub Actions)
+npm run check           # typecheck + check:domain + lint:ci + tests (run before every PR)
 npm run build           # production build in dist/
 npm run preview         # serve the production build locally
 ```
+
+## Toolchain and type/structure rules
+
+The stack is **Vite 8 + React 19.3**. Do not add Next.js, SSR or a backend; this is a static SPA.
+Pinned versions: Node 22, npm 10, TypeScript 5.9, Biome 2.6 and Vitest 5.
+
+Enforced locally and in CI:
+
+- `tsconfig.json`: `strict`, `noUncheckedIndexedAccess`, `noImplicitOverride`,
+  `noUncheckedSideEffectImports`, `allowUnreachableCode: false`, `allowUnusedLabels: false` and
+  `verbatimModuleSyntax`. Use `import type` for type-only imports.
+- `tsconfig.domain.json`: checks `src/domain`, `src/data`, `src/content` and `src/simulation`
+  **without the DOM lib**, so `window`, `document` and browser APIs fail at compile time.
+- `biome.json`: recommended preset, `noExplicitAny` as an error, `useImportType` and `useConst`
+  enabled, and imports organized on check. Do not use `any`; use `unknown` and narrow it.
+- Pure layers (`domain`, `data`, `content`, `simulation`) cannot import React, the DOM, Zustand,
+  Motion, `@/components/*`, `@/screens/*`, `@/store/*` or `@/ai/*`. Biome's `noRestrictedImports`
+  and `noRestrictedGlobals` enforce the boundary.
+- `.editorconfig` is the editor baseline; Biome is the formatter and linter of record.
+
+Run `npm run check` before every PR. Do not bypass it with `--no-verify` or by weakening the flags;
+if a new rule is too noisy, discuss it and change the config in a dedicated PR.
 
 ## Architecture
 
@@ -93,6 +117,7 @@ src/store/         Zustand store (scenario, day, mission, streak)
 
 ## Workflow
 
+- **Claim the GitHub issue for your lane before writing code** (see next section).
 - One branch per lane:
   `engine/…`, `body/…`, `today/…`, `ai/…`, `mission-control/…`, `design/…`, `deploy/…`.
 - Small PRs to `main`, CI green, one integrator merges (Andrea unless `docs/TASKS.md` says otherwise).
@@ -101,6 +126,28 @@ src/store/         Zustand store (scenario, day, mission, streak)
 - Update `HANDOFF.md` whenever the state, a blocker or the next action changes.
 - Do not start Level 1 (Trends/Mission Control) until Level 0 (Today + Body + Decision) works on the
   deployed URL.
+
+## Issue ownership (agents)
+
+Every task must be tied to a GitHub issue. The assignee is the lock: **if an issue is assigned to
+someone else, do not start it.**
+
+1. Find the issue for your lane: `gh issue list --state open`, or the issue linked in
+   `docs/PLAN.md`. If `gh` is not authenticated, run `gh auth status` first.
+2. If the issue does not exist, create it with the lane name, scope, allowed files and acceptance
+   criteria (`gh issue create`). Use the lane labels from `docs/PLAN.md`.
+3. Claim it **before writing code**:
+
+   ```bash
+   gh issue edit <number> --add-assignee @me
+   gh issue comment <number> --body "Claimed by <agent/model> on branch <branch> (worktree <path>)."
+   ```
+
+4. If it is already assigned, stop and coordinate in the issue. Never reassign another person's
+   issue yourself.
+5. Reference it in the PR body with `Closes #<number>`.
+6. On completion, update the issue and close it. If you stop blocked, leave it assigned and comment
+   the blocker and the next action.
 
 ## Testing
 
@@ -128,4 +175,6 @@ src/store/         Zustand store (scenario, day, mission, streak)
 - Tests cover the new rule/correlation/estimate or the guardrail case.
 - UI copy is in English; internal docs are updated.
 - No contract, secret or generated-data drift is left unexplained.
+- The issue is claimed, referenced with `Closes #<number>` and closed; if blocked, it stays
+  assigned with a comment explaining the blocker and next action.
 - `HANDOFF.md` reflects the new state and the next action.

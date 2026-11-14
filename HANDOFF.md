@@ -23,11 +23,12 @@ npm run dev
 Verificación:
 
 ```bash
-npm run check    # typecheck + Biome + tests
+npm run check    # typecheck + check:domain + Biome CI + tests
 npm run build    # tsc --noEmit + vite build
 ```
 
-Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
+Node 22 y npm 10 fijados (`.nvmrc`, `packageManager`, `engines`; `.npmrc` con `engine-strict`).
+No hay backend, base de datos ni variables de entorno.
 
 ---
 
@@ -39,6 +40,10 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 - Home `/`, demo EVA `?view=eva`, consola `?view=console` y pitch `/pitch/`.
 - Nav sticky con iconos, rutas por query y back/forward.
 - CI, Docker, nginx, Dokploy, Cloudflare y auto-deploy funcionando.
+- Calidad unificada: TypeScript 5.9 estricto, `tsconfig.domain.json` sin lib DOM, Biome 2.6 con
+  overrides de capas puras y `biome ci` dentro de `npm run check`.
+- Issues de GitHub como lock: el assignee se reclama con `gh issue edit <n> --add-assignee @me`
+  antes de escribir código.
 - **36/36 tests**; `npm run check` y `npm run build` verdes.
 - Producción responde `200` en `/`, `?view=eva`, `?view=console` y `/pitch/`.
 
