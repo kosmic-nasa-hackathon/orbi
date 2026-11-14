@@ -4,13 +4,70 @@
   "files": { "includes": ["src/**", "scripts/**", "*.ts", "*.json"] },
   "css": { "parser": { "tailwindDirectives": true } },
   "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2, "lineWidth": 100 },
+  "assist": {
+    "enabled": true,
+    "actions": { "source": { "organizeImports": "on" } }
+  },
   "linter": {
     "enabled": true,
     "rules": {
       "preset": "recommended",
-      "style": { "noNonNullAssertion": "off" },
-      "suspicious": { "noExplicitAny": "warn" }
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "useConst": "error",
+        "useImportType": "error"
+      },
+      "suspicious": { "noExplicitAny": "error" }
     }
   },
+  "overrides": [
+    {
+      "includes": ["src/domain/**", "src/data/**", "src/content/**", "src/simulation/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "react",
+                      "react-dom",
+                      "react/**",
+                      "zustand",
+                      "motion",
+                      "motion/**",
+                      "@/components/**",
+                      "@/screens/**",
+                      "@/store/**",
+                      "@/ai/**"
+                    ],
+                    "message": "Pure layers cannot import React, UI, store or coach modules."
+                  }
+                ]
+              }
+            },
+            "noRestrictedGlobals": {
+              "level": "error",
+              "options": {
+                "deniedGlobals": {
+                  "window": "Pure layers cannot use browser APIs.",
+                  "document": "Pure layers cannot use browser APIs.",
+                  "localStorage": "Pure layers cannot use browser APIs.",
+                  "sessionStorage": "Pure layers cannot use browser APIs.",
+                  "navigator": "Pure layers cannot use browser APIs."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "javascript": { "formatter": { "quoteStyle": "double" } }
 }

@@ -14,13 +14,17 @@ interactivo (Nivel 0), Trends/Mission Control, tema light, rediseño y entrega.
 ## 1. Cómo usar este documento
 
 1. Leer `AGENTS.md`, `HANDOFF.md` y la sección de tu lane.
-2. Trabajar **una lane por rama y, si se puede, por worktree**.
-3. Tocar solo los archivos permitidos de la lane. Si necesitás un archivo compartido, pedirlo al
+2. **Reclamar el issue de la lane** antes de escribir código: si no existe, crearlo; después
+   `gh issue edit <n> --add-assignee @me` y comentar agente, rama y worktree. Si ya está asignado
+   a otra persona, no empezar.
+3. Trabajar **una lane por rama y, si se puede, por worktree**.
+4. Tocar solo los archivos permitidos de la lane. Si necesitás un archivo compartido, pedirlo al
    integrador; no lo edites por tu cuenta.
-4. Antes de abrir el PR: `npm run check` y `npm run build`.
-5. PR con título `[lane-id] descripción corta`, screenshots dark/light y viewport tablet.
-6. No cambiar contratos, datos generados, secretos ni configuración de deploy.
-7. El integrador es el único que actualiza la tabla de estado de §4 y mergea a `main`.
+5. Antes de abrir el PR: `npm run check` y `npm run build`.
+6. PR con título `[lane-id] descripción corta`, `Closes #<n>`, screenshots dark/light y viewport
+   tablet.
+7. No cambiar contratos, datos generados, secretos ni configuración de deploy.
+8. El integrador es el único que actualiza la tabla de estado de §4 y mergea a `main`.
 
 ### Regla de oro
 
