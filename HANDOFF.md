@@ -79,8 +79,8 @@ auto-deploy funciona.
 
 Riesgos conocidos:
 
-- **Umbrales sin verificar:** 5 fuentes siguen `verified: false` con nota `TODO verify`. Es
-  deliberado; no inventar números. Lo cubre P1.
+- **Umbrales sin verificar:** 6 fuentes siguen `verified: false` (clinical, sleep, behavioral,
+  co2, radiation e immune). Es deliberado; no inventar números. Lo cubre P1.
 - **Tema light:** el refactor toca todas las pantallas; usar tokens y screenshots dark/light.
 - **Conflictos en paralelo:** los archivos compartidos los toca solo F0/Integración.
 - **PWA/service worker:** puede romper la caché; va al final y feature-flagged.
