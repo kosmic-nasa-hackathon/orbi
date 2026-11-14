@@ -1,4 +1,4 @@
-# Recursos oficiales del reto
+# Recursos del reto
 
 Recursos publicados por NASA Space Apps 2026 para *Create Health Monitoring Software for Astronauts on Space Missions*. Un archivo por recurso, cada uno con su resumen y una sección **"Cómo lo usamos en ORBI"**.
 
@@ -12,6 +12,15 @@ Recursos publicados por NASA Space Apps 2026 para *Create Health Monitoring Soft
 | 06 | [Space Radiation – monitorización](06-nasa-space-radiation-monitoring.md) | NASA JSC | Dosímetros reales (CPD, RAM, TEPC); NASA reconoce que **no hay límites de dosis para misiones largas** |
 | 07 | [Evidence Report: Bone Fracture](07-hrp-evidence-report-bone-fracture.md) | NASA HRP | Pérdida ósea de 1–1,5 %/mes, duraciones de misión, factor de riesgo tras volver de Marte; reglas para Musculoskeletal |
 
+### Recursos externos (no oficiales del reto)
+
+Se añadieron cuando el equipo decidió tener en cuenta a la mujer astronauta y la fase de entrenamiento en tierra. Son revisiones científicas y documentos de NASA; cada archivo cita sus fuentes.
+
+| # | Recurso | Fuentes | Para qué nos sirve sobre todo |
+|---|---|---|---|
+| 08 | [Salud de la mujer astronauta](08-salud-mujer-astronauta.md) | NASA/NSBRI (J Women's Health 2014), Front. Physiol. 2025, NTRS, JMIR | La fase lútea sube temperatura y FC → **línea base consciente del ciclo**; supresión menstrual, trombosis de 2019, límite de radiación único de 600 mSv desde 2022 |
+| 09 | [Entrenamiento en tierra](09-entrenamiento-en-tierra.md) | NASA Standard Measures, HERA, LSAH | Los datos de tierra **sí** se correlacionan con el vuelo: son la línea base personal. Calendario L-180…R+30 y "Train like you fly" |
+
 ## Conclusiones para el equipo
 
 1. **Los recursos confirman el concepto.** Las 5 amenazas, los riesgos del HRP y los estudios en marcha (ARCHeR, Standard Measures) encajan con el diseño de ORBI. No hace falta cambiar el alcance.
@@ -20,6 +29,7 @@ Recursos publicados por NASA Space Apps 2026 para *Create Health Monitoring Soft
    - *"NASA says the five hazards feed off one another. That's why ORBI correlates signals instead of showing isolated numbers."* (01)
    - *"ORBI addresses a named HRP risk: inadequate systems operations support."* (02)
    - *"Deep-space crews can rely less on Earth for emergency medical assistance, so ORBI decides on board."* (05)
-4. **Citar las dos agencias** (NASA y CSA) en la página del proyecto y en los créditos de la app.
+4. **Los recursos externos (08, 09) añaden el giro del proyecto.** La fase lútea puede imitar el inicio de una infección (+0,28–0,56 °C, +2–7 lpm), así que la basal tiene en cuenta el ciclo. Los datos del entrenamiento en tierra son la línea base personal (uso operativo), no solo histórico. Los 600 mSv por defecto quedan confirmados como límite único para todos los sexos y edades.
+5. **Citar las dos agencias** (NASA y CSA) en la página del proyecto y en los créditos de la app.
 
 Las referencias se pueden enlazar desde `content/explain.ts` (campo `source`) para que cada texto "Why this matters" muestre su fuente.

@@ -159,6 +159,12 @@ Notas de infraestructura:
   duplicar tipos.
 - **Datos demo**: los escenarios usan un presupuesto de radiación de 400 mSv para que el halo sea
   legible; 600 mSv sigue siendo la referencia del límite de carrera de NASA.
+- **Giro de producto (docs)**: salud de la mujer astronauta + fase de entrenamiento en tierra.
+  Evidencia en `docs/recursos/08` y `09`; diseño en `CONCEPTO-ORBI.md` §0, §4.2, §4.4, §7 y §13.
+  Basal de 90 días de tierra, basal por fase del ciclo (opt-in, privada, sin relajar umbrales
+  absolutos), correlación `cycle-aware` y escenario `luteal-phase`. **Aún no está en el código**:
+  requiere anunciar la ampliación del contrato (`CONCEPTO-ORBI.md` §8, propuesta) antes del PR `engine/…`.
+  El límite de 600 mSv ya tiene fuente (único para todos los sexos y edades desde 2022, `recursos/08`).
 - **Deploy**: Dokploy BCN + origen Git SSH con deploy key + runner self-hosted para el auto-deploy.
   Sin previews por PR. La GitHub App de Dokploy queda como alternativa si se instala en la org.
 
@@ -168,7 +174,9 @@ Notas de infraestructura:
 
 1. **UI Level 0**: App shell + DemoBar + Today + Body + Decision, conectando `evaluate()` y `askCoach()`.
 2. **Integrar la demo EVA** con Today/Body/Decision y el pitch; la raíz ya la muestra.
-3. **Trends + Mission Control** cuando el nivel 0 ya esté en la URL; después, material de pitch.
+3. **Engine: basal de tierra + ciclo** (tras anunciar el contrato): `Phase`, `CrewProfile`, generador con 90 días y
+   modelo de ciclo, `cycle-aware` + escenario `luteal-phase` con tests; actualizar la fuente de 600 mSv en `rules.ts`.
+4. **Trends + Mission Control** cuando el nivel 0 ya esté en la URL; después, material de pitch.
 
 ---
 
