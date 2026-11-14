@@ -211,7 +211,7 @@ orbi/                            # = root of the kosmic-nasa-hackathon/orbi repo
 │     ├─ MissionControl.tsx      # level 1 (second window: ground)
 │     ├─ Procedures.tsx          # level 2
 │     ├─ VisionTest.tsx          # level 2 (Amsler grid)
-│     └─ CrewPanel.tsx           # level 2 (CMO view)
+│     └─ CrewPanel.tsx           # future work (CMO view, not planned)
 ```
 
 **The golden architectural rule:** `src/domain/` does not import anything from React.
@@ -230,7 +230,7 @@ Rule: **do not start a level until the previous one can be demonstrated complete
 |---|---|---|---|
 | **0 · Core** | Today (check-in + streak), Body (6 systems + halo), Decision (because, action card, escalation), DemoBar (+ cycle toggle), 4 correlations + 2 bone rules + 2 estimates, 5 scenarios, phase-aware ground baseline | ~28 h | 2–3 |
 | **1 · Differentiator** | **Trends** (charts with the *"Your ground baseline"* band + cycle overlaid) + **Mission Control** (ship ↔ ground in two windows, §8) | +8 h | 4–5 |
-| **2 · Extra** | 2 guided procedures + jugular ultrasound, contraceptive supply warning, **Amsler grid vision test**, CMO view with 3 crew members, offline PWA | +10 h | 5, and only if level 1 is done by Saturday night |
+| **2 · Extra** | 2 guided procedures + jugular ultrasound, contraceptive supply warning, **Amsler grid vision test**, offline PWA | +10 h | 5, and only if level 1 is done by Saturday night |
 
 ### Level 0 budget
 
