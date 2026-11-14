@@ -23,8 +23,8 @@ Se añadieron cuando el equipo decidió tener en cuenta a la mujer astronauta y 
 
 ## Conclusiones para el equipo
 
-1. **Los recursos confirman el concepto.** Las 5 amenazas, los riesgos del HRP y los estudios en marcha (ARCHeR, Standard Measures) encajan con el diseño de ORBI. No hace falta cambiar el alcance.
-2. **Casi ningún recurso da umbrales numéricos.** La excepción es el hueso (07: 1–1,5 %/mes, > 90 días, > 6 meses). Para la radiación, NASA dice que **no hay límites para misiones largas** (06): el halo muestra un presupuesto configurable, no un umbral inventado. El resto de valores de `src/domain/rules.ts` siguen saliendo de NASA-STD-3001 y de criterios clínicos estándar. Si hay tiempo, revisar las fichas individuales de riesgo enlazadas en el 02 (sueño, inmune, nutrición).
+1. **Los recursos confirman el concepto y amplían el alcance.** Las 5 amenazas, los riesgos del HRP y los estudios en marcha (ARCHeR, Standard Measures) encajan con el diseño de ORBI. Los recursos externos (08, 09) añaden el giro de producto: basal de entrenamiento en tierra y basal por fase del ciclo.
+2. **Casi ningún recurso da umbrales numéricos.** La excepción es el hueso (07: 1–1,5 %/mes, > 90 días, > 6 meses). Para la radiación, NASA dice que **no hay límites para misiones largas** (06): el halo muestra un presupuesto configurable, no un umbral inventado. El valor de 600 mSv sí tiene fuente primaria (08: límite único desde 2022). El resto de valores de `src/domain/rules.ts` siguen saliendo de NASA-STD-3001 y de criterios clínicos estándar. Si hay tiempo, revisar las fichas individuales de riesgo enlazadas en el 02 (sueño, inmune, nutrición).
 3. **Tres frases de pitch con respaldo oficial:**
    - *"NASA says the five hazards feed off one another. That's why ORBI correlates signals instead of showing isolated numbers."* (01)
    - *"ORBI addresses a named HRP risk: inadequate systems operations support."* (02)

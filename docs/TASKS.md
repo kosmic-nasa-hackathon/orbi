@@ -7,6 +7,10 @@ El estado actual y los bloqueos están en `HANDOFF.md`; el deploy, en `docs/DEPL
 **No usar este archivo para coordinar el trabajo actual.** Las lanes, waves y criterios de
 aceptación vigentes están en `docs/PLAN.md`.
 
+Los conteos de este documento (14 días de basal, 3 correlaciones, 4 escenarios) son históricos.
+El objetivo documentado actual es basal de 90 días de entrenamiento en tierra, 4 correlaciones,
+5 escenarios y basal por fase del ciclo (P3 en `docs/PLAN.md`).
+
 ## Reparto (5 personas)
 
 | Lane | Dueño/a | Rama | Primer PR |

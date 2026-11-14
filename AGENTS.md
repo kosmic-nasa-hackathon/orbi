@@ -17,21 +17,30 @@ NASA Space Apps Challenge 2026 · team Kosmic.
 
 ORBI is a tablet app for astronauts. Wearables pre-fill sleep, heart rate, SpO₂ and temperature;
 in a 90-second daily check-in the astronaut confirms them and adds mood, fatigue and glucose.
-A deterministic rules engine compares each reading with the astronaut's personal pre-flight
-baseline and returns six body systems plus a radiation halo, an explained triage decision, an
-action card and an escalation path that adapts to communication latency. ORBI does not diagnose:
-it prioritizes, explains and escalates.
+A deterministic rules engine compares each reading with the astronaut's personal baseline, learned
+during 90 days of ground training and, when the crew member opts in, by menstrual-cycle phase, and
+returns six body systems plus a radiation halo, an explained triage decision, an action card and an
+escalation path that adapts to communication latency. ORBI does not diagnose: it prioritizes,
+explains and escalates.
+
+The 90-day/cycle-aware baseline, the `cycle-aware` correlation and the `luteal-phase` scenario are
+the documented target (see `docs/PLAN.md` P3). Until P3 lands, the code still uses a 14-day
+pre-flight baseline, 3 correlations and 4 scenarios; keep that distinction visible in docs.
 
 ## Non-negotiable rules
 
 1. `src/domain/` is pure TypeScript. **No React, DOM, browser APIs or UI imports** in that folder.
 2. `src/domain/types.ts` is the contract between the engine, UI and coach. Do not change it
    without announcing it to the whole team. The same applies to `src/ai/types.ts`,
-   `src/content/systems.ts` and the scenario JSON shape.
+   `src/content/systems.ts` and the scenario JSON shape. The cycle/ground-baseline extension
+   (`Phase`, `CrewProfile`, cycle fields) is **proposed in `docs/CONCEPTO-ORBI.md` §8 but not
+   applied**; announce it before the `engine/cycle-baseline` PR.
 3. The UI consumes `evaluate()` and `askCoach()`. **Never reimplement clinical rules in components.**
 4. Every threshold lives in `src/domain/rules.ts` with a `SourceRef` and a `verified` flag.
    Do not invent a number. If a value still needs a primary source, keep `verified: false` and
-   mark it as pending in the UI/pitch.
+   mark it as pending in the UI/pitch. The 600 mSv career limit has a primary source since 2022
+   (`docs/recursos/08`, single limit for all sexes and ages); keep `radiation` pending in code
+   until P1/P3 updates `rules.ts`.
 5. UI copy, the final README and the submission are **in English**. Internal docs stay in Spanish.
 6. No backend, database, auth, ML decision model, computer vision or 3D. The app is a static SPA.
 7. Scenario data is synthetic and deterministic: `npm run gen` must reproduce the committed JSON.

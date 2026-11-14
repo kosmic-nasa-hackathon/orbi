@@ -36,7 +36,12 @@ La línea base de cada astronauta se aprende **durante el entrenamiento en tierr
 - ✅ Demo EVA: pérdida de sync, navegación inercial y retorno a la nave
 - ✅ Pitch navegable en **`/pitch/`** (15 slides, notas del orador y modo lectura con `?view=scroll`)
 - ✅ Home de producto en `/` con navegación por iconos a EVA, consola y pitch
+- ✅ Giro de producto documentado: basal de entrenamiento en tierra y ciclo menstrual opt-in
+  (`docs/recursos/08` y `09`)
+- ⏳ P3 · Engine: basal de 90 días, `cycle-aware`, `luteal-phase`, 5 escenarios y 4 correlaciones
 - ⏳ Tema light + switch, Today/Body/Decision, Trends y Mission Control (ver `docs/PLAN.md`)
+
+El código actual sigue usando basal de 14 días, 3 correlaciones y 4 escenarios; P3 cierra la brecha.
 
 La raíz abre la home. La demo EVA queda en `?view=eva` y la consola en `?view=console`.
 Para saltar a un momento de la demo: `/?view=eva&t=18` (sin sync) o `/?view=eva&t=24`

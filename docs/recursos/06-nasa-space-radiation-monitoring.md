@@ -40,7 +40,7 @@ El **Radiation Biophysics Laboratory** investiga para reducir la incertidumbre, 
 
 1. **Cambiar el enfoque del halo en `rules.ts`:**
    - El "% del límite de carrera" debe presentarse como **"exposure budget set by mission medical ops"**: un valor configurable, no una cifra de NASA para Marte.
-   - El valor de 600 mSv que tenemos en `CONCEPTO-ORBI.md` §4.2 viene de NASA-STD-3001 Vol. 1 (límite de carrera vigente). Hay que mantenerlo marcado como `TODO verify` y explicarlo así: *"current NASA career limit; deep-space limits are still an open research question."*
+   - El valor de 600 mSv que tenemos en `CONCEPTO-ORBI.md` §4.2 viene de NASA-STD-3001 Vol. 1 y quedó confirmado por `recursos/08`: desde 2022 es un límite de carrera único para todos los sexos y edades. Ya no es `TODO verify`; explicarlo así: *"current NASA career limit; deep-space limits are still an open research question."*
    - Esto **juega a favor** en el pitch: *"NASA itself says deep-space exposure limits are still unknown. That's why ORBI shows the budget, the trend and the uncertainty, not a fake precise threshold."*
 2. **Fuente de datos del halo más realista** (para "Cómo se usa en la nave"):
    - **CPD** (dosímetro pasivo personal) → **dosis acumulada**, leída periódicamente: es una lectura semanal, no en tiempo real.
