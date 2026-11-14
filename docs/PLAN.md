@@ -16,10 +16,9 @@ tema light, rediseño y entrega.
 
 ## 1. Cómo usar este documento
 
-1. Leer `AGENTS.md`, `HANDOFF.md` y la sección de tu lane.
-2. **Reclamar el issue de la lane** antes de escribir código: si no existe, crearlo; después
-   `gh issue edit <n> --add-assignee @me` y comentar agente, rama y worktree. Si ya está asignado
-   a otra persona, no empezar.
+1. Leer `AGENTS.md`, `HANDOFF.md`, `docs/TEAM.md` y la sección de tu lane.
+2. **Los issues ya están creados y asignados** (ver `docs/TEAM.md` §2). Comentá rama, worktree y
+   puerto al arrancar; no reasignes el issue de otra persona.
 3. Trabajar **una lane por rama y, si se puede, por worktree**.
 4. Tocar solo los archivos permitidos de la lane. Si necesitás un archivo compartido, pedirlo al
    integrador; no lo edites por tu cuenta.
@@ -108,20 +107,44 @@ La columna **Estado** la actualiza solo el integrador.
 
 | Wave | Lane | Issue | Rama | Alcance | Depende de | Estado |
 |---|---|---|---|---|---|---|
-| 0 | **P0 · Pitch light + motion** | #8 | `pitch/light-motion` | Toggle de tema, tokens light y animaciones del deck | — | todo |
-| 0 | **P1 · Threshold audit** | #9 | `engine/threshold-audit` | Revisión de umbrales, tests de límites, 600 mSv con fuente y aviso de `verified` | — | todo |
-| 0 | **P2 · Submission groundwork** | #10 | `docs/submission` | `docs/DEMO.md`, storyboard, README final y formulario | — | todo |
-| 1 | **F0 · Fundación** | #11 | `design/theme-foundation` | Tema dark/light, switch, tokens, tipografía, UI primitives, motion, nav/rutas y store skeleton | — | todo |
-| 1 | **P3 · Engine: basal de tierra + ciclo** | #12 | `engine/cycle-baseline` | Contrato, basal de 90 días y por fase, `cycle-aware`, `luteal-phase`, 600 mSv y tests | P1 | todo |
-| 2 | **A · Today** | #13 | `today/checkin` | Check-in 7 campos + ciclo opt-in, DemoBar, racha y Confirm | F0 + P3 | todo |
-| 2 | **B · Body** | #14 | `body/map` | SVG 6 sistemas + halo, ficha, sparkline 30 días y banda basal de tierra | F0 + P3 | todo |
-| 2 | **C · Decision** | #15 | `decision/triage` | Nivel, “Because…”, action card, escalado, coach y packet privado | F0 + P3 | todo |
-| 2 | **E · Visual polish** | #16 | `design/motion-polish` | Rediseño de Home/EVA/Console, menos densidad y animaciones | F0 | todo |
-| 3 | **D · Trends** | #18 | `trends/charts` | 30 días, selector de sistema, banda “Your ground baseline” y ciclo | F0 + P3 + gate Nivel 0 | todo |
-| 3 | **F · Mission Control** | #19 | `mission-control/window` | `?view=ground`, BroadcastChannel, countdown y packet privado | F0 + C + P3 + gate Nivel 0 | todo |
-| 3 | **G · Level 2** | #20 | `level2/extras` | Amsler, procedimientos, avisos de ciclo y PWA offline | F0 + A/B/C + P3 + gate Nivel 0 | todo |
-| 3 | **H · Integración/QA** | #17 | `integration/level0` | Rutas/nav, conflictos, tests, screenshots, privacidad y deploy | A–G | todo |
-| 4 | **I · Submission final** | #21 | `docs/submission` | Vídeo, README, formulario y ensayo | H | todo |
+| 0 | **P0 · Pitch light + motion** | #8 | `pitch/light-motion` | Toggle de tema, tokens light y animaciones del deck | — | asignado |
+| 0 | **P1 · Threshold audit** | #9 | `engine/threshold-audit` | Revisión de umbrales, tests de límites, 600 mSv con fuente y aviso de `verified` | — | asignado |
+| 0 | **P2 · Submission groundwork** | #10 | `docs/submission` | `docs/DEMO.md`, storyboard, README final y formulario | — | asignado |
+| 1 | **F0 · Fundación** | #11 | `design/theme-foundation` | Tema dark/light, switch, tokens, tipografía, UI primitives, motion, nav/rutas y store skeleton | — | asignado |
+| 1 | **P3 · Engine: basal de tierra + ciclo** | #12 | `engine/cycle-baseline` | Contrato, basal de 90 días y por fase, `cycle-aware`, `luteal-phase`, 600 mSv y tests | P1 | asignado |
+| 2 | **A · Today** | #13 | `today/checkin` | Check-in 7 campos + ciclo opt-in, DemoBar, racha y Confirm | F0 + P3 | asignado |
+| 2 | **B · Body** | #14 | `body/map` | SVG 6 sistemas + halo, ficha, sparkline 30 días y banda basal de tierra | F0 + P3 | asignado |
+| 2 | **C · Decision** | #15 | `decision/triage` | Nivel, “Because…”, action card, escalado, coach y packet privado | F0 + P3 | asignado |
+| 2 | **E · Visual polish** | #16 | `design/motion-polish` | Rediseño de Home/EVA/Console, menos densidad y animaciones | F0 | asignado |
+| 3 | **D · Trends** | #18 | `trends/charts` | 30 días, selector de sistema, banda “Your ground baseline” y ciclo | F0 + P3 + gate Nivel 0 | asignado |
+| 3 | **F · Mission Control** | #19 | `mission-control/window` | `?view=ground`, BroadcastChannel, countdown y packet privado | F0 + C + P3 + gate Nivel 0 | asignado |
+| 3 | **G · Level 2** | #20 | `level2/extras` | Amsler, procedimientos, avisos de ciclo y PWA offline | F0 + A/B/C + P3 + gate Nivel 0 | asignado |
+| 3 | **H · Integración/QA** | #17 | `integration/level0` | Rutas/nav, conflictos, tests, screenshots, privacidad y deploy | A–G | asignado |
+| 4 | **I · Submission final** | #21 | `docs/submission` | Vídeo, README, formulario y ensayo | H | asignado |
+
+### Reparto y arranque
+
+Issues ya asignados. El detalle de onboarding, worktrees y reglas está en `docs/TEAM.md`.
+
+| Issue | Lane | Owner | Support | Tamaño | Arranca |
+|---|---|---|---|---|---|
+| #8 | P0 · Pitch light + motion | `@elenaalmansacampos` | `@Agupane` | S | Ya |
+| #9 | P1 · Threshold audit | `@Agupane` | `@atapiamallea` | M | Ya |
+| #10 | P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | M | Ya |
+| #11 | F0 · Fundación | `@atapiamallea` | `@Agupane`, `@Yeryalex` | L | Ya |
+| #12 | P3 · Basal de tierra + ciclo | `@Agupane` | `@atapiamallea`, `@Yeryalex` | L | Tras #9 |
+| #13 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | M | Tras #11 + #12 |
+| #14 | B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | L | Tras #11 + #12; SVG antes |
+| #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | M | Tras #11 + #12 |
+| #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | M | Tras #11 |
+| #18 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | M | Gate Nivel 0 + #14 |
+| #19 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | M | Gate Nivel 0 + #15 |
+| #20 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | M | Gate Nivel 0 + A/B/C; stretch |
+| #17 | H · Integración/QA | `@Agupane` | Todo el equipo | L | Checkpoint tras A/B/C |
+| #21 | I · Submission final | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | M | Tras #17 |
+
+**Listos para arrancar:** #8, #9, #10 y #11. **Bloqueados:** #12–#21 hasta que se cumplan sus
+dependencias. Agustín queda como integrador y único merge a `main`; Andrea Tapia es backup.
 
 ### Orden de merge
 
@@ -561,19 +584,19 @@ Matriz mínima:
 
 Solo el integrador actualiza esta tabla.
 
-| Lane | Issue | Rama | Estado | PR |
-|---|---|---|---|---|
-| P0 · Pitch light + motion | #8 | `pitch/light-motion` | todo | — |
-| P1 · Threshold audit | #9 | `engine/threshold-audit` | todo | — |
-| P2 · Submission groundwork | #10 | `docs/submission` | todo | — |
-| F0 · Fundación | #11 | `design/theme-foundation` | todo | — |
-| P3 · Engine: basal + ciclo | #12 | `engine/cycle-baseline` | todo | — |
-| A · Today | #13 | `today/checkin` | todo | — |
-| B · Body | #14 | `body/map` | todo | — |
-| C · Decision | #15 | `decision/triage` | todo | — |
-| E · Visual polish | #16 | `design/motion-polish` | todo | — |
-| D · Trends | #18 | `trends/charts` | todo | — |
-| F · Mission Control | #19 | `mission-control/window` | todo | — |
-| G · Level 2 | #20 | `level2/extras` | todo | — |
-| H · Integración/QA | #17 | `integration/level0` | todo | — |
-| I · Submission final | #21 | `docs/submission` | todo | — |
+| Lane | Issue | Owner | Rama | Estado | PR |
+|---|---|---|---|---|---|
+| P0 · Pitch light + motion | #8 | `@elenaalmansacampos` | `pitch/light-motion` | listo | — |
+| P1 · Threshold audit | #9 | `@Agupane` | `engine/threshold-audit` | listo | — |
+| P2 · Submission groundwork | #10 | `@elenaalmansacampos` | `docs/submission` | listo | — |
+| F0 · Fundación | #11 | `@atapiamallea` | `design/theme-foundation` | listo | — |
+| P3 · Engine: basal + ciclo | #12 | `@Agupane` | `engine/cycle-baseline` | bloqueado por #9 | — |
+| A · Today | #13 | `@atapiamallea` | `today/checkin` | bloqueado por #11 + #12 | — |
+| B · Body | #14 | `@Yeryalex` | `body/map` | bloqueado por #11 + #12 | — |
+| C · Decision | #15 | `@atapiamallea` | `decision/triage` | bloqueado por #11 + #12 | — |
+| E · Visual polish | #16 | `@amilege` | `design/motion-polish` | bloqueado por #11 | — |
+| D · Trends | #18 | `@Yeryalex` | `trends/charts` | bloqueado por gate Nivel 0 | — |
+| F · Mission Control | #19 | `@amilege` | `mission-control/window` | bloqueado por gate Nivel 0 | — |
+| G · Level 2 | #20 | `@amilege` | `level2/extras` | bloqueado; stretch | — |
+| H · Integración/QA | #17 | `@Agupane` | `integration/level0` | checkpoint pendiente | — |
+| I · Submission final | #21 | `@elenaalmansacampos` | `docs/submission` | bloqueado por #17 | — |
