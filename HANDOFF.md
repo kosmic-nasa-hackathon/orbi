@@ -2,8 +2,8 @@
 
 **Fecha:** 2026-11-14
 **Rama:** `main`
-**Estado:** scaffold, motor, coach, CI, deploy, auto-deploy y demo EVA con pérdida de sync y retorno inercial.
-**Falta:** UI de las pantallas (Today/Body/Decision), Trends/Mission Control y material de pitch.
+**Estado:** scaffold, motor, coach, CI, deploy, auto-deploy, demo EVA con pérdida de sync y retorno inercial, y pitch navegable en `/pitch/`.
+**Falta:** UI de las pantallas (Today/Body/Decision), Trends/Mission Control, ensayo y vídeo del pitch.
 
 Runbook: `docs/DEPLOYMENT.md` · Tareas: `docs/TASKS.md` · Reglas para agentes: `AGENTS.md`.
 
@@ -77,6 +77,17 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 - La salud sale de `evaluate()` (early-infection, día 148, MARS); no se reimplementan reglas.
 - La demo abre por defecto; la consola del motor queda en `?view=console`.
 - Deep links de demo: `/` (inicio), `/?t=18` (sin sync), `/?t=24` (retorno inercial activo).
+
+### Pitch (`public/pitch/`, `docs/PITCH.md`)
+
+- Deck estático en **`/pitch/`**: 15 slides, notas del orador (`S`), overview (`G`), fullscreen
+  (`F`), print a PDF (`P`) y modo lectura en `?view=scroll`.
+- Contenido en `public/pitch/deck.json`; motor y estilos propios en `deck.js` y `theme.css`.
+- Sin dependencias externas ni backend: Vite copia `public/pitch/` a `dist/` y nginx sirve el
+  directorio. La CSP existente (`script-src 'self'`) se respeta.
+- `vite.config.ts` reescribe `/pitch/` a `/pitch/index.html` en dev y preview para que la URL sea
+  la misma que en producción.
+- Guion, atajos y checklist de ensayo en `docs/PITCH.md`.
 
 ### Deploy/CI
 

@@ -1,0 +1,482 @@
+{
+  "meta": {
+    "title": "ORBI — From drift to decision",
+    "author": "Team Kosmic",
+    "org": "NASA Space Apps Challenge 2026",
+    "language": "en",
+    "app": "https://orbi.agustinpane.xyz",
+    "repo": "https://github.com/kosmic-nasa-hackathon/orbi"
+  },
+  "slides": [
+    {
+      "type": "cover",
+      "art": "orbit",
+      "kicker": "NASA Space Apps Challenge 2026 · Team Kosmic",
+      "title": "ORBI",
+      "subtitle": "From drift to decision.",
+      "text": [
+        "A health autonomy console for astronauts on long-duration missions. Wearables pre-fill the vitals. In 90 seconds the astronaut confirms them, and a deterministic engine turns the day into an explained decision."
+      ],
+      "links": [
+        { "label": "Open the app", "href": "/" },
+        { "label": "Engine console", "href": "/?view=console" }
+      ],
+      "footer": "orbi.agustinpane.xyz · synthetic demo data · mission day 148",
+      "notes": [
+        "Open with the person, not the product. On the way to Mars there is no clinic, no evacuation and up to 20 minutes of delay each way. The crew has to decide on board.",
+        "ORBI does not diagnose. It turns the daily check-in into a prioritized, explained and auditable decision.",
+        "Key line: from drift to decision."
+      ]
+    },
+    {
+      "type": "statement",
+      "kicker": "The problem",
+      "title": "Day 148. Fourteen minutes from Earth, each way.",
+      "text": [
+        "The commander slept 4.5 hours for the fifth night in a row. Her temperature is 37.9 °C. On Mars, nobody can examine her in real time, and the answer to a question leaves Earth after the clinical window has already moved.",
+        "Crews are trained, but they are not flight surgeons. Today the tools are a checklist and a delayed call."
+      ],
+      "stats": [
+        { "value": "14 min", "label": "one-way latency to Mars", "note": "demo value; up to 20 min" },
+        { "value": "1–1.5%", "label": "bone density lost per month", "note": "NASA HRP evidence" },
+        { "value": "0", "label": "clinics on board", "note": "no evacuation" }
+      ],
+      "notes": [
+        "Make the room feel the distance. Fourteen minutes is the demo value; NASA talks about up to 20 minutes one way on Mars.",
+        "The clinical point: a conversation is not a decision loop. By the time Earth replies, the crew has already acted or lost time.",
+        "The second number is the physical cost of weightlessness: 1 to 1.5 percent of bone mineral density per month."
+      ]
+    },
+    {
+      "type": "statement",
+      "kicker": "The insight",
+      "title": "Communication delay is a clinical variable.",
+      "text": [
+        "The same CONCERN cannot be handled the same way at zero seconds and at fourteen minutes. ORBI makes latency part of the triage, not a network detail."
+      ],
+      "cards": [
+        {
+          "label": "ISS",
+          "title": "≈ 0 s",
+          "text": "Flight surgeon now. Ground and crew share the same window.",
+          "tone": "green"
+        },
+        {
+          "label": "Moon",
+          "title": "≈ 1.3 s",
+          "text": "Flight surgeon now, with a short round trip.",
+          "tone": "cyan"
+        },
+        {
+          "label": "Mars",
+          "title": "14 min",
+          "text": "Local protocol first. The flight surgeon packet leaves on the next window.",
+          "tone": "amber"
+        }
+      ],
+      "callout": {
+        "text": "The farther you are, the more the decision has to live on board.",
+        "tone": "cyan"
+      },
+      "notes": [
+        "This slide is the differentiator. Most health dashboards stop at a color. ORBI changes the escalation path with the mission.",
+        "On the ISS you call the flight surgeon. On Mars you act first and explain later. The crew is not replacing the doctor; it is buying the doctor time.",
+        "Say it plainly: latency is a clinical variable."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "The product",
+      "title": "A 90-second check-in that ends in a decision.",
+      "text": [
+        "The watch and the biometric shirt already bring sleep, heart rate, SpO₂ and temperature. The astronaut confirms them and adds mood, fatigue and glucose.",
+        "No typing what the sensors already know. The check-in is the smallest possible input for a useful output."
+      ],
+      "flow": {
+        "nodes": [
+          "Wearables pre-fill",
+          "Astronaut confirms",
+          "Deterministic engine",
+          "Body map + action card",
+          "Escalate by latency"
+        ],
+        "highlight": [2]
+      },
+      "bullets": [
+        "Seven daily fields, one closed list: sleep, mood, fatigue, resting heart rate, temperature, SpO₂ and blood glucose.",
+        "Every field answers “why we ask” in the UI, because the astronaut is not assumed to be a clinician.",
+        "The output is not a score. It is a level, a reason, an action and a person to notify."
+      ],
+      "notes": [
+        "Walk the flow left to right. The wearables remove friction; the astronaut confirms; the engine decides; the UI explains; the escalation adapts.",
+        "The 90 seconds matter because adherence is the product. If the check-in is long, it will not happen on day 148.",
+        "Every field has a reason. That is also how we cover the brief's “do not assume the astronaut knows”."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "Challenge fit",
+      "title": "Every ask in the brief has a home.",
+      "table": {
+        "columns": ["The brief asks for", "In ORBI"],
+        "rows": [
+          ["Visual self-assessment", "Body map with six systems and a radiation halo"],
+          ["Clickable human figure with state and function", "Each system opens its state, history and “why this matters”"],
+          ["Treatment and improvement guidance", "Action card with countermeasures, not a diagnosis"],
+          ["Heart rate, glucose, temperature, sleep, mood", "Seven-field daily check-in"],
+          ["Periodic measurements", "Today screen and check-in streak"],
+          ["Color code", "NOMINAL · WATCH · CONCERN · URGENT, always with icon and text"],
+          ["Dynamic charts over time", "30-day sparkline against the personal baseline"],
+          ["Different environments", "ISS, Moon and Mars selector"],
+          ["When to alert the crew or flight surgeons", "L0–L4 escalation driven by latency"]
+        ]
+      },
+      "notes": [
+        "Do not read the whole table. Point at the rows the judges care about and say: the brief is covered end to end.",
+        "The strongest rows are the clickable body, the dynamic charts against a personal baseline, and the escalation path.",
+        "Color is never the only signal: every state also has an icon and a text label."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "Body",
+      "title": "Six systems and a halo.",
+      "text": [
+        "Every element on this body maps to one of NASA's five hazards of human spaceflight. That is why the map exists: it is an argument, not decoration."
+      ],
+      "cards": [
+        {
+          "label": "Gravity fields",
+          "title": "Cardiovascular",
+          "text": "Resting heart rate and blood pressure. The heart deconditions in microgravity.",
+          "tone": "cyan"
+        },
+        {
+          "label": "Gravity fields",
+          "title": "Musculoskeletal",
+          "text": "Estimated bone loss and exercise adherence. Bone density itself is Earth-only.",
+          "tone": "amber"
+        },
+        {
+          "label": "Transversal",
+          "title": "Immune",
+          "text": "Temperature is the earliest signal a crew member can measure on board.",
+          "tone": "cyan"
+        },
+        {
+          "label": "Transversal",
+          "title": "Metabolic",
+          "text": "Glucose balance reflects nutrition, workload and metabolic risk.",
+          "tone": "cyan"
+        },
+        {
+          "label": "Hostile closed environment",
+          "title": "Respiratory",
+          "text": "SpO₂ separates a body problem from a cabin-air problem.",
+          "tone": "green"
+        },
+        {
+          "label": "Isolation and confinement",
+          "title": "Behavioral",
+          "text": "Sleep, mood and fatigue. The first signal is drift, not a crisis.",
+          "tone": "cyan"
+        },
+        {
+          "label": "Space radiation",
+          "title": "Radiation halo",
+          "text": "Cumulative dose against a mission budget, because deep-space limits are still open.",
+          "tone": "orange"
+        }
+      ],
+      "callout": {
+        "text": "Six systems and a halo. Each one has a NASA hazard behind it.",
+        "tone": "green"
+      },
+      "notes": [
+        "This is the visual anchor of the pitch. Six systems, plus the radiation halo.",
+        "Map each one to the NASA Human Research Program hazards: gravity fields, hostile closed environment, isolation and confinement, space radiation, and distance from Earth as the escalation layer.",
+        "The body is clickable in the product: state, 30-day sparkline, baseline band and a short explanation of why the system matters."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "Decision",
+      "title": "Explained triage, not a black box.",
+      "text": [
+        "When a pattern appears, ORBI shows the level, the rule that fired, the evidence in numbers and the next action. The decision is the same today, tomorrow and in an audit."
+      ],
+      "columns": [
+        {
+          "title": "Because…",
+          "bullets": [
+            "Temperature 37.9 °C, above the personal range",
+            "Sleep 4.5 h for five nights, below baseline",
+            "Resting heart rate 11 bpm above baseline"
+          ]
+        },
+        {
+          "title": "Do this now",
+          "steps": [
+            "Measure temperature every 4 hours",
+            "Rest in crew quarters; mask in common areas",
+            "Prepare the flight surgeon packet"
+          ]
+        }
+      ],
+      "callout": {
+        "text": "Mars · CONCERN · local protocol first. The flight surgeon packet is queued for the next window.",
+        "tone": "amber"
+      },
+      "notes": [
+        "The judges will look for the “why”. Show that every alert carries its evidence, its threshold and its action.",
+        "Then switch the mission from Mars to ISS and show the escalation change without reloading. That is the moment the latency thesis lands.",
+        "Close with the product sentence: ORBI does not diagnose. It prioritizes, explains and escalates."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "Correlations",
+      "title": "One signal is noise. A pattern is a decision.",
+      "text": [
+        "Three correlations carry the MVP. They are the difference between a dashboard and a decision-support tool."
+      ],
+      "table": {
+        "columns": ["Scenario", "Signals", "What ORBI says", "Level"],
+        "rows": [
+          [
+            "Early infection",
+            "Sleep < 6 h × 3 nights + temperature ≥ 37.5 °C + rising heart rate",
+            "Possible early infection, favored by sleep debt. Prepare the surgeon packet.",
+            "CONCERN"
+          ],
+          [
+            "Cabin air",
+            "SpO₂ down and cabin CO₂ up in the same period",
+            "Cabin issue, not you. Fix ventilation; do not treat the patient.",
+            "WATCH + cabin alert"
+          ],
+          [
+            "Solar event",
+            "An SPE is active",
+            "Go to shelter, run the checklist, log the dose, postpone the EVA.",
+            "URGENT"
+          ]
+        ]
+      },
+      "notes": [
+        "The cabin-air row is the crowd favorite. The same SpO₂ drop can be the person or the room, and the answer changes the action.",
+        "The early-infection row is the main demo: sleep debt plus temperature plus heart rate. It is a correlation, not a single number.",
+        "The solar event is the only URGENT in the demo. It changes the whole screen, not just a badge."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "Honesty",
+      "title": "Where we cannot measure, we say so.",
+      "text": [
+        "Two things cannot be measured or fixed precisely in flight. ORBI does not invent a number to cover the gap."
+      ],
+      "cards": [
+        {
+          "label": "Estimated · NASA HRP",
+          "title": "Bone loss",
+          "text": "DXA only happens on Earth. ORBI estimates 1–1.5% per month and tracks the countermeasure that can be measured: exercise adherence.",
+          "tone": "amber"
+        },
+        {
+          "label": "Budget · configurable",
+          "title": "Radiation",
+          "text": "NASA says deep-space exposure limits are still open. ORBI tracks the cumulative dose against a mission budget set by the medical team, with the 600 mSv career limit as a reference.",
+          "tone": "orange"
+        },
+        {
+          "label": "Auditable",
+          "title": "Thresholds",
+          "text": "Every threshold lives in one file with a source and a verified flag. Unverified values stay visible instead of pretending to be settled.",
+          "tone": "cyan"
+        }
+      ],
+      "callout": {
+        "text": "Where we cannot measure, we say so. That is how the rest stays trustworthy.",
+        "tone": "cyan"
+      },
+      "notes": [
+        "This is an honesty slide, and it is a strength. Do not hide the gaps; name them before the judges do.",
+        "Bone density is measured with DXA on Earth. In flight we estimate from NASA HRP evidence and monitor exercise adherence.",
+        "Radiation: NASA itself says deep-space limits are unresolved. We show a budget and a trend, not a fake threshold.",
+        "The verified flag is not decoration. It tells a clinician which numbers are ready and which still need a primary source."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "Architecture",
+      "title": "Deterministic decisions. Optional explanations.",
+      "text": [
+        "The engine is the product. The UI is a consumer of the engine, and an optional local model can explain the result but never compute it."
+      ],
+      "flow": {
+        "nodes": [
+          "Wearables + check-in",
+          "Pure TypeScript engine",
+          "Body + Decision + Escalation",
+          "Coach: template → local LLM",
+          "Flight surgeon packet"
+        ],
+        "highlight": [1]
+      },
+      "bullets": [
+        "src/domain is pure TypeScript: no React, no DOM, no browser APIs.",
+        "The UI calls evaluate() and askCoach(). It never reimplements a clinical rule.",
+        "The template coach is the default and the fallback. A local LLM is an explanation layer validated by guardrails.",
+        "Guardrails reject diagnosis, medication, invented numbers and untriggered actions. If validation fails, the app falls back to the template.",
+        "Static SPA. No backend, no database, no decision ML, no computer vision."
+      ],
+      "callout": {
+        "text": "The decision is auditable. The explanation is optional.",
+        "tone": "green"
+      },
+      "notes": [
+        "This is where a technical judge leans in. The domain is pure TypeScript, and the decision engine is deterministic.",
+        "We did not add ML to the decision path. In space medicine, explainability beats a marginal accuracy gain when the output drives an action.",
+        "The optional local model only rewrites the explanation from structured facts. The guardrails and the template fallback keep the app safe when the model fails."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "Evidence",
+      "title": "Official sources, with the gaps left visible.",
+      "table": {
+        "columns": ["Source", "What we use it for"],
+        "rows": [
+          ["NASA HRP — Five Hazards of Human Spaceflight", "Body map, sleep and circadian context, latency up to 20 minutes, 1–1.5% bone loss per month"],
+          ["NASA HRP — Evidence Report: Bone Fracture", "Bone rules, exercise as the countermeasure, risk after returning from Mars"],
+          ["NASA-STD-3001", "Cabin CO₂ and career dose reference; values still flagged pending where needed"],
+          ["CSA — Monitoring radiation for astronaut health", "Continuous, autonomous radiation tracking and the halo concept"],
+          ["Clinical standards and ADA", "Temperature, SpO₂, resting heart rate and glucose ranges"]
+        ]
+      },
+      "callout": {
+        "text": "We cite NASA and CSA in the app and in the submission. The unverified numbers are labeled as unverified.",
+        "tone": "cyan"
+      },
+      "notes": [
+        "We read the official resources before writing the rules. The summaries live in docs/recursos.",
+        "Only the bone evidence gives directly applicable numbers. Most other thresholds are standard clinical ranges or NASA-STD-3001 references, and they are flagged for verification.",
+        "That is deliberate. A clinician should be able to audit the rules file without reading the UI."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "Live now",
+      "title": "What you can open today.",
+      "text": [
+        "The deterministic engine, the four scenarios, the coach guardrails and the deployment are live. The Level 0 screens are landing on top of the same contract."
+      ],
+      "steps": [
+        "Open the engine console and pick early-infection.",
+        "Set the mission to Mars, then to ISS: the escalation changes.",
+        "Switch to cabin-co2: the app says cabin issue, not you.",
+        "Switch to solar-event: the radiation halo goes urgent."
+      ],
+      "links": [
+        { "label": "Engine console", "href": "/?view=console" },
+        { "label": "Repository", "href": "https://github.com/kosmic-nasa-hackathon/orbi" }
+      ],
+      "callout": {
+        "text": "90 seconds of check-in. One explained decision.",
+        "tone": "green"
+      },
+      "notes": [
+        "Keep the demo short and rehearsed. The console is the honest, working surface today.",
+        "The three scenario switches are the story: infection, environment and radiation.",
+        "Do not claim that the Today/Body/Decision screens are finished if they are not. Say they are landing on the same engine contract."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "Roadmap",
+      "title": "Earn the next level on the deployed URL.",
+      "timeline": [
+        {
+          "label": "Now",
+          "text": "Deterministic engine, four scenarios, coach guardrails, CI and auto-deploy.",
+          "now": true
+        },
+        {
+          "label": "Next",
+          "text": "Today, Body and Decision on the tablet, consuming evaluate() and askCoach()."
+        },
+        {
+          "label": "Then",
+          "text": "Trends with baseline bands and Mission Control: ship and ground in two windows, with the latency countdown."
+        },
+        {
+          "label": "Later",
+          "text": "Amsler vision test, guided procedures, PWA offline mode and real wearable integration."
+        }
+      ],
+      "callout": {
+        "text": "Not building: decision ML, computer vision, 3D or a backend. The deterministic engine is the point.",
+        "tone": "amber"
+      },
+      "notes": [
+        "This slide shows discipline. We only claim what is on the deployed URL, and we say what comes next.",
+        "Trends covers the brief's dynamic charts. Mission Control makes the latency tangible with two windows and a countdown.",
+        "The “not building” list protects the core: no decision ML, no computer vision, no 3D, no backend."
+      ]
+    },
+    {
+      "type": "default",
+      "kicker": "Team",
+      "title": "Team Kosmic.",
+      "text": [
+        "A small team with one rule: the decision engine stays auditable, and the UI never reinvents a clinical rule."
+      ],
+      "cards": [
+        {
+          "label": "What we bring",
+          "title": "A working engine",
+          "text": "Pure TypeScript domain, 21 tests on the baseline, four deterministic scenarios and a static deploy.",
+          "tone": "green"
+        },
+        {
+          "label": "What we need",
+          "title": "Clinical review",
+          "text": "A flight surgeon or space-medicine clinician to review the thresholds and the action cards.",
+          "tone": "amber"
+        },
+        {
+          "label": "What is next",
+          "title": "A pilot",
+          "text": "One crew analogue or wearable dataset to test adherence and the baseline model outside the demo.",
+          "tone": "cyan"
+        }
+      ],
+      "links": [
+        { "label": "Repository", "href": "https://github.com/kosmic-nasa-hackathon/orbi" },
+        { "label": "Open the app", "href": "/" }
+      ],
+      "notes": [
+        "Keep the team slide short. The ask is not funding; it is clinical review and a realistic pilot.",
+        "Say what we bring: a working engine, tests, deterministic data and a deployed app.",
+        "Say what we need: a clinician to challenge the thresholds and one real dataset to challenge the baseline."
+      ]
+    },
+    {
+      "type": "quote",
+      "kicker": "Close",
+      "quote": "ORBI doesn't diagnose. It prioritizes, explains and escalates.",
+      "text": ["From drift to decision."],
+      "links": [
+        { "label": "orbi.agustinpane.xyz", "href": "/" },
+        { "label": "GitHub", "href": "https://github.com/kosmic-nasa-hackathon/orbi" }
+      ],
+      "footer": "NASA Space Apps Challenge 2026 · Team Kosmic",
+      "notes": [
+        "End on the sentence, not on the feature list. Pause after it.",
+        "Then invite the question: which threshold would a flight surgeon challenge first? That is the conversation we want.",
+        "Backup: the engine console is live at /?view=console."
+      ]
+    }
+  ]
+}

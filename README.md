@@ -16,6 +16,7 @@ ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica y
 | [docs/STACK.md](docs/STACK.md) | Stack técnico, comandos de instalación, estructura de carpetas, CI y riesgos |
 | [docs/TASKS.md](docs/TASKS.md) | Reparto por lanes, primeros PRs y criterios de aceptación |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Runbook de Dokploy + Cloudflare y auto-deploy |
+| [docs/PITCH.md](docs/PITCH.md) | Guion del pitch y deck navegable en `/pitch/` |
 | [docs/recursos/](docs/recursos/README.md) | Resúmenes de los recursos oficiales de NASA y CSA, y cómo los usamos |
 | **[HANDOFF.md](HANDOFF.md)** | Estado actual, bloqueos y próximas acciones |
 | [AGENTS.md](AGENTS.md) · [CLAUDE.md](CLAUDE.md) | Reglas para agentes de código (OpenCode, Claude Code, Codex) |
@@ -30,6 +31,7 @@ ORBI es una app de tablet para astronautas. El reloj y la camiseta biométrica y
 - ✅ Dockerfile, nginx y CI
 - ✅ Desplegado en **https://orbi.agustinpane.xyz** con auto-deploy en `main`
 - ✅ Demo EVA: pérdida de sync, navegación inercial y retorno a la nave
+- ✅ Pitch navegable en **`/pitch/`** (15 slides, notas del orador y modo lectura con `?view=scroll`)
 - ⏳ UI de Today/Body/Decision
 
 La raíz abre la demo EVA. La consola del motor queda en `?view=console`. Para saltar a un momento
