@@ -285,3 +285,33 @@ Mostrar badge **“On-device”** y el nombre del modelo. En el pitch: *“It ex
 3. Completar **action cards con fuente** y los textos “Why we ask” en Today. (1–2 h)
 
 Cuando esté la UI, el guion de demo de `docs/CONCEPTO-ORBI.md` §13 se puede ensayar sin cambios.
+
+---
+
+## 9. Estado del push (2026-11-14 11:35 UTC)
+
+El intento de push falló:
+
+```
+git push -u origin feat/scaffold-baseline
+ERROR: Write access to repository not granted.
+```
+
+La cuenta SSH autentica como **Agupane**, pero el repo vive en la org `kosmic-nasa-hackathon` y esa cuenta
+no tiene permiso de escritura (o el repo está configurado read-only para ella). El commit está creado localmente
+en la rama `feat/scaffold-baseline`.
+
+Salidas, en orden de preferencia:
+
+1. **Dar write a Agupane** en `kosmic-nasa-hackathon/orbi` (Settings → Collaborators / org team) y volver a pushear
+   desde este mismo branch.
+2. **Traer el bundle** que dejé en `/shared/orbi-scaffold-baseline.bundle`:
+   ```bash
+   git fetch /ruta/al/orbi-scaffold-baseline.bundle 'refs/heads/*:refs/remotes/bundle/*'
+   git checkout -b feat/scaffold-baseline bundle/feat/scaffold-baseline
+   ```
+3. **Aplicar el patch** de `/shared/orbi-patches/0001-*.patch` sobre `main`:
+   ```bash
+   git checkout main
+   git am /ruta/al/0001-*.patch
+   ```
