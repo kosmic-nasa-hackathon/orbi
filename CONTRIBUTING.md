@@ -18,7 +18,8 @@ do not add Next.js or SSR.
 ## Before you start: claim your issue
 
 Every lane must be tied to a GitHub issue. The assignee is the lock so two
-agents do not work on the same thing. Issues are already created and assigned in `docs/TEAM.md`:
+agents do not work on the same thing. Issues are already created in `docs/TEAM.md`; most are
+assigned, and #31 (F0.1) is unassigned:
 
 1. Find your issue in `docs/TEAM.md` or with `gh issue list --assignee @me --state open`.
 2. Confirm the assignee is you; if not, do not start: coordinate in the issue.

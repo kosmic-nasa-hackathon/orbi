@@ -32,7 +32,7 @@ A tablet app where the astronaut does a **90-second daily check-in**. The watch 
 - Synthetic data for a commander: **90 days of ground training** (baseline) + 30 of mission (days 119–148 en route to Mars); **5 scenarios** (nominal, early-infection, luteal-phase, cabin-co2, solar-event); no backend
 
 **Level 1 · If we are 4–5:** **Trends** (charts with the *"Your ground baseline"* band and the cycle overlaid) + **Mission Control**: ship and ground in two windows, and the surgeon's packet travels with the latency countdown.
-**Level 2 · If there is time left:** guided procedures (incl. jugular ultrasound) · vision test (Amsler grid) · CMO view · offline.
+**Level 2 · If there is time left:** guided procedures (incl. jugular ultrasound) · vision test (Amsler grid) · offline.
 
 A level is not started until the previous one works on the deployed URL.
 

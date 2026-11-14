@@ -17,8 +17,9 @@ light theme, redesign and submission.
 ## 1. How to use this document
 
 1. Read `AGENTS.md`, `HANDOFF.md`, `docs/TEAM.md` and your lane section.
-2. **Issues are already created and assigned** (see `docs/TEAM.md` §2). Comment the branch, worktree and
-   port when starting; do not reassign someone else's issue.
+2. **Issues are already created** (see `docs/TEAM.md` §2); most are assigned. If one is unassigned
+   (#31), claim it before starting. Comment the branch, worktree and port when starting; do not
+   reassign someone else's issue.
 3. Work **one lane per branch and, if possible, per worktree**.
 4. Touch only the lane's allowed files. If you need a shared file, ask the
    integrator; do not edit it yourself.
@@ -119,20 +120,24 @@ Only the integrator updates the **Status** column.
 | 0 | **P1 · Threshold audit** | #9 | `engine/threshold-audit` | Threshold review, boundary tests, 600 mSv with source and `verified` warning | — | assigned |
 | 0 | **P2 · Submission groundwork** | #10 | `docs/submission` | `docs/DEMO.md`, storyboard, final README and form | — | assigned |
 | 1 | **F0 · Foundation** | #11 | `design/theme-foundation` | Dark/light theme, switch, tokens, typography, UI primitives, motion, nav/routes and store skeleton | — | assigned |
-| 1 | **P3 · Engine: ground baseline + cycle** | #12 | `engine/cycle-baseline` | Contract, 90-day and phase-aware baseline, `cycle-aware`, `luteal-phase`, 600 mSv and tests | P1 | assigned |
+| 1 | **F0.1 · Deployed version footer** | #31 | `design/version-footer` | Shared footer with `package.json` version and optional commit SHA | F0 | unassigned |
+| 1 | **P3 · Engine: ground baseline + cycle** | #12 | `engine/cycle-baseline` | Contract, 90-day and phase-aware baseline, `cycle-aware`, `luteal-phase`, radiation from P1 and tests | P1 | assigned |
 | 2 | **A · Today** | #13 | `today/checkin` | 7-field check-in + opt-in cycle, DemoBar, streak and Confirm | F0 + P3 | assigned |
 | 2 | **B · Body** | #14 | `body/map` | SVG 6 systems + halo, detail panel, 30-day sparkline and ground baseline band | F0 + P3 | assigned |
 | 2 | **C · Decision** | #15 | `decision/triage` | Level, “Because…”, action card, escalation, coach and private packet | F0 + P3 | assigned |
 | 2 | **E · Visual polish** | #16 | `design/motion-polish` | Redesign of Home/EVA/Console, less density and animations | F0 | assigned |
-| 3 | **D · Trends** | #18 | `trends/charts` | 30 days, system selector, “Your ground baseline” band and cycle | F0 + P3 + Level 0 gate | assigned |
-| 3 | **F · Mission Control** | #19 | `mission-control/window` | `?view=ground`, BroadcastChannel, countdown and private packet | F0 + C + P3 + Level 0 gate | assigned |
-| 3 | **G · Level 2** | #20 | `level2/extras` | Amsler, procedures, cycle notices and offline PWA | F0 + A/B/C + P3 + Level 0 gate | assigned |
-| 3 | **H · Integration/QA** | #17 | `integration/level0` | Routes/nav, conflicts, tests, screenshots, privacy and deploy | A–G | assigned |
-| 4 | **I · Final submission** | #21 | `docs/submission` | Video, README, form and rehearsal | H | assigned |
+| 3 | **D · Trends** | #18 | `trends/charts` | 30 days, system selector, “Your ground baseline” band and cycle | F0 + P3 + B + Level 0 gate (#32) | assigned |
+| 3 | **F · Mission Control** | #19 | `mission-control/window` | `?view=ground`, BroadcastChannel, countdown and private packet | F0 + C + P3 + Level 0 gate (#32) | assigned |
+| 3 | **G · Level 2** | #20 | `level2/extras` | Amsler, procedures, cycle notices and offline PWA | F0 + A/B/C + P3 + Level 0 gate (#32) | assigned |
+| 3 | **H0 · Level 0 checkpoint** | #32 | `integration/level0` | Integrate A/B/C, Playwright, deploy Level 0 and unblock D/F/G | F0 + P3 + A/B/C | assigned |
+| 4 | **H1 · Final integration/QA** | #17 | `integration/level0` | Final routes, D/F/G, privacy, QA and release | H0 + D/F/G | assigned |
+| 4 | **P4 · Post-P3 docs sync** | #33 | `docs/post-p3-sync` | Refresh counts, deck and docs after P3 | P0 + P2 + P3 | assigned |
+| 4 | **I · Final submission** | #21 | `docs/submission` | Video, README, form and rehearsal | H1 | assigned |
 
 ### Assignment and startup
 
-Issues already assigned. Onboarding details, worktrees and rules are in `docs/TEAM.md`.
+Issues are already created; #31 is unassigned. Onboarding details, worktrees and rules are in
+`docs/TEAM.md`.
 
 | Issue | Lane | Owner | Support | Size | Starts |
 |---|---|---|---|---|---|
@@ -140,29 +145,34 @@ Issues already assigned. Onboarding details, worktrees and rules are in `docs/TE
 | #9 | P1 · Threshold audit | `@Agupane` | `@atapiamallea` | M | Now |
 | #10 | P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | M | Now |
 | #11 | F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | L | Now |
+| #31 | F0.1 · Deployed version footer | — | `@atapiamallea` | S | After #11; claim in issue |
 | #12 | P3 · Ground baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | L | After #9 |
 | #13 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | M | After #11 + #12 |
 | #14 | B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | L | After #11 + #12; SVG first |
 | #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | M | After #11 + #12 |
 | #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | M | After #11 |
-| #18 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | M | Level 0 gate + #14 |
-| #19 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | M | Level 0 gate + #15 |
-| #20 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | M | Level 0 gate + A/B/C; stretch |
-| #17 | H · Integration/QA | `@Agupane` | Whole team | L | Checkpoint after A/B/C |
+| #18 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | M | Level 0 gate (#32) + #14 |
+| #19 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | M | Level 0 gate (#32) + #15 |
+| #20 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | M | Level 0 gate (#32) + A/B/C; stretch |
+| #32 | H0 · Level 0 checkpoint | `@Agupane` | Whole team | M | After #11 + #12 + A/B/C |
+| #17 | H1 · Final integration/QA | `@Agupane` | Whole team | L | After #32 + D/F/G |
+| #33 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | `@Agupane` | S | After #8 + #10 + #12 |
 | #21 | I · Final submission | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | M | After #17 |
 
-**Ready to start:** #8, #9, #10 and #11. **Blocked:** #12–#21 until their
-dependencies are met. Agustín remains integrator and sole merge to `development`; he also opens
-the `development` → `main` release. Andrea Tapia is backup.
+**Ready to start:** #8, #9, #10 and #11. **Blocked:** #12, #13–#21, #32 and #33 until their
+dependencies are met. **Unassigned:** #31 (F0.1), blocked by #11; claim it in the issue before
+starting. Agustín remains integrator and sole merge to `development`; he also opens the
+`development` → `main` release. Andrea Tapia is backup.
 
 ### Merge order
 
 1. P0, P1 and P2 can run in parallel from now on.
 2. F0 and P3 (P3 waits for P1 because of `rules.ts`; announce the contract before starting).
+   F0.1 (#31) can start after F0 if it is claimed.
 3. A, B, C and E in parallel against F0 + P3.
-4. Level 0 checkpoint in H: integrate A/B/C and deploy; that unblocks D, F and G.
-5. F and G; then close H with the final integration.
-6. I (submission).
+4. Level 0 checkpoint in H0 (#32): integrate A/B/C and deploy; that unblocks D, F and G.
+5. F and G; then close H1 (#17) with the final integration.
+6. P4 (#33) after P3/P0/P2 to sync counts; I (#21) after H1.
 7. Release: the integrator opens `development` → `main`; merging it runs CI and the automatic
    deploy to the preview.
 
@@ -201,11 +211,11 @@ the `development` → `main` release. Andrea Tapia is backup.
 - Review every `verified: false` against `docs/resources/`.
 - Mark `verified: true` only with a primary source.
 - Incorporate `docs/resources/08`: the 600 mSv career limit is a single limit for all sexes and
-  ages since 2022; update the radiation source and remove the `TODO verify`.
-- Reconcile `docs/resources/06` with that source.
+  ages since 2022; update `SOURCES.radiation` and remove the `TODO verify`.
+- `docs/resources/06` is already reconciled with that source; no doc edit is needed.
 - Leave `TODO verify` where evidence is still missing.
 - Boundary tests for exact WATCH/CONCERN/URGENT thresholds and for the bone case with good adherence.
-- Visible notice of pending thresholds in the UI (coordinate with E).
+- Provide the final pending count and copy to E (#16), which implements the visible UI notice.
 
 **Acceptance criteria:**
 
@@ -264,6 +274,34 @@ the `development` → `main` release. Andrea Tapia is backup.
 - `prefers-reduced-motion` respected.
 - No existing route is broken.
 
+### F0.1 · Deployed version footer
+
+**Goal:** show the deployed version in the global footer on every ORBI view.
+
+**Allowed files:** `package.json`, `vite.config.ts`, `src/App.tsx`, `src/components/SiteFooter.tsx`,
+`src/screens/Home.tsx`, `src/screens/Console.tsx`, `src/screens/Eva.tsx` only if the shared footer
+requires it, tests, and `Dockerfile`/`docs/DEPLOYMENT.md` only if build args are needed.
+
+**Deliverables:**
+
+- Use `package.json` `version` as the single source of truth and expose it at build time.
+- Shared footer with `ORBI v0.1.0` plus an optional short commit SHA linked to GitHub.
+- Graceful fallback in local dev and Docker builds without `.git`.
+- Reuse the footer on `/`, `?view=eva` and `?view=console`.
+- Document the release/version bump rule.
+
+**Acceptance criteria:**
+
+- The version appears on `/`, `?view=eva` and `?view=console`.
+- `npm run dev` and `npm run build` show the correct version.
+- The deployed build works without `.git` in the Docker context.
+- No secrets, tokens or environment values are rendered.
+- Dark/light, tablet 1180×820 and 390px remain usable.
+- `npm run check` and `npm run build` are green.
+- A test covers the version formatter/fallback.
+
+**Gate:** blocked by F0 (#11). The issue is unassigned; claim it before starting.
+
 ### P3 · Engine: ground baseline + cycle
 
 **Goal:** implement in the pure domain the 90-day baseline, the phase-aware cycle baseline
@@ -287,7 +325,8 @@ the `development` → `main` release. Andrea Tapia is backup.
 - Safety rule: the adjustment only affects relative rules; absolute thresholds are never
   relaxed.
 - Private packet: no `menses`/`cycleDay` unless `shareReproductiveWithGround`.
-- `rules.ts`: radiation to `docs/resources/08` (single 600 mSv since 2022) and `verified: true`.
+- `rules.ts`: keep #9's radiation source (`docs/resources/08`, single 600 mSv since 2022) and
+  `verified: true`; do not re-edit or duplicate that change.
 - Tests for phase-aware baseline, toggle on/off, real fever in the luteal phase, privacy and determinism.
 - `npm run gen` and commit the JSON.
 
@@ -390,7 +429,7 @@ the `development` → `main` release. Andrea Tapia is backup.
 - Test for the series helper.
 - Training and mission are visually distinguished.
 - Dark/light and responsive.
-- **Gate:** not merged before H's deployed Level 0 checkpoint.
+- **Gate:** not merged before H0's deployed Level 0 checkpoint (#32).
 
 ### E · Visual polish
 
@@ -436,14 +475,15 @@ the `development` → `main` release. Andrea Tapia is backup.
 - Works with two windows and no backend.
 - Test for countdown, messages and packet privacy.
 - Dark/light.
-- **Gate:** not merged before H's deployed Level 0 checkpoint.
+- **Gate:** not merged before H0's deployed Level 0 checkpoint (#32).
 
 ### G · Level 2
 
-**Goal:** extras if Level 0 and 1 are on the URL.
+**Goal:** extras if Level 0 and 1 are on the URL. The CMO view with 3 crew members is out of
+scope and stays as future work in `docs/CONCEPT.md` §12.
 
 **Allowed files:** `src/screens/Amsler.tsx`, `src/screens/Procedures.tsx`,
-`public/manifest.webmanifest`, `public/sw.js`, tests.
+`src/components/level2/*`, `public/manifest.webmanifest`, `public/sw.js`, tests.
 
 **Deliverables:**
 
@@ -458,25 +498,55 @@ the `development` → `main` release. Andrea Tapia is backup.
 - Amsler and procedures do not diagnose.
 - The service worker does not break the deploy or asset cache.
 - Cycle notices are informative and do not expose reproductive data.
-- New routes are integrated by H.
-- **Gate:** not merged before H's deployed Level 0 checkpoint.
+- New routes are integrated by H1 (#17).
+- **Gate:** not merged before H0's deployed Level 0 checkpoint (#32).
 
-### H · Integration/QA
+### H0 · Level 0 checkpoint
 
-**Goal:** bring everything together and keep it stable in the release preview.
+**Goal:** integrate Today, Body and Decision, verify Level 0 on the deployed URL and unblock
+Trends, Mission Control and Level 2.
 
-**Allowed files:** all shared files from §3.
+**Allowed files:** all shared files from §3, `package.json`/`package-lock.json` for Playwright,
+`playwright.config.ts`, `e2e/*`, the status tables in §4/§10 and `HANDOFF.md`.
+
+**Deliverables:**
+
+- Integrate A (#13), B (#14) and C (#15) behind F0 (#11) + P3 (#12).
+- Keep `/`, `?view=eva`, `?view=console` and `/pitch/` working.
+- Add `@playwright/test`, `playwright.config.ts` and `npm run test:e2e`.
+- Smoke suite: routes, dark/light, 1440/1180/390 and no horizontal overflow.
+- `npm run check`, `npm run build` and `npm run gen` with no diff.
+- Release `development` → `main`, wait for CI/deploy and verify production `200` on the three
+  Level 0 routes.
+- Update the status tables and `HANDOFF.md`; mark D/F/G unblocked.
+
+**Acceptance criteria:**
+
+- The deployed URL shows Today, Body and Decision with real engine data.
+- CI green and production `200` on `/`, `?view=today`, `?view=body`, `?view=decision`,
+  `?view=eva`, `?view=console` and `/pitch/`.
+- No console errors of our own.
+- Dark/light screenshots at tablet size.
+- No cycle data leaks without `shareReproductiveWithGround`.
+
+### H1 · Final integration/QA
+
+**Goal:** close the final integration after Level 0, keeping Level 1 and Level 2 stable in the
+release preview.
+
+**Allowed files:** all shared files from §3, the status tables in §4/§10 and `HANDOFF.md`.
 
 **Deliverables:**
 
 - Final routes and subnav.
 - Conflict resolution between lanes.
-- **Level 0 checkpoint:** integrate A/B/C and deploy; unblocks D/F/G.
 - Smoke tests for all routes.
 - Playwright: dark/light, 1440/1180/390, no overflow.
 - Verify 5 scenarios, 4 correlations and cycle privacy.
 - `npm run check`, `npm run build`, `npm run gen` with no diff, nginx + CSP and deploy.
 - Update the status tables in §4 and §10, and `HANDOFF.md`.
+- Verify the version footer (#31) in production.
+- Confirm there is no docs/code drift; P4 (#33) owns the post-P3 count sync.
 
 **Acceptance criteria:**
 
@@ -485,6 +555,29 @@ the `development` → `main` release. Andrea Tapia is backup.
 - Final dark/light screenshots.
 - The Mission Control packet does not leak reproductive data without consent.
 - No docs/code drift remains in scenarios/correlations.
+
+### P4 · Post-P3 docs sync
+
+**Goal:** remove docs/code drift in baselines, correlations, scenarios, test counts and the deck
+after P3 lands.
+
+**Allowed files:** `README.md`, `docs/PITCH.md`, `docs/STACK.md`, `AGENTS.md`, `docs/PLAN.md` §2,
+`HANDOFF.md` and `public/pitch/deck.json`.
+
+**Deliverables:**
+
+- Replace the 14-day baseline with the 90-day ground-training baseline.
+- Replace 3 correlations with 4 and 4 scenarios with 5.
+- Update the `36 tests` count and equivalents to the real post-P3 number.
+- Update the deck slides and the `docs/PITCH.md` checklist that state counts.
+- Keep `docs/TASKS.md` marked as historical.
+
+**Acceptance criteria:**
+
+- Grep for `14-day`, `3 correlations`, `4 scenarios` and `36 tests` returns only historical or
+  roadmap contexts.
+- No doc promises 5 scenarios / 4 correlations before the deploy.
+- `npm run check` and `npm run build` green.
 
 ### I · Final submission
 
@@ -586,7 +679,10 @@ Minimum matrix:
 - Light theme: app and pitch deck.
 - Product pivot: 90-day ground-training baseline and phase-aware cycle baseline
   (opt-in, private, without relaxing absolute thresholds); implemented in P3.
-- Level 2: Amsler, procedures and cycle notices; offline PWA at the end.
+- Level 2: Amsler, procedures and cycle notices; offline PWA at the end. The CMO view is
+  descoped and documented as future work.
+- Integration is two checkpoints: H0 (#32) deploys Level 0 and unblocks D/F/G; H1 (#17) closes
+  the final integration.
 - Video: script + auto-recording with Playwright, without committing the binary.
 - Parallelization: worktrees + CLI agents; Foundation and integration handled by the integrator.
 
@@ -602,13 +698,16 @@ Only the integrator updates this table.
 | P1 · Threshold audit | #9 | `@Agupane` | `engine/threshold-audit` | ready | — |
 | P2 · Submission groundwork | #10 | `@elenaalmansacampos` | `docs/submission` | ready | — |
 | F0 · Foundation | #11 | `@atapiamallea` | `design/theme-foundation` | ready | — |
+| F0.1 · Deployed version footer | #31 | — | `design/version-footer` | unassigned; blocked by #11 | — |
 | P3 · Engine: baseline + cycle | #12 | `@Agupane` | `engine/cycle-baseline` | blocked by #9 | — |
 | A · Today | #13 | `@atapiamallea` | `today/checkin` | blocked by #11 + #12 | — |
 | B · Body | #14 | `@Yeryalex` | `body/map` | blocked by #11 + #12 | — |
 | C · Decision | #15 | `@atapiamallea` | `decision/triage` | blocked by #11 + #12 | — |
 | E · Visual polish | #16 | `@amilege` | `design/motion-polish` | blocked by #11 | — |
-| D · Trends | #18 | `@Yeryalex` | `trends/charts` | blocked by Level 0 gate | — |
-| F · Mission Control | #19 | `@amilege` | `mission-control/window` | blocked by Level 0 gate | — |
+| D · Trends | #18 | `@Yeryalex` | `trends/charts` | blocked by Level 0 gate (#32) | — |
+| F · Mission Control | #19 | `@amilege` | `mission-control/window` | blocked by Level 0 gate (#32) | — |
 | G · Level 2 | #20 | `@amilege` | `level2/extras` | blocked; stretch | — |
-| H · Integration/QA | #17 | `@Agupane` | `integration/level0` | checkpoint pending | — |
+| H0 · Level 0 checkpoint | #32 | `@Agupane` | `integration/level0` | blocked by #11/#12 + A/B/C | — |
+| H1 · Final integration/QA | #17 | `@Agupane` | `integration/level0` | blocked by #32 + D/F/G | — |
+| P4 · Post-P3 docs sync | #33 | `@elenaalmansacampos` | `docs/post-p3-sync` | blocked by #8/#10/#12 | — |
 | I · Final submission | #21 | `@elenaalmansacampos` | `docs/submission` | blocked by #17 | — |

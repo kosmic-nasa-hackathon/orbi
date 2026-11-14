@@ -146,21 +146,26 @@ src/store/         Zustand store (scenario, day, mission, streak)
 Every task must be tied to a GitHub issue. The assignee is the lock: **if an issue is assigned to
 someone else, do not start it.**
 
-1. Find the issue for your lane: `gh issue list --state open`, or the issue linked in
-   `docs/PLAN.md`. If `gh` is not authenticated, run `gh auth status` first.
+1. Find your issue in `docs/TEAM.md` or with `gh issue list --assignee @me --state open`. If `gh`
+   is not authenticated, run `gh auth status` first.
 2. If the issue does not exist, create it with the lane name, scope, allowed files and acceptance
    criteria (`gh issue create`). Use the lane labels from `docs/PLAN.md`.
-3. Claim it **before writing code**:
+3. If it exists but is unassigned, claim it **before writing code**:
 
    ```bash
    gh issue edit <number> --add-assignee @me
-   gh issue comment <number> --body "Claimed by <agent/model> on branch <branch> (worktree <path>)."
    ```
 
-4. If it is already assigned, stop and coordinate in the issue. Never reassign another person's
-   issue yourself.
-5. Reference it in the PR body with `Closes #<number>`.
-6. On completion, update the issue and close it. If you stop blocked, leave it assigned and comment
+4. If it is assigned to someone else, stop and coordinate in the issue. Never reassign another
+   person's issue yourself.
+5. Once it is yours, comment the branch, worktree and port before writing code:
+
+   ```bash
+   gh issue comment <number> --body "Starting on <branch> (worktree <path>, port <port>)."
+   ```
+
+6. Reference it in the PR body with `Closes #<number>`.
+7. On completion, update the issue and close it. If you stop blocked, leave it assigned and comment
    the blocker and the next action.
 
 ## Testing
