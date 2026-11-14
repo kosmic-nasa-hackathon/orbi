@@ -55,6 +55,7 @@ There is no backend, database or environment variables.
   pure-layer overrides and `biome ci` inside `npm run check`.
 - GitHub issues as lock: the assignee is claimed with `gh issue edit <n> --add-assignee @me`
   before writing code.
+- All project docs are in English; source summaries live in `docs/resources/`.
 - **36/36 tests**; `npm run check` and `npm run build` green.
 - The release preview responds `200` at `/`, `?view=eva`, `?view=console` and `/pitch/`.
 
@@ -223,5 +224,6 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #25 docs: add team roster and assignment status.
 - #26 docs: finish team roster references.
 - #27 docs: adopt the development release flow and English core docs.
+- #28 docs: translate resources and normalize English doc paths.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi
