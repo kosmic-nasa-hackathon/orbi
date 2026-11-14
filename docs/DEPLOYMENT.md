@@ -1,64 +1,71 @@
 # DEPLOYMENT — ORBI
 
-Producción: **https://orbi.agustinpane.xyz** (desplegada y verificada el 2026-11-14).
-Infra: **Dokploy BCN**, detrás de **Cloudflare** y del túnel `bcn`.
+Release preview: **https://orbi.agustinpane.xyz** (deployed and verified on 2026-11-14).
+Infra: **Dokploy BCN**, behind **Cloudflare** and the `bcn` tunnel.
 
-La app es una SPA estática: Node 22 compila `dist/`, nginx la sirve en el puerto 80 y Dokploy la
-publica detrás de Traefik. No hay backend, base de datos ni variables de entorno de aplicación.
+The app is a static SPA: Node 22 compiles `dist/`, nginx serves it on port 80 and Dokploy
+publishes it behind Traefik. There is no backend, database or application environment variables.
 
-## Ruta de red
+## Branch model
+
+- `development` is the default branch and the integration target for every PR.
+- `main` is release-only. The integrator opens a `development` → `main` release PR; merging it
+  runs CI and the auto-deploy workflow.
+- Dokploy builds `main`, so the preview always matches the latest release.
+
+## Network path
 
 ```text
-Cloudflare (TLS, zona agustinpane.xyz)
+Cloudflare (TLS, zone agustinpane.xyz)
   └─> Cloudflare Tunnel "bcn" (LXC 114, 192.168.1.114)
         └─> nginx :80 (server_name orbi.agustinpane.xyz)
               └─> Dokploy Traefik :80 (192.168.1.115)
-                    └─> contenedor ORBI (nginx:alpine, puerto 80)
+                    └─> ORBI container (nginx:alpine, port 80)
 ```
 
-## Infraestructura
+## Infrastructure
 
-| Item | Valor |
+| Item | Value |
 |---|---|
-| Dokploy | `https://dokploy-bcn.agustinpane.xyz` (panel detrás de Cloudflare Access) |
-| VM Dokploy | `192.168.1.115` |
-| Proyecto / entorno | `Aplicaciones` (`FLGNQAu7z6UkAazPxu9r9`) / `production` (`uYxpUkNVX3jzl0fyehPy-`) |
-| App Dokploy | `ORBI` |
+| Dokploy | `https://dokploy-bcn.agustinpane.xyz` (panel behind Cloudflare Access) |
+| Dokploy VM | `192.168.1.115` |
+| Project / environment | `Aplicaciones` (`FLGNQAu7z6UkAazPxu9r9`) / `production` (`uYxpUkNVX3jzl0fyehPy-`) |
+| Dokploy app | `ORBI` |
 | `applicationId` | `pnNCsfPVhaq6_lgsFDTEF` |
 | `appName` | `app-input-open-source-panel-hqyoop` |
-| Dominio | `orbi.agustinpane.xyz` |
-| Puerto del contenedor | `80` |
-| Origen | `git@github.com:kosmic-nasa-hackathon/orbi.git`, branch `main` (deploy key SSH `orbi-deploy`) |
-| Build | `Dockerfile` en la raíz, contexto `/` |
-| TLS | Cloudflare; en Dokploy el dominio va con `https: false` |
-| Base de datos | ninguna |
-| Preview por PR | no; solo producción |
-| Auto-deploy | runner self-hosted `dokploy` (label `orbi`) + token webhook de Dokploy |
+| Domain | `orbi.agustinpane.xyz` |
+| Container port | `80` |
+| Source | `git@github.com:kosmic-nasa-hackathon/orbi.git`, branch `main` (SSH deploy key `orbi-deploy`) |
+| Build | `Dockerfile` at the root, context `/` |
+| TLS | Cloudflare; in Dokploy the domain uses `https: false` |
+| Database | none |
+| Per-PR preview | no; release preview only |
+| Auto-deploy | self-hosted runner `dokploy` (label `orbi`) + Dokploy webhook token |
 
-## Estado actual
+## Current state
 
-La app ya está creada, desplegada y con auto-deploy verificado:
+The app is already created, deployed and with auto-deploy verified:
 
-- Push a `main` → CI → workflow `deploy` en el runner `dokploy` → Dokploy despliega `main`.
-- Dominio `https://orbi.agustinpane.xyz` responde `200` con el build actual.
-- El runner corre en la VM de Dokploy como servicio `actions-runner-orbi.service`.
-- Secret del repo: `DOKPLOY_TOKEN`. Variable: `DOKPLOY_AUTO_DEPLOY=true`.
+- Release merge into `main` → CI → `deploy` workflow on the `dokploy` runner → Dokploy deploys `main`.
+- Domain `https://orbi.agustinpane.xyz` responds `200` with the current build.
+- The runner runs on the Dokploy VM as the `actions-runner-orbi.service` service.
+- Repo secret: `DOKPLOY_TOKEN`. Variable: `DOKPLOY_AUTO_DEPLOY=true`.
 
-## Prerrequisitos
+## Prerequisites
 
-1. **Admin del repo/org** (`kosmic-nasa-hackathon`) para deploy keys, webhooks y secretos.
-2. **Write en el repo** para quien vaya a pushear ramas y PRs.
-3. **Acceso a Dokploy**: API key (`DOKPLOY_API_KEY`) y panel/API reachable.
-4. **Acceso a Cloudflare**: zona `agustinpane.xyz` y túnel `bcn`.
-5. **Acceso al LXC 114** para editar el ingress de cloudflared y el vhost de nginx.
+1. **Repo/org admin** (`kosmic-nasa-hackathon`) for deploy keys, webhooks and secrets.
+2. **Write on the repo** for whoever will push branches and PRs.
+3. **Dokploy access**: API key (`DOKPLOY_API_KEY`) and panel/API reachable.
+4. **Cloudflare access**: zone `agustinpane.xyz` and tunnel `bcn`.
+5. **Access to LXC 114** to edit the cloudflared ingress and the nginx vhost.
 
 ## Build
 
-`Dockerfile` multi-stage:
+Multi-stage `Dockerfile`:
 
-1. `node:22-bookworm-slim` instala con `npm ci`.
-2. `npm run build` (`tsc --noEmit && vite build`) genera `dist/`.
-3. `nginx:1.27-alpine` sirve `dist/` con `nginx.conf` (fallback SPA, cache de assets, healthcheck).
+1. `node:22-bookworm-slim` installs with `npm ci`.
+2. `npm run build` (`tsc --noEmit && vite build`) generates `dist/`.
+3. `nginx:1.27-alpine` serves `dist/` with `nginx.conf` (SPA fallback, asset cache, healthcheck).
 
 ```bash
 npm ci
@@ -69,18 +76,18 @@ docker run --rm -p 8080:80 orbi:local
 curl -I http://localhost:8080/
 ```
 
-## Provisionar Dokploy
+## Provision Dokploy
 
-La app ya está provisionada (`applicationId` arriba). Estos comandos sirven para recrearla o
-replicarla en otra instancia. Las llamadas usan `x-api-key` (no `Authorization: Bearer`). Guarda la
-key en Dokploy/Vaultwarden, nunca en el repo.
+The app is already provisioned (`applicationId` above). These commands serve to recreate it or
+replicate it on another instance. Calls use `x-api-key` (not `Authorization: Bearer`). Store the
+key in Dokploy/Vaultwarden, never in the repo.
 
 ```bash
 export DOKPLOY_URL=https://dokploy-bcn.agustinpane.xyz
-export DOKPLOY_API_KEY=...   # no lo pegues en el chat ni en git
+export DOKPLOY_API_KEY=...   # do not paste it in chat or git
 ```
 
-### 1. Crear la app
+### 1. Create the app
 
 ```bash
 curl -s -X POST "$DOKPLOY_URL/api/application.create" \
@@ -88,23 +95,23 @@ curl -s -X POST "$DOKPLOY_URL/api/application.create" \
   -d '{"projectId":"FLGNQAu7z6UkAazPxu9r9","environmentId":"uYxpUkNVX3jzl0fyehPy-","name":"ORBI"}'
 ```
 
-La respuesta trae el `applicationId`. Guárdalo como `APP_ID`.
+The response returns the `applicationId`. Save it as `APP_ID`.
 
-### 2. Deploy key y origen Git
+### 2. Deploy key and Git source
 
-El repo es privado y la org no tiene instalada la GitHub App de Dokploy, así que el origen es
-**Git por SSH con un deploy key**:
+The repo is private and the org does not have Dokploy's GitHub App installed, so the source is
+**Git over SSH with a deploy key**:
 
 ```bash
-# En la VM de Dokploy
+# On the Dokploy VM
 ssh-keygen -t ed25519 -N '' -C 'orbi-dokploy-deploy' -f /tmp/orbi-deploy
 cat /tmp/orbi-deploy.pub
 ```
 
-1. La org debe permitir deploy keys (`deploy_keys_enabled_for_repositories=true`).
-2. Añade la clave pública al repo como **deploy key de solo lectura** (Settings → Deploy keys, o
+1. The org must allow deploy keys (`deploy_keys_enabled_for_repositories=true`).
+2. Add the public key to the repo as a **read-only deploy key** (Settings → Deploy keys, or
    `gh api -X POST repos/kosmic-nasa-hackathon/orbi/keys -f title='Dokploy ORBI' -f key="<pub>" -F read_only=true`).
-3. Crea la SSH key en Dokploy (tRPC, requiere `organizationId`):
+3. Create the SSH key in Dokploy (tRPC, requires `organizationId`):
 
 ```bash
 jq -n --arg name "orbi-deploy" --arg desc "Deploy key for kosmic-nasa-hackathon/orbi" \
@@ -113,7 +120,7 @@ jq -n --arg name "orbi-deploy" --arg desc "Deploy key for kosmic-nasa-hackathon/
   | dokploy-api POST trpc/sshKey.create -
 ```
 
-Guarda el `sshKeyId` y configura el origen:
+Save the `sshKeyId` and configure the source:
 
 ```bash
 curl -s -X POST "$DOKPLOY_URL/api/application.update" \
@@ -121,9 +128,9 @@ curl -s -X POST "$DOKPLOY_URL/api/application.update" \
   -d "{\"applicationId\":\"$APP_ID\",\"sourceType\":\"git\",\"customGitUrl\":\"git@github.com:kosmic-nasa-hackathon/orbi.git\",\"customGitBranch\":\"main\",\"customGitBuildPath\":\"/\",\"customGitSSHKeyId\":\"<SSH_KEY_ID>\",\"buildType\":\"dockerfile\",\"autoDeploy\":true}"
 ```
 
-`autoDeploy: true` es necesario para que el token webhook acepte el deploy.
+`autoDeploy: true` is required for the webhook token to accept the deploy.
 
-### 3. Build type y dominio
+### 3. Build type and domain
 
 ```bash
 curl -s -X POST "$DOKPLOY_URL/api/application.saveBuildType" \
@@ -135,9 +142,9 @@ curl -s -X POST "$DOKPLOY_URL/api/domain.create" \
   -d "{\"applicationId\":\"$APP_ID\",\"host\":\"orbi.agustinpane.xyz\",\"port\":80,\"https\":false,\"path\":\"/\"}"
 ```
 
-No actives Let's Encrypt: Cloudflare termina TLS.
+Do not enable Let's Encrypt: Cloudflare terminates TLS.
 
-### 4. Primer deploy
+### 4. First deploy
 
 ```bash
 curl -s -X POST "$DOKPLOY_URL/api/application.deploy" \
@@ -145,21 +152,21 @@ curl -s -X POST "$DOKPLOY_URL/api/application.deploy" \
   -d "{\"applicationId\":\"$APP_ID\",\"title\":\"Initial deploy\"}"
 ```
 
-Comprueba `applicationStatus` (`idle` → `running` → `done`/`error`) y los logs en
-`/etc/dokploy/logs/<appName>/` en la VM.
+Check `applicationStatus` (`idle` → `running` → `done`/`error`) and the logs in
+`/etc/dokploy/logs/<appName>/` on the VM.
 
-## Cloudflare, túnel y nginx
+## Cloudflare, tunnel and nginx
 
-Ya configurado y verificado. Se documenta para recrearlo.
+Already configured and verified. Documented so it can be recreated.
 
 ### DNS
 
 CNAME `orbi` → `0bbb0bcf-863a-4f57-9b3a-353761b91799.cfargotunnel.com`, **proxied**
-(registro DNS id `0ddc2edc3d652ef424f670155a3b1d05` en la zona `agustinpane.xyz`).
+(DNS record id `0ddc2edc3d652ef424f670155a3b1d05` in the `agustinpane.xyz` zone).
 
-### Ingress del túnel (LXC 114)
+### Tunnel ingress (LXC 114)
 
-En `/root/.cloudflared/config.yml`, antes del catch-all:
+In `/root/.cloudflared/config.yml`, before the catch-all:
 
 ```yaml
 - hostname: orbi.agustinpane.xyz
@@ -198,90 +205,90 @@ ln -s /etc/nginx/sites-available/orbi.agustinpane.xyz /etc/nginx/sites-enabled/
 nginx -t && systemctl reload nginx
 ```
 
-No pongas Cloudflare Access en `orbi.agustinpane.xyz`: el jurado tiene que entrar sin login.
+Do not put Cloudflare Access on `orbi.agustinpane.xyz`: the jury must be able to enter without login.
 
 ## Auto-deploy
 
-### Implementado: runner self-hosted + token webhook
+### Implemented: self-hosted runner + webhook token
 
-Los webhooks por token (`/api/deploy/<refreshToken>`) **siguen detrás de Cloudflare Access**; por eso
-no funcionan desde un runner GitHub-hosted. La solución desplegada es un runner self-hosted en la
-propia VM de Dokploy:
+Token webhooks (`/api/deploy/<refreshToken>`) **remain behind Cloudflare Access**; that is why
+they do not work from a GitHub-hosted runner. The deployed solution is a self-hosted runner on the
+Dokploy VM itself:
 
-| Item | Valor |
+| Item | Value |
 |---|---|
 | Runner | `dokploy` (labels `self-hosted`, `Linux`, `X64`, `orbi`) |
-| Directorio | `/opt/actions-runner` |
-| Usuario | `github-runner` |
-| Servicio | `actions-runner-orbi.service` |
+| Directory | `/opt/actions-runner` |
+| User | `github-runner` |
+| Service | `actions-runner-orbi.service` |
 | Workflow | `.github/workflows/deploy.yml` |
-| Secret del repo | `DOKPLOY_TOKEN` (refreshToken de la app en Dokploy) |
-| Variable del repo | `DOKPLOY_AUTO_DEPLOY=true` |
+| Repo secret | `DOKPLOY_TOKEN` (the app's refreshToken in Dokploy) |
+| Repo variable | `DOKPLOY_AUTO_DEPLOY=true` |
 
-Flujo: push a `main` → `ci` → `deploy` (workflow_run) en el runner → POST a
-`http://192.168.1.115:3000/api/deploy/$DOKPLOY_TOKEN` con `x-github-event: push` y
-`{"ref":"refs/heads/main"}`. Si CI falla, el deploy no corre.
+Flow: release merge into `main` → `ci` → `deploy` (workflow_run) on the runner → POST to
+`http://192.168.1.115:3000/api/deploy/$DOKPLOY_TOKEN` with `x-github-event: push` and
+`{"ref":"refs/heads/main"}`. If CI fails, the deploy does not run.
 
-El workflow también se puede lanzar a mano con **Actions → deploy → Run workflow**. Si
-`DOKPLOY_AUTO_DEPLOY` no existe o no es `true`, el job se salta y no falla.
+The workflow can also be launched manually with **Actions → deploy → Run workflow**. If
+`DOKPLOY_AUTO_DEPLOY` does not exist or is not `true`, the job is skipped and does not fail.
 
-Un `301` con `{"message":"Branch Not Match"}` significa que el branch del payload no coincide con
-el configurado en Dokploy; no lo reintentes como si fuera un error de red.
+A `301` with `{"message":"Branch Not Match"}` means the payload branch does not match the one
+configured in Dokploy; do not retry it as if it were a network error.
 
-### Alternativa: GitHub App de Dokploy
+### Alternative: Dokploy GitHub App
 
-Si en el futuro se instala la GitHub App de Dokploy en la org `kosmic-nasa-hackathon`, se puede
-cambiar el origen a `sourceType=github` y usar `autoDeploy`; el endpoint `/api/deploy/github` ya
-tiene bypass de Cloudflare Access en BCN. No es necesario con el runner actual.
+If in the future Dokploy's GitHub App is installed in the `kosmic-nasa-hackathon` org, the source
+can be changed to `sourceType=github` and use `autoDeploy`; the `/api/deploy/github` endpoint
+already has a Cloudflare Access bypass in BCN. It is not necessary with the current runner.
 
-## Verificación
+## Verification
 
 ```bash
 curl -sI https://orbi.agustinpane.xyz/
 curl -s https://orbi.agustinpane.xyz/ | grep -o '<title>[^<]*</title>'
 
-# Bypass Cloudflare, desde la VM de Dokploy
+# Bypass Cloudflare, from the Dokploy VM
 curl -s -H 'Host: orbi.agustinpane.xyz' http://127.0.0.1/
 
-# Servicio y logs (nombre generado por Dokploy)
+# Service and logs (name generated by Dokploy)
 docker service ps app-input-open-source-panel-hqyoop
 docker service logs app-input-open-source-panel-hqyoop --tail 50
 ```
 
-Esperado: HTTP `200`, build de `main`, consola del motor visible y datos del día 148.
+Expected: HTTP `200`, build from `main`, engine console visible and day 148 data.
 
 ## Rollback
 
-- En Dokploy, redeploy del commit anterior (historial de deployments de la app).
-- O `git revert` del commit roto en `main` y push; el auto-deploy reconstruye.
-- Al ser estático, no hay migraciones ni estado que revertir.
+- In Dokploy, redeploy the previous commit (the app's deployment history).
+- Or `git revert` the broken commit on `main` through a hotfix release; auto-deploy rebuilds.
+- Being static, there are no migrations or state to revert.
 
 ## Troubleshooting
 
-| Síntoma | Qué revisar |
+| Symptom | What to check |
 |---|---|
-| Cloudflare 502/1033 | `systemctl status cloudflared` en LXC 114 y la entrada de ingress |
-| 404 de Traefik | `/etc/dokploy/traefik/dynamic/app-input-open-source-panel-hqyoop.yml`: Host y puerto 80 |
-| 502 de Traefik | `docker service ps app-input-open-source-panel-hqyoop`; el contenedor debe estar `Running` |
-| Nginx error | `nginx -t` en LXC 114 y `systemctl reload nginx` |
-| DNS no resuelve | CNAME proxied (`ttl: 1`) en la zona `agustinpane.xyz` |
-| Deploy no arranca | `systemctl status actions-runner-orbi`, el runner debe estar `online` en GitHub y `autoDeploy` debe ser `true` |
-| Deploy 400 "Automatic deployments are disabled" | Activar `autoDeploy` en la app de Dokploy |
-| Build falla | `npm ci` y `npm run build` en local con Node 22 |
-| SPA da 404 al recargar | `try_files $uri $uri/ /index.html` en `nginx.conf` |
-| El coach local no carga el modelo | `Content-Security-Policy` en `nginx.conf`: `connect-src 'self'` bloquea CDNs. Si se activa WebLLM, añade el origen del modelo a `connect-src`. |
+| Cloudflare 502/1033 | `systemctl status cloudflared` on LXC 114 and the ingress entry |
+| Traefik 404 | `/etc/dokploy/traefik/dynamic/app-input-open-source-panel-hqyoop.yml`: Host and port 80 |
+| Traefik 502 | `docker service ps app-input-open-source-panel-hqyoop`; the container must be `Running` |
+| Nginx error | `nginx -t` on LXC 114 and `systemctl reload nginx` |
+| DNS does not resolve | proxied CNAME (`ttl: 1`) in the `agustinpane.xyz` zone |
+| Deploy does not start | `systemctl status actions-runner-orbi`, the runner must be `online` in GitHub and `autoDeploy` must be `true` |
+| Deploy 400 "Automatic deployments are disabled" | Enable `autoDeploy` in the Dokploy app |
+| Build fails | `npm ci` and `npm run build` locally with Node 22 |
+| SPA returns 404 on reload | `try_files $uri $uri/ /index.html` in `nginx.conf` |
+| The local coach does not load the model | `Content-Security-Policy` in `nginx.conf`: `connect-src 'self'` blocks CDNs. If WebLLM is enabled, add the model origin to `connect-src`. |
 
-## Ventanas sin deploys
+## Deploy-free windows
 
-Evitar deploys en **20:30–22:30** y **01:30–02:50 UTC**.
+Avoid deploys at **20:30–22:30** and **01:30–02:50 UTC**.
 
-## Secretos
+## Secrets
 
-- No hay secretos de aplicación: la SPA es estática.
-- `DOKPLOY_API_KEY` y el token de Cloudflare viven en Dokploy/Vaultwarden/Cloudflare, nunca en git.
-- `DOKPLOY_TOKEN` va como secret del repo y se trata como credencial: la URL del webhook es la
-  única autenticación. El runner lo inyecta en el `curl` sin escribirlo en logs.
-- La deploy key `orbi-deploy` vive en Dokploy y su pública en GitHub; es de solo lectura.
-  Rótala si se filtra o si alguien deja de tener acceso a la infraestructura.
-- La GitHub App de Dokploy no es necesaria con el runner actual; si se usa, evita guardar un PAT
-  en el repo y evita que el token aparezca en logs de build.
+- There are no application secrets: the SPA is static.
+- `DOKPLOY_API_KEY` and the Cloudflare token live in Dokploy/Vaultwarden/Cloudflare, never in git.
+- `DOKPLOY_TOKEN` goes as a repo secret and is treated as a credential: the webhook URL is the
+  only authentication. The runner injects it into the `curl` without writing it to logs.
+- The `orbi-deploy` deploy key lives in Dokploy and its public part in GitHub; it is read-only.
+  Rotate it if leaked or if someone loses access to the infrastructure.
+- Dokploy's GitHub App is not necessary with the current runner; if used, avoid storing a PAT
+  in the repo and avoid the token appearing in build logs.

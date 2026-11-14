@@ -1,79 +1,83 @@
 # STACK — ORBI
 
-> Qué instalar, en qué orden y por qué. Sin teoría: decisiones y comandos.
-> Alcance y producto: `CONCEPTO-ORBI.md` · Resumen para el equipo: `BRIEF.md`
+> What to install, in what order and why. No theory: decisions and commands.
+> Scope and product: `CONCEPTO-ORBI.md` · Team summary: `BRIEF.md`
 
 ---
 
-## Decisión en una línea
+## Decision in one line
 
-**Una SPA en React + TypeScript con Vite. Tailwind + shadcn/ui para la piel, Recharts para las gráficas, el motor de reglas en TypeScript puro, los datos en JSON local y despliegue estático en Dokploy (Cloudflare delante). Sin backend, sin base de datos, sin autenticación. Diseño *tablet-first* y UI en inglés.**
+**A React + TypeScript SPA with Vite. Tailwind (with optional shadcn/ui) for the skin, Recharts for the charts, the rules engine in pure TypeScript, the data in local JSON and static deployment on Dokploy (Cloudflare in front). No backend, no database, no authentication. *Tablet-first* design and UI in English.**
 
-Es el stack con el que un equipo pequeño puede tener algo impresionante y *estable* en 48 horas, y el que menos falla en una demo en vivo.
+It is the stack with which a small team can have something impressive and *stable* in 48 hours, and the one that fails least in a live demo.
 
 ---
 
-## 1. El stack, capa por capa
+## 1. The stack, layer by layer
 
-| Capa | Herramienta | Por qué esta y no otra | Alternativa | Setup |
+| Layer | Tool | Why this and not another | Alternative | Setup |
 |---|---|---|---|---|
-| **Runtime** | **Node 22 LTS** fijado con `.nvmrc` | Con 4–5 personas, cada una tendrá una versión de Node distinta. Node 25 es demasiado nuevo. | — | 5 min |
-| **Build** | **Vite** | Arranque instantáneo, cero configuración, salida estática. Sin SSR ni errores de hidratación a las 3 a.m. | Next.js (solo si el equipo ya lo domina) | 2 min |
-| **Lenguaje** | **TypeScript** | El motor de reglas necesita tipos, y los tipos son el contrato entre bloques. | JS | 0 |
-| **UI** | **React 19** | Ecosistema, familiaridad, y todas las librerías de gráficas y SVG lo asumen. | — | 0 |
-| **Estilos** | **Tailwind CSS v4** + **shadcn/ui** | Aspecto profesional sin diseñar desde cero. shadcn copia el código a tu repo: no es una dependencia, es tu código. | Tailwind a mano | 20 min |
-| **Gráficas** | **Recharts 3** | Declarativo, sparklines en 10 líneas. La v3 es la compatible con React 19 (la 2.x da problemas de dependencias). | visx | 15 min |
-| **Animación** | **Motion** (antes framer-motion) | Transiciones de panel y cambio a modo emergencia. Mejor 3 animaciones bien hechas que 20. | CSS transitions | 10 min |
-| **Mapa corporal** | **SVG propio** + ilustraciones de **Servier Medical Art** | Control de capas, color por sistema, accesible, animable. | three.js (bonito, caro y frágil en una demo) | 1–2 h |
-| **Estado** | **Zustand** + `persist` | 1 KB y sin boilerplate. Guarda en localStorage la racha y el día actual. | Context API | 10 min |
-| **Validación** | **Zod** | Valida el archivo de reglas clínicas: una regla mal escrita falla en el test, no en la demo. *Opcional*: si a quien lleva el motor le frena, se usan tipos TS planos. | nada | 10 min |
-| **Motor de reglas** | **TypeScript puro** | Explicable, testeable, sin dependencias. | `json-rules-engine` (sobra) | 0 |
-| **Tests** | **Vitest** | Comparte la config de Vite. Los tests del motor son credibilidad ante el jurado. | Jest | 15 min |
-| **Scripts** | **tsx** | Ejecuta `scripts/generate-mission.ts` directamente con `npm run gen`. | vite-node | 2 min |
-| **Fechas** | **date-fns** | Ligero. Para las horas de las ventanas de comunicación. | dayjs | 2 min |
-| **Iconos** | **lucide-react** | Mismo trazo que shadcn. También sirven para los iconos de estado (ver §5). | heroicons | 2 min |
-| **Fuentes** | **@fontsource** | Las fuentes van en el repo, no por CDN: funcionan sin wifi. | Google Fonts | 5 min |
-| **Datos** | **Generador TS con RNG sembrado → JSON** | Demo determinista: siempre el mismo día 148, siempre la misma curva. | mocks a mano (frágiles) | 1 h |
-| **Calidad** | **Biome** | Lint + format en una herramienta y en milisegundos. | ESLint + Prettier | 5 min |
-| **Repo** | **GitHub** + **GitHub Actions** | CI con `test` + `build` en cada PR: nadie rompe `main` sin enterarse. | — | 15 min |
-| **Deploy** | **Dokploy BCN** | App Dockerfile + nginx en `orbi.agustinpane.xyz`, auto-deploy en `main` y TLS en Cloudflare. Sin previews por PR. | Vercel (previews) | 15 min |
-| **Bocetos** | **Figma** o **Excalidraw** | 30 minutos el sábado para bocetar las pantallas antes de programar. Se discute el diseño en un dibujo, no en el código. | papel | 30 min |
-| **Offline** (nivel 2) | **vite-plugin-pwa** | Hace verificable la promesa de funcionar sin la Tierra (modo avión en la demo). | — | 15 min |
+| **Runtime** | **Node 22 LTS** pinned with `.nvmrc` | With 4–5 people, each will have a different Node version. Node 25 is too new. | — | 5 min |
+| **Build** | **Vite** | Instant startup, zero configuration, static output. No SSR or hydration errors at 3 a.m. | Next.js (only if the team already masters it) | 2 min |
+| **Language** | **TypeScript** | The rules engine needs types, and types are the contract between blocks. | JS | 0 |
+| **UI** | **React 19** | Ecosystem, familiarity, and every charting and SVG library assumes it. | — | 0 |
+| **Styles** | **Tailwind CSS v4** (+ **shadcn/ui**, optional and recommended) | Professional look without designing from scratch. shadcn copies the code into your repo: it is not a dependency, it is your code. shadcn is not installed yet; adopt it only if it pays for itself. | Tailwind by hand | 20 min |
+| **Charts** | **Recharts 3** | Declarative, sparklines in 10 lines. v3 is the one compatible with React 19 (2.x has dependency issues). | visx | 15 min |
+| **Animation** | **Motion** (formerly framer-motion) | Panel transitions and switching to emergency mode. Better 3 well-made animations than 20. | CSS transitions | 10 min |
+| **Body map** | **Custom SVG** + **Servier Medical Art** illustrations | Layer control, colour per system, accessible, animatable. | three.js (pretty, expensive and fragile in a demo) | 1–2 h |
+| **State** | **Zustand** + `persist` | 1 KB and no boilerplate. Saves the streak and the current day in localStorage. | Context API | 10 min |
+| **Validation** | **Zod** (optional and recommended) | Validates the clinical rules file: a badly written rule fails in the test, not in the demo. *Optional*: if it slows down whoever owns the engine, use plain TS types. Not installed yet. | nothing | 10 min |
+| **Rules engine** | **Pure TypeScript** | Explainable, testable, dependency-free. | `json-rules-engine` (overkill) | 0 |
+| **Tests** | **Vitest** | Shares the Vite config. Engine tests are credibility before the jury. | Jest | 15 min |
+| **Scripts** | **tsx** | Runs `scripts/generate-mission.ts` directly with `npm run gen`. | vite-node | 2 min |
+| **Dates** | **date-fns** | Lightweight. For comms-window times. | dayjs | 2 min |
+| **Icons** | **lucide-react** | Same stroke as shadcn. Also useful for the state icons (see §5). | heroicons | 2 min |
+| **Fonts** | **@fontsource** | Fonts live in the repo, not via CDN: they work without wifi. | Google Fonts | 5 min |
+| **Data** | **TS generator with seeded RNG → JSON** | Deterministic demo: always the same day 148, always the same curve. | hand-written mocks (fragile) | 1 h |
+| **Quality** | **Biome** | Lint + format in one tool and in milliseconds. | ESLint + Prettier | 5 min |
+| **Repo** | **GitHub** + **GitHub Actions** | CI with `test` + `build` on every PR: nobody breaks `development`/`main` without knowing. | — | 15 min |
+| **Deploy** | **Dokploy BCN** | Dockerfile app + nginx at `orbi.agustinpane.xyz`, release auto-deploy on `main` and TLS at Cloudflare. Release preview only; no per-PR previews. | Vercel (previews) | 15 min |
+| **Sketches** | **Figma** or **Excalidraw** | 30 minutes on Saturday to sketch the screens before coding. Design is discussed in a drawing, not in code. | paper | 30 min |
+| **Offline** (level 2) | **vite-plugin-pwa** | Makes the promise of working without Earth verifiable (airplane mode in the demo). | — | 15 min |
 
-**Total real de setup:** ~2,5 h (incluyendo repo, CI y deploy). Se hace **el viernes**, no el sábado.
+**Real setup total:** ~2.5 h (including repo, CI and deploy). Done **on Friday**, not Saturday.
 
-> **Estado real (14 nov 2026):** el scaffold ya existe (Vite 8, React 19.3, TypeScript 5.9,
-> Tailwind 4, Vitest 5, Biome 2), el motor y el coach están implementados, y CI/Dockerfile/nginx
-> están en el repo. Falta la UI de las pantallas y provisionar Dokploy/Cloudflare. Ver `HANDOFF.md`.
+> **Actual status (Nov 14, 2026):** the scaffold already exists (Vite 8, React 19.3, TypeScript 5.9,
+> Tailwind 4, Vitest 5, Biome 2), the engine and the coach are implemented, and CI/Dockerfile/nginx
+> are in the repo. The screen UI is still missing. Dokploy and Cloudflare are already provisioned and
+> the app is deployed at `https://orbi.agustinpane.xyz`. Until P3 lands, the engine still uses a
+> 14-day pre-flight baseline, 3 correlations and 4 scenarios; the 90-day ground baseline,
+> 4 correlations (including `cycle-aware`) and 5 scenarios (including `luteal-phase`) are the
+> documented target. See `HANDOFF.md`.
 
 ---
 
-## 2. Cómo montarlo (comandos, en orden)
+## 2. How to set it up (commands, in order)
 
 ```bash
-# 0. Node 22 (una vez por persona)
+# 0. Node 22 (once per person)
 nvm install 22 && nvm use 22
 
-# 1. Crear el proyecto en la raíz del repo (ya existe, con docs/ dentro)
-git clone https://github.com/kosmic-nasa-hackathon/orbi.git   # si aún no lo tienes
+# 1. Create the project at the repo root (it already exists, with docs/ inside)
+git clone https://github.com/kosmic-nasa-hackathon/orbi.git   # if you don't have it yet
 cd orbi
 npm create vite@latest . -- --template react-ts
-#   → Vite avisa de que la carpeta no está vacía: elegir "Ignore files and continue"
-#   → revisa después que no haya sobrescrito README.md ni .gitignore (git diff)
+#   → Vite warns that the folder is not empty: choose "Ignore files and continue"
+#   → afterwards check that it has not overwritten README.md or .gitignore (git diff)
 echo "22" > .nvmrc
 npm install
 
-# 2. Tailwind v4 (plugin de Vite, sin postcss config)
+# 2. Tailwind v4 (Vite plugin, no postcss config)
 npm install tailwindcss @tailwindcss/vite
 
-# 3. Dependencias de producto
+# 3. Product dependencies
 npm install zustand zod recharts motion date-fns lucide-react clsx tailwind-merge @fontsource-variable/inter
 
-# 4. Dependencias de desarrollo
+# 4. Development dependencies
 npm install -D vitest jsdom @testing-library/react @testing-library/jest-dom @biomejs/biome tsx
 ```
 
-Scripts en `package.json`:
+Scripts in `package.json`:
 
 ```json
 "scripts": {
@@ -87,7 +91,7 @@ Scripts en `package.json`:
 }
 ```
 
-`vite.config.ts` mínimo:
+Minimal `vite.config.ts`:
 
 ```ts
 import { defineConfig } from 'vite'
@@ -109,25 +113,27 @@ export default defineConfig({
 
 ### shadcn/ui
 
+*Optional and recommended; not part of the current dependencies.*
+
 ```bash
 npx shadcn@latest init
 ```
 
-Antes de ejecutarlo hay que preparar **dos cosas**; si no, falla sin dar error:
+Before running it you need to prepare **two things**; otherwise it fails without an error:
 
-1. El alias `@/*` en `tsconfig.json` y en `tsconfig.app.json` (`"baseUrl": "."`, `"paths": { "@/*": ["./src/*"] }`).
-2. El alias en `vite.config.ts` (arriba).
+1. The `@/*` alias in `tsconfig.json` and in `tsconfig.app.json` (`"baseUrl": "."`, `"paths": { "@/*": ["./src/*"] }`).
+2. The alias in `vite.config.ts` (above).
 
-Componentes que se usarán de verdad: `card`, `button`, `badge`, `dialog`, `sheet`, `progress`, `tabs`, `tooltip`, `separator`, `slider` (ánimo y fatiga).
+Components that will actually be used: `card`, `button`, `badge`, `dialog`, `sheet`, `progress`, `tabs`, `tooltip`, `separator`, `slider` (mood and fatigue).
 
-> **Si shadcn os frena más de 20 minutos, abandonadlo.** Un `Card` con Tailwind a mano son 8 líneas.
+> **If shadcn slows you down more than 20 minutes, drop it.** A `Card` with Tailwind by hand is 8 lines.
 
 ### CI (`.github/workflows/ci.yml`)
 
 ```yaml
 name: ci
 on:
-  push: { branches: [main] }
+  push: { branches: [main, development] }
   pull_request:
 jobs:
   check:
@@ -142,20 +148,21 @@ jobs:
       - run: npm run build
 ```
 
-### Reglas del repo
+### Repo rules
 
-- `main` solo se actualiza por PR con la CI en verde. El repo privado free no permite branch
-  protection: el gate real es el PR + el integrador.
-- **Una persona integradora** (`@Agupane`; backup `@atapiamallea`) revisa y mergea los PR. Así no se discute qué entra.
-- Ramas por bloque: `engine/…`, `body/…`, `today/…`, `ai/…`, `mission-control/…`, `design/…`, `deploy/…`.
-- PR pequeños e integración cada 3–4 h. **Cambiar `src/domain/types.ts` exige avisar a todo el equipo.**
+- `development` is the default integration branch; every PR targets it. `main` is release-only:
+  the integrator opens `development` → `main`, and that release merge triggers the auto-deploy.
+  The free private repo does not allow branch protection: the real gate is the PR + the integrator.
+- **One integrator** (`@Agupane`; backup `@atapiamallea`) reviews and merges PRs. That way there is no debate about what goes in.
+- Branches per block: `engine/…`, `body/…`, `today/…`, `ai/…`, `mission-control/…`, `design/…`, `deploy/…`.
+- Small PRs and integration every 3–4 h. **Changing `src/domain/types.ts` requires notifying the whole team.**
 
 ---
 
-## 3. Estructura de carpetas
+## 3. Folder structure
 
 ```
-orbi/                            # = raíz del repo kosmic-nasa-hackathon/orbi
+orbi/                            # = root of the kosmic-nasa-hackathon/orbi repo
 ├─ README.md
 ├─ docs/                         # BRIEF, CONCEPTO-ORBI, STACK, recursos/
 ├─ .nvmrc
@@ -165,30 +172,30 @@ orbi/                            # = raíz del repo kosmic-nasa-hackathon/orbi
 ├─ scripts/
 │  └─ generate-mission.ts        # npm run gen → src/data/scenarios/*.json
 ├─ src/
-│  ├─ domain/                    # ⚠️ CERO imports de React aquí
-│  │  ├─ types.ts                # el contrato (ver CONCEPTO-ORBI.md §8)
-│  │  ├─ baseline.ts             # media ± σ de los 90 días de entrenamiento; por fase del ciclo si cycle = tracked (propuesta)
-│  │  ├─ rules.ts                # umbrales, fuentes y action cards
-│  │  ├─ levels.ts               # orden y etiquetas de nivel
-│  │  ├─ escalation.ts           # nivel × latencia
-│  │  ├─ evaluate.ts             # correlaciones, estimaciones, facts y evaluate()
+│  ├─ domain/                    # ⚠️ ZERO React imports here
+│  │  ├─ types.ts                # the contract (see CONCEPTO-ORBI.md §8)
+│  │  ├─ baseline.ts             # mean ± σ of the 90 training days; per cycle phase if cycle = tracked (proposal)
+│  │  ├─ rules.ts                # thresholds, sources and action cards
+│  │  ├─ levels.ts               # level order and labels
+│  │  ├─ escalation.ts           # level × latency
+│  │  ├─ evaluate.ts             # correlations, estimates, facts and evaluate()
 │  │  └─ *.test.ts
-│  ├─ ai/                        # coach determinista + adapter local + guardrails
+│  ├─ ai/                        # deterministic coach + local adapter + guardrails
 │  │  ├─ types.ts
 │  │  ├─ coach.ts
 │  │  ├─ guardrails.ts
 │  │  └─ providers/
 │  ├─ data/
-│  │  ├─ rng.ts                  # mulberry32 sembrado
-│  │  ├─ generate.ts             # generador de escenarios
-│  │  └─ scenarios/*.json        # generados (se suben al repo)
+│  │  ├─ rng.ts                  # seeded mulberry32
+│  │  ├─ generate.ts             # scenario generator
+│  │  └─ scenarios/*.json        # generated (committed to the repo)
 │  ├─ content/
-│  │  └─ systems.ts              # etiquetas, "why this matters" y colores
+│  │  └─ systems.ts              # labels, "why this matters" and colours
 │  ├─ store/
-│  │  └─ orbiStore.ts            # Zustand: escenario, día, misión, racha
+│  │  └─ orbiStore.ts            # Zustand: scenario, day, mission, streak
 │  ├─ components/
-│  │  ├─ DemoBar.tsx             # escenario · misión · Next day ▶ · Reset
-│  │  ├─ LevelBadge.tsx          # color + icono + texto
+│  │  ├─ DemoBar.tsx             # scenario · mission · Next day ▶ · Reset
+│  │  ├─ LevelBadge.tsx          # colour + icon + text
 │  │  ├─ body/BodyMap.tsx
 │  │  ├─ body/SystemSheet.tsx
 │  │  ├─ charts/Sparkline.tsx
@@ -197,67 +204,67 @@ orbi/                            # = raíz del repo kosmic-nasa-hackathon/orbi
 │  │  ├─ decision/EscalationPanel.tsx
 │  │  └─ ui/                     # shadcn
 │  └─ screens/
-│     ├─ Today.tsx               # nivel 0
-│     ├─ Body.tsx                # nivel 0
-│     ├─ Decision.tsx            # nivel 0
-│     ├─ Trends.tsx              # nivel 1
-│     ├─ MissionControl.tsx      # nivel 1 (segunda ventana: tierra)
-│     ├─ Procedures.tsx          # nivel 2
-│     ├─ VisionTest.tsx          # nivel 2 (rejilla de Amsler)
-│     └─ CrewPanel.tsx           # nivel 2 (vista del CMO)
+│     ├─ Today.tsx               # level 0
+│     ├─ Body.tsx                # level 0
+│     ├─ Decision.tsx            # level 0
+│     ├─ Trends.tsx              # level 1
+│     ├─ MissionControl.tsx      # level 1 (second window: ground)
+│     ├─ Procedures.tsx          # level 2
+│     ├─ VisionTest.tsx          # level 2 (Amsler grid)
+│     └─ CrewPanel.tsx           # level 2 (CMO view)
 ```
 
-**La regla de oro arquitectónica:** `src/domain/` no importa nada de React.
+**The golden architectural rule:** `src/domain/` does not import anything from React.
 
-Eso da tres cosas: el motor se testea con Vitest sin montar componentes, la lógica clínica se puede defender como "independiente de la interfaz", y si la UI se rompe, el cerebro sigue funcionando. Es el argumento que más impresiona a un jurado técnico.
+That gives three things: the engine can be tested with Vitest without mounting components, the clinical logic can be defended as "independent of the interface", and if the UI breaks, the brain keeps working. It is the argument that impresses a technical jury the most.
 
-**Navegación:** un `useState<Screen>` + `AnimatePresence`. La única excepción es Mission Control, que se abre en otra ventana con `?view=ground`, sin router.
+**Navigation:** a `useState<Screen>` + `AnimatePresence`. The only exception is Mission Control, which opens in another window with `?view=ground`, without a router.
 
 ---
 
-## 4. Niveles de alcance (qué se construye según el equipo)
+## 4. Scope levels (what gets built depending on the team)
 
-Regla: **no se empieza un nivel hasta que el anterior se puede demostrar completo en la URL desplegada.**
+Rule: **do not start a level until the previous one can be demonstrated complete on the deployed URL.**
 
-| Nivel | Qué entra | Horas | Con cuántas personas |
+| Level | What goes in | Hours | With how many people |
 |---|---|---|---|
-| **0 · Núcleo** | Today (check-in + racha), Body (6 sistemas + halo), Decision (because, action card, escalado), DemoBar (+ interruptor de ciclo), 4 correlaciones + 2 reglas de hueso + 2 estimaciones, 5 escenarios, basal de tierra por fase del ciclo | ~28 h | 2–3 |
-| **1 · Diferencial** | **Trends** (gráficas con la banda *"Your ground baseline"* + ciclo superpuesto) + **Mission Control** (nave ↔ tierra en dos ventanas, §8) | +8 h | 4–5 |
-| **2 · Extra** | 2 procedimientos guiados + ecografía yugular, aviso de reserva de anticonceptivo, **test de visión con rejilla de Amsler**, vista CMO con 3 tripulantes, PWA offline | +10 h | 5, y solo si el nivel 1 está el sábado por la noche |
+| **0 · Core** | Today (check-in + streak), Body (6 systems + halo), Decision (because, action card, escalation), DemoBar (+ cycle toggle), 4 correlations + 2 bone rules + 2 estimates, 5 scenarios, phase-aware ground baseline | ~28 h | 2–3 |
+| **1 · Differentiator** | **Trends** (charts with the *"Your ground baseline"* band + cycle overlaid) + **Mission Control** (ship ↔ ground in two windows, §8) | +8 h | 4–5 |
+| **2 · Extra** | 2 guided procedures + jugular ultrasound, contraceptive supply warning, **Amsler grid vision test**, CMO view with 3 crew members, offline PWA | +10 h | 5, and only if level 1 is done by Saturday night |
 
-### Presupuesto del nivel 0
+### Level 0 budget
 
-| Componente | Horas | ¿Recortable? |
+| Component | Hours | Cuttable? |
 |---|---|---|
-| Setup + repo + CI + deploy | 2,5 | No |
-| `types.ts` + baseline (con basal por fase del ciclo) + reglas con fuente | 3,5 | **No** |
-| Generador de datos (90 días de tierra + modelo de ciclo) + 5 escenarios | 2,5 | **No** |
-| Correlaciones (incl. `cycle-aware`) + reglas de hueso + estimaciones + escalado + tests | 4,5 | **No** |
-| Body (SVG + interacción + halo + ficha) | 4 | Parcialmente (silueta simple) |
+| Setup + repo + CI + deploy | 2.5 | No |
+| `types.ts` + baseline (with phase-aware cycle baseline) + rules with source | 3.5 | **No** |
+| Data generator (90 ground days + cycle model) + 5 scenarios | 2.5 | **No** |
+| Correlations (incl. `cycle-aware`) + bone rules + estimates + escalation + tests | 4.5 | **No** |
+| Body (SVG + interaction + halo + sheet) | 4 | Partially (simple silhouette) |
 | Decision | 3 | **No** |
-| Today (check-in con "Synced" + racha) | 2 | Parcialmente |
+| Today (check-in with "Synced" + streak) | 2 | Partially |
 | DemoBar + reset | 1 | **No** |
-| Pulido visual en tablet | 2 | Parcialmente |
-| Guion, slides, vídeo de respaldo | 3 | **No** |
+| Visual polish on tablet | 2 | Partially |
+| Script, slides, backup video | 3 | **No** |
 | **Total** | **~28 h** | |
 
 ---
 
-## 5. El mapa corporal: la decisión más delicada
+## 5. The body map: the most delicate decision
 
-Es lo que más se ve y lo que más fácil se estropea.
+It is what is seen the most and what breaks most easily.
 
-### Opción A — Servier Medical Art *(recomendada)*
-Ilustraciones anatómicas gratuitas bajo **CC BY 4.0**, pensadas para divulgación médica. Se recolorean en un editor SVG.
-- ✅ Calidad clínica real, coherente entre piezas
-- ⚠️ Requiere atribución visible ("Illustrations: Servier Medical Art, CC BY 4.0") en el pie y en los créditos.
+### Option A — Servier Medical Art *(recommended)*
+Free anatomical illustrations under **CC BY 4.0**, intended for medical outreach. They are recoloured in an SVG editor.
+- ✅ Real clinical quality, consistent across pieces
+- ⚠️ Requires visible attribution ("Illustrations: Servier Medical Art, CC BY 4.0") in the footer and in the credits.
 
-### Opción B — Silueta propia *(plan B, preparado desde el viernes)*
-Figura estilizada en Figma con 6 zonas. **45 minutos, riesgo cero**, menos impactante.
+### Option B — Custom silhouette *(plan B, prepared from Friday)*
+Stylized figure in Figma with 6 zones. **45 minutes, zero risk**, less impactful.
 
-### Implementación
+### Implementation
 
-Un **único SVG** con grupos identificados por sistema. El color lo pone la clase:
+A **single SVG** with groups identified by system. The class sets the colour:
 
 ```html
 <svg viewBox="0 0 400 800">
@@ -283,33 +290,33 @@ Un **único SVG** con grupos identificados por sistema. El color lo pone la clas
 .halo { filter: blur(28px); opacity: var(--radiation-opacity); }
 ```
 
-### Accesibilidad del código de colores
+### Colour-code accessibility
 
-El reto pide código de colores, pero **el color nunca va solo**. Cada estado lleva color + icono + texto, para que un juez daltónico o un proyector lavado no lo confundan:
+The challenge asks for colour coding, but **colour never stands alone**. Every state carries colour + icon + text, so that a colour-blind judge or a washed-out projector does not confuse it:
 
-| Nivel | Color | Icono (lucide) | Texto |
+| Level | Color | Icon (lucide) | Text |
 |---|---|---|---|
-| NOMINAL | verde | `CircleCheck` | Nominal |
-| WATCH | amarillo | `Eye` | Watch |
-| CONCERN | ámbar | `TriangleAlert` | Concern |
-| URGENT | rojo | `Siren` | Urgent |
+| NOMINAL | green | `CircleCheck` | Nominal |
+| WATCH | yellow | `Eye` | Watch |
+| CONCERN | amber | `TriangleAlert` | Concern |
+| URGENT | red | `Siren` | Urgent |
 
-En el mapa: además del color, un pequeño marcador con el icono sobre el sistema afectado.
+On the map: in addition to colour, a small marker with the icon over the affected system.
 
 ### Tablet-first
 
-- Diseñar a **1180 × 820** (iPad horizontal) y probar en DevTools con ese viewport.
-- Áreas táctiles de ≥ 44 px; nada depende de hover.
-- En el portátil del proyector se ve igual de bien.
+- Design at **1180 × 820** (landscape iPad) and test in DevTools with that viewport.
+- Touch targets of ≥ 44 px; nothing depends on hover.
+- On the projector laptop it looks just as good.
 
 ---
 
-## 6. Datos sintéticos
+## 6. Synthetic data
 
-Sin datos no hay demo, y con datos malos la demo miente.
+Without data there is no demo, and with bad data the demo lies.
 
 ```ts
-// mulberry32: RNG sembrado → la misma curva siempre
+// mulberry32: seeded RNG → always the same curve
 function mulberry32(seed: number) {
   return () => {
     seed |= 0; seed = (seed + 0x6D2B79F5) | 0
@@ -320,123 +327,123 @@ function mulberry32(seed: number) {
 }
 ```
 
-**Una tripulante, 90 días de entrenamiento en tierra (basal, días −90 a −1, `phase: "TRAINING"`) + 30 días de misión (`phase: "TRANSIT"`).** Por día: los 7 indicadores del check-in + minutos de ejercicio resistivo (dispositivo) + entorno (CO₂ de cabina, dosis, SPE). Los 30 días corresponden a los días **119–148** de la misión a Marte (campo `firstMissionDay`): siguen en tránsito, porque la ida dura 162–189 días según el HRP, así que el gancho "Day 148 on the way to Mars" cuadra.
+**One crew member, 90 days of ground training (baseline, days −90 to −1, `phase: "TRAINING"`) + 30 days of mission (`phase: "TRANSIT"`).** Per day: the 7 check-in indicators + minutes of resistive exercise (device) + environment (cabin CO₂, dose, SPE). The 30 days correspond to days **119–148** of the Mars mission (`firstMissionDay` field): they are still in transit, because the outbound leg lasts 162–189 days according to the HRP, so the "Day 148 on the way to Mars" hook fits.
 
-Campos de escenario que necesitan las estimaciones (ver `CONCEPTO-ORBI.md` §4.3 y §8):
+Scenario fields that the estimates need (see `CONCEPTO-ORBI.md` §4.3 and §8):
 
-| Campo | Valor por defecto | Para qué |
+| Field | Default value | What for |
 |---|---|---|
-| `exposureBudgetMSv` | 600 (límite de carrera de NASA desde 2022, igual para todos los sexos y edades; `recursos/08`); los escenarios demo usan 400 para que el halo sea legible | % del presupuesto en el halo |
-| `priorDoseMSv` | la dosis acumulada en los días 1–118 | Que el halo no empiece en 0 el día 119 |
-| `exerciseTargetMinPerDay` | el objetivo de la misión | Regla de adherencia al ejercicio (hueso) |
-| `trainingDays` | 90 | Días de basal en tierra (2–3 ciclos) |
-| `crew` | `{ sex: "F", cycle: "tracked", contraception: "none", shareReproductiveWithGround: false }` | Basal por fase y privacidad del paquete |
+| `exposureBudgetMSv` | 600 (NASA career limit since 2022, the same for all sexes and ages; `recursos/08`); the demo scenarios use 400 so the halo is legible | % of the budget in the halo |
+| `priorDoseMSv` | the accumulated dose on days 1–118 | So the halo does not start at 0 on day 119 |
+| `exerciseTargetMinPerDay` | the mission target | Exercise adherence rule (bone) |
+| `trainingDays` | 90 | Ground baseline days (2–3 cycles) |
+| `crew` | `{ sex: "F", cycle: "tracked", contraception: "none", shareReproductiveWithGround: false }` | Phase-aware baseline and packet privacy |
 
-**Pérdida ósea estimada** (`evaluate.ts`): `mesesEnMicrogravedad × [1 %, 1,5 %]` → se devuelve como **rango**, nunca como un número único, y la UI lo etiqueta como *"Estimated · NASA HRP evidence"*. La adherencia cambia el estado (*on track* / *at risk*), no el porcentaje.
+**Estimated bone loss** (`evaluate.ts`): `monthsInMicrogravity × [1 %, 1.5 %]` → returned as a **range**, never as a single number, and the UI labels it as *"Estimated · NASA HRP evidence"*. Adherence changes the state (*on track* / *at risk*), not the percentage.
 
-**Modelo de ciclo** (generador, solo si `crew.cycle === "tracked"`):
-- Ciclo de 28 ± 2 días, sembrado con el RNG. Regla (`menses: true`) los días 1–5. Ovulación hacia el día 14.
-- En la fase lútea (días ~15–28) se suma **+0,4 °C ± 0,1** a la temperatura y **+4 lpm ± 1** a la FC en reposo. Es el rango de `recursos/08`: +0,28–0,56 °C y +2–7 lpm.
-- `baseline.ts` calcula media ± σ por fase con los días de entrenamiento. Las reglas relativas ("+2σ", "+10 bpm") usan la basal de la fase actual; **los umbrales absolutos no cambian**.
-- Test obligatorio: con temperatura de 38,1 °C en fase lútea, sigue saltando CONCERN.
+**Cycle model** (generator, only if `crew.cycle === "tracked"`):
+- Cycle of 28 ± 2 days, seeded with the RNG. Period (`menses: true`) on days 1–5. Ovulation around day 14.
+- In the luteal phase (days ~15–28) **+0.4 °C ± 0.1** is added to temperature and **+4 bpm ± 1** to resting HR. It is the `recursos/08` range: +0.28–0.56 °C and +2–7 bpm.
+- `baseline.ts` computes mean ± σ per phase with the training days. The relative rules ("+2σ", "+10 bpm") use the current phase's baseline; **the absolute thresholds do not change**.
+- Mandatory test: with a temperature of 38.1 °C in the luteal phase, it still fires CONCERN.
 
-Los mismos 5 escenarios que en `CONCEPTO-ORBI.md` §7:
+The same 5 scenarios as in `CONCEPTO-ORBI.md` §7:
 
-| Escenario | Qué cuenta | Qué demuestra |
+| Scenario | What it tells | What it demonstrates |
 |---|---|---|
-| `nominal` | Todo dentro de rango | Cuerpo en verde, racha activa |
-| `early-infection` | Deuda de sueño → temperatura y FC suben | La correlación de conductual a fisiológico |
-| `luteal-phase` | Días 24–30 en fase lútea: temperatura y FC algo más altas, sueño normal | **"Expected cycle variation, not infection"**; con el interruptor apagado, WATCH |
-| `cabin-co2` | Sube el CO₂ de cabina, baja algo la SpO₂ | **"Cabin issue, not you"** |
-| `solar-event` | SPE el último día | Halo rojo, protocolo de refugio |
+| `nominal` | Everything within range | Body in green, active streak |
+| `early-infection` | Sleep debt → temperature and HR rise | The behavioral-to-physiological correlation |
+| `luteal-phase` | Days 24–30 in the luteal phase: temperature and HR somewhat higher, normal sleep | **"Expected cycle variation, not infection"**; with the toggle off, WATCH |
+| `cabin-co2` | Cabin CO₂ rises, SpO₂ drops slightly | **"Cabin issue, not you"** |
+| `solar-event` | SPE on the last day | Red halo, shelter protocol |
 
-**Regla de calidad:** nada de valores planos. Ruido diario realista + una deriva lenta + un punto de inflexión. Si la curva parece una recta, el jurado sabe que es inventada.
+**Quality rule:** no flat values. Realistic daily noise + a slow drift + an inflection point. If the curve looks like a straight line, the jury knows it is made up.
 
-Cada valor lleva su `sources` (`wearable` / `device` / `manual`) para que Today muestre "Synced" o "Manual".
+Every value carries its `sources` (`wearable` / `device` / `manual`) so that Today shows "Synced" or "Manual".
 
-**Detalle para la demo:** en `early-infection`, que la adherencia al ejercicio también caiga en los últimos días (la fatiga hace saltarse sesiones). Así Musculoskeletal pasa a WATCH con la regla de hueso, y la demo enseña las dos reglas nuevas sin un escenario extra.
+**Demo detail:** in `early-infection`, make exercise adherence also drop in the last days (fatigue makes her skip sessions). That way Musculoskeletal switches to WATCH with the bone rule, and the demo shows the two new rules without an extra scenario.
 
 ---
 
-## 7. Lo que NO hay que instalar
+## 7. What NOT to install
 
-| No | Por qué |
+| No | Why |
 |---|---|
-| Backend (Express, Spring, FastAPI) | No hay nada que servir. Todo corre en el cliente. |
-| Base de datos (Postgres, Supabase, Firebase) | `localStorage` + JSON bastan para un fin de semana. |
-| Autenticación | No hay usuarios en una demo. |
-| three.js / react-three-fiber | El 3D se come 8 horas y falla en el proyector. El SVG da el 90 % del efecto. |
-| ML de decisión | El jurado premia explicabilidad; el motor es determinista. El coach local es solo una capa de explicación opcional. |
-| MUI / Ant Design | Pesados y con una personalidad visual que no es la vuestra. |
-| Docker para desarrollo | La app es estática; Docker solo se usa como artefacto de deploy (nginx + `dist/`). |
-| React Router | Una pantalla extra en otra ventana se resuelve con `?view=ground`. |
+| Backend (Express, Spring, FastAPI) | There is nothing to serve. Everything runs on the client. |
+| Database (Postgres, Supabase, Firebase) | `localStorage` + JSON are enough for a weekend. |
+| Authentication | There are no users in a demo. |
+| three.js / react-three-fiber | 3D eats 8 hours and fails on the projector. SVG gives 90 % of the effect. |
+| Decision ML | The jury rewards explainability; the engine is deterministic. The local coach is only an optional explanation layer. |
+| MUI / Ant Design | Heavy and with a visual personality that is not yours. |
+| Docker for development | The app is static; Docker is only used as a deploy artifact (nginx + `dist/`). |
+| React Router | An extra screen in another window is handled with `?view=ground`. |
 
 ---
 
-## 8. Mission Control: nave ↔ tierra sin backend (nivel 1)
+## 8. Mission Control: ship ↔ ground without a backend (level 1)
 
-La latencia de comunicaciones es una **simulación de interfaz**, no un hecho de red. En la demo controláis el reloj: podéis acelerar 14 minutos en 5 segundos delante del jurado.
+Communication latency is an **interface simulation**, not a network fact. In the demo you control the clock: you can accelerate 14 minutes into 5 seconds in front of the jury.
 
 ```ts
-// Ventana A — ORBI a bordo (tablet)
+// Window A — ORBI on board (tablet)
 const comms = new BroadcastChannel('orbi-comms')
 comms.postMessage({ type: 'surgeon-packet', payload, sentAt: Date.now(), latencyMin: 14 })
 
-// Ventana B — Mission Control / Flight Surgeon (?view=ground)
+// Window B — Mission Control / Flight Surgeon (?view=ground)
 comms.onmessage = (e) => setInbox(prev => [...prev, e.data])
 ```
 
-Dos ventanas del navegador, una junto a otra: la nave a la izquierda y la tierra a la derecha. El paquete viaja con una barra de progreso y una cuenta atrás de la latencia (acelerada ×100 en modo demo). El cirujano responde y su respuesta tarda lo mismo en volver. **Es el momento wow de la demo**: el jurado *ve* la distancia a la Tierra, una de las 5 amenazas.
+Two browser windows, side by side: the ship on the left and the ground on the right. The packet travels with a progress bar and a latency countdown (accelerated ×100 in demo mode). The surgeon replies and the reply takes the same time to come back. **It is the wow moment of the demo**: the jury *sees* the distance to Earth, one of the 5 hazards.
 
-> Limitación: `BroadcastChannel` solo funciona entre pestañas del **mismo navegador y el mismo origen**. Para la demo es justo lo que se necesita.
+> Limitation: `BroadcastChannel` only works between tabs of the **same browser and the same origin**. For the demo that is exactly what is needed.
 
-| Si algún día… | Necesitaríais | ¿En la hackatón? |
+| If some day… | You would need | In the hackathon? |
 |---|---|---|
-| Varios tripulantes reales sincronizados | Base de datos + backend | No |
-| Envío real de datos a tierra | Backend + cola | No |
-| Solo enseñarlo y que funcione | `npm run build` y desplegar `dist/` | **Sí, esto** |
+| Several real crew members synchronized | Database + backend | No |
+| Real data transmission to the ground | Backend + queue | No |
+| Just show it and have it work | `npm run build` and deploy `dist/` | **Yes, this** |
 
 ---
 
-## 9. Riesgos técnicos y mitigación
+## 9. Technical risks and mitigation
 
-| Riesgo | Mitigación |
+| Risk | Mitigation |
 |---|---|
-| Versiones de Node distintas en el equipo | `.nvmrc` + `nvm use` + CI con la misma versión. |
-| Conflictos de dependencias con React 19 | Recharts 3. Si un paquete se queja, `npm ls` y fijar la versión. **Nada de `--force`** sin avisar al integrador. |
-| shadcn no arranca por los alias | Seguir la §2 al pie de la letra. Si falla, Tailwind a mano. |
-| Alguien rompe `main` | CI + revisión del integrador. El repo privado free no permite branch protection; el gate es el PR. |
-| Repo privado en una org sin GitHub App | Resuelto con deploy key SSH + runner self-hosted; ver `docs/DEPLOYMENT.md`. |
-| El SVG anatómico no está listo | Silueta de 6 zonas como plan B desde el viernes. |
-| Licencia de las ilustraciones | Servier es CC BY 4.0: atribución visible desde el primer commit. |
-| La demo no es reproducible | RNG sembrado + botón Reset. Nunca datos aleatorios en vivo. |
-| La demo depende del wifi | Deploy estático + build local (`npx serve dist`) + vídeo grabado. Triple red. |
-| Fuentes que no cargan | `@fontsource` en el repo. |
-| Se rompe algo a última hora | Código congelado el domingo a las 12:00. Después solo se ensaya. |
+| Different Node versions on the team | `.nvmrc` + `nvm use` + CI with the same version. |
+| Dependency conflicts with React 19 | Recharts 3. If a package complains, `npm ls` and pin the version. **No `--force`** without telling the integrator. |
+| shadcn does not start because of the aliases | Follow §2 to the letter. If it fails, Tailwind by hand. |
+| Someone breaks `development`/`main` | CI + integrator review. The free private repo does not allow branch protection; the gate is the PR. |
+| Private repo in an org without a GitHub App | Solved with an SSH deploy key + self-hosted runner; see `docs/DEPLOYMENT.md`. |
+| The anatomical SVG is not ready | 6-zone silhouette as plan B from Friday. |
+| Illustration license | Servier is CC BY 4.0: visible attribution from the first commit. |
+| The demo is not reproducible | Seeded RNG + Reset button. Never random data live. |
+| The demo depends on wifi | Static deploy + local build (`npx serve dist`) + recorded video. Triple safety net. |
+| Fonts that do not load | `@fontsource` in the repo. |
+| Something breaks at the last minute | Code frozen on Sunday at 12:00. After that, only rehearsal. |
 
 ---
 
-## 10. ¿Next.js? ¿Backend? No y no
+## 10. Next.js? Backend? No and no
 
-- **Next.js:** enrutado por archivos, Server Components, API routes y SSR no aportan nada a una app 100 % interactiva sin servidor. Solo tendría sentido si el equipo ya lo domina, y aun así exportado como SPA (`output: 'export'`).
-- **Backend:** guardar datos → `localStorage`; calcular el triaje → JS en microsegundos; servir datos → JSON en el build; enviar el paquete a tierra → `BroadcastChannel` + temporizador.
-- **Java:** aunque Andrea lo domina, un backend Spring añade despliegue, CORS y un punto de fallo a cambio de nada visible para el jurado.
+- **Next.js:** file-based routing, Server Components, API routes and SSR add nothing to a 100 % interactive app without a server. It would only make sense if the team already masters it, and even then exported as an SPA (`output: 'export'`).
+- **Backend:** store data → `localStorage`; compute triage → JS in microseconds; serve data → JSON at build time; send the packet to the ground → `BroadcastChannel` + timer.
+- **Java:** even though Andrea masters it, a Spring backend adds deployment, CORS and a point of failure in exchange for nothing visible to the jury.
 
 ---
 
-## 11. Checklist de "esto se puede enseñar"
+## 11. "This can be shown" checklist
 
-- [ ] `npm run check` y `npm run build` pasan; CI en verde en cada PR
-- [ ] `npm run gen` reproduce los JSON sin diff (`git diff --exit-code -- src/data/scenarios`)
-- [ ] `src/domain/` no importa React, DOM ni APIs del navegador
-- [ ] URL pública desplegada + QR en un slide
-- [ ] Botón **Reset demo** visible en la DemoBar
-- [ ] Funciona con el wifi apagado después de cargar
-- [ ] Tests verdes: correlaciones (incl. `cycle-aware`), 2 reglas de hueso, 2 estimaciones, regla de seguridad del ciclo y guardrails del coach
-- [ ] Cada umbral de `rules.ts` tiene su `source`; los no verificados, marcados `TODO verify`
-- [ ] Estados con color + icono + texto
-- [ ] Probado en viewport de tablet **y** en la resolución del proyector
-- [ ] Toda la UI en inglés
-- [ ] Créditos de ilustraciones visibles
-- [ ] Vídeo de respaldo grabado
-- [ ] README final en inglés (qué es, cómo ejecutarlo, fuentes de los umbrales)
+- [ ] `npm run check` and `npm run build` pass; CI green on every PR
+- [ ] `npm run gen` reproduces the JSON without diff (`git diff --exit-code -- src/data/scenarios`)
+- [ ] `src/domain/` does not import React, the DOM or browser APIs
+- [ ] Public URL deployed + QR on a slide
+- [ ] **Reset demo** button visible in the DemoBar
+- [ ] Works with wifi off after loading
+- [ ] Green tests: correlations (incl. `cycle-aware`), 2 bone rules, 2 estimates, cycle safety rule and coach guardrails
+- [ ] Every threshold in `rules.ts` has its `source`; unverified ones marked `TODO verify`
+- [ ] States with colour + icon + text
+- [ ] Tested on a tablet viewport **and** at projector resolution
+- [ ] All UI in English
+- [ ] Illustration credits visible
+- [ ] Backup video recorded
+- [ ] Final README in English (what it is, how to run it, threshold sources)
