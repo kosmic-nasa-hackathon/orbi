@@ -42,7 +42,7 @@ Each astronaut's baseline is learned **during ground training** and **takes the 
   (`docs/resources/08` and `09`)
 - ⏳ P3 · Engine: 90-day baseline, `cycle-aware`, `luteal-phase`, 5 scenarios and 4 correlations
 - ✅ F0 design foundation: light/dark theme, switch, tokens, primitives, nav and store (PR #36)
-- ⏳ P3 (baseline + cycle), Today/Body/Decision, Trends and Mission Control (see `docs/PLAN.md` and `docs/TEAM.md`)
+- ⏳ P3 (baseline + cycle), Body/Decision, Trends and Mission Control (Today shipped in #58)
 
 The current code still uses a 14-day baseline, 3 correlations and 4 scenarios; P3 closes the gap.
 
@@ -83,6 +83,28 @@ Details and troubleshooting: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 | Level 0 (core) running at the URL | Saturday afternoon |
 | Code freeze | **Sunday 12:00** |
 | Project submission | **Sunday 14:00** (official deadline: 16:00) |
+
+## License
+
+The ORBI source code is released under the [MIT License](LICENSE).
+
+The NASA/CSA resource summaries in `docs/resources/` and the third-party assets listed below keep
+their original terms. They are included for research, attribution and the NASA Space Apps
+submission, not relicensed by ORBI.
+
+## Credits
+
+- **NASA Human Research Program, NASA JSC and the Canadian Space Agency** — source material for the
+  hazards, radiation, bone-loss and ground-training evidence. See
+  [`docs/resources/`](docs/resources/README.md).
+- **Servier Medical Art** — anatomical illustrations, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+- **Sora** and **IBM Plex Mono** — fonts under the SIL Open Font License 1.1, bundled with
+  `@fontsource`.
+- **React, Vite, Tailwind CSS, Motion, Recharts, Zustand, date-fns, lucide-react, Biome and Vitest**
+  — open-source libraries under their respective licenses.
+- **NASA Space Apps Challenge 2026** — challenge framing and official resources.
+
+Full attribution notes: [`docs/submission/CREDITS.md`](docs/submission/CREDITS.md).
 
 ## How we work
 
