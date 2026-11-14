@@ -4,9 +4,10 @@
 **Branch:** `development` (integration) · `main` (release)
 **State:** engine, data, coach, tests, Home, EVA, console, pitch, deploy, documentation, the F0
 design foundation, Today (#58), Decision (#64), the explainability rule-flow (#60) and Playwright
-smoke (#65) ready on `development`. The code still has a 14-day baseline, 3 correlations and 4 scenarios.
-**Missing:** Body, the Level 0 checkpoint, Trends/Mission Control, visual polish, submission and P3
-(ground baseline + cycle, now stretch).
+smoke (#65) ready on `development`. P0 (#8) and P2 (#10) are closed; #48/#49 carry the remaining
+deck, script and video work. The code still has a 14-day baseline, 3 correlations and 4 scenarios.
+**Missing:** Body, the Level 0 checkpoint, Trends/Mission Control, visual polish, final submission and
+P3 (ground baseline + cycle, now stretch). Trends is implemented in PR #71, held by the Level 0 gate.
 **Parallel execution plan:** `docs/PLAN.md`
 **Assignment and onboarding:** `docs/TEAM.md`
 **Integrator:** `@Agupane` (backup: `@atapiamallea`)
@@ -79,30 +80,30 @@ The details, allowed files and acceptance criteria are in `docs/PLAN.md`.
 
 | Wave | Lane | Owner | Status |
 |---|---|---|---|
-| 0 | P0 · Pitch light + motion | `@elenaalmansacampos` | ready |
+| 0 | P0 · Pitch light + motion | `@elenaalmansacampos` | closed; deck follow-ups in #33/#48 |
 | 0 | P1 · Threshold audit | `@Agupane` | done (#9) |
-| 0 | P2 · Submission groundwork | `@elenaalmansacampos` | ready |
+| 0 | P2 · Submission groundwork | `@elenaalmansacampos` | closed; script/video follow-ups in #48/#49 |
 | 0 | P2.1 · Public repo and submission access | `@Agupane` | partial: license, credits and access docs; visibility decision pending |
 | 1 | F0 · Foundation (light theme, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | done (#36, deployed) |
 | 1 | F0.1 · Deployed version footer | `@amilege` + `@elenaalmansacampos` | ready |
 | 1 | P3 · Engine: ground baseline + cycle | `@Agupane` | stretch; unblocked, does not gate A/B/C |
 | 2 | A · Today | `@atapiamallea` | done (#13 / PR #58) |
-| 2 | A.1 · Profile and consent | `@atapiamallea` | after A; independent of P3 |
-| 2 | B · Body | `@atapiamallea` | ready |
+| 2 | A.1 · Profile and consent | `@atapiamallea` | blocked by P3 for `CrewProfile`; A done |
+| 2 | B · Body | `@atapiamallea` | ready; P3 is stretch and does not gate it |
 | 2 | C · Result: body + decision | `@atapiamallea` | done (#15 / PR #64) |
 | 2 | E · Visual polish (less density, more animations) | `@amilege` | ready |
-| 3 | D · Trends | `@Yeryalex` | Level 0 gate (#32) |
+| 3 | D · Trends | `@atapiamallea` | PR #71 green; held by the Level 0 gate (#32) |
 | 3 | F · Mission Control | `@amilege` | Level 0 gate (#32) |
 | 3 | G · Level 2 (Amsler, procedures, PWA) | `@amilege` | Level 0 gate (#32); stretch |
 | 3 | H0 · Level 0 checkpoint | `@Agupane` | blocked by B only |
 | 4 | H1 · Final integration/QA | `@Agupane` | blocked by #32; closes with Level 0 + D if it lands |
-| 4 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | blocked by #8/#10/#12 |
+| 4 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | ready; sync now, re-run after P3 if it lands |
 | 4 | I · Final submission | `@elenaalmansacampos` | blocked by #17 |
 
-**Dependencies:** F0, A and C are done; B is the remaining Level 0 screen; A.1 (#40) follows A; E and F0.1 are
-ready; F0.1 must merge before E because both touch Home/EVA/Console; P3 is now stretch and no longer
-blocks A/B/C; D/F/G depend on the deployed Level 0 checkpoint from H0 (#32); H1 (#17) closes on
-Level 0 plus whatever D lands before the freeze.
+**Dependencies:** F0, A and C are done; B is the remaining Level 0 screen; A.1 (#40) still needs P3's
+`CrewProfile`; E and F0.1 are ready; F0.1 must merge before E because both touch Home/EVA/Console;
+P3 is now stretch and no longer blocks A/B/C; D/F/G depend on the deployed Level 0 checkpoint from
+H0 (#32); H1 (#17) closes on Level 0 plus whatever D lands before the freeze.
 
 **Rule:** Trends and Mission Control do not start until Today + Body + Decision are on the deployed
 URL.
@@ -112,8 +113,8 @@ URL.
 ## 4. Blockers and risks
 
 There are no infrastructure blockers: the repo has write access (restored for Elena, Yery and
-amilege), the release deploy is live and auto-deploy works. P2 still needs its local commit
-`9caa82a` re-pushed now that write access exists.
+amilege), the release deploy is live and auto-deploy works. P0 and P2 are closed; the remaining deck,
+script and video work is tracked in #33, #48 and #49.
 
 Known risks:
 
@@ -190,7 +191,8 @@ Every state uses colour + icon + text.
   lanes replace their assigned screen without touching `App.tsx`. Home/EVA/Console stay dark until
   E (#16).
 - **Body #14:** owned by `@atapiamallea`; F0.1 (#31) is owned by `@amilege` with `@elenaalmansacampos`
-  as support; Yery keeps Trends (#18). The board is the source of truth.
+  as support; Trends (#18) moved to `@atapiamallea` and PR #71 is held by the Level 0 gate. The board
+  is the source of truth.
 - **Integration:** two checkpoints. H0 (#32) deploys Level 0 and unblocks D/F/G; H1 (#17) closes
   the final integration.
 - **CMO view:** descoped from Level 2 and documented as future work in `docs/CONCEPT.md` §12.
@@ -201,14 +203,18 @@ Every state uses colour + icon + text.
 
 ## 7. Next action
 
-1. Review and merge C #15 / PR #64; start B #14 (`@atapiamallea`) and A.1 #40 after A.
-2. H0 #32 when B is on `development`: release `development` → `main` again and verify the Level 0
-   routes in production. Interim release #69 is already live with Today + Decision.
-3. P2.1 #39 (`@Agupane`): decide public vs judge access, run the dedicated full-history secret scan,
+1. Finish B #14 (`@atapiamallea`): it is the only remaining Level 0 screen. P3 is stretch and does
+   not gate it; use the current engine baseline and adapt if P3 lands.
+2. H0 #32 when B is on `development`: release `development` → `main` and verify the Level 0 routes
+   in production. Interim release #69 is already live with Today + Decision.
+3. D #18 / PR #71 (`@atapiamallea`): the PR is green but stays held until the Level 0 gate (#32)
+   passes on the deployed URL.
+4. P2.1 #39 (`@Agupane`): decide public vs judge access, run the dedicated full-history secret scan,
    then verify the unauthenticated URL. License, credits and access docs are already merged (#63).
-4. P3 #12 only if there is time after Level 0: announce the contract in the issue before touching
+5. P3 #12 only if there is time after Level 0: announce the contract in the issue before touching
    `types.ts`. It is stretch and must not delay H0.
-5. After H0: D #18, F #19, G #20; then H1 #17 and I #21. P4 #33 syncs the final docs/deck after P3.
+6. After H0: D #18, F #19, G #20; then H1 #17 and I #21. #48/#49 cover the deck, script and backup
+   video; P4 #33 can sync the current counts now and re-run after P3 if it lands.
 
 ---
 
@@ -221,14 +227,14 @@ Every state uses colour + icon + text.
 | P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | `docs/submission` | `docs/DEMO.md`, README, form |
 | P2.1 · Public repo and submission access | `@Agupane` | `@elenaalmansacampos` | `docs/submission-access` | license, credits, jury access |
 | F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `design/theme-foundation` | theme, tokens, UI, nav, store |
-| F0.1 · Deployed version footer | `@Yeryalex` | `@atapiamallea` | `design/version-footer` | shared footer and build metadata |
+| F0.1 · Deployed version footer | `@amilege` | `@elenaalmansacampos` | `design/version-footer` | shared footer and build metadata |
 | P3 · Engine: baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `src/domain/`, generator and scenarios |
 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | `today/checkin` | `src/screens/Today.tsx`, DemoBar, store |
 | A.1 · Profile and consent | `@atapiamallea` | `@Yeryalex` | `today/profile-consent` | profile and `shareReproductiveWithGround` |
 | B · Body | `@atapiamallea` | `@Yeryalex`, `@Agupane` | `body/map` | `src/screens/Body.tsx`, `components/body/` |
 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | `decision/triage` | `src/screens/Decision.tsx`, `components/decision/` |
 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | `design/motion-polish` | Home, EVA, Console |
-| D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | `trends/charts` | `src/screens/Trends.tsx`, `components/charts/` |
+| D · Trends | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `trends/charts` | `src/screens/Trends.tsx`, `components/charts/` |
 | F · Mission Control | `@amilege` | `@Agupane`, `@Yeryalex` | `mission-control/window` | `src/screens/MissionControl.tsx` |
 | G · Level 2 | `@amilege` | `@Agupane`, `@elenaalmansacampos` | `level2/extras` | Amsler, procedures, PWA |
 | H0 · Level 0 checkpoint | `@Agupane` | Whole team | `integration/level0` | routes, Playwright, deploy |
@@ -280,6 +286,9 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #63 docs: add license, credits and submission access prep.
 - #64 feat: add the Decision triage screen and flight-surgeon packet.
 - #65 test: add the Playwright smoke suite.
+- #67 docs: sync handoff after Today, rule flow and Playwright.
+- #68 docs: record the Decision merge in handoff.
 - #69 release: Level 0 progress, explainability and QA.
+- #70 docs: record release #69 in handoff.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi
