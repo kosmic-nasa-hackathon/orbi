@@ -76,11 +76,13 @@ The details, allowed files and acceptance criteria are in `docs/PLAN.md`.
 | 0 | P0 · Pitch light + motion | `@elenaalmansacampos` | ready |
 | 0 | P1 · Threshold audit | `@Agupane` | ready |
 | 0 | P2 · Submission groundwork | `@elenaalmansacampos` | ready |
+| 0 | P2.1 · Public repo and submission access | `@Agupane` | ready |
 | 1 | F0 · Foundation (light theme, switch, tokens, UI, motion, nav, store) | `@atapiamallea` | done (#36, deployed) |
-| 1 | F0.1 · Deployed version footer | — | ready; unassigned |
+| 1 | F0.1 · Deployed version footer | `@Yeryalex` | ready |
 | 1 | P3 · Engine: ground baseline + cycle | `@Agupane` | blocked by #9 |
 | 2 | A · Today | `@atapiamallea` | blocked by #12 |
-| 2 | B · Body | `@Yeryalex` | blocked by #12 |
+| 2 | A.1 · Profile and consent | `@atapiamallea` | blocked by #12 + #13 |
+| 2 | B · Body | `@atapiamallea` | blocked by #12 |
 | 2 | C · Decision | `@atapiamallea` | blocked by #12 |
 | 2 | E · Visual polish (less density, more animations) | `@amilege` | ready |
 | 3 | D · Trends | `@Yeryalex` | Level 0 gate (#32) |
@@ -91,8 +93,9 @@ The details, allowed files and acceptance criteria are in `docs/PLAN.md`.
 | 4 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | blocked by #8/#10/#12 |
 | 4 | I · Final submission | `@elenaalmansacampos` | blocked by #17 |
 
-**Dependencies:** F0 is done; A/B/C depend on P3 (#12); E and F0.1 are ready; P3 waits for P1; D/F/G
-depend on the deployed Level 0 checkpoint from H0 (#32); H1 (#17) closes after D/F/G.
+**Dependencies:** F0 is done; A/B/C depend on P3 (#12); A.1 (#40) follows A; E and F0.1 are ready;
+F0.1 must merge before E because both touch Home/EVA/Console; P3 waits for P1; D/F/G depend on the
+deployed Level 0 checkpoint from H0 (#32); H1 (#17) closes after D/F/G.
 
 **Rule:** Trends and Mission Control do not start until Today + Body + Decision are on the deployed
 URL.
@@ -101,8 +104,9 @@ URL.
 
 ## 4. Blockers and risks
 
-There are no infrastructure blockers: the repo has write access, the release deploy is live and
-auto-deploy works.
+There are no infrastructure blockers: the repo has write access (restored for Elena, Yery and
+amilege), the release deploy is live and auto-deploy works. P2 still needs its local commit
+`9caa82a` re-pushed now that write access exists.
 
 Known risks:
 
@@ -176,8 +180,8 @@ Every state uses colour + icon + text.
   `src/components/motion`, store in `src/store/orbiStore.ts` (`useScenario`, `useEvaluation`,
   `cycleAware`). Routes `?view=today|body|decision|trends|ground` with placeholders in `src/screens/*`:
   each lane replaces its file without touching `App.tsx`. Home/EVA/Console stay dark until E (#16).
-- **Body #14:** reassigned to `@atapiamallea` at her request; Yery keeps Trends #18. Tables pending
-  integrator update.
+- **Body #14:** reassigned to `@atapiamallea` at her request; Yery keeps F0.1 (#31) and Trends (#18).
+  The tables and issue assignments are synchronized.
 - **Integration:** two checkpoints. H0 (#32) deploys Level 0 and unblocks D/F/G; H1 (#17) closes
   the final integration.
 - **CMO view:** descoped from Level 2 and documented as future work in `docs/CONCEPT.md` §12.
@@ -188,17 +192,19 @@ Every state uses colour + icon + text.
 
 ## 7. Next action
 
-1. Start now: P0 #8 and P2 #10 (Elena), P1 #9 (Agustín), E #16 (amilege) and F0.1 #31 once claimed.
-2. F0.1 #31 is unblocked and unassigned; claim it in the issue before starting `design/version-footer`.
+1. Start now: P0 #8 and P2 #10 (Elena), P1 #9 and P2.1 #39 (Agustín), E #16 (amilege) and F0.1 #31
+   (Yery).
+2. F0.1 #31 is unblocked and assigned to `@Yeryalex`; merge it before E (#16).
 3. When #9 merges, Agustín opens P3 #12; announce the contract in the issue before touching
    `types.ts`.
-4. With P3 on `development`, open A #13 and C #15 (Andrea Tapia) and B #14 (Yery); E #16 is already ready.
+4. With P3 on `development`, open A #13 and C #15 and B #14 (Andrea Tapia), A.1 #40 after A, and
+   E #16 is already ready.
 5. Level 0 checkpoint at H0 #32: integrate A/B/C and deploy. That unblocks D #18 (Yery), F #19 and
    G #20 (amilege).
 6. Close H1 #17, update the tables and open I #21 (Elena) with support from Agustín, Yery and Andrea Tapia.
 7. P4 #33 (Elena) syncs counts and the deck after P3; it can run in parallel and does not block H1.
-8. Yery can prototype the B SVG before the gate, without merging; meanwhile amilege onboards and supports
-   F0/E.
+8. P2.1 #39 (Agustín) decides public/judge access, adds the license and credits, and verifies the
+   URL without org access.
 
 ---
 
@@ -209,11 +215,13 @@ Every state uses colour + icon + text.
 | P0 · Pitch light + motion | `@elenaalmansacampos` | `@Agupane` | `pitch/light-motion` | `public/pitch/*` |
 | P1 · Threshold audit | `@Agupane` | `@atapiamallea` | `engine/threshold-audit` | `src/domain/rules.ts`, tests |
 | P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | `docs/submission` | `docs/DEMO.md`, README, form |
+| P2.1 · Public repo and submission access | `@Agupane` | `@elenaalmansacampos` | `docs/submission-access` | license, credits, jury access |
 | F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `design/theme-foundation` | theme, tokens, UI, nav, store |
-| F0.1 · Deployed version footer | — | `@atapiamallea` | `design/version-footer` | shared footer and build metadata |
+| F0.1 · Deployed version footer | `@Yeryalex` | `@atapiamallea` | `design/version-footer` | shared footer and build metadata |
 | P3 · Engine: baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `src/domain/`, generator and scenarios |
 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | `today/checkin` | `src/screens/Today.tsx`, DemoBar, store |
-| B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | `body/map` | `src/screens/Body.tsx`, `components/body/` |
+| A.1 · Profile and consent | `@atapiamallea` | `@Yeryalex` | `today/profile-consent` | profile and `shareReproductiveWithGround` |
+| B · Body | `@atapiamallea` | `@Yeryalex`, `@Agupane` | `body/map` | `src/screens/Body.tsx`, `components/body/` |
 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | `decision/triage` | `src/screens/Decision.tsx`, `components/decision/` |
 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | `design/motion-polish` | Home, EVA, Console |
 | D · Trends | `@Yeryalex` | `@Agupane`, `@atapiamallea` | `trends/charts` | `src/screens/Trends.tsx`, `components/charts/` |
@@ -224,8 +232,8 @@ Every state uses colour + icon + text.
 | P4 · Post-P3 docs sync | `@elenaalmansacampos` | `@Agupane` | `docs/post-p3-sync` | counts, deck and docs |
 | I · Final submission | `@elenaalmansacampos` | `@Agupane`, `@Yeryalex`, `@atapiamallea` | `docs/submission` | video, README, form |
 
-Lane issues: P0 #8 · P1 #9 · P2 #10 · F0 #11 · F0.1 #31 · P3 #12 · A #13 · B #14 · C #15 · E #16 ·
-H0 #32 · H1 #17 · D #18 · F #19 · G #20 · P4 #33 · I #21.
+Lane issues: P0 #8 · P1 #9 · P2 #10 · P2.1 #39 · F0 #11 · F0.1 #31 · P3 #12 · A #13 · A.1 #40 ·
+B #14 · C #15 · E #16 · H0 #32 · H1 #17 · D #18 · F #19 · G #20 · P4 #33 · I #21.
 
 ---
 
@@ -253,5 +261,8 @@ Everything integrated is on `development`; `main` holds the latest release.
 - #35 release: docs plan sync.
 - #36 feat: add the F0 design system foundation.
 - #37 release: F0 design foundation.
+- #38 docs: sync plan and handoff after F0.
+- #42 release: F0 docs sync.
+- #43 docs: sync ticket ownership and submission gaps.
 
 Repository: https://github.com/kosmic-nasa-hackathon/orbi

@@ -15,9 +15,9 @@ in `docs/PLAN.md`; state and blockers in `HANDOFF.md`.
 | Person | GitHub | Role | Skills | Focus in ORBI |
 |---|---|---|---|---|
 | Agustín Pane | `@Agupane` | Maintainer / integrator | Architecture, Vite + React, infra, deploy, pitch | Engine (P1, P3), integration and deploy (H), reviews |
-| Andrea Tapia | `@atapiamallea` | Fullstack frontend | React/TS, Tailwind, women's health research | Foundation (F0), Today (A), Decision (C); integration backup |
+| Andrea Tapia | `@atapiamallea` | Fullstack frontend | React/TS, Tailwind, women's health research | Foundation (F0, done), Today (A), Body (B), Decision (C), consent (A.1); integration backup |
 | Elena Almansa | `@elenaalmansacampos` | Fullstack | Java/Spring, React, JS, SQL, tests and data | Landing/deck/submission (P0, P2, E, I) |
-| Yery Rodríguez | `@Yeryalex` | Frontend | JS/TS, 42 C, Odin/JS30, CSS | Body (B) and Trends (D) |
+| Yery Rodríguez | `@Yeryalex` | Frontend | JS/TS, 42 C, Odin/JS30, CSS | Version footer (F0.1) and Trends (D); supports Body and Mission Control |
 | Andrea | `@amilege` | Programming (42 C) | C foundations; at ORBI works on UI with support | Visual (E), Mission Control (F) and Level 2 (G) |
 
 > There are two Andreas: `@atapiamallea` is Andrea Tapia; `@amilege` is Andrea. Always use the handle.
@@ -31,11 +31,13 @@ in `docs/PLAN.md`; state and blockers in `HANDOFF.md`.
 | #8 | P0 · Pitch light + motion | `@elenaalmansacampos` | `@Agupane` | `pitch/light-motion` | `../orbi-pitch` | 5317 | S | Now |
 | #9 | P1 · Threshold audit | `@Agupane` | `@atapiamallea` | `engine/threshold-audit` | `../orbi-thresholds` | — | M | Now |
 | #10 | P2 · Submission groundwork | `@elenaalmansacampos` | `@Agupane`, `@atapiamallea` | `docs/submission` | `../orbi-submission` | — | M | Now |
+| #39 | P2.1 · Public repo and submission access | `@Agupane` | `@elenaalmansacampos` | `docs/submission-access` | — | — | S | Now |
 | #11 | F0 · Foundation | `@atapiamallea` | `@Agupane`, `@Yeryalex` | `design/theme-foundation` | `../orbi-foundation` | 5310 | L | Done (#36) |
-| #31 | F0.1 · Deployed version footer | — (claim in issue) | `@atapiamallea` | `design/version-footer` | `../orbi-version-footer` | 5320 | S | Now; claim |
+| #31 | F0.1 · Deployed version footer | `@Yeryalex` | `@atapiamallea` | `design/version-footer` | `../orbi-version-footer` | 5320 | S | Now |
 | #12 | P3 · Ground baseline + cycle | `@Agupane` | `@atapiamallea`, `@Yeryalex` | `engine/cycle-baseline` | `../orbi-engine-cycle` | 5309 | L | After #9 |
 | #13 | A · Today | `@atapiamallea` | `@amilege`, `@Agupane` | `today/checkin` | `../orbi-today` | 5311 | M | After #12 |
-| #14 | B · Body | `@Yeryalex` | `@atapiamallea`, `@Agupane` | `body/map` | `../orbi-body` | 5312 | L | After #12; SVG first |
+| #40 | A.1 · Profile and consent | `@atapiamallea` | `@Yeryalex` | `today/profile-consent` | `../orbi-profile-consent` | 5321 | S | After #12 + #13 |
+| #14 | B · Body | `@atapiamallea` | `@Yeryalex`, `@Agupane` | `body/map` | `../orbi-body` | 5312 | L | After #12; SVG first |
 | #15 | C · Decision | `@atapiamallea` | `@Agupane`, `@elenaalmansacampos` | `decision/triage` | `../orbi-decision` | 5313 | M | After #12 |
 | #16 | E · Visual polish | `@amilege` | `@elenaalmansacampos`, `@Yeryalex` | `design/motion-polish` | `../orbi-polish` | 5315 | M | Now |
 | #32 | H0 · Level 0 checkpoint | `@Agupane` | Whole team | `integration/level0` | `../orbi-integration` | 5318 | M | After #12 + A/B/C |
@@ -55,10 +57,10 @@ G is stretch: if Level 0 slips, it is cut first.
 
 | Person | Sequence |
 |---|---|
-| `@Agupane` | #9 → #12 → reviews/merges → #32 → #17 → #21 support |
-| `@atapiamallea` | #11 (done) → #31 (if claimed) → #13/#15 → integration backup and reviews |
+| `@Agupane` | #39 (admin) → #9 → #12 → reviews/merges → #32 → #17 → #21 support |
+| `@atapiamallea` | #11 (done) → #14 SVG pre-work → #13/#15 → #40 → integration backup and reviews |
 | `@elenaalmansacampos` | #8 → #10 → #33 → #21; supports #16 and #15 |
-| `@Yeryalex` | #14 (SVG pre-work) → #16 support → #18; supports #19 |
+| `@Yeryalex` | #31 → #18; supports #14 and #19 |
 | `@amilege` | #16 → #19 → #20; supports #13 |
 
 Critical path: `#9 → #12 → #13/#14/#15 → gate #32 → #18/#19/#20 → close #17 → #21`.
@@ -68,9 +70,8 @@ P4 (#33) runs in parallel after #12/#8/#10 and does not block H1.
 
 ## 4. Working rules
 
-- **The assignee is the lock.** Most issues are already assigned; #31 (F0.1) is unassigned and can be
-  claimed. Do not reassign without talking to the owner and the integrator. When starting, comment
-  branch, worktree and port in the issue.
+- **The assignee is the lock.** All issues are assigned. Do not reassign without talking to the owner
+  and the integrator. When starting, comment branch, worktree and port in the issue.
 - **Branches:** create every branch from `development` and open every PR against `development`.
   `main` is release-only: the integrator opens the `development` → `main` release PR, and that merge
   triggers the automatic deploy to the preview.
@@ -100,6 +101,7 @@ git worktree add ../orbi-version-footer design/version-footer
 git worktree add ../orbi-engine-cycle   engine/cycle-baseline
 git worktree add ../orbi-today          today/checkin
 git worktree add ../orbi-body           body/map
+git worktree add ../orbi-profile-consent today/profile-consent
 git worktree add ../orbi-decision       decision/triage
 git worktree add ../orbi-polish         design/motion-polish
 git worktree add ../orbi-trends         trends/charts
@@ -127,8 +129,9 @@ npm run dev -- --port 53xx
 | 5318 | H0/H1 · integration |
 | 5319 | G · level2 |
 | 5320 | F0.1 · version-footer |
+| 5321 | A.1 · profile-consent |
 
-P4 (#33) is docs-only and needs no port. F0.1 (#31) is unassigned: claim it in the issue.
+P4 (#33) and P2.1 (#39) are docs-only and need no port. F0.1 (#31) belongs to `@Yeryalex`.
 
 Do not share `node_modules` between worktrees. Rebase frequently on `development`.
 
