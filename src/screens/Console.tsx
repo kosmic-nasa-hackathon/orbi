@@ -3,6 +3,8 @@ import { useMemo, useState } from "react";
 import { askCoach } from "../ai/coach";
 import { createTemplateCoach } from "../ai/providers/template";
 import { buildCoachRequest } from "../ai/types";
+import { RuleFlow } from "../components/engine-flow/RuleFlow";
+import { Tabs, tabPanelProps } from "../components/ui";
 import { LEVEL_BG, LEVEL_COLOR, SYSTEM_INFO } from "../content/systems";
 import { scenarios } from "../data/scenarios";
 import { evaluate } from "../domain/evaluate";
@@ -10,6 +12,11 @@ import { LEVEL_LABEL } from "../domain/levels";
 import { type Mission, SYSTEM_IDS } from "../domain/types";
 
 const MISSIONS: Mission[] = ["ISS", "MOON", "MARS"];
+
+const CONSOLE_TABS: { id: "overview" | "rule-flow"; label: string }[] = [
+  { id: "overview", label: "Overview" },
+  { id: "rule-flow", label: "Rule flow" },
+];
 
 function latencyLabel(seconds: number): string {
   if (seconds < 1) return "0 s";
@@ -25,6 +32,7 @@ export default function Console() {
   const [mission, setMission] = useState<Mission>("MARS");
   const [coachText, setCoachText] = useState<string | null>(null);
   const [coachBusy, setCoachBusy] = useState(false);
+  const [tab, setTab] = useState<"overview" | "rule-flow">("overview");
 
   const evaluation = useMemo(() => evaluate(scenario, day, mission), [scenario, day, mission]);
   const reading = scenario.readings.filter((r) => r.day <= day).at(-1);
@@ -77,164 +85,185 @@ export default function Console() {
         </div>
       </header>
 
-      <section className="grid gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4 lg:grid-cols-[1.2fr_0.9fr_1fr]">
-        <label className="flex flex-col gap-1.5 font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase">
-          Scenario
-          <select
-            className="rounded-lg border border-white/10 bg-[#0b111c] px-3 py-2 font-sans text-sm tracking-normal text-white normal-case"
-            value={scenario.id}
-            onChange={(event) => selectScenario(event.target.value)}
-          >
-            {scenarios.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.title}
-              </option>
-            ))}
-          </select>
-        </label>
-        <div className="flex flex-col gap-1.5 font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase">
-          Mission
-          <div className="flex gap-1">
-            {MISSIONS.map((m) => (
-              <button
-                key={m}
-                type="button"
-                onClick={() => setMission(m)}
-                className={`flex-1 rounded-lg border px-3 py-2 font-sans text-sm tracking-normal normal-case ${
-                  mission === m
-                    ? "border-cyan-400/50 bg-cyan-400/15 text-cyan-100"
-                    : "border-white/10 bg-white/[0.03] text-white/60"
-                }`}
-              >
-                {m}
-              </button>
-            ))}
-          </div>
-        </div>
-        <label className="flex flex-col gap-1.5 font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase">
-          Mission day <span className="text-white/80">{day}</span>
-          <input
-            type="range"
-            min={scenario.firstMissionDay}
-            max={lastDay}
-            value={day}
-            onChange={(event) => setDay(Number(event.target.value))}
-            className="mt-2 accent-cyan-400"
-          />
-        </label>
-      </section>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Tabs
+          idBase="console"
+          label="Engine console views"
+          items={CONSOLE_TABS}
+          value={tab}
+          onChange={setTab}
+        />
+        <p className="font-mono text-label text-faint uppercase">Signal → rule → level → action</p>
+      </div>
 
-      <div className="grid gap-4 lg:grid-cols-[1.05fr_1fr]">
-        <section className="rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4">
-          <h2 className="font-display text-sm font-medium text-white/75">Body map</h2>
-          <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {SYSTEM_IDS.map((id) => {
-              const level = evaluation.bySystem[id];
-              return (
-                <div
-                  key={id}
-                  className="rounded-xl border border-white/10 p-3"
-                  style={{ background: LEVEL_BG[level] }}
+      <div
+        {...tabPanelProps("console", "overview")}
+        hidden={tab !== "overview"}
+        className="flex flex-col gap-5"
+      >
+        <section className="grid gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4 lg:grid-cols-[1.2fr_0.9fr_1fr]">
+          <label className="flex flex-col gap-1.5 font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase">
+            Scenario
+            <select
+              className="rounded-lg border border-white/10 bg-[#0b111c] px-3 py-2 font-sans text-sm tracking-normal text-white normal-case"
+              value={scenario.id}
+              onChange={(event) => selectScenario(event.target.value)}
+            >
+              {scenarios.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.title}
+                </option>
+              ))}
+            </select>
+          </label>
+          <div className="flex flex-col gap-1.5 font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase">
+            Mission
+            <div className="flex gap-1">
+              {MISSIONS.map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMission(m)}
+                  className={`flex-1 rounded-lg border px-3 py-2 font-sans text-sm tracking-normal normal-case ${
+                    mission === m
+                      ? "border-cyan-400/50 bg-cyan-400/15 text-cyan-100"
+                      : "border-white/10 bg-white/[0.03] text-white/60"
+                  }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="h-2.5 w-2.5 rounded-full"
-                      style={{ background: LEVEL_COLOR[level] }}
-                    />
-                    <span className="font-mono text-[9px] tracking-[0.1em] text-white/55 uppercase">
-                      {LEVEL_LABEL[level]}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-sm font-medium">{SYSTEM_INFO[id].label}</p>
-                  <p className="text-[11px] text-white/45">{SYSTEM_INFO[id].short}</p>
-                </div>
-              );
-            })}
+                  {m}
+                </button>
+              ))}
+            </div>
           </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
-            <Stat
-              label="Bone loss est."
-              value={`${evaluation.estimates.boneLossPct.min}–${evaluation.estimates.boneLossPct.max}%`}
+          <label className="flex flex-col gap-1.5 font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase">
+            Mission day <span className="text-white/80">{day}</span>
+            <input
+              type="range"
+              min={scenario.firstMissionDay}
+              max={lastDay}
+              value={day}
+              onChange={(event) => setDay(Number(event.target.value))}
+              className="mt-2 accent-cyan-400"
             />
-            <Stat label="Radiation" value={`${evaluation.estimates.radiationPct}%`} />
-            <Stat label="Dose" value={`${evaluation.estimates.radiationDoseMSv} mSv`} />
-            <Stat label="Exercise" value={`${evaluation.estimates.exerciseAdherencePct}%`} />
-          </div>
+          </label>
         </section>
 
-        <section className="rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4">
-          <div className="flex items-center justify-between gap-2">
-            <h2 className="font-display text-sm font-medium text-white/75">Assessments</h2>
-            <button
-              type="button"
-              onClick={runCoach}
-              disabled={coachBusy}
-              className="rounded-lg border border-cyan-400/35 bg-cyan-400/[0.08] px-3 py-1.5 font-mono text-[9px] tracking-[0.08em] text-cyan-100 uppercase transition hover:bg-cyan-400/[0.14] disabled:opacity-50"
-            >
-              {coachBusy ? "Thinking…" : "Ask ORBI (on-device)"}
-            </button>
-          </div>
-
-          {coachText && (
-            <div className="mt-3 rounded-xl border border-cyan-400/20 bg-cyan-400/[0.07] p-3 text-sm leading-relaxed text-cyan-50/90">
-              {coachText}
-            </div>
-          )}
-
-          <div className="mt-3 space-y-2">
-            {evaluation.assessments.length === 0 && (
-              <p className="rounded-xl border border-emerald-400/20 bg-emerald-400/[0.07] p-3 text-sm text-emerald-100/80">
-                All systems and the radiation halo are nominal today.
-              </p>
-            )}
-            {evaluation.assessments.map((assessment) => (
-              <article
-                key={assessment.ruleId}
-                className="rounded-xl border border-white/10 p-3"
-                style={{ background: LEVEL_BG[assessment.level] }}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <p className="text-sm font-medium">{assessment.title}</p>
-                  <span
-                    className="font-mono text-[9px] tracking-[0.1em] uppercase"
-                    style={{ color: LEVEL_COLOR[assessment.level] }}
+        <div className="grid gap-4 lg:grid-cols-[1.05fr_1fr]">
+          <section className="rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4">
+            <h2 className="font-display text-sm font-medium text-white/75">Body map</h2>
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {SYSTEM_IDS.map((id) => {
+                const level = evaluation.bySystem[id];
+                return (
+                  <div
+                    key={id}
+                    className="rounded-xl border border-white/10 p-3"
+                    style={{ background: LEVEL_BG[level] }}
                   >
-                    {LEVEL_LABEL[assessment.level]}
-                  </span>
-                </div>
-                <ul className="mt-2 space-y-1 text-xs text-white/60">
-                  {assessment.because.map((line) => (
-                    <li key={line}>· {line}</li>
-                  ))}
-                </ul>
-                <p className="mt-2 text-xs text-white/80">
-                  {assessment.escalation.now}
-                  {assessment.escalation.next ? ` → ${assessment.escalation.next}` : ""}
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="h-2.5 w-2.5 rounded-full"
+                        style={{ background: LEVEL_COLOR[level] }}
+                      />
+                      <span className="font-mono text-[9px] tracking-[0.1em] text-white/55 uppercase">
+                        {LEVEL_LABEL[level]}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm font-medium">{SYSTEM_INFO[id].label}</p>
+                    <p className="text-[11px] text-white/45">{SYSTEM_INFO[id].short}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-4 grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
+              <Stat
+                label="Bone loss est."
+                value={`${evaluation.estimates.boneLossPct.min}–${evaluation.estimates.boneLossPct.max}%`}
+              />
+              <Stat label="Radiation" value={`${evaluation.estimates.radiationPct}%`} />
+              <Stat label="Dose" value={`${evaluation.estimates.radiationDoseMSv} mSv`} />
+              <Stat label="Exercise" value={`${evaluation.estimates.exerciseAdherencePct}%`} />
+            </div>
+          </section>
+
+          <section className="rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="font-display text-sm font-medium text-white/75">Assessments</h2>
+              <button
+                type="button"
+                onClick={runCoach}
+                disabled={coachBusy}
+                className="rounded-lg border border-cyan-400/35 bg-cyan-400/[0.08] px-3 py-1.5 font-mono text-[9px] tracking-[0.08em] text-cyan-100 uppercase transition hover:bg-cyan-400/[0.14] disabled:opacity-50"
+              >
+                {coachBusy ? "Thinking…" : "Ask ORBI (on-device)"}
+              </button>
+            </div>
+
+            {coachText && (
+              <div className="mt-3 rounded-xl border border-cyan-400/20 bg-cyan-400/[0.07] p-3 text-sm leading-relaxed text-cyan-50/90">
+                {coachText}
+              </div>
+            )}
+
+            <div className="mt-3 space-y-2">
+              {evaluation.assessments.length === 0 && (
+                <p className="rounded-xl border border-emerald-400/20 bg-emerald-400/[0.07] p-3 text-sm text-emerald-100/80">
+                  All systems and the radiation halo are nominal today.
                 </p>
-                <p className="mt-1 text-[11px] text-white/40">{assessment.source[0]?.label}</p>
-              </article>
+              )}
+              {evaluation.assessments.map((assessment) => (
+                <article
+                  key={assessment.ruleId}
+                  className="rounded-xl border border-white/10 p-3"
+                  style={{ background: LEVEL_BG[assessment.level] }}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-medium">{assessment.title}</p>
+                    <span
+                      className="font-mono text-[9px] tracking-[0.1em] uppercase"
+                      style={{ color: LEVEL_COLOR[assessment.level] }}
+                    >
+                      {LEVEL_LABEL[assessment.level]}
+                    </span>
+                  </div>
+                  <ul className="mt-2 space-y-1 text-xs text-white/60">
+                    {assessment.because.map((line) => (
+                      <li key={line}>· {line}</li>
+                    ))}
+                  </ul>
+                  <p className="mt-2 text-xs text-white/80">
+                    {assessment.escalation.now}
+                    {assessment.escalation.next ? ` → ${assessment.escalation.next}` : ""}
+                  </p>
+                  <p className="mt-1 text-[11px] text-white/40">{assessment.source[0]?.label}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <section className="rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4">
+          <h2 className="font-display text-sm font-medium text-white/75">
+            Facts consumed by the coach
+          </h2>
+          <div className="mt-3 grid gap-2 md:grid-cols-2">
+            {evaluation.facts.map((fact) => (
+              <div key={fact.id} className="rounded-xl border border-white/[0.08] bg-black/20 p-3">
+                <p className="font-mono text-[9px] tracking-[0.12em] text-white/40 uppercase">
+                  {fact.label}
+                </p>
+                <p className="mt-1 text-xs text-white/65">{fact.value}</p>
+                {fact.source && <p className="mt-1 text-[10px] text-white/30">{fact.source}</p>}
+              </div>
             ))}
           </div>
         </section>
       </div>
 
-      <section className="rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4">
-        <h2 className="font-display text-sm font-medium text-white/75">
-          Facts consumed by the coach
-        </h2>
-        <div className="mt-3 grid gap-2 md:grid-cols-2">
-          {evaluation.facts.map((fact) => (
-            <div key={fact.id} className="rounded-xl border border-white/[0.08] bg-black/20 p-3">
-              <p className="font-mono text-[9px] tracking-[0.12em] text-white/40 uppercase">
-                {fact.label}
-              </p>
-              <p className="mt-1 text-xs text-white/65">{fact.value}</p>
-              {fact.source && <p className="mt-1 text-[10px] text-white/30">{fact.source}</p>}
-            </div>
-          ))}
-        </div>
-      </section>
+      <div {...tabPanelProps("console", "rule-flow")} hidden={tab !== "rule-flow"}>
+        <RuleFlow evaluation={evaluation} scenario={scenario} onScenarioChange={selectScenario} />
+      </div>
 
       <footer className="text-[11px] text-white/30">
         Deterministic engine · no diagnosis, no treatment · demo data is synthetic. The EVA demo
