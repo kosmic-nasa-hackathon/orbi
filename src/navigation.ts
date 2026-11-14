@@ -1,6 +1,14 @@
-export type View = "home" | "eva" | "console";
+export type MissionView = "today" | "body" | "decision" | "trends" | "ground";
+export type View = "home" | "eva" | "console" | MissionView;
 
-const VIEWS: View[] = ["home", "eva", "console"];
+/** Screens of the astronaut app, in subnav order. `ground` is Mission Control. */
+export const MISSION_VIEWS: MissionView[] = ["today", "body", "decision", "trends", "ground"];
+
+const VIEWS: View[] = ["home", "eva", "console", ...MISSION_VIEWS];
+
+export function isMissionView(view: View): view is MissionView {
+  return (MISSION_VIEWS as View[]).includes(view);
+}
 
 export function viewHref(view: View): string {
   return view === "home" ? "/" : `/?view=${view}`;

@@ -1,16 +1,113 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
-  --font-display: "IBM Plex Sans Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Sora Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Sora Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1rem;
+  --text-label--letter-spacing: 0.08em;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.25rem;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.5rem;
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.75rem;
+  --text-title: 1.5rem;
+  --text-title--line-height: 2rem;
+  --text-headline: 2.25rem;
+  --text-headline--line-height: 2.625rem;
+  --text-display: 3.5rem;
+  --text-display--line-height: 1.05;
+}
+
+/* Semantic colour tokens. Utilities read the CSS variable where they are used,
+   so a nested [data-theme] scope re-themes its subtree. */
+@theme inline {
+  --color-canvas: var(--orbi-canvas);
+  --color-surface: var(--orbi-surface);
+  --color-surface-strong: var(--orbi-surface-strong);
+  --color-ink: var(--orbi-ink);
+  --color-muted: var(--orbi-muted);
+  --color-faint: var(--orbi-faint);
+  --color-line: var(--orbi-line);
+  --color-line-strong: var(--orbi-line-strong);
+  --color-accent: var(--orbi-accent);
+  --color-accent-soft: var(--orbi-accent-soft);
+  --color-figure: var(--orbi-figure);
+  --color-on-accent: var(--orbi-on-accent);
+  --color-nominal: var(--orbi-nominal);
+  --color-nominal-soft: var(--orbi-nominal-soft);
+  --color-watch: var(--orbi-watch);
+  --color-watch-soft: var(--orbi-watch-soft);
+  --color-concern: var(--orbi-concern);
+  --color-concern-soft: var(--orbi-concern-soft);
+  --color-urgent: var(--orbi-urgent);
+  --color-urgent-soft: var(--orbi-urgent-soft);
+}
+
+/* Approved direction "Órbita del cuerpo": cyan instrument light on near-black, teal on ice in light mode.
+   Contrast checked: every text token passes WCAG AA on canvas, surface and surface-strong. */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --orbi-canvas: #04070b;
+  --orbi-surface: #0a121a;
+  --orbi-surface-strong: #101c26;
+  --orbi-ink: #e6f1f5;
+  --orbi-muted: #8fa3ad;
+  --orbi-faint: #7d929c;
+  --orbi-line: rgba(143, 163, 173, 0.2);
+  --orbi-line-strong: rgba(143, 163, 173, 0.36);
+  --orbi-accent: #67e8f9;
+  --orbi-accent-soft: rgba(103, 232, 249, 0.12);
+  --orbi-on-accent: #032027;
+  --orbi-figure: #67e8f9;
+  --orbi-nominal: #34d399;
+  --orbi-nominal-soft: rgba(52, 211, 153, 0.14);
+  --orbi-watch: #fbbf24;
+  --orbi-watch-soft: rgba(251, 191, 36, 0.14);
+  --orbi-concern: #fb923c;
+  --orbi-concern-soft: rgba(251, 146, 60, 0.14);
+  --orbi-urgent: #f87171;
+  --orbi-urgent-soft: rgba(248, 113, 113, 0.14);
+  --orbi-glow: rgba(103, 232, 249, 0.1);
+  --orbi-grid: rgba(103, 232, 249, 0.07);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --orbi-canvas: #eef4f7;
+  --orbi-surface: #ffffff;
+  --orbi-surface-strong: #e3edf1;
+  --orbi-ink: #0d1b22;
+  --orbi-muted: #45606b;
+  --orbi-faint: #4f6974;
+  --orbi-line: rgba(13, 27, 34, 0.12);
+  --orbi-line-strong: rgba(13, 27, 34, 0.24);
+  --orbi-accent: #0e7490;
+  --orbi-accent-soft: rgba(14, 116, 144, 0.1);
+  --orbi-on-accent: #ffffff;
+  --orbi-figure: #0e7490;
+  --orbi-nominal: #047857;
+  --orbi-nominal-soft: rgba(4, 120, 87, 0.1);
+  --orbi-watch: #8a5300;
+  --orbi-watch-soft: rgba(217, 119, 6, 0.12);
+  --orbi-concern: #b93c0b;
+  --orbi-concern-soft: rgba(234, 88, 12, 0.1);
+  --orbi-urgent: #b91c1c;
+  --orbi-urgent-soft: rgba(220, 38, 38, 0.1);
+  --orbi-glow: rgba(14, 116, 144, 0.1);
+  --orbi-grid: rgba(14, 116, 144, 0.07);
 }
 
 :root {
-  color-scheme: dark;
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: #05070d;
-  color: #e8edf7;
+  font-family: var(--font-sans);
+  background: var(--orbi-canvas);
+  color: var(--orbi-ink);
 }
 
 html,
@@ -21,14 +118,31 @@ body,
 
 body {
   margin: 0;
+}
+
+/* Canvas: a soft glow plus the 28 px instrument grid. */
+.orbi-backdrop,
+body {
   background:
-    radial-gradient(ellipse 80% 55% at 12% -6%, rgba(34, 211, 238, 0.16), transparent 62%),
-    radial-gradient(ellipse 60% 48% at 96% 6%, rgba(251, 191, 36, 0.075), transparent 58%),
-    radial-gradient(ellipse 80% 60% at 50% 112%, rgba(14, 116, 144, 0.14), transparent 66%), #05070d;
+    radial-gradient(80% 60% at 28% 30%, var(--orbi-glow), transparent 70%),
+    linear-gradient(var(--orbi-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--orbi-grid) 1px, transparent 1px), var(--orbi-canvas);
+  background-size:
+    auto,
+    28px 28px,
+    28px 28px,
+    auto;
+  background-attachment: fixed;
+  color: var(--orbi-ink);
 }
 
 ::selection {
-  background: rgba(34, 211, 238, 0.3);
+  background: var(--orbi-accent-soft);
+}
+
+:focus-visible {
+  outline: 2px solid var(--orbi-accent);
+  outline-offset: 2px;
 }
 
 @keyframes orbi-pulse {

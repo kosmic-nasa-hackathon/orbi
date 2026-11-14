@@ -166,7 +166,15 @@ Every state uses colour + icon + text.
   without relaxing absolute thresholds), `cycle-aware` correlation and `luteal-phase` scenario. **Not
   yet in the code**: it requires announcing the contract extension before the `engine/…` PR. The
   600 mSv limit already has a source (single for all sexes and ages since 2022).
-- **Theme:** system + `localStorage`, dark fallback. Light in app and pitch.
+- **Theme:** system + `localStorage` (key `orbi-theme`), dark fallback. Light in app and pitch.
+- **Design system (F0 #11):** direction **"Body in orbit"** approved by the team, documented in
+  `docs/DESIGN.md`. Cyan/near-black and teal/ice palettes with a 28 px grid, verified AA; Sora + IBM
+  Plex Mono (Inter and IBM Plex Sans removed); no shadcn. Primitives in `src/components/ui` and
+  `src/components/motion`, store in `src/store/orbiStore.ts` (`useScenario`, `useEvaluation`,
+  `cycleAware`). Routes `?view=today|body|decision|trends|ground` with placeholders in `src/screens/*`:
+  each lane replaces its file without touching `App.tsx`. Home/EVA/Console stay dark until E (#16).
+- **Body #14:** reassigned to `@atapiamallea` at her request; Yery keeps Trends #18. Tables pending
+  integrator update.
 - **Integration:** two checkpoints. H0 (#32) deploys Level 0 and unblocks D/F/G; H1 (#17) closes
   the final integration.
 - **CMO view:** descoped from Level 2 and documented as future work in `docs/CONCEPT.md` §12.

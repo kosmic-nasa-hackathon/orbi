@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { readView, viewHref } from "./navigation";
+import { isMissionView, MISSION_VIEWS, readView, viewHref } from "./navigation";
 
 describe("navigation", () => {
   it("opens the home by default", () => {
@@ -12,6 +12,16 @@ describe("navigation", () => {
     expect(readView("?view=console")).toBe("console");
   });
 
+  it("reads every mission screen, including Mission Control as ground", () => {
+    for (const view of MISSION_VIEWS) expect(readView(`?view=${view}`)).toBe(view);
+    expect(MISSION_VIEWS).toEqual(["today", "body", "decision", "trends", "ground"]);
+  });
+
+  it("tells mission screens apart from the site pages", () => {
+    expect(isMissionView("body")).toBe(true);
+    expect(isMissionView("console")).toBe(false);
+  });
+
   it("keeps legacy ?t deep links on the EVA demo", () => {
     expect(readView("?t=18")).toBe("eva");
   });
@@ -20,5 +30,6 @@ describe("navigation", () => {
     expect(viewHref("home")).toBe("/");
     expect(viewHref("eva")).toBe("/?view=eva");
     expect(viewHref("console")).toBe("/?view=console");
+    expect(viewHref("ground")).toBe("/?view=ground");
   });
 });

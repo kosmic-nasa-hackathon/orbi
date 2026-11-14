@@ -16,6 +16,7 @@ Each astronaut's baseline is learned **during ground training** and **takes the 
 | **[docs/BRIEF.md](docs/BRIEF.md)** | **Start here.** The project in 2 minutes, scope levels and work lanes |
 | [docs/CONCEPT.md](docs/CONCEPT.md) | Full concept: use on the ship, rules, scenarios, type contract, demo script |
 | [docs/STACK.md](docs/STACK.md) | Technical stack, setup commands, folder structure, CI and risks |
+| [docs/DESIGN.md](docs/DESIGN.md) | Design system "Body in orbit": colours, type, components and patterns |
 | **[docs/PLAN.md](docs/PLAN.md)** | **Live plan:** parallel lanes, branches, allowed files and acceptance criteria |
 | **[docs/TEAM.md](docs/TEAM.md)** | **Live assignment:** roster, owner/support, worktrees, ports and onboarding |
 | [docs/TASKS.md](docs/TASKS.md) | Historical briefs per lane (product context) |

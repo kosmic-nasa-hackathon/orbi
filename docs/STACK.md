@@ -7,7 +7,7 @@
 
 ## Decision in one line
 
-**A React + TypeScript SPA with Vite. Tailwind (with optional shadcn/ui) for the skin, Recharts for the charts, the rules engine in pure TypeScript, the data in local JSON and static deployment on Dokploy (Cloudflare in front). No backend, no database, no authentication. *Tablet-first* design and UI in English.**
+**A React + TypeScript SPA with Vite. Tailwind plus our own design system (`docs/DESIGN.md`) for the skin, Recharts for the charts, the rules engine in pure TypeScript, the data in local JSON and static deployment on Dokploy (Cloudflare in front). No backend, no database, no authentication. *Tablet-first* design and UI in English.**
 
 It is the stack with which a small team can have something impressive and *stable* in 48 hours, and the one that fails least in a live demo.
 
@@ -21,7 +21,7 @@ It is the stack with which a small team can have something impressive and *stabl
 | **Build** | **Vite** | Instant startup, zero configuration, static output. No SSR or hydration errors at 3 a.m. | Next.js (only if the team already masters it) | 2 min |
 | **Language** | **TypeScript** | The rules engine needs types, and types are the contract between blocks. | JS | 0 |
 | **UI** | **React 19** | Ecosystem, familiarity, and every charting and SVG library assumes it. | — | 0 |
-| **Styles** | **Tailwind CSS v4** (+ **shadcn/ui**, optional and recommended) | Professional look without designing from scratch. shadcn copies the code into your repo: it is not a dependency, it is your code. shadcn is not installed yet; adopt it only if it pays for itself. | Tailwind by hand | 20 min |
+| **Styles** | **Tailwind CSS v4** + **own design system** (`docs/DESIGN.md`) | Semantic tokens in `src/index.css` and primitives in `src/components/ui`. No shadcn: its look would have to be rewritten entirely, and native controls (`<input type=range>`, `<dialog>`, `<progress>`) are already accessible. | shadcn/ui | 0 (done in F0) |
 | **Charts** | **Recharts 3** | Declarative, sparklines in 10 lines. v3 is the one compatible with React 19 (2.x has dependency issues). | visx | 15 min |
 | **Animation** | **Motion** (formerly framer-motion) | Panel transitions and switching to emergency mode. Better 3 well-made animations than 20. | CSS transitions | 10 min |
 | **Body map** | **Custom SVG** + **Servier Medical Art** illustrations | Layer control, colour per system, accessible, animatable. | three.js (pretty, expensive and fragile in a demo) | 1–2 h |
@@ -31,8 +31,8 @@ It is the stack with which a small team can have something impressive and *stabl
 | **Tests** | **Vitest** | Shares the Vite config. Engine tests are credibility before the jury. | Jest | 15 min |
 | **Scripts** | **tsx** | Runs `scripts/generate-mission.ts` directly with `npm run gen`. | vite-node | 2 min |
 | **Dates** | **date-fns** | Lightweight. For comms-window times. | dayjs | 2 min |
-| **Icons** | **lucide-react** | Same stroke as shadcn. Also useful for the state icons (see §5). | heroicons | 2 min |
-| **Fonts** | **@fontsource** | Fonts live in the repo, not via CDN: they work without wifi. | Google Fonts | 5 min |
+| **Icons** | **lucide-react** | Clean, consistent stroke. Also used for the state icons (see §5). | heroicons | 2 min |
+| **Fonts** | **@fontsource**: Sora (text and headings) + IBM Plex Mono (data) | Fonts live in the repo, not via CDN: they work without wifi. | Google Fonts | 5 min |
 | **Data** | **TS generator with seeded RNG → JSON** | Deterministic demo: always the same day 148, always the same curve. | hand-written mocks (fragile) | 1 h |
 | **Quality** | **Biome** | Lint + format in one tool and in milliseconds. | ESLint + Prettier | 5 min |
 | **Repo** | **GitHub** + **GitHub Actions** | CI with `test` + `build` on every PR: nobody breaks `development`/`main` without knowing. | — | 15 min |
@@ -71,7 +71,7 @@ npm install
 npm install tailwindcss @tailwindcss/vite
 
 # 3. Product dependencies
-npm install zustand recharts motion date-fns lucide-react clsx tailwind-merge @fontsource-variable/inter
+npm install zustand recharts motion date-fns lucide-react clsx tailwind-merge @fontsource-variable/sora @fontsource/ibm-plex-mono
 
 # 4. Development dependencies
 npm install -D vitest jsdom @testing-library/react @testing-library/jest-dom @biomejs/biome tsx
@@ -111,22 +111,15 @@ export default defineConfig({
 @import "tailwindcss";
 ```
 
-### shadcn/ui
+### Design system
 
-*Optional and recommended; not part of the current dependencies.*
+shadcn/ui is not used. The design system is already in the repo (F0, #11) and documented in
+**`docs/DESIGN.md`**: colour tokens for dark and light, typography, primitives (`Panel`, `Card`,
+`Badge`, `LevelBadge`, `Button`, `Tabs`, `Metric`), motion and the product patterns (body in orbit and
+the 90-second check-in).
 
-```bash
-npx shadcn@latest init
-```
-
-Before running it you need to prepare **two things**; otherwise it fails without an error:
-
-1. The `@/*` alias in `tsconfig.json` and in `tsconfig.app.json` (`"baseUrl": "."`, `"paths": { "@/*": ["./src/*"] }`).
-2. The alias in `vite.config.ts` (above).
-
-Components that will actually be used: `card`, `button`, `badge`, `dialog`, `sheet`, `progress`, `tabs`, `tooltip`, `separator`, `slider` (mood and fatigue).
-
-> **If shadcn slows you down more than 20 minutes, drop it.** A `Card` with Tailwind by hand is 8 lines.
+For the missing pieces (slider, dialog, tooltip, progress), use native controls with the tokens:
+`<input type="range">`, `<dialog>`, `title`/`aria-describedby` and `<progress>`.
 
 ### CI (`.github/workflows/ci.yml`)
 
@@ -202,7 +195,8 @@ orbi/                            # = root of the kosmic-nasa-hackathon/orbi repo
 │  │  ├─ decision/BecauseList.tsx
 │  │  ├─ decision/ActionCard.tsx
 │  │  ├─ decision/EscalationPanel.tsx
-│  │  └─ ui/                     # shadcn
+│  │  ├─ motion/                 # Reveal, ScreenTransition
+│  │  └─ ui/                     # design-system primitives (docs/DESIGN.md)
 │  └─ screens/
 │     ├─ Today.tsx               # level 0
 │     ├─ Body.tsx                # level 0
@@ -411,7 +405,6 @@ Two browser windows, side by side: the ship on the left and the ground on the ri
 |---|---|
 | Different Node versions on the team | `.nvmrc` + `nvm use` + CI with the same version. |
 | Dependency conflicts with React 19 | Recharts 3. If a package complains, `npm ls` and pin the version. **No `--force`** without telling the integrator. |
-| shadcn does not start because of the aliases | Follow §2 to the letter. If it fails, Tailwind by hand. |
 | Someone breaks `development`/`main` | CI + integrator review. The free private repo does not allow branch protection; the gate is the PR. |
 | Private repo in an org without a GitHub App | Solved with an SSH deploy key + self-hosted runner; see `docs/DEPLOYMENT.md`. |
 | The anatomical SVG is not ready | 6-zone silhouette as plan B from Friday. |
