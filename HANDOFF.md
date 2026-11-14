@@ -71,6 +71,8 @@ Node 22 (`.nvmrc`). No hay backend, base de datos ni variables de entorno.
 - `Dockerfile` multi-stage (Node 22 → nginx:alpine, puerto 80).
 - `nginx.conf` con fallback SPA, cache de assets y healthcheck.
 - `.github/workflows/ci.yml`: `npm ci`, `npm run gen` + diff, `npm run check`, `npm run build`.
+- `.github/workflows/deploy.yml`: fallback de auto-deploy vía runner self-hosted + token; queda
+  inactivo hasta crear `DOKPLOY_AUTO_DEPLOY=true` y `DOKPLOY_TOKEN`.
 - `docs/DEPLOYMENT.md`: Dokploy, Cloudflare, túnel, nginx, auto-deploy, verificación y rollback.
 
 **Verificación actual:** `npm run check` verde, **21/21 tests**, `npm run build` OK.
@@ -101,8 +103,9 @@ La UI debe consumir `evaluate()` y `askCoach()`, **no reimplementar reglas**.
 3. **Acceso a Dokploy/Cloudflare**: el panel está detrás de Cloudflare Access y desde la estación de
    trabajo no se llega a la LAN. Para provisionar hace falta API key + acceso, o ejecutar los
    comandos del runbook desde la VM/LAN.
-4. **Runner self-hosted** (solo si no se usa la GitHub App): el runner 100 ya tiene 6; sería el
-   séptimo. Requiere registrar el runner y cargar `DOKPLOY_TOKEN`.
+4. **Runner self-hosted** (solo si no se usa la GitHub App): el workflow `deploy.yml` ya existe,
+   pero necesita un runner con label `orbi`, el secret `DOKPLOY_TOKEN` y la variable
+   `DOKPLOY_AUTO_DEPLOY=true`. Sin la variable, el job se salta y no falla.
 
 ---
 
