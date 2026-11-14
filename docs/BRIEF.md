@@ -37,7 +37,7 @@ A tablet app where the astronaut does a **90-second daily check-in**. The watch 
 A level is not started until the previous one works on the deployed URL.
 
 ## Stack
-Vite + React 19 + TypeScript · Tailwind + shadcn/ui · Recharts 3 · Zustand · Vitest · Dokploy · Node 22. **UI and submission in English.** Detail in `STACK.md`.
+Vite + React 19 + TypeScript · Tailwind (+ optional shadcn/ui) · Recharts 3 · Zustand · Vitest · Dokploy · Node 22. **UI, project docs and submission in English.** Detail in `STACK.md`.
 
 ## Blocks (choose one)
 | Block | What | Profile |

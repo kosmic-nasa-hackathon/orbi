@@ -8,7 +8,7 @@ the product, in `docs/BRIEF.md` and `docs/CONCEPTO-ORBI.md`.
 **Base:** `development`
 **Status:** engine, data, coach, Home, EVA, console, pitch, deploy and documentation for the product
 pivot (women's health + ground training) are ready. The code still uses a 14-day baseline,
-3 correlations and 4 scenarios; the documented target is a 90-day baseline, 4 correlations
+3 correlations and 4 scenarios; the documented target is a 90-day ground-training baseline, 4 correlations
 and 5 scenarios (closed by P3). Still missing: the interactive product (Level 0), Trends/Mission Control,
 light theme, redesign and submission.
 

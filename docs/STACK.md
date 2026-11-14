@@ -44,7 +44,7 @@ It is the stack with which a small team can have something impressive and *stabl
 
 > **Actual status (Nov 14, 2026):** the scaffold already exists (Vite 8, React 19.3, TypeScript 5.9,
 > Tailwind 4, Vitest 5, Biome 2), the engine and the coach are implemented, and CI/Dockerfile/nginx
-> are in the repo. The screen UI is still missing. Dokploy and Cloudflare are already provisioned and
+> are in the repo. The Level 0 screens (Today, Body, Decision) and the light theme are still missing. Dokploy and Cloudflare are already provisioned and
 > the app is deployed at `https://orbi.agustinpane.xyz`. Until P3 lands, the engine still uses a
 > 14-day pre-flight baseline, 3 correlations and 4 scenarios; the 90-day ground baseline,
 > 4 correlations (including `cycle-aware`) and 5 scenarios (including `luteal-phase`) are the
@@ -71,7 +71,7 @@ npm install
 npm install tailwindcss @tailwindcss/vite
 
 # 3. Product dependencies
-npm install zustand zod recharts motion date-fns lucide-react clsx tailwind-merge @fontsource-variable/inter
+npm install zustand recharts motion date-fns lucide-react clsx tailwind-merge @fontsource-variable/inter
 
 # 4. Development dependencies
 npm install -D vitest jsdom @testing-library/react @testing-library/jest-dom @biomejs/biome tsx
