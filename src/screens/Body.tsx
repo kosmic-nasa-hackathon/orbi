@@ -102,7 +102,7 @@ function BodyMap({
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-      <Card className="p-2 sm:p-3">
+      <Card className="p-2 sm:p-3 lg:self-center">
         <BodySceneView
           evaluation={evaluation}
           reading={reading}

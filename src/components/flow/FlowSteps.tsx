@@ -24,7 +24,7 @@ export function FlowSteps({ current }: { current: FlowStep }) {
               {index > 0 && (
                 <span
                   aria-hidden="true"
-                  className={clsx("h-px w-6 sm:w-10", done || active ? "bg-accent" : "bg-line")}
+                  className={clsx("h-px w-4 sm:w-10", done || active ? "bg-accent" : "bg-line")}
                 />
               )}
               <button
@@ -46,7 +46,8 @@ export function FlowSteps({ current }: { current: FlowStep }) {
                 >
                   {done ? <Check className="h-3.5 w-3.5" aria-hidden="true" /> : index + 1}
                 </span>
-                {step.label}
+                {/* On phones only the current step keeps its label, so the bar fits 320 px. */}
+                <span className={active ? undefined : "sr-only sm:not-sr-only"}>{step.label}</span>
                 {done && <span className="sr-only">(done)</span>}
               </button>
             </li>
