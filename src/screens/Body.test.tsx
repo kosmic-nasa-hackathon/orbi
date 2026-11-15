@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CYCLE_CARD, CYCLE_NOTE } from "../content/cycle";
+import { REPRODUCTIVE_PREVIEW } from "../content/reproductive";
 import { getScenario } from "../data/scenarios";
 import { evaluate } from "../domain/evaluate";
 import { LEVEL_ORDER, SYSTEM_IDS } from "../domain/types";
@@ -116,6 +117,18 @@ describe("Body", () => {
     expect(screen.queryByRole("button", { name: /Your cycle can raise/ })).not.toBeInTheDocument();
     fireEvent.click(figure().getByRole("button", { name: /^Heart/ }));
     expect(screen.getByRole("button", { name: CYCLE_NOTE.cardio!.short })).toBeInTheDocument();
+  });
+
+  it("previews the reproductive system as design only, with no level and safety first", () => {
+    render(<Body />);
+    const card = within(screen.getByRole("region", { name: REPRODUCTIVE_PREVIEW.title }));
+    expect(document.getElementById("reproductive-preview")).not.toHaveAttribute("open");
+    expect(card.getByText(REPRODUCTIVE_PREVIEW.badge)).toBeInTheDocument();
+    expect(card.getByText(REPRODUCTIVE_PREVIEW.safety)).toBeInTheDocument();
+    expect(card.getByText(REPRODUCTIVE_PREVIEW.privacy)).toBeInTheDocument();
+    for (const label of ["Act now", "Keep an eye on it", "All good"]) {
+      expect(card.queryByText(label)).not.toBeInTheDocument();
+    }
   });
 
   it("keeps the cycle card folded until the astronaut opens it", () => {

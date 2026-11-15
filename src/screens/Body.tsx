@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { ChevronDown, Lock, Venus } from "lucide-react";
+import { ChevronDown, Dna, Lock, ShieldCheck, Venus } from "lucide-react";
 import { useState } from "react";
 import { BodySceneView } from "../components/body/BodySceneView";
 import { DemoBar } from "../components/DemoBar";
@@ -9,6 +9,7 @@ import { TrafficBadge } from "../components/flow/TrafficBadge";
 import { TONE_CLASS, TRAFFIC } from "../components/flow/traffic";
 import { Card } from "../components/ui/Card";
 import { CYCLE_CARD, CYCLE_NOTE } from "../content/cycle";
+import { REPRODUCTIVE_PREVIEW } from "../content/reproductive";
 import { SYSTEM_INFO } from "../content/systems";
 import {
   type Assessment,
@@ -160,6 +161,7 @@ function BodyMap({
         )}
 
         <CycleCard open={cycleOpen} onToggle={setCycleOpen} />
+        <ReproductivePreview />
       </div>
     </div>
   );
@@ -211,6 +213,61 @@ function CycleCard({ open, onToggle }: { open: boolean; onToggle: (open: boolean
           </dl>
           <p>{CYCLE_CARD.why}</p>
           <p className="text-muted">Cycle-aware baseline: {cycleAware ? "on" : "off"}</p>
+        </div>
+      </details>
+    </section>
+  );
+}
+
+const REPRODUCTIVE_ID = "reproductive-preview";
+
+/**
+ * The designed seventh system, shown as a folded preview. It has no traffic light because the
+ * engine does not evaluate it yet; it lists what ORBI would track and how privacy works.
+ */
+function ReproductivePreview() {
+  return (
+    <section aria-labelledby={`${REPRODUCTIVE_ID}-title`}>
+      <details id={REPRODUCTIVE_ID} className="group rounded-2xl border border-line bg-surface">
+        <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3">
+          <Dna className="h-5 w-5 shrink-0 text-muted" aria-hidden="true" />
+          <span className="flex min-w-0 flex-1 flex-col">
+            <span id={`${REPRODUCTIVE_ID}-title`} className="text-body font-semibold">
+              {REPRODUCTIVE_PREVIEW.title}
+            </span>
+            <span className="text-caption text-muted">{REPRODUCTIVE_PREVIEW.summary}</span>
+          </span>
+          <ChevronDown
+            className="h-4 w-4 shrink-0 text-muted transition-transform group-open:rotate-180"
+            aria-hidden="true"
+          />
+        </summary>
+        <div className="flex flex-col gap-3 px-4 pb-4 text-caption">
+          <span className="self-start rounded-full border border-line-strong px-2 py-0.5 font-mono text-label text-muted uppercase">
+            {REPRODUCTIVE_PREVIEW.badge}
+          </span>
+          <p>{REPRODUCTIVE_PREVIEW.why}</p>
+          <dl className="flex flex-col gap-2">
+            {REPRODUCTIVE_PREVIEW.groups.map((group) => (
+              <div key={group.label} className="rounded-xl bg-surface-strong px-3 py-2">
+                <dt className="text-muted">{group.label}</dt>
+                {group.items.map((item) => (
+                  <dd key={item} className="font-medium">
+                    {item}
+                  </dd>
+                ))}
+              </div>
+            ))}
+          </dl>
+          <p className="flex items-start gap-2">
+            <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+            {REPRODUCTIVE_PREVIEW.safety}
+          </p>
+          <p className="flex items-start gap-2 text-muted">
+            <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            {REPRODUCTIVE_PREVIEW.privacy}
+          </p>
+          <p className="text-muted">{REPRODUCTIVE_PREVIEW.pending}</p>
         </div>
       </details>
     </section>
