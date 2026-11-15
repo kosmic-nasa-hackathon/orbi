@@ -67,7 +67,7 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
       />
 
       <div className="relative mx-auto max-w-[1500px] px-4 pt-8 pb-20 sm:px-6 lg:pt-14">
-        <section className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+        <section className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
           <div className="orbi-enter">
             <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.22em] text-cyan-300/75 uppercase">
               <span className="relative flex h-1.5 w-1.5">
@@ -200,41 +200,41 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
           </div>
         </section>
 
-        <section className="mt-16 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div>
-            <SectionHeading
-              kicker="Live evaluation"
-              title="The engine is the product."
-              text="This is not a mock. The state below comes from evaluate() on the deterministic day-148 scenario."
-            />
-            {topAssessment && <AssessmentCard assessment={topAssessment} />}
-            <button
-              type="button"
-              onClick={() => onNavigate("console")}
-              className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-medium text-cyan-200/80 transition hover:text-cyan-100"
-            >
-              Inspect every fact in the console
-              <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </button>
-          </div>
+        <section className="mt-16">
+          <SectionHeading
+            kicker="Live evaluation"
+            title="The engine is the product."
+            text="This is not a mock. The state below comes from evaluate() on the deterministic day-148 scenario."
+          />
+          <div className="mt-5 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div>
+              {topAssessment && <AssessmentCard assessment={topAssessment} />}
+              <button
+                type="button"
+                onClick={() => onNavigate("console")}
+                className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-medium text-cyan-200/80 transition hover:text-cyan-100"
+              >
+                Inspect every fact in the console
+                <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </button>
+            </div>
 
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4 sm:p-5">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="font-display text-base font-medium text-white/85">
-                Six systems + a halo
-              </h3>
+            <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4 sm:p-5">
               <span className="font-mono text-[11px] tracking-[0.16em] text-faint uppercase">
                 early-infection · day {day}
               </span>
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {SYSTEM_IDS.map((id) => (
-                <SystemTile key={id} id={id} level={evaluation.bySystem[id]} />
-              ))}
-            </div>
-            <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/[0.06] px-3 py-2.5 text-caption leading-relaxed text-amber-100/75">
-              Mars escalation: local protocol first. The flight surgeon packet waits for the next
-              communication window.
+              <h3 className="mt-2 font-display text-xl font-medium tracking-[-0.02em] text-white/95">
+                Six systems + a halo
+              </h3>
+              <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {SYSTEM_IDS.map((id) => (
+                  <SystemTile key={id} id={id} level={evaluation.bySystem[id]} />
+                ))}
+              </div>
+              <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/[0.06] px-3 py-2.5 text-caption leading-relaxed text-amber-100/75">
+                Mars escalation: local protocol first. The flight surgeon packet waits for the next
+                communication window.
+              </div>
             </div>
           </div>
         </section>
@@ -638,7 +638,7 @@ function SystemTile({ id, level }: { id: SystemId; level: Level }) {
 function AssessmentCard({ assessment }: { assessment: Assessment }) {
   return (
     <article
-      className="mt-5 rounded-2xl border p-4"
+      className="rounded-2xl border p-4"
       style={{
         borderColor: `${LEVEL_COLOR[assessment.level]}55`,
         background: LEVEL_BG[assessment.level],
