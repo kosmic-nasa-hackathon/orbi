@@ -2,6 +2,7 @@ import clsx from "clsx";
 import {
   Activity,
   Battery,
+  ChevronDown,
   HeartPulse,
   Orbit,
   Pause,
@@ -136,7 +137,7 @@ export default function Eva() {
             <Orbit className="h-4 w-4" aria-hidden="true" />
           </span>
           <div>
-            <p className="font-mono text-[9px] tracking-[0.22em] text-cyan-300/60 uppercase">
+            <p className="font-mono text-[11px] tracking-[0.22em] text-cyan-300/60 uppercase">
               NASA Space Apps 2026 · Kosmic
             </p>
             <h1 className="mt-1 font-display text-3xl font-semibold tracking-[-0.035em]">
@@ -148,7 +149,7 @@ export default function Eva() {
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 font-mono text-[9px] tracking-[0.12em] text-white/50 uppercase">
+          <span className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 font-mono text-[11px] tracking-[0.12em] text-white/50 uppercase">
             Simulation · day {day} · Mars
           </span>
           <SyncBadge link={state.link} age={linkAge} />
@@ -255,18 +256,22 @@ export default function Eva() {
             disabled={paused}
           />
 
-          <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-white/45">
+          <details open className="group rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between">
+              <h2 className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/45">
+                <ChevronDown
+                  className="h-3.5 w-3.5 -rotate-90 transition-transform group-open:rotate-0"
+                  aria-hidden="true"
+                />
                 Suit telemetry
               </h2>
               <span
-                className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wide"
+                className="rounded-full px-2 py-0.5 text-[11px] uppercase tracking-wide"
                 style={{ color: LEVEL_COLOR[topLevel], background: LEVEL_BG[topLevel] }}
               >
                 {LEVEL_LABEL[topLevel]}
               </span>
-            </div>
+            </summary>
             <div className="mt-3 grid grid-cols-2 gap-2">
               <Telemetry
                 icon={HeartPulse}
@@ -285,14 +290,26 @@ export default function Eva() {
                 value={`${Math.round(state.telemetry.o2Pct)}%`}
               />
             </div>
-            <p className="mt-3 rounded-lg border border-white/10 bg-black/20 px-2.5 py-2 text-[10px] leading-relaxed text-white/40">
+            <p className="mt-3 rounded-lg border border-white/10 bg-black/20 px-2.5 py-2 text-[11px] leading-relaxed text-white/40">
               EVA exertion is simulated. Clinical level still comes from the deterministic engine.
             </p>
-          </section>
+          </details>
 
-          <section className="min-h-[220px] flex-1 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <AuditLog entries={state.audit} />
-          </section>
+          <details
+            open
+            className="group flex-1 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
+          >
+            <summary className="flex cursor-pointer list-none items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/45">
+              <ChevronDown
+                className="h-3.5 w-3.5 -rotate-90 transition-transform group-open:rotate-0"
+                aria-hidden="true"
+              />
+              Audit log
+            </summary>
+            <div className="mt-3 min-h-[180px]">
+              <AuditLog entries={state.audit} />
+            </div>
+          </details>
         </div>
       </div>
 
@@ -375,7 +392,7 @@ export default function Eva() {
             </button>
           </div>
         </div>
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[10px] text-white/30">
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-white/30">
           <span>
             Deterministic EVA simulation · synthetic data · no real suit, no diagnosis, no
             treatment.
@@ -409,9 +426,9 @@ function Metric({
 
   return (
     <div className={clsx("rounded-2xl border p-3", style)}>
-      <p className="text-[10px] uppercase tracking-wide text-white/40">{label}</p>
+      <p className="text-[11px] uppercase tracking-wide text-white/40">{label}</p>
       <p className="mt-0.5 text-lg font-semibold tabular-nums">{value}</p>
-      <p className="text-[10px] text-white/40">{detail}</p>
+      <p className="text-[11px] text-white/40">{detail}</p>
     </div>
   );
 }
@@ -432,7 +449,7 @@ function Panel({
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <div>
           <h2 className="text-sm font-medium text-white/80">{title}</h2>
-          <p className="text-[10px] text-white/35">{subtitle}</p>
+          <p className="text-[11px] text-white/35">{subtitle}</p>
         </div>
         {legend}
       </div>
@@ -443,7 +460,7 @@ function Panel({
 
 function Legend({ items }: { items: { color: string; label: string }[] }) {
   return (
-    <div className="flex flex-wrap items-center gap-2 text-[9px] uppercase tracking-wide text-white/35">
+    <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wide text-white/35">
       {items.map((item) => (
         <span key={item.label} className="inline-flex items-center gap-1">
           <span className={clsx("h-1.5 w-1.5 rounded-full", item.color)} />
@@ -465,7 +482,7 @@ function Telemetry({
 }) {
   return (
     <div className="rounded-xl border border-white/10 bg-black/20 p-2.5">
-      <p className="flex items-center gap-1 text-[9px] uppercase tracking-wide text-white/35">
+      <p className="flex items-center gap-1 text-[11px] uppercase tracking-wide text-white/35">
         <Icon className="h-3 w-3" aria-hidden="true" />
         {label}
       </p>
