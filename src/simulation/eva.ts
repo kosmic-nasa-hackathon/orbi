@@ -419,9 +419,11 @@ export function returnGuidance(state: EvaState): ReturnGuidance {
 }
 
 export function formatEta(seconds: number): string {
-  if (seconds <= 0) return "0 s";
-  if (seconds < 60) return `${Math.round(seconds)} s`;
-  const minutes = Math.floor(seconds / 60);
-  const rest = Math.round(seconds % 60);
+  // Round first: splitting 119.7 s before rounding gives "1:60".
+  const total = Math.round(seconds);
+  if (total <= 0) return "0 s";
+  if (total < 60) return `${total} s`;
+  const minutes = Math.floor(total / 60);
+  const rest = total % 60;
   return `${minutes}:${String(rest).padStart(2, "0")}`;
 }

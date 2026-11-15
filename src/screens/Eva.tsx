@@ -50,14 +50,27 @@ const evaConfig: EvaConfig = {
   clinicalLabel: topAssessment?.title ?? "All systems nominal",
 };
 
+/** Seconds requested by a `?t=` deep link, or null without one. */
+function deepLinkSeconds(): number | null {
+  if (typeof window === "undefined") return null;
+  const requested = Number(new URLSearchParams(window.location.search).get("t"));
+  return Number.isFinite(requested) && requested > 0 ? requested : null;
+}
+
+/** A deep link pre-advances the demo with auto-return on, so the controls must start the same way. */
+const DEEP_LINK_AUTO_RETURN = true;
+
 function initialEvaState(): ReturnType<typeof createEvaState> {
   const base = createEvaState(evaConfig);
-  if (typeof window === "undefined") return base;
-  const requested = Number(new URLSearchParams(window.location.search).get("t"));
-  if (!Number.isFinite(requested) || requested <= 0) return base;
+  const requested = deepLinkSeconds();
+  if (requested === null) return base;
 
   let state = base;
-  const controls = { link: "auto" as LinkControl, returnRequested: false, autoReturn: true };
+  const controls = {
+    link: "auto" as LinkControl,
+    returnRequested: false,
+    autoReturn: DEEP_LINK_AUTO_RETURN,
+  };
   for (let elapsed = 0; elapsed < Math.min(requested, 47); elapsed += 0.1) {
     state = stepEva(state, 0.1, controls);
   }
@@ -69,7 +82,9 @@ export default function Eva() {
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [linkControl, setLinkControl] = useState<LinkControl>("auto");
-  const [autoReturn, setAutoReturn] = useState(false);
+  const [autoReturn, setAutoReturn] = useState(() =>
+    deepLinkSeconds() === null ? false : DEEP_LINK_AUTO_RETURN,
+  );
   const [returnRequested, setReturnRequested] = useState(false);
 
   const controlsRef = useRef({ link: linkControl, returnRequested, autoReturn });
