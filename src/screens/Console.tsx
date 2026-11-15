@@ -77,7 +77,7 @@ export default function Console() {
             <h1 className="mt-1 font-display text-3xl font-semibold tracking-[-0.035em]">
               Engine console
             </h1>
-            <p className="mt-1 text-sm text-white/45">
+            <p className="mt-1 text-sm text-muted">
               Deterministic rules, scenarios and the facts the coach can use.
             </p>
           </div>
@@ -120,7 +120,7 @@ export default function Console() {
         className="flex flex-col gap-5"
       >
         <section className="grid gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4 lg:grid-cols-[1.2fr_0.9fr_1fr]">
-          <label className="flex flex-col gap-1.5 font-mono text-[11px] tracking-[0.14em] text-white/40 uppercase">
+          <label className="flex flex-col gap-1.5 font-mono text-[11px] tracking-[0.14em] text-faint uppercase">
             Scenario
             <select
               className="rounded-lg border border-white/10 bg-[#0b111c] px-3 py-2 font-sans text-sm tracking-normal text-white normal-case"
@@ -134,7 +134,7 @@ export default function Console() {
               ))}
             </select>
           </label>
-          <div className="flex flex-col gap-1.5 font-mono text-[11px] tracking-[0.14em] text-white/40 uppercase">
+          <div className="flex flex-col gap-1.5 font-mono text-[11px] tracking-[0.14em] text-faint uppercase">
             Mission
             <div className="flex gap-1">
               {MISSIONS.map((m) => (
@@ -153,7 +153,7 @@ export default function Console() {
               ))}
             </div>
           </div>
-          <label className="flex flex-col gap-1.5 font-mono text-[11px] tracking-[0.14em] text-white/40 uppercase">
+          <label className="flex flex-col gap-1.5 font-mono text-[11px] tracking-[0.14em] text-faint uppercase">
             Mission day <span className="text-white/80">{day}</span>
             <input
               type="range"
@@ -188,7 +188,7 @@ export default function Console() {
                       </span>
                     </div>
                     <p className="mt-1 text-sm font-medium">{SYSTEM_INFO[id].label}</p>
-                    <p className="text-[11px] text-white/45">{SYSTEM_INFO[id].short}</p>
+                    <p className="text-[11px] text-muted">{SYSTEM_INFO[id].short}</p>
                   </div>
                 );
               })}
@@ -254,7 +254,7 @@ export default function Console() {
                     {assessment.escalation.now}
                     {assessment.escalation.next ? ` → ${assessment.escalation.next}` : ""}
                   </p>
-                  <p className="mt-1 text-[11px] text-white/40">{assessment.source[0]?.label}</p>
+                  <p className="mt-1 text-[11px] text-faint">{assessment.source[0]?.label}</p>
                 </article>
               ))}
             </div>
@@ -270,11 +270,11 @@ export default function Console() {
           <div className="mt-3 grid gap-2 md:grid-cols-2">
             {evaluation.facts.map((fact) => (
               <div key={fact.id} className="rounded-xl border border-white/[0.08] bg-black/20 p-3">
-                <p className="font-mono text-[11px] tracking-[0.12em] text-white/40 uppercase">
+                <p className="font-mono text-[11px] tracking-[0.12em] text-faint uppercase">
                   {fact.label}
                 </p>
                 <p className="mt-1 text-xs text-white/65">{fact.value}</p>
-                {fact.source && <p className="mt-1 text-[11px] text-white/30">{fact.source}</p>}
+                {fact.source && <p className="mt-1 text-[11px] text-faint">{fact.source}</p>}
               </div>
             ))}
           </div>
@@ -291,7 +291,7 @@ export default function Console() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border border-white/[0.08] bg-black/20 p-2.5">
-      <p className="font-mono text-[11px] tracking-[0.12em] text-white/35 uppercase">{label}</p>
+      <p className="font-mono text-[11px] tracking-[0.12em] text-faint uppercase">{label}</p>
       <p className="mt-0.5 font-mono text-sm font-medium text-white/85 tabular-nums">{value}</p>
     </div>
   );

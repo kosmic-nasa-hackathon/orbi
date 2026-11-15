@@ -156,9 +156,9 @@ export default function Eva() {
               NASA Space Apps 2026 · Kosmic
             </p>
             <h1 className="mt-1 font-display text-3xl font-semibold tracking-[-0.035em]">
-              EVA autonomy <span className="text-white/35">· suit demo</span>
+              EVA autonomy <span className="text-faint">· suit demo</span>
             </h1>
-            <p className="mt-1 text-sm text-white/45">
+            <p className="mt-1 text-sm text-muted">
               When the link disappears, the suit keeps deciding.
             </p>
           </div>
@@ -273,7 +273,7 @@ export default function Eva() {
 
           <details open className="group rounded-2xl border border-white/10 bg-white/[0.03] p-4">
             <summary className="flex cursor-pointer list-none items-center justify-between">
-              <h2 className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/45">
+              <h2 className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-muted">
                 <ChevronDown
                   className="h-3.5 w-3.5 -rotate-90 transition-transform group-open:rotate-0"
                   aria-hidden="true"
@@ -305,7 +305,7 @@ export default function Eva() {
                 value={`${Math.round(state.telemetry.o2Pct)}%`}
               />
             </div>
-            <p className="mt-3 rounded-lg border border-white/10 bg-black/20 px-2.5 py-2 text-[11px] leading-relaxed text-white/40">
+            <p className="mt-3 rounded-lg border border-white/10 bg-black/20 px-2.5 py-2 text-[11px] leading-relaxed text-faint">
               EVA exertion is simulated. Clinical level still comes from the deterministic engine.
             </p>
           </details>
@@ -314,7 +314,7 @@ export default function Eva() {
             open
             className="group flex-1 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
           >
-            <summary className="flex cursor-pointer list-none items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/45">
+            <summary className="flex cursor-pointer list-none items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-muted">
               <ChevronDown
                 className="h-3.5 w-3.5 -rotate-90 transition-transform group-open:rotate-0"
                 aria-hidden="true"
@@ -348,7 +348,7 @@ export default function Eva() {
                     "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] transition",
                     linkControl === item.id
                       ? "bg-cyan-400/15 text-cyan-100"
-                      : "text-white/45 hover:text-white/75",
+                      : "text-muted hover:text-white/75",
                   )}
                 >
                   <Icon className="h-3.5 w-3.5" aria-hidden="true" />
@@ -376,7 +376,7 @@ export default function Eva() {
                 onClick={() => setSpeed(value)}
                 className={clsx(
                   "rounded-lg px-2.5 py-1.5 text-[11px] tabular-nums transition",
-                  speed === value ? "bg-cyan-400/15 text-cyan-100" : "text-white/45",
+                  speed === value ? "bg-cyan-400/15 text-cyan-100" : "text-muted",
                 )}
               >
                 {value}×
@@ -407,7 +407,7 @@ export default function Eva() {
             </button>
           </div>
         </div>
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-white/30">
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-faint">
           <span>
             Deterministic EVA simulation · synthetic data · no real suit, no diagnosis, no
             treatment.
@@ -441,9 +441,9 @@ function Metric({
 
   return (
     <div className={clsx("rounded-2xl border p-3", style)}>
-      <p className="text-[11px] uppercase tracking-wide text-white/40">{label}</p>
+      <p className="text-[11px] uppercase tracking-wide text-faint">{label}</p>
       <p className="mt-0.5 text-lg font-semibold tabular-nums">{value}</p>
-      <p className="text-[11px] text-white/40">{detail}</p>
+      <p className="text-[11px] text-faint">{detail}</p>
     </div>
   );
 }
@@ -464,7 +464,7 @@ function Panel({
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <div>
           <h2 className="text-sm font-medium text-white/80">{title}</h2>
-          <p className="text-[11px] text-white/35">{subtitle}</p>
+          <p className="text-[11px] text-faint">{subtitle}</p>
         </div>
         {legend}
       </div>
@@ -475,7 +475,7 @@ function Panel({
 
 function Legend({ items }: { items: { color: string; label: string }[] }) {
   return (
-    <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wide text-white/35">
+    <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wide text-faint">
       {items.map((item) => (
         <span key={item.label} className="inline-flex items-center gap-1">
           <span className={clsx("h-1.5 w-1.5 rounded-full", item.color)} />
@@ -497,7 +497,7 @@ function Telemetry({
 }) {
   return (
     <div className="rounded-xl border border-white/10 bg-black/20 p-2.5">
-      <p className="flex items-center gap-1 text-[11px] uppercase tracking-wide text-white/35">
+      <p className="flex items-center gap-1 text-[11px] uppercase tracking-wide text-faint">
         <Icon className="h-3 w-3" aria-hidden="true" />
         {label}
       </p>
