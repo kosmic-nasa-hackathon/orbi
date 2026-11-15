@@ -42,7 +42,8 @@ Each astronaut's baseline is learned **during ground training** and **takes the 
   (`docs/resources/08` and `09`)
 - ⏳ P3 · Engine: 90-day baseline, `cycle-aware`, `luteal-phase`, 5 scenarios and 4 correlations
 - ✅ F0 design foundation: light/dark theme, switch, tokens, primitives, nav and store (PR #36)
-- ⏳ P3 (baseline + cycle), Body/Decision, Trends and Mission Control (Today shipped in #58)
+- ✅ Daily flow: Check-in → Body (2D, optional 3D) → What to do, plus Trends
+- ⏳ P3 (baseline + cycle) and Mission Control (hidden until built)
 
 The current code still uses a 14-day baseline, 3 correlations and 4 scenarios; P3 closes the gap.
 
