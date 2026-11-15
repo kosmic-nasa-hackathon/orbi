@@ -32,6 +32,7 @@ export const REPRODUCTIVE_PREVIEW: {
   safety: string;
   privacy: string;
   pending: string;
+  trend: string;
 } = {
   title: "Reproductive & hormonal",
   level: "WATCH",
@@ -81,4 +82,6 @@ export const REPRODUCTIVE_PREVIEW: {
   privacy: "The detail stays on board. Mission Control gets the conclusion unless you share more.",
   pending:
     "Demo values: this system is not in the engine yet, and its rules need sourced thresholds first.",
+  trend:
+    "No trend yet. Once the engine tracks this system, this tab will chart the pill reserve against the mission days left, and the bleeding and symptoms you log.",
 };

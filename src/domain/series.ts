@@ -1,16 +1,26 @@
-import { computeBaseline } from "./baseline";
+import { computeBaseline, type Stat } from "./baseline";
 import { THRESHOLDS } from "./rules";
 import type { Level, Scenario, SystemId } from "./types";
 
-export type VitalField = "sleepHours" | "restingHr" | "tempC" | "spo2" | "glucoseMgDl";
+export type VitalField =
+  | "sleepHours"
+  | "restingHr"
+  | "tempC"
+  | "spo2"
+  | "glucoseMgDl"
+  | "resistiveExerciseMin";
 
-/** The vital that tracks each system on the chart. Bone and radiation have no daily vital. */
+/**
+ * The daily signal that tracks each system on the chart. Bone loss cannot be measured in flight,
+ * so Musculoskeletal charts its countermeasure, resistive exercise. Radiation has no daily vital.
+ */
 export const SYSTEM_VITAL: Partial<Record<SystemId, VitalField>> = {
   immune: "tempC",
   cardio: "restingHr",
   respiratory: "spo2",
   metabolic: "glucoseMgDl",
   behavioral: "sleepHours",
+  msk: "resistiveExerciseMin",
 };
 
 export type SeriesPhase = "training" | "mission";
@@ -37,7 +47,7 @@ export interface VitalSeries {
 }
 
 /** Absolute thresholds from rules.ts, shown as reference lines. Baseline-relative rules are not drawn. */
-const REFERENCES: Record<VitalField, ReferenceLine[]> = {
+const REFERENCES: Record<Exclude<VitalField, "resistiveExerciseMin">, ReferenceLine[]> = {
   tempC: [
     { label: "Watch", value: THRESHOLDS.tempC.watch, level: "WATCH" },
     { label: "Concern", value: THRESHOLDS.tempC.concern, level: "CONCERN" },
@@ -65,7 +75,8 @@ export function buildSeries(
   { missionDays = 30, sigmas = 1 }: { missionDays?: number; sigmas?: number } = {},
 ): VitalSeries {
   const baseline = computeBaseline(scenario.readings);
-  const { mean, sd } = baseline[field];
+  const { mean, sd } =
+    field === "resistiveExerciseMin" ? exerciseBaseline(scenario) : baseline[field];
   const low = mean - sigmas * sd;
   const high = mean + sigmas * sd;
 
@@ -73,7 +84,7 @@ export function buildSeries(
     .filter((reading) => reading.day < 0 || (reading.day <= day && reading.day > day - missionDays))
     .sort((a, b) => a.day - b.day)
     .map((reading): SeriesPoint => {
-      const value = reading[field];
+      const value = reading[field] ?? 0;
       return {
         day: reading.day,
         value,
@@ -86,6 +97,23 @@ export function buildSeries(
     field,
     points,
     normal: { mean, low, high, sigmas, n: baseline.n },
-    references: REFERENCES[field],
+    references:
+      field === "resistiveExerciseMin"
+        ? [{ label: "Target", value: scenario.exerciseTargetMinPerDay, level: "WATCH" }]
+        : REFERENCES[field],
   };
+}
+
+/** Exercise is not part of the engine baseline; same sample (pre-flight days), same formula. */
+function exerciseBaseline(scenario: Scenario): Stat {
+  const preflight = scenario.readings.filter((reading) => reading.day < 0);
+  const sample = (preflight.length >= 3 ? preflight : scenario.readings.slice(0, 14)).map(
+    (reading) => reading.resistiveExerciseMin ?? 0,
+  );
+  const mean = sample.reduce((a, b) => a + b, 0) / Math.max(sample.length, 1);
+  const sd =
+    sample.length > 1
+      ? Math.sqrt(sample.reduce((a, b) => a + (b - mean) ** 2, 0) / (sample.length - 1))
+      : 0;
+  return { mean, sd };
 }
