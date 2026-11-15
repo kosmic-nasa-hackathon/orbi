@@ -2,6 +2,7 @@ import clsx from "clsx";
 import {
   Activity,
   Battery,
+  ChevronDown,
   HeartPulse,
   Orbit,
   Pause,
@@ -50,14 +51,27 @@ const evaConfig: EvaConfig = {
   clinicalLabel: topAssessment?.title ?? "All systems nominal",
 };
 
+/** Seconds requested by a `?t=` deep link, or null without one. */
+function deepLinkSeconds(): number | null {
+  if (typeof window === "undefined") return null;
+  const requested = Number(new URLSearchParams(window.location.search).get("t"));
+  return Number.isFinite(requested) && requested > 0 ? requested : null;
+}
+
+/** A deep link pre-advances the demo with auto-return on, so the controls must start the same way. */
+const DEEP_LINK_AUTO_RETURN = true;
+
 function initialEvaState(): ReturnType<typeof createEvaState> {
   const base = createEvaState(evaConfig);
-  if (typeof window === "undefined") return base;
-  const requested = Number(new URLSearchParams(window.location.search).get("t"));
-  if (!Number.isFinite(requested) || requested <= 0) return base;
+  const requested = deepLinkSeconds();
+  if (requested === null) return base;
 
   let state = base;
-  const controls = { link: "auto" as LinkControl, returnRequested: false, autoReturn: true };
+  const controls = {
+    link: "auto" as LinkControl,
+    returnRequested: false,
+    autoReturn: DEEP_LINK_AUTO_RETURN,
+  };
   for (let elapsed = 0; elapsed < Math.min(requested, 47); elapsed += 0.1) {
     state = stepEva(state, 0.1, controls);
   }
@@ -69,7 +83,9 @@ export default function Eva() {
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [linkControl, setLinkControl] = useState<LinkControl>("auto");
-  const [autoReturn, setAutoReturn] = useState(false);
+  const [autoReturn, setAutoReturn] = useState(() =>
+    deepLinkSeconds() === null ? false : DEEP_LINK_AUTO_RETURN,
+  );
   const [returnRequested, setReturnRequested] = useState(false);
 
   const controlsRef = useRef({ link: linkControl, returnRequested, autoReturn });
@@ -136,19 +152,19 @@ export default function Eva() {
             <Orbit className="h-4 w-4" aria-hidden="true" />
           </span>
           <div>
-            <p className="font-mono text-[9px] tracking-[0.22em] text-cyan-300/60 uppercase">
+            <p className="font-mono text-[11px] tracking-[0.22em] text-cyan-300/60 uppercase">
               NASA Space Apps 2026 · Kosmic
             </p>
             <h1 className="mt-1 font-display text-3xl font-semibold tracking-[-0.035em]">
-              EVA autonomy <span className="text-white/35">· suit demo</span>
+              EVA autonomy <span className="text-faint">· suit demo</span>
             </h1>
-            <p className="mt-1 text-sm text-white/45">
+            <p className="mt-1 text-sm text-muted">
               When the link disappears, the suit keeps deciding.
             </p>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 font-mono text-[9px] tracking-[0.12em] text-white/50 uppercase">
+          <span className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 font-mono text-[11px] tracking-[0.12em] text-white/50 uppercase">
             Simulation · day {day} · Mars
           </span>
           <SyncBadge link={state.link} age={linkAge} />
@@ -161,7 +177,7 @@ export default function Eva() {
             <WifiOff className="h-4 w-4" aria-hidden="true" />
             NO SYNC — suit is on local autonomy
           </span>
-          <span className="text-[11px] text-red-100/70">
+          <span className="text-caption text-red-100/70">
             {state.outbox} events queued · inertial drift ±{state.drift.toFixed(1)} m
           </span>
         </div>
@@ -173,7 +189,7 @@ export default function Eva() {
             <Timer className="h-4 w-4" aria-hidden="true" />
             Inertial return active — follow the dashed line to the airlock
           </span>
-          <span className="text-[11px] text-cyan-100/70">
+          <span className="text-caption text-cyan-100/70">
             {Math.round(guidance.distanceM)} m · ETA {Math.round(guidance.etaSeconds)} s
           </span>
         </div>
@@ -255,18 +271,22 @@ export default function Eva() {
             disabled={paused}
           />
 
-          <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-white/45">
+          <details open className="group rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between">
+              <h2 className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-muted">
+                <ChevronDown
+                  className="h-3.5 w-3.5 -rotate-90 transition-transform group-open:rotate-0"
+                  aria-hidden="true"
+                />
                 Suit telemetry
               </h2>
               <span
-                className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wide"
+                className="rounded-full px-2 py-0.5 text-[11px] uppercase tracking-wide"
                 style={{ color: LEVEL_COLOR[topLevel], background: LEVEL_BG[topLevel] }}
               >
                 {LEVEL_LABEL[topLevel]}
               </span>
-            </div>
+            </summary>
             <div className="mt-3 grid grid-cols-2 gap-2">
               <Telemetry
                 icon={HeartPulse}
@@ -285,20 +305,32 @@ export default function Eva() {
                 value={`${Math.round(state.telemetry.o2Pct)}%`}
               />
             </div>
-            <p className="mt-3 rounded-lg border border-white/10 bg-black/20 px-2.5 py-2 text-[10px] leading-relaxed text-white/40">
+            <p className="mt-3 rounded-lg border border-white/10 bg-black/20 px-2.5 py-2 text-caption leading-relaxed text-faint">
               EVA exertion is simulated. Clinical level still comes from the deterministic engine.
             </p>
-          </section>
+          </details>
 
-          <section className="min-h-[220px] flex-1 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <AuditLog entries={state.audit} />
-          </section>
+          <details
+            open
+            className="group flex-1 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
+          >
+            <summary className="flex cursor-pointer list-none items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-muted">
+              <ChevronDown
+                className="h-3.5 w-3.5 -rotate-90 transition-transform group-open:rotate-0"
+                aria-hidden="true"
+              />
+              Audit log
+            </summary>
+            <div className="mt-3 min-h-[180px]">
+              <AuditLog entries={state.audit} />
+            </div>
+          </details>
         </div>
       </div>
 
       <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-3">
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-black/20 p-1">
+          <div className="flex flex-wrap items-center gap-1 rounded-xl border border-white/10 bg-black/20 p-1">
             {(
               [
                 { id: "auto", label: "Auto timeline", icon: Radio },
@@ -313,10 +345,10 @@ export default function Eva() {
                   type="button"
                   onClick={() => setLinkControl(item.id)}
                   className={clsx(
-                    "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] transition",
+                    "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-caption transition",
                     linkControl === item.id
                       ? "bg-cyan-400/15 text-cyan-100"
-                      : "text-white/45 hover:text-white/75",
+                      : "text-muted hover:text-white/75",
                   )}
                 >
                   <Icon className="h-3.5 w-3.5" aria-hidden="true" />
@@ -326,7 +358,7 @@ export default function Eva() {
             })}
           </div>
 
-          <label className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-[11px] text-white/55">
+          <label className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-caption text-white/55">
             <input
               type="checkbox"
               checked={autoReturn}
@@ -336,15 +368,15 @@ export default function Eva() {
             Auto-return after 10 s lost
           </label>
 
-          <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-black/20 p-1">
+          <div className="flex flex-wrap items-center gap-1 rounded-xl border border-white/10 bg-black/20 p-1">
             {[1, 2, 4].map((value) => (
               <button
                 key={value}
                 type="button"
                 onClick={() => setSpeed(value)}
                 className={clsx(
-                  "rounded-lg px-2.5 py-1.5 text-[11px] tabular-nums transition",
-                  speed === value ? "bg-cyan-400/15 text-cyan-100" : "text-white/45",
+                  "rounded-lg px-2.5 py-1.5 text-caption tabular-nums transition",
+                  speed === value ? "bg-cyan-400/15 text-cyan-100" : "text-muted",
                 )}
               >
                 {value}×
@@ -356,7 +388,7 @@ export default function Eva() {
             <button
               type="button"
               onClick={() => setPaused((value) => !value)}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-[11px] text-white/65 hover:text-white/90"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-caption text-white/65 hover:text-white/90"
             >
               {paused ? (
                 <Play className="h-3.5 w-3.5" aria-hidden="true" />
@@ -368,14 +400,14 @@ export default function Eva() {
             <button
               type="button"
               onClick={reset}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-[11px] text-white/65 hover:text-white/90"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-caption text-white/65 hover:text-white/90"
             >
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
               Reset
             </button>
           </div>
         </div>
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[10px] text-white/30">
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-caption text-faint">
           <span>
             Deterministic EVA simulation · synthetic data · no real suit, no diagnosis, no
             treatment.
@@ -409,9 +441,9 @@ function Metric({
 
   return (
     <div className={clsx("rounded-2xl border p-3", style)}>
-      <p className="text-[10px] uppercase tracking-wide text-white/40">{label}</p>
+      <p className="text-[11px] uppercase tracking-wide text-faint">{label}</p>
       <p className="mt-0.5 text-lg font-semibold tabular-nums">{value}</p>
-      <p className="text-[10px] text-white/40">{detail}</p>
+      <p className="text-caption text-faint">{detail}</p>
     </div>
   );
 }
@@ -432,7 +464,7 @@ function Panel({
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <div>
           <h2 className="text-sm font-medium text-white/80">{title}</h2>
-          <p className="text-[10px] text-white/35">{subtitle}</p>
+          <p className="text-caption text-faint">{subtitle}</p>
         </div>
         {legend}
       </div>
@@ -443,7 +475,7 @@ function Panel({
 
 function Legend({ items }: { items: { color: string; label: string }[] }) {
   return (
-    <div className="flex flex-wrap items-center gap-2 text-[9px] uppercase tracking-wide text-white/35">
+    <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wide text-faint">
       {items.map((item) => (
         <span key={item.label} className="inline-flex items-center gap-1">
           <span className={clsx("h-1.5 w-1.5 rounded-full", item.color)} />
@@ -465,7 +497,7 @@ function Telemetry({
 }) {
   return (
     <div className="rounded-xl border border-white/10 bg-black/20 p-2.5">
-      <p className="flex items-center gap-1 text-[9px] uppercase tracking-wide text-white/35">
+      <p className="flex items-center gap-1 text-[11px] uppercase tracking-wide text-faint">
         <Icon className="h-3 w-3" aria-hidden="true" />
         {label}
       </p>

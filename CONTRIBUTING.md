@@ -80,7 +80,8 @@ If you need to change them, say so in the team channel before opening the PR and
 - The engine does not diagnose: it prioritizes, explains and escalates.
 - Every threshold has a source and a `verified` flag in `src/domain/rules.ts`. Do not invent numbers.
 - Colour is never the only signal: colour + icon + text.
-- No backend, database, auth, decision ML, computer vision or 3D.
+- No backend, database, auth, decision ML or computer vision. 3D only as the optional, lazy-loaded
+  Body view; the 2D SVG stays the default and the fallback.
 
 ## Commits
 

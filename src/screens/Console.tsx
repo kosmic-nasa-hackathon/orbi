@@ -1,4 +1,4 @@
-import { SquareTerminal } from "lucide-react";
+import { SquareTerminal, TriangleAlert } from "lucide-react";
 import { useMemo, useState } from "react";
 import { askCoach } from "../ai/coach";
 import { createTemplateCoach } from "../ai/providers/template";
@@ -9,14 +9,21 @@ import { LEVEL_BG, LEVEL_COLOR, SYSTEM_INFO } from "../content/systems";
 import { scenarios } from "../data/scenarios";
 import { evaluate } from "../domain/evaluate";
 import { LEVEL_LABEL } from "../domain/levels";
+import { SOURCES } from "../domain/rules";
 import { type Mission, SYSTEM_IDS } from "../domain/types";
 
 const MISSIONS: Mission[] = ["ISS", "MOON", "MARS"];
 
-const CONSOLE_TABS: { id: "overview" | "rule-flow"; label: string }[] = [
+type ConsoleTab = "overview" | "facts" | "rule-flow";
+
+const CONSOLE_TABS: { id: ConsoleTab; label: string }[] = [
   { id: "overview", label: "Overview" },
+  { id: "facts", label: "Facts" },
   { id: "rule-flow", label: "Rule flow" },
 ];
+
+const TOTAL_SOURCES = Object.keys(SOURCES).length;
+const PENDING_SOURCES = Object.values(SOURCES).filter((source) => !source.verified).length;
 
 function latencyLabel(seconds: number): string {
   if (seconds < 1) return "0 s";
@@ -32,7 +39,7 @@ export default function Console() {
   const [mission, setMission] = useState<Mission>("MARS");
   const [coachText, setCoachText] = useState<string | null>(null);
   const [coachBusy, setCoachBusy] = useState(false);
-  const [tab, setTab] = useState<"overview" | "rule-flow">("overview");
+  const [tab, setTab] = useState<ConsoleTab>("overview");
 
   const evaluation = useMemo(() => evaluate(scenario, day, mission), [scenario, day, mission]);
   const reading = scenario.readings.filter((r) => r.day <= day).at(-1);
@@ -64,18 +71,18 @@ export default function Console() {
             <SquareTerminal className="h-4 w-4" aria-hidden="true" />
           </span>
           <div>
-            <p className="font-mono text-[9px] tracking-[0.22em] text-cyan-300/60 uppercase">
+            <p className="font-mono text-[11px] tracking-[0.22em] text-cyan-300/60 uppercase">
               NASA Space Apps 2026 · Kosmic
             </p>
             <h1 className="mt-1 font-display text-3xl font-semibold tracking-[-0.035em]">
               Engine console
             </h1>
-            <p className="mt-1 text-sm text-white/45">
+            <p className="mt-1 text-sm text-muted">
               Deterministic rules, scenarios and the facts the coach can use.
             </p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2 font-mono text-[9px] tracking-[0.12em] uppercase">
+        <div className="flex flex-wrap gap-2 font-mono text-[11px] tracking-[0.12em] uppercase">
           <span className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-white/60">
             Day {day} · {reading?.day === day ? "check-in loaded" : "no reading"}
           </span>
@@ -93,7 +100,18 @@ export default function Console() {
           value={tab}
           onChange={setTab}
         />
-        <p className="font-mono text-label text-faint uppercase">Signal → rule → level → action</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <p
+            className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/30 bg-amber-300/[0.08] px-2.5 py-1 font-mono text-[11px] tracking-[0.08em] text-amber-100/90 uppercase"
+            title="Thresholds whose primary source is still being checked (src/domain/rules.ts)"
+          >
+            <TriangleAlert className="h-3 w-3" aria-hidden="true" />
+            {PENDING_SOURCES} of {TOTAL_SOURCES} sources pending verification
+          </p>
+          <p className="font-mono text-label text-faint uppercase">
+            Signal → rule → level → action
+          </p>
+        </div>
       </div>
 
       <div
@@ -102,7 +120,7 @@ export default function Console() {
         className="flex flex-col gap-5"
       >
         <section className="grid gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4 lg:grid-cols-[1.2fr_0.9fr_1fr]">
-          <label className="flex flex-col gap-1.5 font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase">
+          <label className="flex flex-col gap-1.5 font-mono text-[11px] tracking-[0.14em] text-faint uppercase">
             Scenario
             <select
               className="rounded-lg border border-white/10 bg-[#0b111c] px-3 py-2 font-sans text-sm tracking-normal text-white normal-case"
@@ -116,7 +134,7 @@ export default function Console() {
               ))}
             </select>
           </label>
-          <div className="flex flex-col gap-1.5 font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase">
+          <div className="flex flex-col gap-1.5 font-mono text-[11px] tracking-[0.14em] text-faint uppercase">
             Mission
             <div className="flex gap-1">
               {MISSIONS.map((m) => (
@@ -135,7 +153,7 @@ export default function Console() {
               ))}
             </div>
           </div>
-          <label className="flex flex-col gap-1.5 font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase">
+          <label className="flex flex-col gap-1.5 font-mono text-[11px] tracking-[0.14em] text-faint uppercase">
             Mission day <span className="text-white/80">{day}</span>
             <input
               type="range"
@@ -165,12 +183,12 @@ export default function Console() {
                         className="h-2.5 w-2.5 rounded-full"
                         style={{ background: LEVEL_COLOR[level] }}
                       />
-                      <span className="font-mono text-[9px] tracking-[0.1em] text-white/55 uppercase">
+                      <span className="font-mono text-[11px] tracking-[0.1em] text-white/55 uppercase">
                         {LEVEL_LABEL[level]}
                       </span>
                     </div>
                     <p className="mt-1 text-sm font-medium">{SYSTEM_INFO[id].label}</p>
-                    <p className="text-[11px] text-white/45">{SYSTEM_INFO[id].short}</p>
+                    <p className="text-caption text-muted">{SYSTEM_INFO[id].short}</p>
                   </div>
                 );
               })}
@@ -194,7 +212,7 @@ export default function Console() {
                 type="button"
                 onClick={runCoach}
                 disabled={coachBusy}
-                className="rounded-lg border border-cyan-400/35 bg-cyan-400/[0.08] px-3 py-1.5 font-mono text-[9px] tracking-[0.08em] text-cyan-100 uppercase transition hover:bg-cyan-400/[0.14] disabled:opacity-50"
+                className="rounded-lg border border-cyan-400/35 bg-cyan-400/[0.08] px-3 py-1.5 font-mono text-[11px] tracking-[0.08em] text-cyan-100 uppercase transition hover:bg-cyan-400/[0.14] disabled:opacity-50"
               >
                 {coachBusy ? "Thinking…" : "Ask ORBI (on-device)"}
               </button>
@@ -221,7 +239,7 @@ export default function Console() {
                   <div className="flex items-center justify-between gap-2">
                     <p className="text-sm font-medium">{assessment.title}</p>
                     <span
-                      className="font-mono text-[9px] tracking-[0.1em] uppercase"
+                      className="font-mono text-[11px] tracking-[0.1em] uppercase"
                       style={{ color: LEVEL_COLOR[assessment.level] }}
                     >
                       {LEVEL_LABEL[assessment.level]}
@@ -236,13 +254,15 @@ export default function Console() {
                     {assessment.escalation.now}
                     {assessment.escalation.next ? ` → ${assessment.escalation.next}` : ""}
                   </p>
-                  <p className="mt-1 text-[11px] text-white/40">{assessment.source[0]?.label}</p>
+                  <p className="mt-1 text-caption text-faint">{assessment.source[0]?.label}</p>
                 </article>
               ))}
             </div>
           </section>
         </div>
+      </div>
 
+      <div {...tabPanelProps("console", "facts")} hidden={tab !== "facts"}>
         <section className="rounded-2xl border border-white/[0.08] bg-white/[0.022] p-4">
           <h2 className="font-display text-sm font-medium text-white/75">
             Facts consumed by the coach
@@ -250,11 +270,11 @@ export default function Console() {
           <div className="mt-3 grid gap-2 md:grid-cols-2">
             {evaluation.facts.map((fact) => (
               <div key={fact.id} className="rounded-xl border border-white/[0.08] bg-black/20 p-3">
-                <p className="font-mono text-[9px] tracking-[0.12em] text-white/40 uppercase">
+                <p className="font-mono text-[11px] tracking-[0.12em] text-faint uppercase">
                   {fact.label}
                 </p>
                 <p className="mt-1 text-xs text-white/65">{fact.value}</p>
-                {fact.source && <p className="mt-1 text-[10px] text-white/30">{fact.source}</p>}
+                {fact.source && <p className="mt-1 text-caption text-faint">{fact.source}</p>}
               </div>
             ))}
           </div>
@@ -264,11 +284,6 @@ export default function Console() {
       <div {...tabPanelProps("console", "rule-flow")} hidden={tab !== "rule-flow"}>
         <RuleFlow evaluation={evaluation} scenario={scenario} onScenarioChange={selectScenario} />
       </div>
-
-      <footer className="text-[11px] text-white/30">
-        Deterministic engine · no diagnosis, no treatment · demo data is synthetic. The EVA demo
-        shows the suit survive a loss of sync.
-      </footer>
     </div>
   );
 }
@@ -276,7 +291,7 @@ export default function Console() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border border-white/[0.08] bg-black/20 p-2.5">
-      <p className="font-mono text-[8px] tracking-[0.12em] text-white/35 uppercase">{label}</p>
+      <p className="font-mono text-[11px] tracking-[0.12em] text-faint uppercase">{label}</p>
       <p className="mt-0.5 font-mono text-sm font-medium text-white/85 tabular-nums">{value}</p>
     </div>
   );

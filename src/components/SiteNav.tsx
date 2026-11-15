@@ -8,7 +8,6 @@ import {
   Orbit,
   PersonStanding,
   Presentation,
-  RadioTower,
   Satellite,
   SquareTerminal,
   Stethoscope,
@@ -30,11 +29,10 @@ const MISSION_NAV: { view: MissionView; label: string; icon: LucideIcon }[] = [
   { view: "body", label: "Body", icon: PersonStanding },
   { view: "decision", label: "Decision", icon: Stethoscope },
   { view: "trends", label: "Trends", icon: ChartLine },
-  { view: "ground", label: "Mission Control", icon: RadioTower },
 ];
 
 const LINK_CLASS =
-  "inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-label font-medium text-muted transition-colors hover:bg-surface-strong hover:text-ink";
+  "inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 pointer-coarse:h-11 text-body font-medium text-muted transition-colors hover:bg-surface-strong hover:text-ink";
 
 export function SiteNav({
   current,
@@ -104,7 +102,7 @@ export function SiteNav({
                 )}
               >
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-                <span className="hidden sm:inline">{item.label}</span>
+                <span className="sr-only sm:not-sr-only">{item.label}</span>
               </button>
             );
           })}
@@ -112,7 +110,12 @@ export function SiteNav({
 
         <span className="mx-1 hidden h-5 w-px bg-line sm:block" />
 
-        <a href="/pitch/" className={LINK_CLASS} title="Open the pitch deck">
+        {/* Below sm the footer carries Pitch and GitHub, so the top row fits a 375 px phone. */}
+        <a
+          href="/pitch/"
+          className={cn(LINK_CLASS, "hidden sm:inline-flex")}
+          title="Open the pitch deck"
+        >
           <Presentation className="h-3.5 w-3.5" aria-hidden="true" />
           <span className="hidden lg:inline">Pitch</span>
           <ArrowUpRight className="h-3 w-3 text-faint" aria-hidden="true" />
@@ -121,7 +124,7 @@ export function SiteNav({
           href="https://github.com/kosmic-nasa-hackathon/orbi"
           target="_blank"
           rel="noreferrer"
-          className={LINK_CLASS}
+          className={cn(LINK_CLASS, "hidden sm:inline-flex")}
           title="Open the GitHub repository"
         >
           <GithubMark className="h-3.5 w-3.5" />
@@ -154,7 +157,7 @@ function MissionNav({
               onClick={() => onNavigate(item.view)}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "inline-flex h-9 shrink-0 items-center gap-2 rounded-lg px-3 text-caption font-medium transition-colors",
+                "inline-flex h-9 shrink-0 items-center gap-2 rounded-lg px-3 text-body font-medium transition-colors pointer-coarse:h-11",
                 active
                   ? "bg-surface-strong text-ink shadow-[inset_0_-2px_0_var(--orbi-accent)]"
                   : "text-muted hover:bg-surface-strong hover:text-ink",

@@ -1,29 +1,43 @@
 import {
+  Annoyed,
+  Battery,
+  BatteryFull,
+  BatteryLow,
+  BatteryMedium,
+  BatteryWarning,
   CircleCheck,
   CircleDashed,
   Flame,
+  Frown,
+  HeartPulse,
+  Laugh,
   Lock,
   type LucideIcon,
+  Meh,
+  Minus,
+  Moon,
+  Plus,
+  Smile,
+  Thermometer,
   TriangleAlert,
-  Watch,
+  Wind,
 } from "lucide-react";
-import { type FormEvent, type ReactNode, useId, useState } from "react";
+import { useReducedMotion } from "motion/react";
+import { type FormEvent, type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { DemoBar } from "../components/DemoBar";
+import { FlowSteps } from "../components/flow/FlowSteps";
+import { NextStep } from "../components/flow/NextStep";
 import { Reveal } from "../components/motion/Reveal";
-import { Badge, LevelBadge, type Tone } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
-import { Card } from "../components/ui/Card";
 import { cn } from "../components/ui/cn";
-import { Metric } from "../components/ui/Metric";
 import { Panel } from "../components/ui/Panel";
-import { LEVEL_HINT, maxLevel } from "../domain/levels";
-import type { DailyReading, Level } from "../domain/types";
+import type { DailyReading } from "../domain/types";
+import { goTo } from "../navigation";
 import {
   type CheckInStatus,
   GLUCOSE_INPUT_RANGE,
   type ManualEntry,
   type Score,
-  useEvaluation,
   useOrbiStore,
   useReading,
 } from "../store/orbiStore";
@@ -33,44 +47,24 @@ export type CycleStatus = "tracked" | "suppressed" | "n/a";
 
 const MISSION_LABEL = { ISS: "ISS", MOON: "Moon", MARS: "Mars" } as const;
 const SCORES: Score[] = [1, 2, 3, 4, 5];
-const MOOD_LABEL: Record<Score, string> = {
-  1: "Very low",
-  2: "Low",
-  3: "Okay",
-  4: "Good",
-  5: "Very good",
-};
-const FATIGUE_LABEL: Record<Score, string> = {
-  1: "Rested",
-  2: "Fresh",
-  3: "Tired",
-  4: "Very tired",
-  5: "Exhausted",
+const GLUCOSE_STEP = 5;
+/** Time the "Confirmed" tick stays on screen before moving to the Body step. */
+const ADVANCE_MS = 700;
+
+const MOOD: Record<Score, { label: string; icon: LucideIcon }> = {
+  1: { label: "Very low", icon: Frown },
+  2: { label: "Low", icon: Annoyed },
+  3: { label: "Okay", icon: Meh },
+  4: { label: "Good", icon: Smile },
+  5: { label: "Very good", icon: Laugh },
 };
 
-const STATUS: Record<
-  CheckInStatus,
-  { icon: LucideIcon; tone: Tone; badge: string; text: (day: number) => string }
-> = {
-  empty: {
-    icon: CircleDashed,
-    tone: "neutral",
-    badge: "Pending",
-    text: () => "Not confirmed yet",
-  },
-  confirmed: {
-    icon: CircleCheck,
-    tone: "nominal",
-    badge: "Confirmed",
-    text: (day) => `Check-in confirmed for day ${day}`,
-  },
-  error: {
-    icon: TriangleAlert,
-    tone: "concern",
-    badge: "Check input",
-    text: () =>
-      `Glucose must be a whole number from ${GLUCOSE_INPUT_RANGE.min} to ${GLUCOSE_INPUT_RANGE.max} mg/dL`,
-  },
+const FATIGUE: Record<Score, { label: string; icon: LucideIcon }> = {
+  1: { label: "Rested", icon: BatteryFull },
+  2: { label: "Fresh", icon: BatteryMedium },
+  3: { label: "Tired", icon: BatteryLow },
+  4: { label: "Very tired", icon: Battery },
+  5: { label: "Exhausted", icon: BatteryWarning },
 };
 
 // TODO(#12): read the crew profile once P3 adds it; until then the cycle field stays hidden.
@@ -82,49 +76,35 @@ export default function Today() {
 
 export function TodayScreen({ cycle }: { cycle: CycleStatus }) {
   const reading = useReading();
-  const evaluation = useEvaluation();
   const scenarioId = useOrbiStore((state) => state.scenarioId);
   const day = useOrbiStore((state) => state.day);
   const mission = useOrbiStore((state) => state.mission);
   const streak = useOrbiStore((state) => state.streak);
   const status = useOrbiStore((state) => state.checkInStatus);
-  const dayLevel = Object.values(evaluation.bySystem).reduce<Level>(maxLevel, "NOMINAL");
 
   return (
-    <div className="mx-auto flex max-w-[1180px] flex-col gap-6 px-4 py-8 sm:px-6">
+    <div className="mx-auto flex max-w-[960px] flex-col gap-6 px-4 py-6 sm:px-6">
       <DemoBar />
+      <FlowSteps current="today" />
 
-      <header className="flex flex-wrap items-end justify-between gap-4">
+      <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="font-mono text-label font-medium text-faint uppercase">
-            Mission day {day} · {MISSION_LABEL[mission]}
+            Day {day} · {MISSION_LABEL[mission]}
           </p>
-          <h1 className="mt-1 font-display text-headline font-semibold">Today's check-in</h1>
-          <p className="mt-1 text-lead text-muted">
-            About 90 seconds. Confirm what your wearable synced and add three quick answers.
+          <h1 className="mt-1 font-display text-headline font-semibold">Good morning</h1>
+          <p className="mt-1 text-lead text-muted">Your daily check. About 90 seconds.</p>
+        </div>
+        {streak > 0 && (
+          <p className="flex items-center gap-1.5 text-caption text-muted">
+            <Flame className="h-4 w-4 text-accent" aria-hidden="true" />
+            {streak}-day streak
           </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <Badge tone="accent">
-            <Flame className="h-3 w-3" aria-hidden="true" />
-            {streak === 0 ? "No streak yet" : `${streak}-day streak`}
-          </Badge>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-label text-faint uppercase">Today</span>
-            <LevelBadge level={dayLevel} />
-            <span className="text-caption text-muted">{LEVEL_HINT[dayLevel]}</span>
-          </div>
-        </div>
+        )}
       </header>
 
       {reading ? (
-        <CheckInForm
-          key={`${scenarioId}:${day}`}
-          reading={reading}
-          day={day}
-          status={status}
-          cycle={cycle}
-        />
+        <CheckInForm key={`${scenarioId}:${day}`} reading={reading} status={status} cycle={cycle} />
       ) : (
         <Panel>
           <p className="flex items-center gap-2 text-body text-muted">
@@ -139,23 +119,39 @@ export function TodayScreen({ cycle }: { cycle: CycleStatus }) {
 
 function CheckInForm({
   reading,
-  day,
   status,
   cycle,
 }: {
   reading: DailyReading;
-  day: number;
   status: CheckInStatus;
   cycle: CycleStatus;
 }) {
   const confirmCheckIn = useOrbiStore((state) => state.confirmCheckIn);
+  const reduce = useReducedMotion() ?? false;
   const [mood, setMood] = useState<Score>(reading.mood);
   const [fatigue, setFatigue] = useState<Score>(reading.fatigue);
   const [glucose, setGlucose] = useState(String(reading.glucoseMgDl));
   const [periodToday, setPeriodToday] = useState<boolean | undefined>(undefined);
+  const [advancing, setAdvancing] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const glucoseId = useId();
-  const statusView = STATUS[status];
-  const StatusIcon = statusView.icon;
+
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
+
+  function stepGlucose(delta: number) {
+    const current = Number(glucose);
+    const base = Number.isFinite(current) ? current : reading.glucoseMgDl;
+    const next = Math.min(
+      GLUCOSE_INPUT_RANGE.max,
+      Math.max(GLUCOSE_INPUT_RANGE.min, Math.round(base + delta)),
+    );
+    setGlucose(String(next));
+  }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -166,129 +162,179 @@ function CheckInForm({
       glucoseMgDl: trimmed === "" ? Number.NaN : Number(trimmed),
     };
     if (cycle === "tracked" && periodToday !== undefined) manual.periodToday = periodToday;
-    confirmCheckIn(manual);
+    if (!confirmCheckIn(manual)) return;
+    setAdvancing(true);
+    timer.current = setTimeout(() => goTo("body"), reduce ? 0 : ADVANCE_MS);
   }
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-6" noValidate>
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Reveal>
-          <Panel
-            kicker="Automatic · 4 fields"
-            title="Synced from wearable"
-            actions={
-              <Badge tone="neutral">
-                <Watch className="h-3 w-3" aria-hidden="true" />
-                Read-only
-              </Badge>
-            }
-            className="h-full"
+      <Reveal>
+        <section aria-labelledby={`${glucoseId}-synced`} className="flex flex-col gap-3">
+          <h2
+            id={`${glucoseId}-synced`}
+            className="flex items-center gap-2 text-body font-semibold"
           >
-            <div className="grid grid-cols-2 gap-3">
-              <Card>
-                <Metric label="Sleep" value={reading.sleepHours.toFixed(1)} unit="h" />
-              </Card>
-              <Card>
-                <Metric label="Resting HR" value={reading.restingHr} unit="bpm" />
-              </Card>
-              <Card>
-                <Metric label="Temperature" value={reading.tempC.toFixed(1)} unit="°C" />
-              </Card>
-              <Card>
-                <Metric label="SpO₂" value={reading.spo2} unit="%" />
-              </Card>
-            </div>
-            <p className="mt-4 text-caption text-muted">
-              Synced overnight. If a value looks wrong, flag it to your flight surgeon.
-            </p>
-          </Panel>
-        </Reveal>
+            <CircleCheck className="h-4 w-4 text-nominal" aria-hidden="true" />
+            Synced from your wearable
+          </h2>
+          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <SyncedChip icon={Moon} label="Sleep" value={reading.sleepHours.toFixed(1)} unit="h" />
+            <SyncedChip icon={HeartPulse} label="Resting HR" value={reading.restingHr} unit="bpm" />
+            <SyncedChip
+              icon={Thermometer}
+              label="Temperature"
+              value={reading.tempC.toFixed(1)}
+              unit="°C"
+            />
+            <SyncedChip icon={Wind} label="SpO₂" value={reading.spo2} unit="%" />
+          </ul>
+        </section>
+      </Reveal>
 
-        <Reveal delay={0.05}>
-          <Panel kicker="Your input · 3 fields" title="How are you today?" className="h-full">
-            <div className="flex flex-col gap-5">
-              <ScoreField label="Mood" value={mood} onChange={setMood} labels={MOOD_LABEL} />
-              <ScoreField
-                label="Fatigue"
-                value={fatigue}
-                onChange={setFatigue}
-                labels={FATIGUE_LABEL}
+      <Reveal delay={0.05}>
+        <section className="flex flex-col gap-5 rounded-3xl border border-line bg-surface p-5 sm:p-6">
+          <h2 className="font-display text-title font-semibold">How do you feel?</h2>
+          <IconScale label="Mood" value={mood} onChange={setMood} options={MOOD} />
+          <IconScale label="Fatigue" value={fatigue} onChange={setFatigue} options={FATIGUE} />
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <label htmlFor={glucoseId} className="text-body font-medium">
+              Glucose (mg/dL)
+            </label>
+            <div className="flex items-center gap-2">
+              <Button
+                aria-label="Decrease glucose"
+                onClick={() => stepGlucose(-GLUCOSE_STEP)}
+                className="w-11 px-0"
+              >
+                <Minus className="h-4 w-4" aria-hidden="true" />
+              </Button>
+              <input
+                id={glucoseId}
+                type="text"
+                inputMode="numeric"
+                value={glucose}
+                onChange={(event) => setGlucose(event.target.value)}
+                aria-invalid={status === "error"}
+                aria-describedby={status === "error" ? `${glucoseId}-error` : undefined}
+                className={cn(
+                  "h-11 w-24 rounded-xl border bg-surface-strong px-3 text-center font-mono text-lead text-ink tabular-nums",
+                  status === "error" ? "border-urgent" : "border-line",
+                )}
               />
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor={glucoseId}
-                  className="font-mono text-label font-medium text-faint uppercase"
-                >
-                  Glucose (mg/dL)
-                </label>
-                <input
-                  id={glucoseId}
-                  type="text"
-                  inputMode="numeric"
-                  value={glucose}
-                  onChange={(event) => setGlucose(event.target.value)}
-                  aria-invalid={status === "error"}
-                  className={cn(
-                    "h-11 w-40 rounded-xl border bg-surface-strong px-3 font-mono text-body text-ink tabular-nums",
-                    status === "error" ? "border-concern" : "border-line",
-                  )}
-                />
-              </div>
-              {cycle === "tracked" && <PeriodField value={periodToday} onChange={setPeriodToday} />}
+              <Button
+                aria-label="Increase glucose"
+                onClick={() => stepGlucose(GLUCOSE_STEP)}
+                className="w-11 px-0"
+              >
+                <Plus className="h-4 w-4" aria-hidden="true" />
+              </Button>
             </div>
-          </Panel>
-        </Reveal>
-      </div>
+          </div>
+          {status === "error" && (
+            <p
+              id={`${glucoseId}-error`}
+              role="alert"
+              className="flex items-center gap-2 text-caption text-urgent"
+            >
+              <TriangleAlert className="h-4 w-4" aria-hidden="true" />
+              Glucose must be a whole number from {GLUCOSE_INPUT_RANGE.min} to{" "}
+              {GLUCOSE_INPUT_RANGE.max} mg/dL
+            </p>
+          )}
+          {cycle === "tracked" && <PeriodField value={periodToday} onChange={setPeriodToday} />}
+        </section>
+      </Reveal>
 
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-line bg-surface px-5 py-4">
+      {advancing ? (
         <p
-          role={status === "error" ? "alert" : "status"}
-          className="flex items-center gap-3 text-body"
+          role="status"
+          className="flex items-center justify-center gap-2 rounded-2xl border border-nominal/40 bg-nominal-soft px-5 py-4 text-lead font-semibold text-nominal"
         >
-          <Badge tone={statusView.tone}>
-            <StatusIcon className="h-3 w-3" aria-hidden="true" />
-            {statusView.badge}
-          </Badge>
-          {statusView.text(day)}
+          <CircleCheck className="h-6 w-6" aria-hidden="true" />
+          Confirmed. Opening your body summary…
         </p>
-        <Button type="submit" variant="primary" size="lg">
+      ) : status === "confirmed" ? (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p role="status" className="flex items-center gap-2 text-body text-nominal">
+            <CircleCheck className="h-5 w-5" aria-hidden="true" />
+            Check-in confirmed
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Button type="submit" variant="ghost">
+              Update check-in
+            </Button>
+            <NextStep to="body" label="See your body" />
+          </div>
+        </div>
+      ) : (
+        <Button type="submit" variant="primary" size="lg" className="w-full">
           <CircleCheck className="h-5 w-5" aria-hidden="true" />
-          {status === "confirmed" ? "Update check-in" : "Confirm"}
+          Confirm
         </Button>
-      </div>
+      )}
     </form>
   );
 }
 
-function ScoreField({
+function SyncedChip({
+  icon: Icon,
+  label,
+  value,
+  unit,
+}: {
+  icon: LucideIcon;
+  label: string;
+  value: ReactNode;
+  unit: string;
+}) {
+  return (
+    <li className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-3 py-2.5">
+      <Icon className="h-5 w-5 shrink-0 text-faint" aria-hidden="true" />
+      <span className="flex flex-col">
+        <span className="font-display text-lead font-semibold tabular-nums">
+          {value}
+          <span className="ml-1 text-caption font-normal text-muted">{unit}</span>
+        </span>
+        <span className="text-caption text-muted">{label}</span>
+      </span>
+    </li>
+  );
+}
+
+function IconScale({
   label,
   value,
   onChange,
-  labels,
+  options,
 }: {
   label: string;
   value: Score;
   onChange: (value: Score) => void;
-  labels: Record<Score, string>;
+  options: Record<Score, { label: string; icon: LucideIcon }>;
 }) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="font-mono text-label font-medium text-faint uppercase">{label}</span>
-        <span className="text-caption text-muted">{labels[value]}</span>
+        <span className="text-body font-medium">{label}</span>
+        <span className="text-caption text-muted">{options[value].label}</span>
       </div>
       <div role="radiogroup" aria-label={label} className="grid grid-cols-5 gap-2">
-        {SCORES.map((score) => (
-          <SegmentButton
-            key={score}
-            selected={value === score}
-            label={`${score} · ${labels[score]}`}
-            onClick={() => onChange(score)}
-            className="font-mono tabular-nums"
-          >
-            {score}
-          </SegmentButton>
-        ))}
+        {SCORES.map((score) => {
+          const Icon = options[score].icon;
+          return (
+            <SegmentButton
+              key={score}
+              selected={value === score}
+              label={`${score} · ${options[score].label}`}
+              onClick={() => onChange(score)}
+              className="flex h-14 flex-col items-center justify-center gap-0.5"
+            >
+              <Icon className="h-6 w-6" aria-hidden="true" />
+              <span className="text-label">{options[score].label}</span>
+            </SegmentButton>
+          );
+        })}
       </div>
     </div>
   );

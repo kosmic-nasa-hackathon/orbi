@@ -18,7 +18,7 @@
         "A health autonomy console for astronauts on long-duration missions. Wearables pre-fill the vitals. In 90 seconds the astronaut confirms them, and a deterministic engine turns the day into an explained decision."
       ],
       "links": [
-        { "label": "Open the app", "href": "/" },
+        { "label": "Open the app", "href": "/?view=today" },
         { "label": "Engine console", "href": "/?view=console" }
       ],
       "footer": "orbi.agustinpane.xyz · synthetic demo data · mission day 148",
@@ -33,7 +33,7 @@
       "kicker": "The problem",
       "title": "Day 148. Fourteen minutes from Earth, each way.",
       "text": [
-        "The commander slept 4.5 hours for the fifth night in a row. Her temperature is 37.9 °C. On Mars, nobody can examine her in real time, and the answer to a question leaves Earth after the clinical window has already moved.",
+        "The commander has slept under 6 hours for five nights in a row (5.0 h last night). Her temperature is 37.9 °C. On Mars, nobody can examine her in real time, and the answer to a question leaves Earth after the clinical window has already moved.",
         "Crews are trained, but they are not flight surgeons. Today the tools are a checklist and a delayed call."
       ],
       "stats": [
@@ -211,9 +211,9 @@
         {
           "title": "Because…",
           "bullets": [
-            "Temperature 37.9 °C, above the personal range",
-            "Sleep 4.5 h for five nights, below baseline",
-            "Resting heart rate 11 bpm above baseline"
+            "Sleep below 6 h for 5 nights",
+            "Temperature 37.9 °C",
+            "Resting HR +18 bpm vs. baseline"
           ]
         },
         {
@@ -260,7 +260,7 @@
           [
             "Cabin air",
             "SpO₂ down and cabin CO₂ up in the same period",
-            "Cabin issue, not you. Fix ventilation; do not treat the patient.",
+            "Cabin air, not you. Fix ventilation; do not treat the patient.",
             "WATCH + cabin alert"
           ],
           [
@@ -295,7 +295,7 @@
         {
           "label": "Budget · configurable",
           "title": "Radiation",
-          "text": "NASA says deep-space exposure limits are still open. ORBI tracks the cumulative dose against a mission budget set by the medical team, with the 600 mSv career limit as a reference.",
+          "text": "NASA says deep-space exposure limits are still open. ORBI tracks the cumulative dose against a mission budget set by the medical team (400 mSv in the demo), with NASA's 600 mSv career limit as the reference.",
           "tone": "orange"
         },
         {
@@ -321,14 +321,14 @@
       "kicker": "Architecture",
       "title": "Deterministic decisions. Optional explanations.",
       "text": [
-        "The engine is the product. The UI is a consumer of the engine, and an optional local model can explain the result but never compute it."
+        "The engine is the product. The UI is a consumer of the engine. A local model could explain the result, never compute it; in this build that adapter is code-only."
       ],
       "flow": {
         "nodes": [
           "Wearables + check-in",
           "Pure TypeScript engine",
           "Body + Decision + Escalation",
-          "Coach: template → local LLM",
+          "Coach: deterministic template",
           "Flight surgeon packet"
         ],
         "highlight": [1]
@@ -336,7 +336,7 @@
       "bullets": [
         "src/domain is pure TypeScript: no React, no DOM, no browser APIs.",
         "The UI calls evaluate() and askCoach(). It never reimplements a clinical rule.",
-        "The template coach is the default and the fallback. A local LLM is an explanation layer validated by guardrails.",
+        "The deterministic template coach is what the app uses. A local LLM adapter exists in code as an optional explanation layer, validated by guardrails, but it is not wired to the UI.",
         "Guardrails reject diagnosis, medication, invented numbers and untriggered actions. If validation fails, the app falls back to the template.",
         "Static SPA. No backend, no database, no decision ML, no computer vision."
       ],
@@ -347,7 +347,7 @@
       "notes": [
         "This is where a technical judge leans in. The domain is pure TypeScript, and the decision engine is deterministic.",
         "We did not add ML to the decision path. In space medicine, explainability beats a marginal accuracy gain when the output drives an action.",
-        "The optional local model only rewrites the explanation from structured facts. The guardrails and the template fallback keep the app safe when the model fails."
+        "Do not demo the local LLM: it is code-only. If asked, it would only rewrite the explanation from structured facts, and the guardrails plus the template fallback keep the app safe when it fails."
       ]
     },
     {
@@ -380,15 +380,16 @@
       "kicker": "Live now",
       "title": "What you can open today.",
       "text": [
-        "The deterministic engine, the four current scenarios, the coach guardrails and the deployment are live. The Level 0 screens and the cycle-aware engine are landing on top of the same contract."
+        "The daily flow is live on the tablet: Check-in → Body (2D, optional 3D) → What to do, plus Trends and the engine console, all on the same deterministic engine and four scenarios."
       ],
       "steps": [
-        "Open the engine console and pick early-infection.",
-        "Set the mission to Mars, then to ISS: the escalation changes.",
-        "Switch to cabin-co2: the app says cabin issue, not you.",
-        "Switch to solar-event: the radiation halo goes urgent."
+        "Open the app on Check-in, tap mood and fatigue, press Confirm.",
+        "Body: Immune and Behavioral in red; tap Immune for its reasons and the cycle note.",
+        "What to do: switch the mission from Mars to ISS and the escalation changes.",
+        "Cabin CO₂ says “Cabin air, not you”; the solar event turns radiation red."
       ],
       "links": [
+        { "label": "Open the app", "href": "/?view=today" },
         { "label": "Engine console", "href": "/?view=console" },
         { "label": "Repository", "href": "https://github.com/kosmic-nasa-hackathon/orbi" }
       ],
@@ -397,10 +398,10 @@
         "tone": "green"
       },
       "notes": [
-        "Keep the demo short and rehearsed. The console is the honest, working surface today.",
-        "The three scenario switches are the story: infection, environment and radiation.",
-        "The cycle-aware baseline and the luteal-phase scenario are the next engine step; do not present them as live until P3 is deployed.",
-        "Do not claim that the Today/Body/Decision screens are finished if they are not. Say they are landing on the same engine contract."
+        "Keep the demo short and rehearsed: the three-step flow, then the scenario switches.",
+        "The scenario switches are the story: infection, environment and radiation.",
+        "The cycle card is a preview: the cycle-aware engine and the luteal-phase scenario come with P3. Do not present them as live.",
+        "Mission Control is hidden in this build; tell it as roadmap."
       ]
     },
     {
@@ -410,16 +411,16 @@
       "timeline": [
         {
           "label": "Now",
-          "text": "Deterministic engine, four scenarios, coach guardrails, CI and auto-deploy.",
+          "text": "Daily flow (Check-in, Body in 2D/3D, What to do), Trends, the deterministic engine with four scenarios, coach guardrails, CI and auto-deploy.",
           "now": true
         },
         {
           "label": "Next",
-          "text": "Today, Body and Decision on the tablet, plus the cycle-aware engine: 90-day ground baseline, luteal-phase scenario and 5 scenarios."
+          "text": "The cycle-aware engine: 90-day ground baseline, phase-aware baseline, the luteal-phase scenario and the profile and consent screen."
         },
         {
           "label": "Then",
-          "text": "Trends with the “Your ground baseline” band and cycle overlay, and Mission Control: ship and ground in two windows, with the latency countdown."
+          "text": "Mission Control: ship and ground in two windows, the packet arriving after the latency countdown. Cycle overlay on Trends."
         },
         {
           "label": "Later",
@@ -427,13 +428,13 @@
         }
       ],
       "callout": {
-        "text": "Not building: decision ML, computer vision, 3D or a backend. The deterministic engine is the point.",
+        "text": "Not building: decision ML, computer vision or a backend. 3D only as an optional view of the body. The deterministic engine is the point.",
         "tone": "amber"
       },
       "notes": [
         "This slide shows discipline. We only claim what is on the deployed URL, and we say what comes next.",
-        "Trends covers the brief's dynamic charts. Mission Control makes the latency tangible with two windows and a countdown.",
-        "The “not building” list protects the core: no decision ML, no computer vision, no 3D, no backend."
+        "Trends already covers the brief's dynamic charts. Mission Control will make the latency tangible with two windows and a countdown.",
+        "The “not building” list protects the core: no decision ML, no computer vision, no backend; 3D stays an optional view."
       ]
     },
     {
@@ -465,11 +466,11 @@
       ],
       "links": [
         { "label": "Repository", "href": "https://github.com/kosmic-nasa-hackathon/orbi" },
-        { "label": "Open the app", "href": "/" }
+        { "label": "Open the app", "href": "/?view=today" }
       ],
       "notes": [
         "Keep the team slide short. The ask is not funding; it is clinical review and a realistic pilot.",
-        "Say what we bring: a working engine, 36 tests, deterministic data and a deployed app.",
+        "Say what we bring: a working engine and app, 100+ tests, deterministic data and a deployed URL.",
         "Say what we need: a clinician to challenge the thresholds and one real dataset to challenge the baseline."
       ]
     },

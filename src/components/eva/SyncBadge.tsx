@@ -33,7 +33,7 @@ export function SyncBadge({ link, age }: { link: LinkState; age: number }) {
   return (
     <div
       className={clsx(
-        "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-medium tracking-wide",
+        "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-caption font-medium tracking-wide",
         style.className,
         lost && "orbi-pulse",
       )}
@@ -42,7 +42,7 @@ export function SyncBadge({ link, age }: { link: LinkState; age: number }) {
     >
       <Icon className="h-3.5 w-3.5" aria-hidden="true" />
       <span>{style.label}</span>
-      <span className="text-white/45">
+      <span className="text-muted">
         {lost ? `${Math.round(age)} s` : link === "SYNCED" ? "live" : "waiting"}
       </span>
     </div>

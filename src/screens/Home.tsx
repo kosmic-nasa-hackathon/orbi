@@ -1,8 +1,10 @@
 import clsx from "clsx";
 import {
+  ArrowRight,
   ArrowUpRight,
   Bone,
   Brain,
+  CalendarCheck,
   ChevronRight,
   CircleDot,
   Flame,
@@ -11,16 +13,16 @@ import {
   Orbit,
   Presentation,
   Radiation,
-  Route,
   ShieldCheck,
   SquareTerminal,
+  TriangleAlert,
   Wind,
 } from "lucide-react";
-import { GithubMark } from "../components/GithubMark";
 import { LEVEL_BG, LEVEL_COLOR, SYSTEM_INFO } from "../content/systems";
 import { scenarios } from "../data/scenarios";
 import { evaluate } from "../domain/evaluate";
 import { LEVEL_LABEL } from "../domain/levels";
+import { SOURCES } from "../domain/rules";
 import {
   type Assessment,
   type Evaluation,
@@ -29,6 +31,8 @@ import {
   type SystemId,
 } from "../domain/types";
 import type { View } from "../navigation";
+
+const PENDING_SOURCES = Object.values(SOURCES).filter((source) => !source.verified).length;
 
 const scenario = scenarios.find((item) => item.id === "early-infection") ?? scenarios[0]!;
 const day = scenario.readings.at(-1)!.day;
@@ -63,9 +67,9 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
       />
 
       <div className="relative mx-auto max-w-[1500px] px-4 pt-8 pb-20 sm:px-6 lg:pt-14">
-        <section className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+        <section className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
           <div className="orbi-enter">
-            <p className="flex items-center gap-2 font-mono text-[10px] tracking-[0.22em] text-cyan-300/75 uppercase">
+            <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.22em] text-cyan-300/75 uppercase">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-60" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan-300" />
@@ -86,12 +90,20 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
             <div className="mt-7 flex flex-wrap items-center gap-2.5">
               <button
                 type="button"
-                onClick={() => onNavigate("eva")}
+                onClick={() => onNavigate("today")}
                 className="inline-flex h-11 items-center gap-2 rounded-xl bg-cyan-300 px-4 text-[13px] font-semibold text-[#041016] shadow-[0_0_0_1px_rgba(34,211,238,0.45),0_14px_42px_rgba(34,211,238,0.16)] transition hover:bg-cyan-200 hover:shadow-[0_0_0_1px_rgba(34,211,238,0.6),0_18px_52px_rgba(34,211,238,0.24)]"
+              >
+                <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                Start the daily check
+                <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => onNavigate("eva")}
+                className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.035] px-4 text-[13px] font-medium text-white/75 transition hover:border-cyan-300/30 hover:bg-white/[0.065] hover:text-white"
               >
                 <Orbit className="h-4 w-4" aria-hidden="true" />
                 Open EVA demo
-                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
               <button
                 type="button"
@@ -103,7 +115,7 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
               </button>
               <a
                 href="/pitch/"
-                className="inline-flex h-11 items-center gap-2 rounded-xl px-3 text-[13px] font-medium text-white/45 transition hover:text-cyan-200"
+                className="inline-flex h-11 items-center gap-2 rounded-xl px-3 text-[13px] font-medium text-muted transition hover:text-cyan-200"
               >
                 <Presentation className="h-4 w-4" aria-hidden="true" />
                 Pitch deck
@@ -111,7 +123,7 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
               </a>
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[9px] tracking-[0.16em] text-white/30 uppercase">
+            <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] tracking-[0.16em] text-faint uppercase">
               <span className="inline-flex items-center gap-1.5">
                 <CircleDot className="h-3 w-3 text-emerald-300/70" aria-hidden="true" />
                 No backend
@@ -122,6 +134,15 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
               <span>Synthetic day 148</span>
               <span aria-hidden="true">·</span>
               <span>No diagnosis</span>
+              <span aria-hidden="true">·</span>
+              <button
+                type="button"
+                onClick={() => onNavigate("console")}
+                className="inline-flex items-center gap-1.5 text-amber-200/70 uppercase transition hover:text-amber-100"
+              >
+                <TriangleAlert className="h-3 w-3" aria-hidden="true" />
+                {PENDING_SOURCES} sources pending verification
+              </button>
             </div>
           </div>
 
@@ -179,46 +200,44 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
           </div>
         </section>
 
-        <section className="mt-16 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div>
-            <SectionHeading
-              kicker="Live evaluation"
-              title="The engine is the product."
-              text="This is not a mock. The state below comes from evaluate() on the deterministic day-148 scenario."
-            />
-            {topAssessment && <AssessmentCard assessment={topAssessment} />}
-            <button
-              type="button"
-              onClick={() => onNavigate("console")}
-              className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-medium text-cyan-200/80 transition hover:text-cyan-100"
-            >
-              Inspect every fact in the console
-              <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </button>
-          </div>
+        <section className="mt-16">
+          <SectionHeading
+            kicker="Live evaluation"
+            title="The engine is the product."
+            text="This is not a mock. The state below comes from evaluate() on the deterministic day-148 scenario."
+          />
+          <div className="mt-5 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div>
+              {topAssessment && <AssessmentCard assessment={topAssessment} />}
+              <button
+                type="button"
+                onClick={() => onNavigate("console")}
+                className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-medium text-cyan-200/80 transition hover:text-cyan-100"
+              >
+                Inspect every fact in the console
+                <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </button>
+            </div>
 
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4 sm:p-5">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="font-display text-base font-medium text-white/85">
-                Six systems + a halo
-              </h3>
-              <span className="font-mono text-[9px] tracking-[0.16em] text-white/30 uppercase">
+            <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4 sm:p-5">
+              <span className="font-mono text-[11px] tracking-[0.16em] text-faint uppercase">
                 early-infection · day {day}
               </span>
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {SYSTEM_IDS.map((id) => (
-                <SystemTile key={id} id={id} level={evaluation.bySystem[id]} />
-              ))}
-            </div>
-            <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/[0.06] px-3 py-2.5 text-[11px] leading-relaxed text-amber-100/75">
-              Mars escalation: local protocol first. The flight surgeon packet waits for the next
-              communication window.
+              <h3 className="mt-2 font-display text-xl font-medium tracking-[-0.02em] text-white/95">
+                Six systems + a halo
+              </h3>
+              <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {SYSTEM_IDS.map((id) => (
+                  <SystemTile key={id} id={id} level={evaluation.bySystem[id]} />
+                ))}
+              </div>
+              <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/[0.06] px-3 py-2.5 text-caption leading-relaxed text-amber-100/75">
+                Mars escalation: local protocol first. The flight surgeon packet waits for the next
+                communication window.
+              </div>
             </div>
           </div>
         </section>
-
-        <Footer onNavigate={onNavigate} />
       </div>
     </div>
   );
@@ -243,7 +262,7 @@ function HaloPanel({
       />
       <div className="relative flex items-start justify-between gap-3">
         <div>
-          <p className="font-mono text-[9px] tracking-[0.2em] text-white/35 uppercase">
+          <p className="font-mono text-[11px] tracking-[0.2em] text-faint uppercase">
             Mission status
           </p>
           <p className="mt-1 font-display text-lg font-medium text-white/90">Day {day} · Mars</p>
@@ -276,7 +295,7 @@ function HaloPanel({
       <button
         type="button"
         onClick={onOpenConsole}
-        className="relative mt-3 inline-flex w-full items-center justify-between rounded-xl border border-cyan-400/20 bg-cyan-400/[0.06] px-3 py-2.5 text-[11px] font-medium text-cyan-100/85 transition hover:border-cyan-300/40 hover:bg-cyan-400/[0.11] hover:text-cyan-50"
+        className="relative mt-3 inline-flex w-full items-center justify-between rounded-xl border border-cyan-400/20 bg-cyan-400/[0.06] px-3 py-2.5 text-caption font-medium text-cyan-100/85 transition hover:border-cyan-300/40 hover:bg-cyan-400/[0.11] hover:text-cyan-50"
       >
         Inspect this scenario
         <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -429,7 +448,7 @@ function StatStrip() {
           <p className="font-mono text-xl font-medium tracking-[-0.03em] text-white/90 tabular-nums">
             {stat.value}
           </p>
-          <p className="mt-1 font-mono text-[8px] tracking-[0.16em] text-white/30 uppercase">
+          <p className="mt-1 font-mono text-[11px] tracking-[0.16em] text-faint uppercase">
             {stat.label}
           </p>
         </div>
@@ -441,13 +460,11 @@ function StatStrip() {
 function SectionHeading({ kicker, title, text }: { kicker: string; title: string; text?: string }) {
   return (
     <div>
-      <p className="font-mono text-[9px] tracking-[0.22em] text-cyan-300/60 uppercase">{kicker}</p>
+      <p className="font-mono text-[11px] tracking-[0.22em] text-cyan-300/60 uppercase">{kicker}</p>
       <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.035em] text-white sm:text-3xl">
         {title}
       </h2>
-      {text && (
-        <p className="mt-2 max-w-[62ch] text-[13px] leading-relaxed text-white/45">{text}</p>
-      )}
+      {text && <p className="mt-2 max-w-[62ch] text-[13px] leading-relaxed text-muted">{text}</p>}
     </div>
   );
 }
@@ -483,7 +500,7 @@ function RouteCard({
         <span className="grid h-10 w-10 place-items-center rounded-xl border border-cyan-400/20 bg-cyan-400/[0.08] text-cyan-200">
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
-        <span className="font-mono text-[9px] tracking-[0.18em] text-white/30 uppercase">
+        <span className="font-mono text-[11px] tracking-[0.18em] text-faint uppercase">
           {kicker}
         </span>
       </div>
@@ -533,7 +550,7 @@ function RouteCard({
               AIRLOCK
             </text>
           </svg>
-          <span className="absolute top-2.5 left-3 font-mono text-[8px] tracking-[0.18em] text-white/30 uppercase">
+          <span className="absolute top-2.5 left-3 font-mono text-[11px] tracking-[0.18em] text-faint uppercase">
             No sync · inertial return
           </span>
         </div>
@@ -543,7 +560,7 @@ function RouteCard({
         {chips.map((chip) => (
           <span
             key={chip}
-            className="rounded-full border border-white/[0.08] bg-white/[0.025] px-2 py-1 font-mono text-[8px] tracking-[0.1em] text-white/40 uppercase"
+            className="rounded-full border border-white/[0.08] bg-white/[0.025] px-2 py-1 font-mono text-[11px] tracking-[0.1em] text-faint uppercase"
           >
             {chip}
           </span>
@@ -572,7 +589,7 @@ function RouteCard({
         {secondary && (
           <a
             href={secondary.href}
-            className="inline-flex items-center gap-1 text-[10px] text-white/35 transition hover:text-white/65"
+            className="inline-flex items-center gap-1 text-caption text-faint transition hover:text-white/65"
           >
             {secondary.label}
             <ChevronRight className="h-3 w-3" aria-hidden="true" />
@@ -606,9 +623,9 @@ function SystemTile({ id, level }: { id: SystemId; level: Level }) {
         <Icon className="h-4 w-4" aria-hidden="true" />
       </span>
       <div className="min-w-0">
-        <p className="truncate text-[11px] font-medium text-white/75">{SYSTEM_INFO[id].label}</p>
+        <p className="truncate text-caption font-medium text-white/75">{SYSTEM_INFO[id].label}</p>
         <p
-          className="font-mono text-[8px] tracking-[0.14em] uppercase"
+          className="font-mono text-[11px] tracking-[0.14em] uppercase"
           style={{ color: LEVEL_COLOR[level] }}
         >
           {LEVEL_LABEL[level]}
@@ -621,14 +638,14 @@ function SystemTile({ id, level }: { id: SystemId; level: Level }) {
 function AssessmentCard({ assessment }: { assessment: Assessment }) {
   return (
     <article
-      className="mt-5 rounded-2xl border p-4"
+      className="rounded-2xl border p-4"
       style={{
         borderColor: `${LEVEL_COLOR[assessment.level]}55`,
         background: LEVEL_BG[assessment.level],
       }}
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="font-mono text-[9px] tracking-[0.16em] text-white/40 uppercase">
+        <span className="font-mono text-[11px] tracking-[0.16em] text-faint uppercase">
           {SYSTEM_INFO[assessment.system].label} · {assessment.ruleId}
         </span>
         <LevelBadge level={assessment.level} />
@@ -649,14 +666,12 @@ function AssessmentCard({ assessment }: { assessment: Assessment }) {
         ))}
       </ul>
       <div className="mt-3 border-t border-white/10 pt-3">
-        <p className="font-mono text-[8px] tracking-[0.16em] text-white/35 uppercase">Now</p>
+        <p className="font-mono text-[11px] tracking-[0.16em] text-faint uppercase">Now</p>
         <p className="mt-1 text-[12px] text-white/75">{assessment.escalation.now}</p>
         {assessment.escalation.next && (
-          <p className="mt-0.5 text-[11px] text-white/40">Next: {assessment.escalation.next}</p>
+          <p className="mt-0.5 text-caption text-faint">Next: {assessment.escalation.next}</p>
         )}
-        <p className="mt-2 text-[10px] leading-relaxed text-white/35">
-          {assessment.escalation.note}
-        </p>
+        <p className="mt-2 text-caption leading-relaxed text-faint">{assessment.escalation.note}</p>
       </div>
     </article>
   );
@@ -665,7 +680,7 @@ function AssessmentCard({ assessment }: { assessment: Assessment }) {
 function LevelBadge({ level }: { level: Level }) {
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[8px] tracking-[0.16em] uppercase"
+      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] tracking-[0.16em] uppercase"
       style={{
         borderColor: `${LEVEL_COLOR[level]}55`,
         background: LEVEL_BG[level],
@@ -695,68 +710,8 @@ function Metric({
     tone === "amber" ? "text-amber-100" : tone === "orange" ? "text-orange-100" : "text-white/80";
   return (
     <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] px-3 py-2.5">
-      <p className="font-mono text-[8px] tracking-[0.16em] text-white/30 uppercase">{label}</p>
+      <p className="font-mono text-[11px] tracking-[0.16em] text-faint uppercase">{label}</p>
       <p className={clsx("mt-1 truncate text-[12px] font-medium", color)}>{value}</p>
     </div>
-  );
-}
-
-function Footer({ onNavigate }: { onNavigate: (view: View) => void }) {
-  return (
-    <footer className="mt-16 border-t border-white/[0.07] pt-6">
-      <div className="flex flex-wrap items-end justify-between gap-5">
-        <div>
-          <p className="font-display text-sm font-semibold tracking-[0.18em] text-white/80">ORBI</p>
-          <p className="mt-1 max-w-[64ch] text-[11px] leading-relaxed text-white/35">
-            Deterministic engine · no diagnosis, no treatment · synthetic day-148 data. Built for
-            NASA Space Apps Challenge 2026 by Team Kosmic.
-          </p>
-        </div>
-        <nav
-          className="flex flex-wrap items-center gap-3 text-[11px] text-white/40"
-          aria-label="Footer"
-        >
-          <button
-            type="button"
-            onClick={() => onNavigate("home")}
-            className="inline-flex items-center gap-1.5 transition hover:text-cyan-200"
-          >
-            Home
-          </button>
-          <button
-            type="button"
-            onClick={() => onNavigate("eva")}
-            className="inline-flex items-center gap-1.5 transition hover:text-cyan-200"
-          >
-            <Route className="h-3 w-3" aria-hidden="true" />
-            EVA
-          </button>
-          <button
-            type="button"
-            onClick={() => onNavigate("console")}
-            className="inline-flex items-center gap-1.5 transition hover:text-cyan-200"
-          >
-            <SquareTerminal className="h-3 w-3" aria-hidden="true" />
-            Console
-          </button>
-          <a
-            href="/pitch/"
-            className="inline-flex items-center gap-1.5 transition hover:text-cyan-200"
-          >
-            <Presentation className="h-3 w-3" aria-hidden="true" />
-            Pitch
-          </a>
-          <a
-            href="https://github.com/kosmic-nasa-hackathon/orbi"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 transition hover:text-cyan-200"
-          >
-            <GithubMark className="h-3 w-3" />
-            GitHub
-          </a>
-        </nav>
-      </div>
-    </footer>
   );
 }

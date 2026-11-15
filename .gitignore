@@ -32,3 +32,6 @@ npm-debug.log*
 test-results/
 playwright-report/
 blob-report/
+
+# Claude Code skills linked locally (e.g. impeccable, installed under .github/skills)
+.claude/skills/
