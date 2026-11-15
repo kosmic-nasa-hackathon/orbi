@@ -330,7 +330,7 @@ export default function Eva() {
 
       <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-3">
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-black/20 p-1">
+          <div className="flex flex-wrap items-center gap-1 rounded-xl border border-white/10 bg-black/20 p-1">
             {(
               [
                 { id: "auto", label: "Auto timeline", icon: Radio },
@@ -368,7 +368,7 @@ export default function Eva() {
             Auto-return after 10 s lost
           </label>
 
-          <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-black/20 p-1">
+          <div className="flex flex-wrap items-center gap-1 rounded-xl border border-white/10 bg-black/20 p-1">
             {[1, 2, 4].map((value) => (
               <button
                 key={value}

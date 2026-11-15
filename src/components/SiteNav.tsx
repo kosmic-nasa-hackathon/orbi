@@ -102,7 +102,7 @@ export function SiteNav({
                 )}
               >
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-                <span className="hidden sm:inline">{item.label}</span>
+                <span className="sr-only sm:not-sr-only">{item.label}</span>
               </button>
             );
           })}
@@ -110,7 +110,12 @@ export function SiteNav({
 
         <span className="mx-1 hidden h-5 w-px bg-line sm:block" />
 
-        <a href="/pitch/" className={LINK_CLASS} title="Open the pitch deck">
+        {/* Below sm the footer carries Pitch and GitHub, so the top row fits a 375 px phone. */}
+        <a
+          href="/pitch/"
+          className={cn(LINK_CLASS, "hidden sm:inline-flex")}
+          title="Open the pitch deck"
+        >
           <Presentation className="h-3.5 w-3.5" aria-hidden="true" />
           <span className="hidden lg:inline">Pitch</span>
           <ArrowUpRight className="h-3 w-3 text-faint" aria-hidden="true" />
@@ -119,7 +124,7 @@ export function SiteNav({
           href="https://github.com/kosmic-nasa-hackathon/orbi"
           target="_blank"
           rel="noreferrer"
-          className={LINK_CLASS}
+          className={cn(LINK_CLASS, "hidden sm:inline-flex")}
           title="Open the GitHub repository"
         >
           <GithubMark className="h-3.5 w-3.5" />

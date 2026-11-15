@@ -246,12 +246,16 @@ export function DecisionCarousel({
         </Reveal>
       </section>
 
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-2 sm:gap-4">
         <Button onClick={() => go(index - 1)} disabled={index === 0} aria-label="Previous card">
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-          Back
+          <span className="hidden sm:inline">Back</span>
         </Button>
-        <div className="flex items-center gap-2">
+        {/* Phones swap the dots for a short counter so Back and Next fit 320 px. */}
+        <span aria-hidden="true" className="font-mono text-label text-muted sm:hidden">
+          {index + 1} / {CARDS.length}
+        </span>
+        <div className="hidden items-center gap-2 sm:flex">
           {CARDS.map((label, position) => (
             <button
               key={label}
