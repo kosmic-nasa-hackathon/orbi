@@ -9,6 +9,9 @@ Navigable deck at **`/pitch/`** (same app URL). It is a static page inside
 - Content source: `public/pitch/deck.json`
 - Engine and styles: `public/pitch/deck.js` + `public/pitch/theme.css`
 
+The spoken demo script (90-second check-in + 30 s differentiator) and the 3-minute talk are in
+`docs/DEMO.md`.
+
 The architecture replicates the one in `agents-101`: a minimal `index.html`, the content in `deck.json`
 and an engine that renders slides. The difference is that here the engine is our own and lightweight,
 with no external dependencies, to respect nginx's CSP (`script-src 'self'`).
