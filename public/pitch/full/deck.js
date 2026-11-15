@@ -626,7 +626,7 @@
     go(initial == null ? 0 : initial, { fromHash: true });
   }
 
-  fetch("./deck.json", { cache: "no-cache" })
+  fetch("/pitch/full/deck.json", { cache: "no-cache" })
     .then((response) => {
       if (!response.ok) throw new Error(`deck.json returned ${response.status}`);
       return response.json();
