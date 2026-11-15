@@ -8,7 +8,6 @@ import Console from "./screens/Console";
 import Decision from "./screens/Decision";
 import Eva from "./screens/Eva";
 import Home from "./screens/Home";
-import MissionControl from "./screens/MissionControl";
 import Today from "./screens/Today";
 import Trends from "./screens/Trends";
 
@@ -20,7 +19,6 @@ const TITLES: Record<View, string> = {
   body: "Body · ORBI",
   decision: "Decision · ORBI",
   trends: "Trends · ORBI",
-  ground: "Mission Control · ORBI",
 };
 
 const MISSION_SCREENS: Record<MissionView, () => React.JSX.Element> = {
@@ -28,7 +26,6 @@ const MISSION_SCREENS: Record<MissionView, () => React.JSX.Element> = {
   body: Body,
   decision: Decision,
   trends: Trends,
-  ground: MissionControl,
 };
 
 export default function App() {

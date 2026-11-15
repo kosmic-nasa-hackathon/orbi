@@ -8,7 +8,6 @@ import {
   Orbit,
   PersonStanding,
   Presentation,
-  RadioTower,
   Satellite,
   SquareTerminal,
   Stethoscope,
@@ -30,7 +29,6 @@ const MISSION_NAV: { view: MissionView; label: string; icon: LucideIcon }[] = [
   { view: "body", label: "Body", icon: PersonStanding },
   { view: "decision", label: "Decision", icon: Stethoscope },
   { view: "trends", label: "Trends", icon: ChartLine },
-  { view: "ground", label: "Mission Control", icon: RadioTower },
 ];
 
 const LINK_CLASS =
