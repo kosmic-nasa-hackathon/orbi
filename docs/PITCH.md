@@ -1,22 +1,41 @@
 # PITCH — ORBI
 
-Navigable deck at **`/pitch/`** (same app URL). It is a static page inside
-`public/pitch/`, so Vite copies it as-is to `dist/` and it needs no backend or separate build.
+There are two static decks inside `public/pitch/`; Vite copies them as-is to `dist/` and they need no
+backend or separate build.
 
-- Production: `https://orbi.agustinpane.xyz/pitch/`
-- Local: `npm run dev` and open `http://localhost:5173/pitch/`
-- Reading mode: `/pitch/?view=scroll`
-- Content source: `public/pitch/deck.json`
-- Engine and styles: `public/pitch/deck.js` + `public/pitch/theme.css`
+- **5-slide pitch at `/pitch/`** — 2:55, timed to `docs/ORBI_Organizacion_Diapositivas_Pitch.pdf`,
+  with the speaker script in the notes panel and a rehearsal timer.
+- **Expanded 15-slide deck at `/pitch/full/`** — the long-form deck with overview, speaker notes,
+  reading mode and print.
+- Production: `https://orbi.agustinpane.xyz/pitch/` · `https://orbi.agustinpane.xyz/pitch/full/`
+- Local: `npm run dev` and open `http://localhost:5173/pitch/` or `/pitch/full/`
+- Reading mode (full deck): `/pitch/full/?view=scroll`
+- 5-slide sources: `public/pitch/index.html`, `styles.css`, `deck.js` and `assets/`
+- Full-deck sources: `public/pitch/full/deck.json`, `deck.js` and `theme.css`
 
 The spoken demo script (90-second check-in + 30 s differentiator) and the 3-minute talk are in
 `docs/DEMO.md`.
 
-The architecture replicates the one in `agents-101`: a minimal `index.html`, the content in `deck.json`
-and an engine that renders slides. The difference is that here the engine is our own and lightweight,
-with no external dependencies, to respect nginx's CSP (`script-src 'self'`).
+Both engines are our own and lightweight, with no external dependencies, to respect nginx's CSP
+(`script-src 'self'`). The 5-slide deck uses real captures of the running prototype.
 
 ## How to present
+
+**5-slide pitch (`/pitch/`)**
+
+| Key | Action |
+|---|---|
+| `→` · `↓` · `Space` | Next slide |
+| `←` · `↑` | Previous slide |
+| `Home` / `End` | First / last |
+| `N` | Speaker notes |
+| `T` | Start / pause the rehearsal timer |
+| `R` | Reset the timer |
+| `F` | Full screen |
+| `P` | Print / save as PDF |
+| `?` | Keyboard help |
+
+**Full deck (`/pitch/full/`)**
 
 | Key | Action |
 |---|---|
@@ -30,9 +49,17 @@ with no external dependencies, to respect nginx's CSP (`script-src 'self'`).
 | `Esc` | Close panels |
 | `?` | Keyboard help |
 
-On tablet or phone you can advance slides with a horizontal swipe.
+## Script — 5 slides (`/pitch/`)
 
-## Script (15 slides)
+1. **0:00–0:25 · The challenge** — team, ORBI logo and the brand animation; health monitoring when Earth is 14 minutes away.
+2. **0:25–0:55 · The problem / the solution** — sleep, fatigue and heart rate; stress, infection or the cabin? ORBI turns the data into a decision.
+3. **0:55–1:35 · How ORBI works** — 90-second check-in → body map + halo → explained decision; cabin vs crew.
+4. **1:35–2:15 · Women's health in space** — same sensors, different bodies, smarter decisions; optional cycle-aware baseline, in development (P3), private by default.
+5. **2:15–2:55 · From drift to decision** — on-board first, honest gaps and the close. Target: 2:55.
+
+The notes panel contains the full English script and the PDF timing for each slide.
+
+## Full deck script (15 slides) at `/pitch/full/`
 
 1. **Cover** — ORBI, from drift to decision.
 2. **The problem** — Day 148, 14 minutes of latency, no clinician on board.
@@ -54,7 +81,8 @@ Full notes for each slide are in `deck.json` (`notes`) and are shown with `S`.
 
 ## Before presenting
 
-- [ ] Open `/pitch/` on the tablet or the laptop that will be used and test `F`, `S` and `G`.
+- [ ] Open `/pitch/` and `/pitch/full/` on the tablet or the laptop that will be used. Test `F` in both, `N`/`T`/`R` in the 5-slide deck and `S`/`G` in the full deck.
+- [ ] Confirm the 5-slide deck uses the real captures and that slide 4 labels the cycle-aware baseline as in development (P3).
 - [ ] Verify that `/?view=console` responds in production.
 - [ ] Have the backup demo video downloaded, not just the link.
 - [ ] Confirm the demo scenario: `early-infection`, day 148, Mars → ISS.
@@ -77,9 +105,12 @@ Full notes for each slide are in `deck.json` (`notes`) and are shown with `S`.
 
 ## Maintenance
 
-To change the pitch, edit `public/pitch/deck.json` and reload. No need to touch the engine
-unless a new slide type is added. If a layout is added, also update the CSS and
-test at `1280×720`, `1180×820` (tablet) and mobile.
+- **5-slide pitch:** edit `public/pitch/index.html` for copy, `public/pitch/styles.css` for layout,
+  `public/pitch/deck.js` for navigation/timer and `public/pitch/assets/` for captures. Speaker notes
+  live in each slide’s hidden `.slide-notes`; timings live in `data-start`/`data-end`.
+- **Full deck:** edit `public/pitch/full/deck.json` and reload. No need to touch the engine unless a
+  new slide type is added. If a layout is added, also update the CSS.
+- Test both decks at `1440×900`, `1180×820` (tablet), `390px` and print.
 
 The deck does not replace `docs/CONCEPT.md` or `docs/BRIEF.md`: it is the presentation layer.
 If a rule, a scenario or the product state changes, update both.
