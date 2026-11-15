@@ -1,15 +1,24 @@
 import { clsx } from "clsx";
-import { ChevronDown, Dna, Lock, ShieldCheck, Venus } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronsUp,
+  ChevronUp,
+  Lock,
+  type LucideIcon,
+  Minus,
+  ShieldCheck,
+  Venus,
+} from "lucide-react";
 import { useState } from "react";
 import { BodySceneView } from "../components/body/BodySceneView";
 import { DemoBar } from "../components/DemoBar";
 import { FlowSteps } from "../components/flow/FlowSteps";
 import { NextStep } from "../components/flow/NextStep";
 import { TrafficBadge } from "../components/flow/TrafficBadge";
-import { TONE_CLASS, TRAFFIC } from "../components/flow/traffic";
+import { TONE_CLASS, TRAFFIC, type TrafficTone } from "../components/flow/traffic";
 import { Card } from "../components/ui/Card";
 import { CYCLE_CARD, CYCLE_NOTE } from "../content/cycle";
-import { REPRODUCTIVE_PREVIEW } from "../content/reproductive";
+import { type Priority, REPRODUCTIVE_PREVIEW } from "../content/reproductive";
 import { SYSTEM_INFO } from "../content/systems";
 import {
   type Assessment,
@@ -128,6 +137,8 @@ function BodyMap({
           </ul>
         )}
 
+        <ReproductiveLine />
+
         {allGood.length > 0 && (
           <details
             className="group rounded-2xl border border-line bg-surface"
@@ -161,7 +172,6 @@ function BodyMap({
         )}
 
         <CycleCard open={cycleOpen} onToggle={setCycleOpen} />
-        <ReproductivePreview />
       </div>
     </div>
   );
@@ -219,46 +229,73 @@ function CycleCard({ open, onToggle }: { open: boolean; onToggle: (open: boolean
   );
 }
 
-const REPRODUCTIVE_ID = "reproductive-preview";
+const REPRODUCTIVE_ID = "system-reproductive";
+
+const PRIORITY: Record<Priority, { tone: TrafficTone; icon: LucideIcon }> = {
+  High: { tone: "red", icon: ChevronsUp },
+  Medium: { tone: "yellow", icon: ChevronUp },
+  Low: { tone: "green", icon: Minus },
+};
 
 /**
- * The designed seventh system, shown as a folded preview. It has no traffic light because the
- * engine does not evaluate it yet; it lists what ORBI would track and how privacy works.
+ * The designed seventh system, laid out like the other systems. Its level is a fixed demo value
+ * from src/content/reproductive.ts (the engine does not evaluate it yet), so the row is tagged
+ * "Demo values". The colours inside mark each parameter's design priority, with word and icon.
  */
-function ReproductivePreview() {
+function ReproductiveLine() {
+  const [open, setOpen] = useState(false);
+  const detailId = `${REPRODUCTIVE_ID}-detail`;
+  const tone = TONE_CLASS[TRAFFIC[REPRODUCTIVE_PREVIEW.level].tone];
   return (
-    <section aria-labelledby={`${REPRODUCTIVE_ID}-title`}>
-      <details id={REPRODUCTIVE_ID} className="group rounded-2xl border border-line bg-surface">
-        <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3">
-          <Dna className="h-5 w-5 shrink-0 text-muted" aria-hidden="true" />
-          <span className="flex min-w-0 flex-1 flex-col">
-            <span id={`${REPRODUCTIVE_ID}-title`} className="text-body font-semibold">
-              {REPRODUCTIVE_PREVIEW.title}
+    <section
+      aria-labelledby={`${REPRODUCTIVE_ID}-title`}
+      className={clsx(
+        "rounded-2xl border border-l-4 bg-surface transition-colors",
+        tone.border,
+        open && "ring-2 ring-accent/40",
+      )}
+    >
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={detailId}
+        onClick={() => setOpen((value) => !value)}
+        className="flex w-full items-center gap-4 px-4 py-3 text-left"
+      >
+        <span
+          aria-hidden="true"
+          className={clsx("mt-2 h-3 w-3 shrink-0 self-start rounded-full", tone.solid)}
+        />
+        <span className="flex min-w-0 flex-1 flex-col gap-1">
+          <span id={`${REPRODUCTIVE_ID}-title`} className="text-lead font-semibold">
+            {REPRODUCTIVE_PREVIEW.title}
+          </span>
+          <span className="flex flex-wrap items-center gap-2">
+            <TrafficBadge level={REPRODUCTIVE_PREVIEW.level} />
+            <span className="rounded-full border border-line-strong px-2 py-0.5 font-mono text-label text-muted uppercase">
+              {REPRODUCTIVE_PREVIEW.demoTag}
             </span>
-            <span className="text-caption text-muted">{REPRODUCTIVE_PREVIEW.summary}</span>
           </span>
-          <ChevronDown
-            className="h-4 w-4 shrink-0 text-muted transition-transform group-open:rotate-180"
-            aria-hidden="true"
-          />
-        </summary>
-        <div className="flex flex-col gap-3 px-4 pb-4 text-caption">
-          <span className="self-start rounded-full border border-line-strong px-2 py-0.5 font-mono text-label text-muted uppercase">
-            {REPRODUCTIVE_PREVIEW.badge}
-          </span>
+          <span className="truncate text-caption text-muted">{REPRODUCTIVE_PREVIEW.finding}</span>
+        </span>
+      </button>
+
+      {open && (
+        <div id={detailId} className="flex flex-col gap-3 px-4 pb-4 text-caption">
           <p>{REPRODUCTIVE_PREVIEW.why}</p>
-          <dl className="flex flex-col gap-2">
-            {REPRODUCTIVE_PREVIEW.groups.map((group) => (
-              <div key={group.label} className="rounded-xl bg-surface-strong px-3 py-2">
-                <dt className="text-muted">{group.label}</dt>
+          {REPRODUCTIVE_PREVIEW.groups.map((group) => (
+            <div key={group.label} className="flex flex-col gap-1.5">
+              <h3 className="text-muted">{group.label}</h3>
+              <ul className="flex flex-col gap-1.5">
                 {group.items.map((item) => (
-                  <dd key={item} className="font-medium">
-                    {item}
-                  </dd>
+                  <li key={item.label} className="flex items-center justify-between gap-2">
+                    <span className="font-medium">{item.label}</span>
+                    {item.priority && <PriorityTag priority={item.priority} />}
+                  </li>
                 ))}
-              </div>
-            ))}
-          </dl>
+              </ul>
+            </div>
+          ))}
           <p className="flex items-start gap-2">
             <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
             {REPRODUCTIVE_PREVIEW.safety}
@@ -269,8 +306,27 @@ function ReproductivePreview() {
           </p>
           <p className="text-muted">{REPRODUCTIVE_PREVIEW.pending}</p>
         </div>
-      </details>
+      )}
     </section>
+  );
+}
+
+function PriorityTag({ priority }: { priority: Priority }) {
+  const { tone, icon: Icon } = PRIORITY[priority];
+  const toneClass = TONE_CLASS[tone];
+  return (
+    <span
+      className={clsx(
+        "inline-flex shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 text-label font-semibold",
+        toneClass.border,
+        toneClass.soft,
+        toneClass.text,
+      )}
+    >
+      <Icon className="h-3 w-3" aria-hidden="true" />
+      {priority}
+      <span className="sr-only"> priority</span>
+    </span>
   );
 }
 

@@ -119,16 +119,20 @@ describe("Body", () => {
     expect(screen.getByRole("button", { name: CYCLE_NOTE.cardio!.short })).toBeInTheDocument();
   });
 
-  it("previews the reproductive system as design only, with no level and safety first", () => {
+  it("lists the reproductive system as one more system, with its demo level labelled", () => {
     render(<Body />);
-    const card = within(screen.getByRole("region", { name: REPRODUCTIVE_PREVIEW.title }));
-    expect(document.getElementById("reproductive-preview")).not.toHaveAttribute("open");
-    expect(card.getByText(REPRODUCTIVE_PREVIEW.badge)).toBeInTheDocument();
-    expect(card.getByText(REPRODUCTIVE_PREVIEW.safety)).toBeInTheDocument();
-    expect(card.getByText(REPRODUCTIVE_PREVIEW.privacy)).toBeInTheDocument();
-    for (const label of ["Act now", "Keep an eye on it", "All good"]) {
-      expect(card.queryByText(label)).not.toBeInTheDocument();
-    }
+    const row = within(screen.getByRole("region", { name: REPRODUCTIVE_PREVIEW.title }));
+    expect(row.getByText("Keep an eye on it")).toBeInTheDocument();
+    expect(row.getByText(REPRODUCTIVE_PREVIEW.demoTag)).toBeInTheDocument();
+    expect(row.getByText(REPRODUCTIVE_PREVIEW.finding)).toBeInTheDocument();
+    const toggle = row.getByRole("button", { name: new RegExp(REPRODUCTIVE_PREVIEW.title) });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(row.getByText("Breakthrough bleeding")).toBeInTheDocument();
+    expect(row.getAllByText("High").length).toBeGreaterThan(0);
+    expect(row.getByText(REPRODUCTIVE_PREVIEW.safety)).toBeInTheDocument();
+    expect(row.getByText(REPRODUCTIVE_PREVIEW.privacy)).toBeInTheDocument();
   });
 
   it("keeps the cycle card folded until the astronaut opens it", () => {
