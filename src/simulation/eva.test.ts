@@ -6,6 +6,7 @@ import {
   type EvaConfig,
   type EvaControls,
   type EvaState,
+  formatEta,
   returnGuidance,
   stepEva,
 } from "./eva";
@@ -106,5 +107,20 @@ describe("EVA inertial simulation", () => {
     const a = run(createEvaState(config), 120, lost);
     const b = run(createEvaState(config), 120, lost);
     expect(a).toEqual(b);
+  });
+});
+
+describe("formatEta", () => {
+  it("rounds before splitting minutes and seconds", () => {
+    expect(formatEta(119.7)).toBe("2:00");
+    expect(formatEta(59.5)).toBe("1:00");
+    expect(formatEta(59.4)).toBe("59 s");
+    expect(formatEta(61)).toBe("1:01");
+  });
+
+  it("never shows a negative or empty time", () => {
+    expect(formatEta(0)).toBe("0 s");
+    expect(formatEta(0.4)).toBe("0 s");
+    expect(formatEta(-3)).toBe("0 s");
   });
 });
