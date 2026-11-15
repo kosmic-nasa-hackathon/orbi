@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ScreenTransition } from "./components/motion/ScreenTransition";
+import { SiteFooter } from "./components/SiteFooter";
 import { SiteNav } from "./components/SiteNav";
 import { isMissionView, type MissionView, readView, type View, writeView } from "./navigation";
 import Body from "./screens/Body";
@@ -58,9 +59,12 @@ export default function App() {
       <SiteNav current={view} onNavigate={navigate} />
       <main className="flex-1">
         {isMissionView(view) ? (
-          <ScreenTransition screenKey={view}>
-            <MissionScreen view={view} />
-          </ScreenTransition>
+          <>
+            <ScreenTransition screenKey={view}>
+              <MissionScreen view={view} />
+            </ScreenTransition>
+            <SiteFooter onNavigate={navigate} />
+          </>
         ) : (
           // Home, EVA and Console still use dark-only colours; they stay dark until lane E (#16) moves them to tokens.
           <div data-theme="dark" className="orbi-backdrop min-h-full">
@@ -71,6 +75,7 @@ export default function App() {
             ) : (
               <Console />
             )}
+            <SiteFooter onNavigate={navigate} />
           </div>
         )}
       </main>

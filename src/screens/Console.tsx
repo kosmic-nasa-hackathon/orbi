@@ -264,11 +264,6 @@ export default function Console() {
       <div {...tabPanelProps("console", "rule-flow")} hidden={tab !== "rule-flow"}>
         <RuleFlow evaluation={evaluation} scenario={scenario} onScenarioChange={selectScenario} />
       </div>
-
-      <footer className="text-[11px] text-white/30">
-        Deterministic engine · no diagnosis, no treatment · demo data is synthetic. The EVA demo
-        shows the suit survive a loss of sync.
-      </footer>
     </div>
   );
 }

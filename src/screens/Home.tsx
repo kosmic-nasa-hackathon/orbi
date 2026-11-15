@@ -11,12 +11,10 @@ import {
   Orbit,
   Presentation,
   Radiation,
-  Route,
   ShieldCheck,
   SquareTerminal,
   Wind,
 } from "lucide-react";
-import { GithubMark } from "../components/GithubMark";
 import { LEVEL_BG, LEVEL_COLOR, SYSTEM_INFO } from "../content/systems";
 import { scenarios } from "../data/scenarios";
 import { evaluate } from "../domain/evaluate";
@@ -217,8 +215,6 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
             </div>
           </div>
         </section>
-
-        <Footer onNavigate={onNavigate} />
       </div>
     </div>
   );
@@ -698,65 +694,5 @@ function Metric({
       <p className="font-mono text-[8px] tracking-[0.16em] text-white/30 uppercase">{label}</p>
       <p className={clsx("mt-1 truncate text-[12px] font-medium", color)}>{value}</p>
     </div>
-  );
-}
-
-function Footer({ onNavigate }: { onNavigate: (view: View) => void }) {
-  return (
-    <footer className="mt-16 border-t border-white/[0.07] pt-6">
-      <div className="flex flex-wrap items-end justify-between gap-5">
-        <div>
-          <p className="font-display text-sm font-semibold tracking-[0.18em] text-white/80">ORBI</p>
-          <p className="mt-1 max-w-[64ch] text-[11px] leading-relaxed text-white/35">
-            Deterministic engine · no diagnosis, no treatment · synthetic day-148 data. Built for
-            NASA Space Apps Challenge 2026 by Team Kosmic.
-          </p>
-        </div>
-        <nav
-          className="flex flex-wrap items-center gap-3 text-[11px] text-white/40"
-          aria-label="Footer"
-        >
-          <button
-            type="button"
-            onClick={() => onNavigate("home")}
-            className="inline-flex items-center gap-1.5 transition hover:text-cyan-200"
-          >
-            Home
-          </button>
-          <button
-            type="button"
-            onClick={() => onNavigate("eva")}
-            className="inline-flex items-center gap-1.5 transition hover:text-cyan-200"
-          >
-            <Route className="h-3 w-3" aria-hidden="true" />
-            EVA
-          </button>
-          <button
-            type="button"
-            onClick={() => onNavigate("console")}
-            className="inline-flex items-center gap-1.5 transition hover:text-cyan-200"
-          >
-            <SquareTerminal className="h-3 w-3" aria-hidden="true" />
-            Console
-          </button>
-          <a
-            href="/pitch/"
-            className="inline-flex items-center gap-1.5 transition hover:text-cyan-200"
-          >
-            <Presentation className="h-3 w-3" aria-hidden="true" />
-            Pitch
-          </a>
-          <a
-            href="https://github.com/kosmic-nasa-hackathon/orbi"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 transition hover:text-cyan-200"
-          >
-            <GithubMark className="h-3 w-3" />
-            GitHub
-          </a>
-        </nav>
-      </div>
-    </footer>
   );
 }
