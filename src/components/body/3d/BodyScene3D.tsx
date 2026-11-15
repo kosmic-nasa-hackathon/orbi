@@ -209,7 +209,7 @@ export default function BodyScene3D(props: BodySceneProps) {
               key={preset}
               type="button"
               onClick={() => rotateToPreset(preset)}
-              className="h-7 rounded-full px-3 font-mono text-label font-semibold text-muted uppercase transition-colors hover:bg-surface-strong hover:text-ink"
+              className="h-7 rounded-full px-3 pointer-coarse:h-11 font-mono text-label font-semibold text-muted uppercase transition-colors hover:bg-surface-strong hover:text-ink"
             >
               {preset}
             </button>
@@ -222,7 +222,7 @@ export default function BodyScene3D(props: BodySceneProps) {
           aria-label={autoRotate ? "Pause motion" : "Play motion"}
           title={autoRotate ? "Pause rotation and orbit" : "Play rotation and orbit"}
           className={clsx(
-            "flex size-9 items-center justify-center rounded-full border border-line bg-surface/80 backdrop-blur transition-colors",
+            "flex size-9 items-center justify-center rounded-full border border-line bg-surface/80 backdrop-blur transition-colors pointer-coarse:size-11",
             autoRotate ? "text-accent" : "text-muted hover:text-ink",
           )}
         >

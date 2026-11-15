@@ -32,7 +32,7 @@ export function FlowSteps({ current }: { current: FlowStep }) {
                 onClick={() => goTo(step.id satisfies MissionView)}
                 aria-current={active ? "step" : undefined}
                 className={clsx(
-                  "flex items-center gap-2 rounded-full py-1 pr-3 pl-1 text-body font-medium transition-colors",
+                  "flex items-center gap-2 rounded-full py-1 pr-3 pl-1 text-body font-medium transition-colors pointer-coarse:min-h-11",
                   active ? "bg-accent-soft text-accent" : "text-muted hover:text-ink",
                 )}
               >
