@@ -129,24 +129,27 @@
             </div>
             <p class="how-lead">A 90-second check-in becomes a body map, an explained triage and an action card. Every alert shows its rule and its source.</p>
           </div>
-          <div class="shots-row">
-            <figure class="shot shot--small">
-              <img src="./assets/today.png" alt="Today screen: wearable data is synced, the astronaut confirms mood, fatigue and glucose" />
-              <figcaption><span>01</span> Check-in · 90 s</figcaption>
-            </figure>
-            <figure class="shot shot--small">
-              <img src="./assets/body.png" alt="Body screen: six systems with colours, icons and the radiation halo" />
-              <figcaption><span>02</span> Body · 6 systems + halo</figcaption>
-            </figure>
-            <figure class="shot shot--small">
-              <img src="./assets/decision.png" alt="Decision screen: level, evidence, action card and escalation" />
-              <figcaption><span>03</span> What to do · explained</figcaption>
+          <div class="shots-row shots-row--demo">
+            <figure class="shot shot--video shot--demo">
+              <img class="video-poster" src="./assets/today.png" alt="Today screen: wearable data is synced, the astronaut confirms mood, fatigue and glucose" />
+              <video
+                id="orbi-demo"
+                controls
+                playsinline
+                preload="metadata"
+                poster="./assets/today.png"
+                aria-label="ORBI demo: the 90-second check-in, the body map and the decision"
+              >
+                <source src="./assets/orbi-demo.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <figcaption><span>Demo · 30 s · check-in → body → what to do</span></figcaption>
             </figure>
           </div>
           <p class="cabin-line"><strong>Cabin or crew?</strong> The same oxygen drop can be the person or the room. ORBI says which.</p>
           <div class="slide-notes" hidden>
             <p class="note-time">PDF slide 03 · 0:55–1:35 · target 40 s</p>
-            <p><strong>Message:</strong> show a real capture of the prototype. Avoid filling the slide with text.</p>
+            <p><strong>Message:</strong> show the real prototype. Play the 30-second demo (check-in → body → what to do) and talk over it; avoid filling the slide with text.</p>
             <p>“The astronaut confirms what the wearables already know. The body map shows six systems and a radiation halo, each mapped to a NASA hazard. The decision shows the level, the rule that fired and the action. And it separates the body from the environment: a cabin CO₂ problem is not the same as an infection.”</p>
           </div>
         </section>
