@@ -1,8 +1,11 @@
-export type MissionView = "today" | "body" | "decision" | "trends" | "ground";
+export type MissionView = "today" | "body" | "decision" | "trends";
 export type View = "home" | "eva" | "console" | MissionView;
 
-/** Screens of the astronaut app, in subnav order. `ground` is Mission Control. */
-export const MISSION_VIEWS: MissionView[] = ["today", "body", "decision", "trends", "ground"];
+/**
+ * Screens of the astronaut app, in subnav order. Mission Control (`?view=ground`, #19) is hidden
+ * until it is built; the link falls back to the home page.
+ */
+export const MISSION_VIEWS: MissionView[] = ["today", "body", "decision", "trends"];
 
 const VIEWS: View[] = ["home", "eva", "console", ...MISSION_VIEWS];
 

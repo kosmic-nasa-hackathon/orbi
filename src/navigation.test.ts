@@ -12,9 +12,10 @@ describe("navigation", () => {
     expect(readView("?view=console")).toBe("console");
   });
 
-  it("reads every mission screen, including Mission Control as ground", () => {
+  it("reads every mission screen and keeps the unbuilt Mission Control hidden", () => {
     for (const view of MISSION_VIEWS) expect(readView(`?view=${view}`)).toBe(view);
-    expect(MISSION_VIEWS).toEqual(["today", "body", "decision", "trends", "ground"]);
+    expect(MISSION_VIEWS).toEqual(["today", "body", "decision", "trends"]);
+    expect(readView("?view=ground")).toBe("home");
   });
 
   it("tells mission screens apart from the site pages", () => {
@@ -30,7 +31,7 @@ describe("navigation", () => {
     expect(viewHref("home")).toBe("/");
     expect(viewHref("eva")).toBe("/?view=eva");
     expect(viewHref("console")).toBe("/?view=console");
-    expect(viewHref("ground")).toBe("/?view=ground");
+    expect(viewHref("trends")).toBe("/?view=trends");
   });
 
   it("moves between screens and tells the app through popstate", () => {
