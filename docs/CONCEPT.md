@@ -66,7 +66,7 @@ There is no single device: wearables and the station measure on their own, and t
 
 ### A day with ORBI
 
-1. **07:00, on waking.** The watch and the shirt have already recorded the night: 4.5 h of sleep, HR and SpO₂.
+1. **07:00, on waking.** The watch and the shirt have already recorded the night: 5.0 h of sleep, HR and SpO₂.
 2. **Today.** On the tablet, the automatic fields appear pre-filled with the label *"Synced"*. She only pricks her finger for glucose, moves two controls (mood and fatigue) and confirms. It takes 90 s and the streak adds +1 🔥.
 3. **Body.** The figure fills with colour: Immune and Behavioral in amber. Tapping Immune shows the 30-day trend against her baseline: *"Your temperature has been above baseline for 3 days."*
 4. **Decision.** Level CONCERN, the "Because…" and 3 concrete steps. ORBI knows the ship is 14 min from Earth: *"Start local protocol now."*
@@ -229,9 +229,9 @@ The other correlations from the original document (orthostatic, nutritional, beh
   system: "immune",
   ruleId: "early-infection",
   because: [
-    "Temperature 37.9 °C (watch ≥ 37.5)",
-    "Sleep 4.5 h × 5 nights (2.1σ below your baseline)",
-    "Resting HR +11 bpm vs. your baseline"
+    "Sleep below 6 h for 5 nights",
+    "Temperature 37.9 °C",
+    "Resting HR +18 bpm vs. baseline"
   ],
   actions: ["Measure temperature every 4 h", "Rest in crew quarters, mask in common areas", "Prepare flight surgeon packet"],
   escalation: { now: "L1_CMO", next: "L2_FLIGHT_SURGEON", note: "Mars: 14 min one-way · reply in ~28 min+" }
@@ -260,13 +260,18 @@ Latency changes the response: the same CONCERN is not handled the same at 0 seco
 
 ## 6. MVP screens (UI in English)
 
+The astronaut walks one guided flow; every step ends with one button to the next. Body and Trends are
+also tabs of their own.
+
 | # | Screen | Question | Content |
 |---|---|---|---|
-| 1 | **Today** | What do I need to do? | 7-field check-in: sleep, HR, SpO₂ and temperature arrive pre-filled with the label *"Synced from wearable"*; mood, fatigue and glucose are manual. "Confirm" button. Streak 🔥, overall status, current mission/latency |
-| 2 | **Body** | How am I? | SVG with 6 systems + halo. On click: state, 30-day sparkline with baseline band, "Why this matters" |
-| 3 | **Decision** | How serious is it and what do I do? | Level, "Because…", action card, escalation based on latency, "Generate flight surgeon packet" button |
+| 1 | **Check-in** (Today) | How am I this morning? | Sleep, resting HR, temperature and SpO₂ arrive as one row of *"Synced from your wearable"* chips; mood (faces), fatigue (batteries) and glucose (−/+) are manual. **Confirm** moves on to Body |
+| 2 | **Body** | How is my body? | "Body in orbit" figure: 7 systems in traffic-light colours, the day's readings as satellites and the radiation halo. 2D by default, optional 3D. Next to it, the systems that need attention with their reasons, and a folded **"Your cycle, your baseline"** card |
+| 3 | **What to do** (Decision) | How serious is it and what do I do? | Five simple cards for the top finding: how you are · why · do this now · who to tell (latency + flight-surgeon packet) · done for today |
+| 4 | **Trends** | How have I drifted? | 30 mission days next to the ground-training days, with the "your normal" band and the absolute thresholds |
 
-**Demo bar** (always visible, at the top): scenario selector · mission selector (ISS/Moon/Mars) · **"Next day ▶"** button.
+**Demo controls** (a folded *Demo* pill at the top): scenario · mission (ISS/Moon/Mars) · day · reset ·
+cycle-aware switch.
 
 **Light gamification:** streak of days with a check-in + counter of the week's countermeasures. No empty points.
 
@@ -284,7 +289,7 @@ One crew member (the commander) with **90 days of ground training (baseline) + 3
 | `nominal` | Everything within range | Body in green, active streak |
 | `luteal-phase` | Days 24–30 in the luteal phase: temperature rises ~0.4 °C and HR ~4 bpm over the general baseline. Sleep is normal | Immune **in green** with *"Expected cycle variation, not infection"*. With the cycle-aware baseline disabled (DemoBar toggle), it would show WATCH |
 | `early-infection` | Days 24–30: sleep drops, temperature and HR rise | Immune + Behavioral in amber → CONCERN, packet for the surgeon |
-| `cabin-co2` | Days 26–30: cabin CO₂ rises and SpO₂ drops slightly | Respiratory in yellow + **"Cabin issue, not you"** |
+| `cabin-co2` | Days 26–30: cabin CO₂ rises and SpO₂ drops slightly | Respiratory in yellow + **"Cabin air, not you"** |
 | `solar-event` | Day 30: SPE | Red halo, emergency mode, shelter protocol |
 
 ---
@@ -348,7 +353,7 @@ All the detail (dependencies, commands, folders, CI and risks) is in **`STACK.md
 | **1 · Differentiator** | **Trends** (charts with the *"Your ground baseline"* band and the cycle overlaid: the challenge asks for "dynamic charts") + **Mission Control** (ship ↔ ground in two windows with the latency countdown; respects cycle privacy) | 4–5 |
 | **2 · Extra** | 2 guided procedures (BP in microgravity, orthostatic test) · **guided jugular ultrasound** (2019 thrombosis case) · **Amsler grid vision test** (SANS, covers "camera/images") · contraceptive supply warning · offline PWA | 5, and only if level 1 is done by Saturday night |
 
-**Mission Control is the wow moment:** the jury *sees* the distance to Earth. The surgeon's packet travels from the ship window to the ground window with a 14 min countdown (accelerated), and the reply takes the same time to come back.
+**Mission Control is the wow moment** (roadmap: hidden in the MVP, see §12): the jury *sees* the distance to Earth. The surgeon's packet travels from the ship window to the ground window with a 14 min countdown (accelerated), and the reply takes the same time to come back.
 
 ### Assignment
 
@@ -381,7 +386,7 @@ All the detail (dependencies, commands, folders, CI and risks) is in **`STACK.md
 
 ## 12. Roadmap (anything not shipped is told to the jury as future work)
 
-Anything not built from levels 1 and 2 (§10), plus: **CMO view with 3 crew members**, threshold calibration with training tests (*"Calibrated on your training data"*, e.g. HR recovery in pool EVA training), anonymized export with consent to LSAH / Standard Measures (the "women's health database" that reviews call for), before/after return comparison (R+5, R+30), orthostatic preparation before surface arrival, cadence calendar, confidence score, full "explain" mode, orthostatic/nutritional/behavioral correlations, vestibular and skin systems, integration with real wearables, voice.
+Anything not built from levels 1 and 2 (§10), plus: **Mission Control** (ship and ground in two windows, the packet arriving after the latency countdown; hidden in the MVP), **the phase-aware cycle baseline and the `luteal-phase` scenario** (P3: the cycle card and notes are a preview; the switch does not change the engine yet), **CMO view with 3 crew members**, threshold calibration with training tests (*"Calibrated on your training data"*, e.g. HR recovery in pool EVA training), anonymized export with consent to LSAH / Standard Measures (the "women's health database" that reviews call for), before/after return comparison (R+5, R+30), orthostatic preparation before surface arrival, cadence calendar, confidence score, full "explain" mode, orthostatic/nutritional/behavioral correlations, vestibular and skin systems, integration with real wearables, voice.
 **Do not build:** decision ML, computer vision, real wearables, backend. The 3D body figure is an
 optional view on top of the 2D figure, never the only one (see `AGENTS.md` rule 6).
 The optional local coach is an explanation layer, not a decision model.
@@ -390,17 +395,36 @@ The optional local coach is an explanation layer, not a decision model.
 
 ## 13. Demo script (3 min)
 
-1. **Hook (20 s):** *"Day 148 on the way to Mars. 14 minutes from Earth, each way. The commander slept 4.5 hours for the fifth night in a row and has a temperature of 37.9 °C. No hospital. No evacuation."*
-2. **Today (20 s):** *"07:00. The watch has already logged her sleep; the shirt, her heart rate and SpO₂."* Show the "Synced" labels, enter glucose and mood, press Confirm: the streak goes up. *"90 seconds. She confirms, she doesn't type."*
-3. **Body (40 s):** Immune and Behavioral in amber; tap → sparkline with the baseline. *"Six systems and a halo, each mapped to a NASA hazard."*
-4. **Decision (50 s):** CONCERN, "Because…", action card. Change the selector from Mars to ISS: the escalation changes. *"Delay is a clinical variable."*
-   - *With level 1:* press "Send to flight surgeon". In the ground window, on the right, the packet arrives after the 14 min countdown (accelerated). *"This is what distance from Earth looks like."*
-5. **Luteal phase (25 s):** scenario `luteal-phase`. Temperature +0.4 °C and HR +4 bpm, but Immune is in green: *"Expected cycle variation, not infection."* Turn off the "Cycle-aware baseline" toggle: it switches to WATCH. *"Most spaceflight data comes from men. ORBI learned her cycle during ground training, and she decides who sees it."*
-6. **Cabin CO₂ (15 s):** *"Cabin issue, not you."* The system distinguishes the body from the environment.
-7. **Solar event (15 s):** red halo, shelter protocol.
-8. **Close (10 s):** *"ORBI doesn't diagnose. It prioritizes, explains and escalates."*
+Open the app on **Check-in** (`/?view=today`), scenario *Early infection*, Mars, day 148. Every number
+below is what the screen shows.
 
-Backup: record the demo video on Sunday morning.
+1. **Hook (20 s):** *"Day 148 on the way to Mars. 14 minutes from Earth, each way. The commander has
+   slept under 6 hours for five nights in a row (5.0 h last night) and has a temperature of 37.9 °C.
+   No hospital. No evacuation."*
+2. **Check-in (20 s):** *"The wearable already synced her night."* Point at the synced row (5.0 h ·
+   77 bpm · 37.9 °C · 98 %), tap mood and fatigue, press **Confirm**. *"90 seconds. She confirms, she
+   doesn't type."* The app moves on to Body by itself.
+3. **Body (40 s):** Immune and Behavioral in red, Cardiovascular and Musculoskeletal in yellow. Tap
+   the immune zone: *"Possible early infection"* with its three reasons. Open the cycle note: *"After
+   ovulation, temperature can rise up to 0.56 °C. ORBI is built to read her against her own cycle."*
+   Optional: switch to **3D** and rotate. Press **See what to do**.
+4. **What to do (50 s):** *"Act now — Possible early infection."* Swipe: **Why** (sleep under 6 h for
+   5 nights · 37.9 °C · resting HR +18 bpm vs. baseline) → **Do this now** (tick a step) → **Who to
+   tell**: on Mars *"Start the local protocol now"*, then switch to ISS in the Demo pill: *"Flight
+   surgeon now"*. *"Delay is a clinical variable."* Press **Send to flight surgeon**: *"Queued — it
+   travels with the next comms window."*
+5. **Cabin CO₂ (15 s):** Demo pill → *Cabin CO₂*. *"Cabin air, not you"*: CO₂ 5.0 mmHg (limit 4) and
+   SpO₂ 94 % in the same period. The system tells the body from the environment.
+6. **Solar event (15 s):** *Solar particle event*: radiation in red, *"Act on board now"*; dose
+   368.8 mSv, 92 % of the 400 mSv mission budget.
+7. **Trends (10 s, optional):** temperature leaving the ground-training band in the last days.
+8. **Close (10 s):** *"ORBI doesn't diagnose. It prioritizes, explains and escalates. Most spaceflight
+   data comes from men; ORBI treats her cycle as part of her baseline, and she decides who sees it."*
+
+Do **not** show as live: the `luteal-phase` scenario and the cycle-aware engine (P3), Mission Control
+(hidden) or the local LLM coach (code-only, not wired to the UI). Tell them as roadmap.
+
+Backup: record the demo video on Sunday morning on the deployed URL.
 
 ---
 
@@ -411,7 +435,7 @@ Backup: record the demo video on Sunday morning.
 - **Where do the thresholds come from?** From standard clinical criteria and NASA-STD-3001, adjusted to the personal baseline. They are in a single file with their source, so that a doctor can review them.
 - **What if communication is lost?** ORBI is designed to work without Earth: it decides on board and the packet is sent in the next window.
 - **How do you measure bone density in flight?** We don't: it can only be done with DXA on Earth. ORBI **estimates** it with the HRP evidence (1–1.5 %/month) and monitors the countermeasure that can be measured, exercise.
-- **What is the radiation limit for Mars?** NASA recognizes that it cannot be set yet. ORBI shows the dose against a budget decided by the medical team (by default, NASA's current career limit).
+- **What is the radiation limit for Mars?** NASA recognizes that it cannot be set yet. ORBI shows the dose against a mission budget decided by the medical team: 400 mSv in the demo, with NASA's 600 mSv career limit as the reference.
 - **Do women have a different radiation limit?** No longer. Since 2022, NASA applies 600 mSv to all sexes and ages. Before, at 45, a woman could serve 187 days versus 344 for a man.
 - **Why track the cycle?** Because in the luteal phase temperature rises 0.28–0.56 °C and HR 2–7 bpm. Without accounting for it, ORBI would raise false infection alarms. It is optional, and the absolute clinical thresholds are never relaxed.
 - **Who sees that data?** Only her, unless she authorizes sharing it. The surgeon receives the conclusion, not the data.

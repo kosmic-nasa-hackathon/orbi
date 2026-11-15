@@ -43,7 +43,7 @@ On tablet or phone you can advance slides with a horizontal swipe.
 10. **Architecture** — pure domain, consuming UI, optional coach with guardrails.
 11. **Evidence** — NASA HRP, NASA-STD-3001, CSA, women's health and ground training.
 12. **Live now** — what can be opened today and the 4 current demo scenarios.
-13. **Roadmap** — Level 0 + P3 (90-day baseline and cycle), Trends/Mission Control, extras.
+13. **Roadmap** — now: the daily flow and Trends; next: P3 (90-day baseline and cycle); then Mission Control and extras.
 14. **Team** — what we bring, what we need (clinical review and a pilot).
 15. **Close** — "ORBI doesn't diagnose. It prioritizes, explains and escalates."
 
