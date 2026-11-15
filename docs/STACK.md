@@ -24,7 +24,8 @@ It is the stack with which a small team can have something impressive and *stabl
 | **Styles** | **Tailwind CSS v4** + **own design system** (`docs/DESIGN.md`) | Semantic tokens in `src/index.css` and primitives in `src/components/ui`. No shadcn: its look would have to be rewritten entirely, and native controls (`<input type=range>`, `<dialog>`, `<progress>`) are already accessible. | shadcn/ui | 0 (done in F0) |
 | **Charts** | **Recharts 3** | Declarative, sparklines in 10 lines. v3 is the one compatible with React 19 (2.x has dependency issues). | visx | 15 min |
 | **Animation** | **Motion** (formerly framer-motion) | Panel transitions and switching to emergency mode. Better 3 well-made animations than 20. | CSS transitions | 10 min |
-| **Body map** | **Custom SVG** + **Servier Medical Art** illustrations | Layer control, colour per system, accessible, animatable. | three.js (pretty, expensive and fragile in a demo) | 1–2 h |
+| **Body map** | **Custom SVG** ("Body in orbit", ported from the `orbiui` sandbox) | Layer control, colour per system, accessible, animatable. The default view and the fallback. | — | done |
+| **Body 3D (optional)** | **three.js** + **@react-three/fiber** + **@react-three/drei** | Rotatable view of the same figure, built from the 2D geometry. Lazy-loaded (~275 KB gzip, only when opened); no WebGL or a 3D error falls back to 2D. | 2D only | #14 |
 | **State** | **Zustand** + `persist` | 1 KB and no boilerplate. Saves the streak and the current day in localStorage. | Context API | 10 min |
 | **Validation** | **Zod** (optional and recommended) | Validates the clinical rules file: a badly written rule fails in the test, not in the demo. *Optional*: if it slows down whoever owns the engine, use plain TS types. Not installed yet. | nothing | 10 min |
 | **Rules engine** | **Pure TypeScript** | Explainable, testable, dependency-free. | `json-rules-engine` (overkill) | 0 |
@@ -366,7 +367,6 @@ Every value carries its `sources` (`wearable` / `device` / `manual`) so that Tod
 | Backend (Express, Spring, FastAPI) | There is nothing to serve. Everything runs on the client. |
 | Database (Postgres, Supabase, Firebase) | `localStorage` + JSON are enough for a weekend. |
 | Authentication | There are no users in a demo. |
-| three.js / react-three-fiber | 3D eats 8 hours and fails on the projector. SVG gives 90 % of the effect. |
 | Decision ML | The jury rewards explainability; the engine is deterministic. The local coach is only an optional explanation layer. |
 | MUI / Ant Design | Heavy and with a visual personality that is not yours. |
 | Docker for development | The app is static; Docker is only used as a deploy artifact (nginx + `dist/`). |
