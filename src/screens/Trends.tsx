@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { IndexChart, type IndexLine } from "../components/charts/IndexChart";
 import { TrendChart } from "../components/charts/TrendChart";
 import { DemoBar } from "../components/DemoBar";
 import { Reveal } from "../components/motion/Reveal";
@@ -7,7 +8,12 @@ import { Card } from "../components/ui/Card";
 import { Metric } from "../components/ui/Metric";
 import { Panel } from "../components/ui/Panel";
 import { type TabItem, Tabs, tabPanelProps } from "../components/ui/Tabs";
-import { REPRODUCTIVE_PREVIEW } from "../content/reproductive";
+import {
+  BLEEDING_DAYS,
+  REPRODUCTIVE_CHECKS,
+  REPRODUCTIVE_PREVIEW,
+  reproductiveSeries,
+} from "../content/reproductive";
 import { SYSTEM_INFO } from "../content/systems";
 import { LEVEL_HINT } from "../domain/levels";
 import { buildSeries, SYSTEM_VITAL, type VitalField } from "../domain/series";
@@ -205,7 +211,47 @@ function RadiationTrend({ evaluation }: { evaluation: Evaluation }) {
   );
 }
 
+const DRUG_LINES: IndexLine<"drug" | "stability">[] = [
+  { key: "drug", label: "Contraceptive drug concentration", stroke: "var(--color-watch)" },
+  { key: "stability", label: "Drug stability", stroke: "var(--color-muted)", dashed: true },
+];
+
+const HORMONE_LINES: IndexLine<"e2" | "progesterone" | "lh" | "fsh">[] = [
+  { key: "e2", label: "Estrogen (E2)", stroke: "var(--color-accent)" },
+  { key: "progesterone", label: "Progesterone", stroke: "var(--color-ink)" },
+  { key: "lh", label: "LH", stroke: "var(--color-accent)", dashed: true },
+  { key: "fsh", label: "FSH", stroke: "var(--color-muted)", dashed: true },
+];
+
+function ChartLegend<K extends string>({ lines }: { lines: IndexLine<K>[] }) {
+  return (
+    <ul aria-label="Legend" className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-caption text-muted">
+      {lines.map((line) => (
+        <li key={line.key} className="flex items-center gap-2">
+          <svg aria-hidden="true" width="20" height="4" className="shrink-0">
+            <line
+              x1="0"
+              y1="2"
+              x2="20"
+              y2="2"
+              stroke={line.stroke}
+              strokeWidth="2"
+              strokeDasharray={line.dashed ? "5 4" : undefined}
+            />
+          </svg>
+          {line.label}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function ReproductiveTrend() {
+  const day = useOrbiStore((state) => state.day);
+  const points = useMemo(() => reproductiveSeries(day), [day]);
+  const latest = points.at(-1);
+  const bleeding = points.filter((point) => point.bleeding).length;
+
   return (
     <Panel
       {...tabPanelProps(TABS_ID, "reproductive")}
@@ -220,8 +266,51 @@ function ReproductiveTrend() {
         </div>
       }
     >
-      <p className="text-body">{REPRODUCTIVE_PREVIEW.trend}</p>
-      <p className="mt-4 text-caption text-muted">{REPRODUCTIVE_PREVIEW.pending}</p>
+      <div className="grid gap-3 sm:grid-cols-3">
+        <Card>
+          <Metric label="Drug concentration" value={latest?.drug ?? "—"} unit="% of her level" />
+        </Card>
+        <Card>
+          <Metric label="Drug stability" value={latest?.stability ?? "—"} unit="%" />
+        </Card>
+        <Card>
+          <Metric
+            label="Breakthrough bleeding"
+            value={bleeding}
+            unit={`of ${points.length} days`}
+          />
+        </Card>
+      </div>
+
+      <h3 className="mt-6 text-body font-semibold">Medication and bleeding</h3>
+      <IndexChart
+        rows={points}
+        lines={DRUG_LINES}
+        markers={BLEEDING_DAYS}
+        markerLabel="Bleeding"
+        title="Contraceptive drug concentration and stability"
+      />
+      <ChartLegend lines={DRUG_LINES} />
+
+      <h3 className="mt-6 text-body font-semibold">Hormones</h3>
+      <IndexChart rows={points} lines={HORMONE_LINES} title="Hormones against her ground level" />
+      <ChartLegend lines={HORMONE_LINES} />
+
+      <h3 className="mt-6 text-body font-semibold">Last checks</h3>
+      <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+        {REPRODUCTIVE_CHECKS.map((check) => (
+          <li key={check.label} className="rounded-xl bg-surface-strong px-3 py-2 text-caption">
+            <p className="font-semibold">{check.label}</p>
+            <p>{check.result}</p>
+            <p className="text-muted">{check.cadence}</p>
+          </li>
+        ))}
+      </ul>
+
+      <p className="mt-4 text-caption text-muted">
+        Values are a percentage of her own ground-training level, not clinical units.{" "}
+        {REPRODUCTIVE_PREVIEW.pending}
+      </p>
     </Panel>
   );
 }

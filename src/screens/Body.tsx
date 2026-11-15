@@ -296,6 +296,22 @@ function ReproductiveLine() {
               </ul>
             </div>
           ))}
+          <div className="flex flex-col gap-1.5">
+            <h3 className="text-muted">Correlations</h3>
+            <ul className="flex flex-col gap-1.5">
+              {REPRODUCTIVE_PREVIEW.correlations.map((item) => (
+                <li
+                  key={`${item.when}-${item.and}`}
+                  className="rounded-xl bg-surface-strong px-3 py-2"
+                >
+                  <p>
+                    {item.when} + {item.and}
+                  </p>
+                  <p className="font-semibold">→ {item.says}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
           <p className="flex items-start gap-2">
             <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
             {REPRODUCTIVE_PREVIEW.safety}
