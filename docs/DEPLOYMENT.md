@@ -81,6 +81,14 @@ docker run --rm -p 8080:80 orbi:local
 curl -I http://localhost:8080/
 ```
 
+### Version shown in the app
+
+The footer on every view shows `ORBI v<version>` from `package.json`, injected by `vite.config.ts`
+at build time. When the build runs inside a git checkout it also shows the short commit SHA, linked
+to GitHub; the Docker build has no `.git`, so the deployed footer shows the version alone. Bump
+`version` in `package.json` in the release PR (`development` → `main`) when the release changes the
+app.
+
 ## Provision Dokploy
 
 The app is already provisioned (`applicationId` above). These commands serve to recreate it or
