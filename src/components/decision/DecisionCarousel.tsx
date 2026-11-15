@@ -112,14 +112,13 @@ export function DecisionCarousel({
         ))}
       </ul>
       <details className="mt-2 rounded-2xl border border-line bg-surface-strong">
-        <summary className="cursor-pointer px-4 py-3 text-body text-muted">
-          Why? Sources and explanation
-        </summary>
+        <summary className="cursor-pointer px-4 py-3 text-body text-muted">Explain this</summary>
         <div className="flex flex-col gap-4 px-4 pb-4">
-          <ul aria-label="Sources" className="flex flex-col gap-2 text-caption">
+          <CoachExplain evaluation={evaluation} provider={coach} />
+          <ul aria-label="Sources" className="flex flex-col gap-1.5 text-caption text-faint">
             {top.source.map((source) => (
-              <li key={source.label} className="flex flex-wrap items-center gap-2 text-muted">
-                <BookOpen className="h-3.5 w-3.5 text-faint" aria-hidden="true" />
+              <li key={source.label} className="flex flex-wrap items-center gap-2">
+                <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
                 {source.url ? (
                   <a href={source.url} target="_blank" rel="noreferrer" className="underline">
                     {source.label}
@@ -131,7 +130,6 @@ export function DecisionCarousel({
               </li>
             ))}
           </ul>
-          <CoachExplain evaluation={evaluation} provider={coach} />
         </div>
       </details>
     </CardBody>,

@@ -96,10 +96,10 @@ describe("Decision", () => {
     expect(within(slide()).getByText("Flight surgeon packet sent")).toBeInTheDocument();
   });
 
-  it("explains with the deterministic coach behind Why?", async () => {
+  it("explains with the deterministic coach behind Explain this", async () => {
     render(<Decision />);
     showCard("Why");
-    fireEvent.click(screen.getByText("Why? Sources and explanation"));
+    fireEvent.click(screen.getByText("Explain this"));
     fireEvent.click(screen.getByRole("button", { name: "Explain" }));
     expect(await screen.findByText("Deterministic coach")).toBeInTheDocument();
     expect(screen.queryByText(/On-device model not used/)).not.toBeInTheDocument();
@@ -115,7 +115,7 @@ describe("Decision", () => {
     };
     render(<DecisionScreen coach={offline} />);
     showCard("Why");
-    fireEvent.click(screen.getByText("Why? Sources and explanation"));
+    fireEvent.click(screen.getByText("Explain this"));
     fireEvent.click(screen.getByRole("button", { name: "Explain" }));
     expect(await screen.findByText(/On-device model not used/)).toBeInTheDocument();
     expect(screen.getByText("Deterministic coach")).toBeInTheDocument();
