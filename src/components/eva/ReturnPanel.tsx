@@ -69,7 +69,7 @@ export function ReturnPanel({
         </div>
       </div>
 
-      <ul className="mt-3 space-y-1 text-[11px] text-white/55">
+      <ul className="mt-3 space-y-1 text-caption text-white/55">
         {guidance.why.map((line) => (
           <li key={line} className="flex items-start gap-1.5">
             <ShieldAlert className="mt-0.5 h-3 w-3 shrink-0 text-amber-300/70" aria-hidden="true" />
@@ -92,7 +92,7 @@ export function ReturnPanel({
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         {buttonLabel}
       </button>
-      <p className="mt-2 text-[11px] leading-relaxed text-faint">
+      <p className="mt-2 text-caption leading-relaxed text-faint">
         Simulated guidance. The astronaut confirms before the suit moves; the rule engine keeps the
         clinical decision.
       </p>

@@ -188,7 +188,7 @@ export default function Console() {
                       </span>
                     </div>
                     <p className="mt-1 text-sm font-medium">{SYSTEM_INFO[id].label}</p>
-                    <p className="text-[11px] text-muted">{SYSTEM_INFO[id].short}</p>
+                    <p className="text-caption text-muted">{SYSTEM_INFO[id].short}</p>
                   </div>
                 );
               })}
@@ -254,7 +254,7 @@ export default function Console() {
                     {assessment.escalation.now}
                     {assessment.escalation.next ? ` → ${assessment.escalation.next}` : ""}
                   </p>
-                  <p className="mt-1 text-[11px] text-faint">{assessment.source[0]?.label}</p>
+                  <p className="mt-1 text-caption text-faint">{assessment.source[0]?.label}</p>
                 </article>
               ))}
             </div>
@@ -274,7 +274,7 @@ export default function Console() {
                   {fact.label}
                 </p>
                 <p className="mt-1 text-xs text-white/65">{fact.value}</p>
-                {fact.source && <p className="mt-1 text-[11px] text-faint">{fact.source}</p>}
+                {fact.source && <p className="mt-1 text-caption text-faint">{fact.source}</p>}
               </div>
             ))}
           </div>

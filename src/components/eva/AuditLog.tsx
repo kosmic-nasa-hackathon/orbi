@@ -26,7 +26,7 @@ export function AuditLog({ entries }: { entries: EvaAuditEntry[] }) {
         <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-muted">
           Autonomous audit
         </h3>
-        <span className="text-[11px] text-faint">
+        <span className="text-caption text-faint">
           {entries.length} event{entries.length === 1 ? "" : "s"}
         </span>
       </div>
@@ -37,7 +37,7 @@ export function AuditLog({ entries }: { entries: EvaAuditEntry[] }) {
             <li
               key={entry.id}
               className={clsx(
-                "rounded-lg border px-2.5 py-2 text-[11px] leading-snug",
+                "rounded-lg border px-2.5 py-2 text-caption leading-snug",
                 PRIORITY_STYLE[entry.priority],
               )}
             >
