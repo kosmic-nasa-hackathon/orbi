@@ -582,6 +582,20 @@ h2 span {
   gap: 0.75rem;
 }
 
+/* The demo video replaces the three screenshots; it stays 16:9 and fits the viewport height. */
+.shots-row--demo {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+}
+
+.shot--demo {
+  width: min(100%, calc(48vh * 16 / 9));
+}
+
+.shot--demo video {
+  object-fit: contain;
+}
+
 .shot--small figcaption {
   display: flex;
   align-items: center;
@@ -1169,12 +1183,15 @@ h2 span {
   .video-toggle {
     display: none !important;
   }
-}
 
   .shots-row {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     max-height: none !important;
     overflow: visible !important;
+  }
+
+  .shots-row--demo {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   .proof {

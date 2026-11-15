@@ -18,6 +18,7 @@
   const timer = timerValue?.parentElement ?? null;
   const introVideo = byId("orbi-intro");
   const videoToggle = byId("video-toggle");
+  const demoVideo = byId("orbi-demo");
   const reduceMotion =
     window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
   let videoUserPaused = false;
@@ -92,6 +93,7 @@
       if (active) slide.removeAttribute("inert");
       else slide.setAttribute("inert", "");
     });
+    if (demoVideo && !slides[index]?.contains(demoVideo)) demoVideo.pause();
     if (introVideo) {
       if (index === 0 && !videoUserPaused && !reduceMotion) {
         introVideo.play().catch(() => syncVideoButton());
@@ -236,7 +238,7 @@
     } else if (key === "ArrowLeft" || key === "ArrowUp" || key === "PageUp") {
       event.preventDefault();
       previous();
-    } else if (key === " " && !event.target?.closest?.("button, a, input, textarea, select")) {
+    } else if (key === " " && !event.target?.closest?.("button, a, input, textarea, select, video")) {
       event.preventDefault();
       next();
     } else if (key === "Home") {
