@@ -62,7 +62,7 @@ export function DemoBar({ className }: { className?: string }) {
               id={scenarioId}
               value={scenario.id}
               onChange={(event) => setScenario(event.target.value)}
-              className="h-9 rounded-lg border border-line bg-surface-strong px-2 text-caption text-ink"
+              className="h-9 rounded-lg border border-line bg-surface-strong px-2 text-caption text-ink pointer-coarse:h-11"
             >
               {scenarios.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -85,7 +85,7 @@ export function DemoBar({ className }: { className?: string }) {
                   aria-pressed={mission === item.id}
                   onClick={() => setMission(item.id)}
                   className={cn(
-                    "h-8 rounded-lg px-3 text-caption font-medium transition-colors",
+                    "h-8 rounded-lg px-3 text-caption font-medium transition-colors pointer-coarse:h-11",
                     mission === item.id
                       ? "bg-accent-soft text-accent"
                       : "text-muted hover:text-ink",
@@ -124,7 +124,8 @@ export function DemoBar({ className }: { className?: string }) {
               aria-label="Cycle-aware baseline"
               onClick={() => setCycleAware(!cycleAware)}
               className={cn(
-                "relative h-6 w-10 shrink-0 rounded-full border transition-colors",
+                // The invisible ::before widens the 24 px switch to a 44 px touch target.
+                "relative h-6 w-10 shrink-0 rounded-full border transition-colors before:absolute before:-inset-x-1 before:-inset-y-2.5 before:content-['']",
                 cycleAware ? "border-accent bg-accent" : "border-line-strong bg-surface-strong",
               )}
             >

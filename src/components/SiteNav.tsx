@@ -32,7 +32,7 @@ const MISSION_NAV: { view: MissionView; label: string; icon: LucideIcon }[] = [
 ];
 
 const LINK_CLASS =
-  "inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-body font-medium text-muted transition-colors hover:bg-surface-strong hover:text-ink";
+  "inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 pointer-coarse:h-11 text-body font-medium text-muted transition-colors hover:bg-surface-strong hover:text-ink";
 
 export function SiteNav({
   current,
@@ -152,7 +152,7 @@ function MissionNav({
               onClick={() => onNavigate(item.view)}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "inline-flex h-9 shrink-0 items-center gap-2 rounded-lg px-3 text-body font-medium transition-colors",
+                "inline-flex h-9 shrink-0 items-center gap-2 rounded-lg px-3 text-body font-medium transition-colors pointer-coarse:h-11",
                 active
                   ? "bg-surface-strong text-ink shadow-[inset_0_-2px_0_var(--orbi-accent)]"
                   : "text-muted hover:bg-surface-strong hover:text-ink",
