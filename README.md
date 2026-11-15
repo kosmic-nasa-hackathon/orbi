@@ -21,7 +21,7 @@ Each astronaut's baseline is learned **during ground training** and **takes the 
 | **[docs/TEAM.md](docs/TEAM.md)** | **Live assignment:** roster, owner/support, worktrees, ports and onboarding |
 | [docs/TASKS.md](docs/TASKS.md) | Historical briefs per lane (product context) |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Dokploy + Cloudflare runbook and auto-deploy |
-| [docs/PITCH.md](docs/PITCH.md) | Pitch script and navigable deck at `/pitch/` |
+| [docs/PITCH.md](docs/PITCH.md) | Pitch scripts and decks: 5-slide timed pitch at `/pitch/`, 15-slide full deck at `/pitch/full/` |
 | [docs/resources/](docs/resources/README.md) | Summaries of the official NASA and CSA resources, plus women's health in spaceflight and ground training, and how we use them |
 | **[HANDOFF.md](HANDOFF.md)** | Current state, blockers and next actions |
 | [AGENTS.md](AGENTS.md) · [CLAUDE.md](CLAUDE.md) | Rules for coding agents (OpenCode, Claude Code, Codex) |
@@ -36,7 +36,7 @@ Each astronaut's baseline is learned **during ground training** and **takes the 
 - ✅ Dockerfile, nginx and CI
 - ✅ Release preview at **https://orbi.agustinpane.xyz**; `main` is release-only and auto-deploys
 - ✅ EVA demo: link loss, inertial navigation and return to the ship
-- ✅ Navigable pitch at **`/pitch/`** (15 slides, speaker notes and reading mode with `?view=scroll`)
+- ✅ Navigable pitch at **`/pitch/`** (5 slides, 2:55, with notes and a rehearsal timer) and the full 15-slide deck at **`/pitch/full/`** (notes, overview and reading mode with `?view=scroll`)
 - ✅ Product home at `/` with icon navigation to EVA, console and pitch
 - ✅ Documented product shift: ground-training baseline and opt-in menstrual cycle
   (`docs/resources/08` and `09`)

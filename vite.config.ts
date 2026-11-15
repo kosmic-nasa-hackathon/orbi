@@ -8,7 +8,15 @@ import { defineConfig } from "vitest/config";
 
 function pitchDeck(): Plugin {
   const rewrite: Connect.NextHandleFunction = (req, _res, next) => {
-    if (req.url === "/pitch" || req.url === "/pitch/") req.url = "/pitch/index.html";
+    const [pathname, query] = (req.url ?? "").split("?");
+    const suffix = query ? `?${query}` : "";
+    if (pathname === "/pitch" || pathname === "/pitch/") {
+      req.url = `/pitch/index.html${suffix}`;
+    } else if (pathname === "/pitch/full" || pathname === "/pitch/full/") {
+      req.url = `/pitch/full/index.html${suffix}`;
+    } else if (pathname === "/pitch5" || pathname === "/pitch5/") {
+      req.url = `/pitch5/index.html${suffix}`;
+    }
     next();
   };
   return {
