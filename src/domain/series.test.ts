@@ -52,9 +52,18 @@ describe("buildSeries", () => {
     );
   });
 
-  it("maps the five charted systems to a vital", () => {
+  it("maps every system except radiation to a daily signal", () => {
     expect(Object.keys(SYSTEM_VITAL).sort()).toEqual(
-      ["behavioral", "cardio", "immune", "metabolic", "respiratory"].sort(),
+      ["behavioral", "cardio", "immune", "metabolic", "msk", "respiratory"].sort(),
     );
+  });
+
+  it("charts resistive exercise against the scenario target", () => {
+    const series = buildSeries(scenario, "resistiveExerciseMin", 148);
+    expect(series.points.at(-1)?.value).toBe(scenario.readings.at(-1)?.resistiveExerciseMin);
+    expect(series.references).toEqual([
+      { label: "Target", value: scenario.exerciseTargetMinPerDay, level: "WATCH" },
+    ]);
+    expect(series.normal.n).toBe(scenario.readings.filter((r) => r.day < 0).length);
   });
 });
