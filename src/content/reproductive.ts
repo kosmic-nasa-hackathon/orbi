@@ -83,5 +83,45 @@ export const REPRODUCTIVE_PREVIEW: {
   pending:
     "Demo values: this system is not in the engine yet, and its rules need sourced thresholds first.",
   trend:
-    "No trend yet. Once the engine tracks this system, this tab will chart the pill reserve against the mission days left, and the bleeding and symptoms you log.",
+    "When the solid line drops below the dashed one, the pills left no longer cover the mission days left.",
 };
+
+/**
+ * Demo pill-reserve story for Trends. Deterministic, no randomness: ~1,100 pills packed for a
+ * ~1,100-day (3-year) Mars mission (docs/resources/08), one pill a day, and one demo event on
+ * day 131 when 14 pills are set aside after a stability check. Shown as "Demo values" only.
+ */
+export const PILL_DEMO = {
+  packed: 1100,
+  missionDays: 1100,
+  setAside: { day: 131, pills: 14 },
+  assumptions:
+    "Demo values: about 1,100 pills packed for a 3-year Mars mission, one a day, and 14 set aside on day 131 after a stability check.",
+} as const;
+
+export interface PillReservePoint {
+  day: number;
+  /** Pills left after today's dose. */
+  reserve: number;
+  /** Mission days left after today. */
+  daysLeft: number;
+  pillTaken: boolean;
+  bleeding: boolean;
+}
+
+/** The last `window` mission days up to `day` of the demo pill-reserve story. */
+export function pillReserveSeries(day: number, window = 30): PillReservePoint[] {
+  const first = Math.max(1, day - window + 1);
+  const points: PillReservePoint[] = [];
+  for (let d = first; d <= day; d++) {
+    const setAside = d >= PILL_DEMO.setAside.day ? PILL_DEMO.setAside.pills : 0;
+    points.push({
+      day: d,
+      reserve: PILL_DEMO.packed - d - setAside,
+      daysLeft: PILL_DEMO.missionDays - d,
+      pillTaken: true,
+      bleeding: false,
+    });
+  }
+  return points;
+}

@@ -52,6 +52,7 @@ describe("Trends", () => {
     const panel = screen.getByRole("tabpanel");
     expect(panel).toHaveTextContent(REPRODUCTIVE_PREVIEW.trend);
     expect(panel).toHaveTextContent(REPRODUCTIVE_PREVIEW.demoTag);
+    expect(panel).toHaveTextContent("Short by14pills");
   });
 
   it("counts mission days outside the ground-training band", () => {

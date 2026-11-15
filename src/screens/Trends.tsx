@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { ReserveChart } from "../components/charts/ReserveChart";
 import { TrendChart } from "../components/charts/TrendChart";
 import { DemoBar } from "../components/DemoBar";
 import { Reveal } from "../components/motion/Reveal";
@@ -7,7 +8,7 @@ import { Card } from "../components/ui/Card";
 import { Metric } from "../components/ui/Metric";
 import { Panel } from "../components/ui/Panel";
 import { type TabItem, Tabs, tabPanelProps } from "../components/ui/Tabs";
-import { REPRODUCTIVE_PREVIEW } from "../content/reproductive";
+import { PILL_DEMO, pillReserveSeries, REPRODUCTIVE_PREVIEW } from "../content/reproductive";
 import { SYSTEM_INFO } from "../content/systems";
 import { LEVEL_HINT } from "../domain/levels";
 import { buildSeries, SYSTEM_VITAL, type VitalField } from "../domain/series";
@@ -206,11 +207,18 @@ function RadiationTrend({ evaluation }: { evaluation: Evaluation }) {
 }
 
 function ReproductiveTrend() {
+  const day = useOrbiStore((state) => state.day);
+  const points = useMemo(() => pillReserveSeries(day), [day]);
+  const latest = points.at(-1);
+  const gap = latest ? latest.reserve - latest.daysLeft : 0;
+  const taken = points.filter((point) => point.pillTaken).length;
+  const bleeding = points.filter((point) => point.bleeding).length;
+
   return (
     <Panel
       {...tabPanelProps(TABS_ID, "reproductive")}
       kicker={REPRODUCTIVE_PREVIEW.title}
-      title={REPRODUCTIVE_PREVIEW.finding}
+      title="Pill reserve against the mission"
       actions={
         <div className="flex items-center gap-2">
           <LevelBadge level={REPRODUCTIVE_PREVIEW.level} />
@@ -220,8 +228,58 @@ function ReproductiveTrend() {
         </div>
       }
     >
-      <p className="text-body">{REPRODUCTIVE_PREVIEW.trend}</p>
-      <p className="mt-4 text-caption text-muted">{REPRODUCTIVE_PREVIEW.pending}</p>
+      <ReserveChart points={points} eventDay={PILL_DEMO.setAside.day} />
+
+      <ul
+        aria-label="Legend"
+        className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-caption text-muted"
+      >
+        <li className="flex items-center gap-2">
+          <span aria-hidden="true" className="h-0.5 w-5 rounded bg-watch" />
+          Pills left
+        </li>
+        <li className="flex items-center gap-2">
+          <span aria-hidden="true" className="h-0 w-5 border-t-2 border-dashed border-muted" />
+          Mission days left
+        </li>
+      </ul>
+
+      <div className="mt-5 grid gap-3 sm:grid-cols-3">
+        <Card>
+          <Metric label="Pills left" value={latest?.reserve ?? "—"} />
+        </Card>
+        <Card>
+          <Metric label="Mission days left" value={latest?.daysLeft ?? "—"} />
+        </Card>
+        <Card>
+          <Metric label={gap < 0 ? "Short by" : "Margin"} value={Math.abs(gap)} unit="pills" />
+        </Card>
+      </div>
+
+      <section aria-labelledby="daily-log-title" className="mt-5">
+        <h3 id="daily-log-title" className="text-body font-semibold">
+          Daily log
+        </h3>
+        <p className="text-caption text-muted">
+          Pill taken {taken} of {points.length} days · bleeding logged on {bleeding} days
+        </p>
+        <ol aria-hidden="true" className="mt-2 flex flex-wrap gap-1">
+          {points.map((point) => (
+            <li
+              key={point.day}
+              title={`Day ${point.day}`}
+              className={
+                point.pillTaken
+                  ? "h-4 w-4 rounded-sm bg-nominal"
+                  : "h-4 w-4 rounded-sm border border-line-strong"
+              }
+            />
+          ))}
+        </ol>
+      </section>
+
+      <p className="mt-4 text-caption text-muted">{REPRODUCTIVE_PREVIEW.trend}</p>
+      <p className="mt-1 text-caption text-muted">{PILL_DEMO.assumptions}</p>
     </Panel>
   );
 }
