@@ -41,7 +41,7 @@ describe("Trends", () => {
     expect(screen.getByRole("tab", { name: "Reproductive" })).toBeInTheDocument();
   });
 
-  it("charts exercise for bones, the budget for radiation and no fake trend for reproductive", () => {
+  it("charts exercise for bones, the budget for radiation and demo trends for reproductive", () => {
     const evaluation = evaluate(getScenario("early-infection"), DEMO_DAY, "MARS");
     render(<Trends />);
     fireEvent.click(screen.getByRole("tab", { name: SYSTEM_INFO.msk.label }));
@@ -50,8 +50,10 @@ describe("Trends", () => {
     expect(screen.getByRole("tabpanel")).toHaveTextContent(`${evaluation.estimates.radiationPct}%`);
     fireEvent.click(screen.getByRole("tab", { name: "Reproductive" }));
     const panel = screen.getByRole("tabpanel");
-    expect(panel).toHaveTextContent(REPRODUCTIVE_PREVIEW.trend);
+    expect(panel).toHaveTextContent(REPRODUCTIVE_PREVIEW.finding);
+    expect(panel).toHaveTextContent("Hormones");
     expect(panel).toHaveTextContent(REPRODUCTIVE_PREVIEW.demoTag);
+    expect(panel).not.toHaveTextContent(/pill/i);
   });
 
   it("counts mission days outside the ground-training band", () => {

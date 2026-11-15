@@ -1,11 +1,11 @@
 /**
  * Design preview of a seventh system: reproductive, hormonal and gynecological health.
- * The engine does not evaluate it yet: the level below is a fixed demo value for the day-148
- * story (the pill reserve no longer covers the rest of the mission), labelled "Demo values" on
- * screen. No source gives thresholds
- * for these signals yet. Priorities are design priorities (what ORBI would watch first), not
- * health states.
- * Design and evidence: docs/DEMO.md ("A seventh system") and docs/resources/08-womens-health.md.
+ * The engine does not evaluate it yet. The level, the findings and the series below are fixed,
+ * deterministic demo values for the day-148 story (breakthrough bleeding while the contraceptive
+ * drug level falls), labelled "Demo values" on screen. No source gives thresholds for these
+ * signals, so values are shown as a percentage of her own ground-training level, never as
+ * clinical units. Priorities are design priorities (what ORBI would watch first), not health
+ * states. Design and evidence: docs/DEMO.md and docs/resources/08-womens-health.md.
  */
 
 import type { Level } from "../domain/types";
@@ -22,6 +22,12 @@ export interface ReproductiveGroup {
   items: ReproductiveParameter[];
 }
 
+export interface ReproductiveCorrelation {
+  when: string;
+  and: string;
+  says: string;
+}
+
 export const REPRODUCTIVE_PREVIEW: {
   title: string;
   level: Level;
@@ -29,59 +35,142 @@ export const REPRODUCTIVE_PREVIEW: {
   demoTag: string;
   why: string;
   groups: ReproductiveGroup[];
+  correlations: ReproductiveCorrelation[];
   safety: string;
   privacy: string;
   pending: string;
-  trend: string;
 } = {
   title: "Reproductive & hormonal",
   level: "WATCH",
-  finding: "Pill reserve shorter than the mission",
+  finding: "Breakthrough bleeding, drug level falling",
   demoTag: "Demo values",
-  why: "Contraception and reproductive health, managed far from the nearest pharmacy and with no resupply. ORBI will track only what can honestly be known on board.",
+  why: "Hormonal, reproductive and gynecological health, managed far from Earth and while on contraception. ORBI reads each value against her own ground-training level.",
   groups: [
     {
-      label: "Daily, you log it",
+      label: "Hormonal",
+      items: [
+        { label: "Estrogen (E2)", priority: "High" },
+        { label: "Progesterone", priority: "High" },
+        { label: "AMH", priority: "High" },
+        { label: "LH", priority: "Medium" },
+        { label: "FSH", priority: "Medium" },
+      ],
+    },
+    {
+      label: "Reproductive",
+      items: [
+        { label: "Ovarian function", priority: "High" },
+        { label: "Ovarian cysts", priority: "High" },
+        { label: "Endometrial thickness", priority: "Medium" },
+      ],
+    },
+    {
+      label: "Gynecological",
       items: [
         { label: "Breakthrough bleeding", priority: "High" },
-        { label: "Pill taken and pills left", priority: "High" },
-        { label: "Pelvic pain", priority: "High" },
-        { label: "Urinary symptoms", priority: "High" },
-        { label: "Neck or arm swelling, new headache", priority: "High" },
-        { label: "Vaginal symptoms", priority: "Medium" },
-        { label: "Cycle day or phase", priority: "Medium" },
+        { label: "Vaginal microbiome", priority: "Medium" },
       ],
     },
     {
-      label: "Profile and pharmacy",
+      label: "Medication",
       items: [
-        { label: "Contraceptive method", priority: "High" },
-        { label: "Drug expiry and radiation dose", priority: "High" },
-      ],
-    },
-    {
-      label: "On board, periodic",
-      items: [
-        { label: "Ovarian cysts (guided ultrasound)", priority: "Medium" },
-        { label: "LH urine strip", priority: "Medium" },
-        { label: "Endometrial thickness (ultrasound)", priority: "Low" },
-        { label: "Vaginal pH strip", priority: "Low" },
-      ],
-    },
-    {
-      label: "Measured on Earth, before and after flight",
-      items: [
-        { label: "Estrogen, progesterone, FSH, AMH" },
-        { label: "Contraceptive drug concentration" },
-        { label: "Vaginal microbiome" },
+        { label: "Contraceptive drug concentration", priority: "High" },
+        { label: "Drug stability", priority: "High" },
       ],
     },
   ],
-  safety:
-    "Safety alerts always on: thrombosis signs, urinary infection with fever, medication reserve.",
+  correlations: [
+    {
+      when: "Breakthrough bleeding",
+      and: "drug concentration below her level",
+      says: "Check contraceptive efficacy",
+    },
+    {
+      when: "Drug stability falling",
+      and: "radiation dose rising",
+      says: "Check the pharmacy stock",
+    },
+    {
+      when: "E2 and LH rising",
+      and: "on continuous contraception",
+      says: "Ovulation may not be suppressed",
+    },
+    {
+      when: "Breakthrough bleeding",
+      and: "endometrial thickness changing",
+      says: "Guided ultrasound follow-up",
+    },
+    {
+      when: "Ovarian cysts",
+      and: "E2 rising",
+      says: "Guided ultrasound, tell the ground",
+    },
+    {
+      when: "Vaginal microbiome change",
+      and: "temperature rising",
+      says: "Possible infection",
+    },
+  ],
+  safety: "Safety alerts always on, whatever she chooses to share.",
   privacy: "The detail stays on board. Mission Control gets the conclusion unless you share more.",
   pending:
     "Demo values: this system is not in the engine yet, and its rules need sourced thresholds first.",
-  trend:
-    "No trend yet. Once the engine tracks this system, this tab will chart the pill reserve against the mission days left, and the bleeding and symptoms you log.",
 };
+
+/** Parameters without a daily trend, with their last check (demo values). */
+export const REPRODUCTIVE_CHECKS: { label: string; cadence: string; result: string }[] = [
+  {
+    label: "Ovarian function",
+    cadence: "From E2, progesterone and LH",
+    result: "Partly active: E2 and LH rising",
+  },
+  { label: "Ovarian cysts", cadence: "Guided ultrasound, day 120", result: "None seen" },
+  {
+    label: "Endometrial thickness",
+    cadence: "Guided ultrasound, day 120",
+    result: "Within her range · recheck after bleeding",
+  },
+  { label: "AMH", cadence: "Measured on Earth, pre-flight", result: "Within her range" },
+  { label: "Vaginal microbiome", cadence: "Measured on Earth, pre-flight", result: "Balanced" },
+];
+
+/** Demo bleeding days logged in the mission window. */
+export const BLEEDING_DAYS = [141, 142, 145];
+
+export interface ReproductivePoint {
+  day: number;
+  /** Percent of her ground-training level. */
+  drug: number;
+  stability: number;
+  e2: number;
+  progesterone: number;
+  lh: number;
+  fsh: number;
+  bleeding: boolean;
+}
+
+const WINDOW_START = 119;
+const WINDOW_END = 148;
+
+/**
+ * Daily points over the last `window` mission days up to `day`. Deterministic: each value moves
+ * linearly from her ground level (100 %) on day 119 to the day-148 demo value.
+ */
+export function reproductiveSeries(day: number, window = 30): ReproductivePoint[] {
+  const points: ReproductivePoint[] = [];
+  for (let d = Math.max(1, day - window + 1); d <= day; d++) {
+    const t = Math.min(1, Math.max(0, (d - WINDOW_START) / (WINDOW_END - WINDOW_START)));
+    const at = (end: number) => Math.round(100 + (end - 100) * t);
+    points.push({
+      day: d,
+      drug: at(82),
+      stability: at(88),
+      e2: at(130),
+      progesterone: at(104),
+      lh: at(120),
+      fsh: at(108),
+      bleeding: BLEEDING_DAYS.includes(d),
+    });
+  }
+  return points;
+}
