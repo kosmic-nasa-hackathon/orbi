@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CYCLE_CARD, CYCLE_NOTE } from "../content/cycle";
+import { REPRODUCTIVE_PREVIEW } from "../content/reproductive";
 import { getScenario } from "../data/scenarios";
 import { evaluate } from "../domain/evaluate";
 import { LEVEL_ORDER, SYSTEM_IDS } from "../domain/types";
@@ -116,6 +117,22 @@ describe("Body", () => {
     expect(screen.queryByRole("button", { name: /Your cycle can raise/ })).not.toBeInTheDocument();
     fireEvent.click(figure().getByRole("button", { name: /^Heart/ }));
     expect(screen.getByRole("button", { name: CYCLE_NOTE.cardio!.short })).toBeInTheDocument();
+  });
+
+  it("lists the reproductive system as one more system, with its demo level labelled", () => {
+    render(<Body />);
+    const row = within(screen.getByRole("region", { name: REPRODUCTIVE_PREVIEW.title }));
+    expect(row.getByText("Keep an eye on it")).toBeInTheDocument();
+    expect(row.getByText(REPRODUCTIVE_PREVIEW.demoTag)).toBeInTheDocument();
+    expect(row.getByText(REPRODUCTIVE_PREVIEW.finding)).toBeInTheDocument();
+    const toggle = row.getByRole("button", { name: new RegExp(REPRODUCTIVE_PREVIEW.title) });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(row.getByText("Breakthrough bleeding")).toBeInTheDocument();
+    expect(row.getAllByText("High").length).toBeGreaterThan(0);
+    expect(row.getByText(REPRODUCTIVE_PREVIEW.safety)).toBeInTheDocument();
+    expect(row.getByText(REPRODUCTIVE_PREVIEW.privacy)).toBeInTheDocument();
   });
 
   it("keeps the cycle card folded until the astronaut opens it", () => {
