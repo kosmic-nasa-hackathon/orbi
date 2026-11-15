@@ -23,10 +23,10 @@ export function AuditLog({ entries }: { entries: EvaAuditEntry[] }) {
   return (
     <div className="flex h-full flex-col gap-2">
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-white/45">
+        <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-muted">
           Autonomous audit
         </h3>
-        <span className="text-[11px] text-white/30">
+        <span className="text-[11px] text-faint">
           {entries.length} event{entries.length === 1 ? "" : "s"}
         </span>
       </div>
@@ -41,7 +41,7 @@ export function AuditLog({ entries }: { entries: EvaAuditEntry[] }) {
                 PRIORITY_STYLE[entry.priority],
               )}
             >
-              <div className="flex items-center justify-between gap-2 text-[11px] uppercase tracking-wide text-white/40">
+              <div className="flex items-center justify-between gap-2 text-[11px] uppercase tracking-wide text-faint">
                 <span className="inline-flex items-center gap-1">
                   <Icon className="h-3 w-3" aria-hidden="true" />
                   {entry.kind}

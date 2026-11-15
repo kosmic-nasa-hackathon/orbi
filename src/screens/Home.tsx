@@ -115,7 +115,7 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
               </button>
               <a
                 href="/pitch/"
-                className="inline-flex h-11 items-center gap-2 rounded-xl px-3 text-[13px] font-medium text-white/45 transition hover:text-cyan-200"
+                className="inline-flex h-11 items-center gap-2 rounded-xl px-3 text-[13px] font-medium text-muted transition hover:text-cyan-200"
               >
                 <Presentation className="h-4 w-4" aria-hidden="true" />
                 Pitch deck
@@ -123,7 +123,7 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
               </a>
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] tracking-[0.16em] text-white/30 uppercase">
+            <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] tracking-[0.16em] text-faint uppercase">
               <span className="inline-flex items-center gap-1.5">
                 <CircleDot className="h-3 w-3 text-emerald-300/70" aria-hidden="true" />
                 No backend
@@ -223,7 +223,7 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
               <h3 className="font-display text-base font-medium text-white/85">
                 Six systems + a halo
               </h3>
-              <span className="font-mono text-[11px] tracking-[0.16em] text-white/30 uppercase">
+              <span className="font-mono text-[11px] tracking-[0.16em] text-faint uppercase">
                 early-infection · day {day}
               </span>
             </div>
@@ -262,7 +262,7 @@ function HaloPanel({
       />
       <div className="relative flex items-start justify-between gap-3">
         <div>
-          <p className="font-mono text-[11px] tracking-[0.2em] text-white/35 uppercase">
+          <p className="font-mono text-[11px] tracking-[0.2em] text-faint uppercase">
             Mission status
           </p>
           <p className="mt-1 font-display text-lg font-medium text-white/90">Day {day} · Mars</p>
@@ -448,7 +448,7 @@ function StatStrip() {
           <p className="font-mono text-xl font-medium tracking-[-0.03em] text-white/90 tabular-nums">
             {stat.value}
           </p>
-          <p className="mt-1 font-mono text-[11px] tracking-[0.16em] text-white/30 uppercase">
+          <p className="mt-1 font-mono text-[11px] tracking-[0.16em] text-faint uppercase">
             {stat.label}
           </p>
         </div>
@@ -464,9 +464,7 @@ function SectionHeading({ kicker, title, text }: { kicker: string; title: string
       <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.035em] text-white sm:text-3xl">
         {title}
       </h2>
-      {text && (
-        <p className="mt-2 max-w-[62ch] text-[13px] leading-relaxed text-white/45">{text}</p>
-      )}
+      {text && <p className="mt-2 max-w-[62ch] text-[13px] leading-relaxed text-muted">{text}</p>}
     </div>
   );
 }
@@ -502,7 +500,7 @@ function RouteCard({
         <span className="grid h-10 w-10 place-items-center rounded-xl border border-cyan-400/20 bg-cyan-400/[0.08] text-cyan-200">
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
-        <span className="font-mono text-[11px] tracking-[0.18em] text-white/30 uppercase">
+        <span className="font-mono text-[11px] tracking-[0.18em] text-faint uppercase">
           {kicker}
         </span>
       </div>
@@ -552,7 +550,7 @@ function RouteCard({
               AIRLOCK
             </text>
           </svg>
-          <span className="absolute top-2.5 left-3 font-mono text-[11px] tracking-[0.18em] text-white/30 uppercase">
+          <span className="absolute top-2.5 left-3 font-mono text-[11px] tracking-[0.18em] text-faint uppercase">
             No sync · inertial return
           </span>
         </div>
@@ -562,7 +560,7 @@ function RouteCard({
         {chips.map((chip) => (
           <span
             key={chip}
-            className="rounded-full border border-white/[0.08] bg-white/[0.025] px-2 py-1 font-mono text-[11px] tracking-[0.1em] text-white/40 uppercase"
+            className="rounded-full border border-white/[0.08] bg-white/[0.025] px-2 py-1 font-mono text-[11px] tracking-[0.1em] text-faint uppercase"
           >
             {chip}
           </span>
@@ -591,7 +589,7 @@ function RouteCard({
         {secondary && (
           <a
             href={secondary.href}
-            className="inline-flex items-center gap-1 text-[11px] text-white/35 transition hover:text-white/65"
+            className="inline-flex items-center gap-1 text-[11px] text-faint transition hover:text-white/65"
           >
             {secondary.label}
             <ChevronRight className="h-3 w-3" aria-hidden="true" />
@@ -647,7 +645,7 @@ function AssessmentCard({ assessment }: { assessment: Assessment }) {
       }}
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="font-mono text-[11px] tracking-[0.16em] text-white/40 uppercase">
+        <span className="font-mono text-[11px] tracking-[0.16em] text-faint uppercase">
           {SYSTEM_INFO[assessment.system].label} · {assessment.ruleId}
         </span>
         <LevelBadge level={assessment.level} />
@@ -668,14 +666,12 @@ function AssessmentCard({ assessment }: { assessment: Assessment }) {
         ))}
       </ul>
       <div className="mt-3 border-t border-white/10 pt-3">
-        <p className="font-mono text-[11px] tracking-[0.16em] text-white/35 uppercase">Now</p>
+        <p className="font-mono text-[11px] tracking-[0.16em] text-faint uppercase">Now</p>
         <p className="mt-1 text-[12px] text-white/75">{assessment.escalation.now}</p>
         {assessment.escalation.next && (
-          <p className="mt-0.5 text-[11px] text-white/40">Next: {assessment.escalation.next}</p>
+          <p className="mt-0.5 text-[11px] text-faint">Next: {assessment.escalation.next}</p>
         )}
-        <p className="mt-2 text-[11px] leading-relaxed text-white/35">
-          {assessment.escalation.note}
-        </p>
+        <p className="mt-2 text-[11px] leading-relaxed text-faint">{assessment.escalation.note}</p>
       </div>
     </article>
   );
@@ -714,7 +710,7 @@ function Metric({
     tone === "amber" ? "text-amber-100" : tone === "orange" ? "text-orange-100" : "text-white/80";
   return (
     <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] px-3 py-2.5">
-      <p className="font-mono text-[11px] tracking-[0.16em] text-white/30 uppercase">{label}</p>
+      <p className="font-mono text-[11px] tracking-[0.16em] text-faint uppercase">{label}</p>
       <p className={clsx("mt-1 truncate text-[12px] font-medium", color)}>{value}</p>
     </div>
   );
