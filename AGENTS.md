@@ -44,7 +44,10 @@ pre-flight baseline, 3 correlations and 4 scenarios; keep that distinction visib
    (`docs/resources/08`, single limit for all sexes and ages); keep `radiation` pending in code
    until P1/P3 updates `rules.ts`.
 5. UI copy, the final README, the submission and all project docs are **in English**.
-6. No backend, database, auth, ML decision model, computer vision or 3D. The app is a static SPA.
+6. No backend, database, auth, ML decision model or computer vision. The app is a static SPA.
+   3D is allowed **only** as an optional view of the Body figure (team decision, 2026-11-15):
+   three.js is lazy-loaded when the astronaut opens it, the 2D SVG stays the default and the
+   fallback (no WebGL or a 3D error), and levels still come from `evaluate()`.
 7. Scenario data is synthetic and deterministic: `npm run gen` must reproduce the committed JSON.
    The demo always shows mission day 148. Never randomize data at runtime.
 8. No secrets in the repo. No `.env`, tokens or credentials in commits, logs, screenshots or docs.
