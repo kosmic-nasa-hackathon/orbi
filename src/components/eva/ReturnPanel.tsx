@@ -32,7 +32,7 @@ export function ReturnPanel({
     <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-white/40">Return guidance</p>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-white/40">Return guidance</p>
           <h2 className="mt-1 flex items-center gap-2 text-base font-medium text-white/90">
             <Navigation className="h-4 w-4 text-cyan-300" aria-hidden="true" />
             {guidance.active
@@ -44,7 +44,7 @@ export function ReturnPanel({
         </div>
         <span
           className={clsx(
-            "rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-wide",
+            "rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-wide",
             stateStyle,
           )}
         >
@@ -54,13 +54,13 @@ export function ReturnPanel({
 
       <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
         <div className="rounded-xl border border-white/10 bg-black/20 p-2.5">
-          <p className="text-[10px] uppercase tracking-wide text-white/40">Distance</p>
+          <p className="text-[11px] uppercase tracking-wide text-white/40">Distance</p>
           <p className="mt-0.5 text-lg font-semibold tabular-nums text-white/90">
             {Math.round(guidance.distanceM)} m
           </p>
         </div>
         <div className="rounded-xl border border-white/10 bg-black/20 p-2.5">
-          <p className="flex items-center gap-1 text-[10px] uppercase tracking-wide text-white/40">
+          <p className="flex items-center gap-1 text-[11px] uppercase tracking-wide text-white/40">
             <Timer className="h-3 w-3" aria-hidden="true" /> ETA
           </p>
           <p className="mt-0.5 text-lg font-semibold tabular-nums text-white/90">
@@ -92,7 +92,7 @@ export function ReturnPanel({
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         {buttonLabel}
       </button>
-      <p className="mt-2 text-[10px] leading-relaxed text-white/30">
+      <p className="mt-2 text-[11px] leading-relaxed text-white/30">
         Simulated guidance. The astronaut confirms before the suit moves; the rule engine keeps the
         clinical decision.
       </p>

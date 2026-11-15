@@ -1,8 +1,10 @@
 import clsx from "clsx";
 import {
+  ArrowRight,
   ArrowUpRight,
   Bone,
   Brain,
+  CalendarCheck,
   ChevronRight,
   CircleDot,
   Flame,
@@ -13,12 +15,14 @@ import {
   Radiation,
   ShieldCheck,
   SquareTerminal,
+  TriangleAlert,
   Wind,
 } from "lucide-react";
 import { LEVEL_BG, LEVEL_COLOR, SYSTEM_INFO } from "../content/systems";
 import { scenarios } from "../data/scenarios";
 import { evaluate } from "../domain/evaluate";
 import { LEVEL_LABEL } from "../domain/levels";
+import { SOURCES } from "../domain/rules";
 import {
   type Assessment,
   type Evaluation,
@@ -27,6 +31,8 @@ import {
   type SystemId,
 } from "../domain/types";
 import type { View } from "../navigation";
+
+const PENDING_SOURCES = Object.values(SOURCES).filter((source) => !source.verified).length;
 
 const scenario = scenarios.find((item) => item.id === "early-infection") ?? scenarios[0]!;
 const day = scenario.readings.at(-1)!.day;
@@ -63,7 +69,7 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
       <div className="relative mx-auto max-w-[1500px] px-4 pt-8 pb-20 sm:px-6 lg:pt-14">
         <section className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="orbi-enter">
-            <p className="flex items-center gap-2 font-mono text-[10px] tracking-[0.22em] text-cyan-300/75 uppercase">
+            <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.22em] text-cyan-300/75 uppercase">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-60" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan-300" />
@@ -84,12 +90,20 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
             <div className="mt-7 flex flex-wrap items-center gap-2.5">
               <button
                 type="button"
-                onClick={() => onNavigate("eva")}
+                onClick={() => onNavigate("today")}
                 className="inline-flex h-11 items-center gap-2 rounded-xl bg-cyan-300 px-4 text-[13px] font-semibold text-[#041016] shadow-[0_0_0_1px_rgba(34,211,238,0.45),0_14px_42px_rgba(34,211,238,0.16)] transition hover:bg-cyan-200 hover:shadow-[0_0_0_1px_rgba(34,211,238,0.6),0_18px_52px_rgba(34,211,238,0.24)]"
+              >
+                <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                Start the daily check
+                <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => onNavigate("eva")}
+                className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.035] px-4 text-[13px] font-medium text-white/75 transition hover:border-cyan-300/30 hover:bg-white/[0.065] hover:text-white"
               >
                 <Orbit className="h-4 w-4" aria-hidden="true" />
                 Open EVA demo
-                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
               <button
                 type="button"
@@ -109,7 +123,7 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
               </a>
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[9px] tracking-[0.16em] text-white/30 uppercase">
+            <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] tracking-[0.16em] text-white/30 uppercase">
               <span className="inline-flex items-center gap-1.5">
                 <CircleDot className="h-3 w-3 text-emerald-300/70" aria-hidden="true" />
                 No backend
@@ -120,6 +134,15 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
               <span>Synthetic day 148</span>
               <span aria-hidden="true">·</span>
               <span>No diagnosis</span>
+              <span aria-hidden="true">·</span>
+              <button
+                type="button"
+                onClick={() => onNavigate("console")}
+                className="inline-flex items-center gap-1.5 text-amber-200/70 uppercase transition hover:text-amber-100"
+              >
+                <TriangleAlert className="h-3 w-3" aria-hidden="true" />
+                {PENDING_SOURCES} sources pending verification
+              </button>
             </div>
           </div>
 
@@ -200,7 +223,7 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
               <h3 className="font-display text-base font-medium text-white/85">
                 Six systems + a halo
               </h3>
-              <span className="font-mono text-[9px] tracking-[0.16em] text-white/30 uppercase">
+              <span className="font-mono text-[11px] tracking-[0.16em] text-white/30 uppercase">
                 early-infection · day {day}
               </span>
             </div>
@@ -239,7 +262,7 @@ function HaloPanel({
       />
       <div className="relative flex items-start justify-between gap-3">
         <div>
-          <p className="font-mono text-[9px] tracking-[0.2em] text-white/35 uppercase">
+          <p className="font-mono text-[11px] tracking-[0.2em] text-white/35 uppercase">
             Mission status
           </p>
           <p className="mt-1 font-display text-lg font-medium text-white/90">Day {day} · Mars</p>
@@ -425,7 +448,7 @@ function StatStrip() {
           <p className="font-mono text-xl font-medium tracking-[-0.03em] text-white/90 tabular-nums">
             {stat.value}
           </p>
-          <p className="mt-1 font-mono text-[8px] tracking-[0.16em] text-white/30 uppercase">
+          <p className="mt-1 font-mono text-[11px] tracking-[0.16em] text-white/30 uppercase">
             {stat.label}
           </p>
         </div>
@@ -437,7 +460,7 @@ function StatStrip() {
 function SectionHeading({ kicker, title, text }: { kicker: string; title: string; text?: string }) {
   return (
     <div>
-      <p className="font-mono text-[9px] tracking-[0.22em] text-cyan-300/60 uppercase">{kicker}</p>
+      <p className="font-mono text-[11px] tracking-[0.22em] text-cyan-300/60 uppercase">{kicker}</p>
       <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.035em] text-white sm:text-3xl">
         {title}
       </h2>
@@ -479,7 +502,7 @@ function RouteCard({
         <span className="grid h-10 w-10 place-items-center rounded-xl border border-cyan-400/20 bg-cyan-400/[0.08] text-cyan-200">
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
-        <span className="font-mono text-[9px] tracking-[0.18em] text-white/30 uppercase">
+        <span className="font-mono text-[11px] tracking-[0.18em] text-white/30 uppercase">
           {kicker}
         </span>
       </div>
@@ -529,7 +552,7 @@ function RouteCard({
               AIRLOCK
             </text>
           </svg>
-          <span className="absolute top-2.5 left-3 font-mono text-[8px] tracking-[0.18em] text-white/30 uppercase">
+          <span className="absolute top-2.5 left-3 font-mono text-[11px] tracking-[0.18em] text-white/30 uppercase">
             No sync · inertial return
           </span>
         </div>
@@ -539,7 +562,7 @@ function RouteCard({
         {chips.map((chip) => (
           <span
             key={chip}
-            className="rounded-full border border-white/[0.08] bg-white/[0.025] px-2 py-1 font-mono text-[8px] tracking-[0.1em] text-white/40 uppercase"
+            className="rounded-full border border-white/[0.08] bg-white/[0.025] px-2 py-1 font-mono text-[11px] tracking-[0.1em] text-white/40 uppercase"
           >
             {chip}
           </span>
@@ -568,7 +591,7 @@ function RouteCard({
         {secondary && (
           <a
             href={secondary.href}
-            className="inline-flex items-center gap-1 text-[10px] text-white/35 transition hover:text-white/65"
+            className="inline-flex items-center gap-1 text-[11px] text-white/35 transition hover:text-white/65"
           >
             {secondary.label}
             <ChevronRight className="h-3 w-3" aria-hidden="true" />
@@ -604,7 +627,7 @@ function SystemTile({ id, level }: { id: SystemId; level: Level }) {
       <div className="min-w-0">
         <p className="truncate text-[11px] font-medium text-white/75">{SYSTEM_INFO[id].label}</p>
         <p
-          className="font-mono text-[8px] tracking-[0.14em] uppercase"
+          className="font-mono text-[11px] tracking-[0.14em] uppercase"
           style={{ color: LEVEL_COLOR[level] }}
         >
           {LEVEL_LABEL[level]}
@@ -624,7 +647,7 @@ function AssessmentCard({ assessment }: { assessment: Assessment }) {
       }}
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="font-mono text-[9px] tracking-[0.16em] text-white/40 uppercase">
+        <span className="font-mono text-[11px] tracking-[0.16em] text-white/40 uppercase">
           {SYSTEM_INFO[assessment.system].label} · {assessment.ruleId}
         </span>
         <LevelBadge level={assessment.level} />
@@ -645,12 +668,12 @@ function AssessmentCard({ assessment }: { assessment: Assessment }) {
         ))}
       </ul>
       <div className="mt-3 border-t border-white/10 pt-3">
-        <p className="font-mono text-[8px] tracking-[0.16em] text-white/35 uppercase">Now</p>
+        <p className="font-mono text-[11px] tracking-[0.16em] text-white/35 uppercase">Now</p>
         <p className="mt-1 text-[12px] text-white/75">{assessment.escalation.now}</p>
         {assessment.escalation.next && (
           <p className="mt-0.5 text-[11px] text-white/40">Next: {assessment.escalation.next}</p>
         )}
-        <p className="mt-2 text-[10px] leading-relaxed text-white/35">
+        <p className="mt-2 text-[11px] leading-relaxed text-white/35">
           {assessment.escalation.note}
         </p>
       </div>
@@ -661,7 +684,7 @@ function AssessmentCard({ assessment }: { assessment: Assessment }) {
 function LevelBadge({ level }: { level: Level }) {
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[8px] tracking-[0.16em] uppercase"
+      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] tracking-[0.16em] uppercase"
       style={{
         borderColor: `${LEVEL_COLOR[level]}55`,
         background: LEVEL_BG[level],
@@ -691,7 +714,7 @@ function Metric({
     tone === "amber" ? "text-amber-100" : tone === "orange" ? "text-orange-100" : "text-white/80";
   return (
     <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] px-3 py-2.5">
-      <p className="font-mono text-[8px] tracking-[0.16em] text-white/30 uppercase">{label}</p>
+      <p className="font-mono text-[11px] tracking-[0.16em] text-white/30 uppercase">{label}</p>
       <p className={clsx("mt-1 truncate text-[12px] font-medium", color)}>{value}</p>
     </div>
   );
