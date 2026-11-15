@@ -3,7 +3,7 @@ import { useState } from "react";
 import { describe, expect, it } from "vitest";
 import { LevelBadge } from "./Badge";
 import { Button } from "./Button";
-import { cn, cnSized } from "./cn";
+import { cn } from "./cn";
 import { Tabs } from "./Tabs";
 
 describe("LevelBadge", () => {
@@ -70,10 +70,10 @@ describe("Button", () => {
   });
 });
 
-describe("cnSized", () => {
-  it("treats design-system sizes as sizes, unlike cn()", () => {
-    expect(cnSized("text-body", "text-on-accent")).toBe("text-body text-on-accent");
-    expect(cnSized("text-caption", "text-lead")).toBe("text-lead");
-    expect(cn("text-on-accent", "text-body")).toBe("text-body");
+describe("cn", () => {
+  it("keeps a design-system size next to a text colour and merges two sizes", () => {
+    expect(cn("text-body", "text-on-accent")).toBe("text-body text-on-accent");
+    expect(cn("text-label text-muted", "text-accent")).toBe("text-label text-accent");
+    expect(cn("text-caption", "text-lead")).toBe("text-lead");
   });
 });
