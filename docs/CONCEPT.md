@@ -382,7 +382,8 @@ All the detail (dependencies, commands, folders, CI and risks) is in **`STACK.md
 ## 12. Roadmap (anything not shipped is told to the jury as future work)
 
 Anything not built from levels 1 and 2 (§10), plus: **CMO view with 3 crew members**, threshold calibration with training tests (*"Calibrated on your training data"*, e.g. HR recovery in pool EVA training), anonymized export with consent to LSAH / Standard Measures (the "women's health database" that reviews call for), before/after return comparison (R+5, R+30), orthostatic preparation before surface arrival, cadence calendar, confidence score, full "explain" mode, orthostatic/nutritional/behavioral correlations, vestibular and skin systems, integration with real wearables, voice.
-**Do not build:** decision ML, computer vision, 3D figure, real wearables, backend.
+**Do not build:** decision ML, computer vision, real wearables, backend. The 3D body figure is an
+optional view on top of the 2D figure, never the only one (see `AGENTS.md` rule 6).
 The optional local coach is an explanation layer, not a decision model.
 
 ---

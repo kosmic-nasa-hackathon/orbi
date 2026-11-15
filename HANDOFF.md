@@ -197,6 +197,9 @@ Every state uses colour + icon + text.
 - **Integration:** two checkpoints. H0 (#32) deploys Level 0 and unblocks F/G; H1 (#17) closes
   the final integration.
 - **CMO view:** descoped from Level 2 and documented as future work in `docs/CONCEPT.md` §12.
+- **3D Body view (2026-11-15):** the team allows 3D only as an optional, lazy-loaded view of the
+  Body figure (#14). The 2D SVG stays the default and the fallback; `AGENTS.md` rule 6 and
+  `docs/STACK.md` updated. Risk: check WebGL on the demo tablet and the CSP on the deployed URL.
 - **Parallelization:** branches in the main checkout; no separate worktrees unless explicitly requested. Foundation and integration stay with the integrator.
 - **Video:** script + auto-recording with Playwright, without committing the binary.
 
