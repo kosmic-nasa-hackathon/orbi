@@ -232,7 +232,7 @@ export default function Home({ onNavigate }: { onNavigate: (view: View) => void 
                 <SystemTile key={id} id={id} level={evaluation.bySystem[id]} />
               ))}
             </div>
-            <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/[0.06] px-3 py-2.5 text-[11px] leading-relaxed text-amber-100/75">
+            <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/[0.06] px-3 py-2.5 text-caption leading-relaxed text-amber-100/75">
               Mars escalation: local protocol first. The flight surgeon packet waits for the next
               communication window.
             </div>
@@ -295,7 +295,7 @@ function HaloPanel({
       <button
         type="button"
         onClick={onOpenConsole}
-        className="relative mt-3 inline-flex w-full items-center justify-between rounded-xl border border-cyan-400/20 bg-cyan-400/[0.06] px-3 py-2.5 text-[11px] font-medium text-cyan-100/85 transition hover:border-cyan-300/40 hover:bg-cyan-400/[0.11] hover:text-cyan-50"
+        className="relative mt-3 inline-flex w-full items-center justify-between rounded-xl border border-cyan-400/20 bg-cyan-400/[0.06] px-3 py-2.5 text-caption font-medium text-cyan-100/85 transition hover:border-cyan-300/40 hover:bg-cyan-400/[0.11] hover:text-cyan-50"
       >
         Inspect this scenario
         <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -589,7 +589,7 @@ function RouteCard({
         {secondary && (
           <a
             href={secondary.href}
-            className="inline-flex items-center gap-1 text-[11px] text-faint transition hover:text-white/65"
+            className="inline-flex items-center gap-1 text-caption text-faint transition hover:text-white/65"
           >
             {secondary.label}
             <ChevronRight className="h-3 w-3" aria-hidden="true" />
@@ -623,7 +623,7 @@ function SystemTile({ id, level }: { id: SystemId; level: Level }) {
         <Icon className="h-4 w-4" aria-hidden="true" />
       </span>
       <div className="min-w-0">
-        <p className="truncate text-[11px] font-medium text-white/75">{SYSTEM_INFO[id].label}</p>
+        <p className="truncate text-caption font-medium text-white/75">{SYSTEM_INFO[id].label}</p>
         <p
           className="font-mono text-[11px] tracking-[0.14em] uppercase"
           style={{ color: LEVEL_COLOR[level] }}
@@ -669,9 +669,9 @@ function AssessmentCard({ assessment }: { assessment: Assessment }) {
         <p className="font-mono text-[11px] tracking-[0.16em] text-faint uppercase">Now</p>
         <p className="mt-1 text-[12px] text-white/75">{assessment.escalation.now}</p>
         {assessment.escalation.next && (
-          <p className="mt-0.5 text-[11px] text-faint">Next: {assessment.escalation.next}</p>
+          <p className="mt-0.5 text-caption text-faint">Next: {assessment.escalation.next}</p>
         )}
-        <p className="mt-2 text-[11px] leading-relaxed text-faint">{assessment.escalation.note}</p>
+        <p className="mt-2 text-caption leading-relaxed text-faint">{assessment.escalation.note}</p>
       </div>
     </article>
   );

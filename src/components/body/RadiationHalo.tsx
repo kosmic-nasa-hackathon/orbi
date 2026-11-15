@@ -66,7 +66,7 @@ export function RadiationHalo({
       />
 
       {/* Dose / budget readout */}
-      <text x={VIEW.cx} y={628} textAnchor="middle" fontSize={12} className="fill-muted font-mono">
+      <text x={VIEW.cx} y={644} textAnchor="middle" fontSize={14} className="fill-muted font-mono">
         {doseMSv.toFixed(0)} / {budgetMSv} mSv · {Math.round(pct)}%
       </text>
     </g>

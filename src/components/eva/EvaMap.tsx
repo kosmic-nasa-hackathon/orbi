@@ -175,22 +175,23 @@ export function EvaMap({ state, view }: { state: EvaState; view: "suit" | "centr
         />
       )}
 
-      <text x="0" y="1.2" textAnchor="middle" fontSize="2.4" fill="rgba(226,232,240,0.65)">
+      {/* Map text is sized in viewBox units: 3.2 ≈ 11 px and 3.6 ≈ 13 px at tablet width. */}
+      <text x="0" y="1.2" textAnchor="middle" fontSize="3.2" className="fill-muted">
         HABITAT
       </text>
       <text
         x={AIRLOCK.x}
-        y={AIRLOCK.y - 3.2}
+        y={AIRLOCK.y - 3.6}
         textAnchor="middle"
-        fontSize="2"
-        fill="rgba(34,211,238,0.85)"
+        fontSize="3.2"
+        className="fill-accent"
       >
         AIRLOCK
       </text>
-      <text x="-49" y="-46" fontSize="2.2" fill="rgba(226,232,240,0.5)">
+      <text x="-49" y="-45.5" fontSize="3.2" className="fill-faint">
         {suitView ? "SUIT ESTIMATE" : "CENTRAL LAST KNOWN"}
       </text>
-      <text x="-49" y="48" fontSize="1.9" fill="rgba(226,232,240,0.35)">
+      <text x="-49" y="48.5" fontSize="3.6" className="fill-faint">
         {suitView
           ? `drift ±${state.drift.toFixed(1)} m · ${returning ? "return guidance" : "inertial only"}`
           : `age ${Math.round(state.elapsed - state.centralAt)} s · ${lost ? "no live telemetry" : "live"}`}

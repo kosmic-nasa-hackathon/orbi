@@ -13,7 +13,10 @@ export const VIEW = { w: 560, h: 700, cx: 280, cy: 350 };
 export const HALO = { rx: 274, ry: 330 };
 
 /** Radius of the satellite orbit ring. */
-export const ORBIT_R = 235;
+export const ORBIT_R = 228;
+
+/** Satellite node radius: room for the icon, the value and its unit on separate lines. */
+export const NODE_R = 38;
 
 /** Anchor on the body for each system: connector target and panel selection. */
 export const ZONE_ANCHOR: Record<SystemId, { x: number; y: number }> = {
@@ -127,6 +130,14 @@ export function orbitPoint(deg: number, radius = ORBIT_R): { x: number; y: numbe
     x: VIEW.cx + radius * Math.sin(rad),
     y: VIEW.cy - radius * Math.cos(rad),
   };
+}
+
+/** "87 mg/dL" → { value: "87", unit: "mg/dL" }, so the number can lead and the unit sit below. */
+export function splitReading(text: string): { value: string; unit: string } {
+  const space = text.indexOf(" ");
+  return space === -1
+    ? { value: text, unit: "" }
+    : { value: text.slice(0, space), unit: text.slice(space + 1) };
 }
 
 /** Unit vector from a satellite toward its zone anchor (for the connector stub). */

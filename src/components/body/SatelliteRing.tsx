@@ -3,17 +3,19 @@ import { SYSTEM_INFO } from "../../content/systems";
 import type { DailyReading, Level, SystemId } from "../../domain/types";
 import {
   LEVEL_TEXT,
+  NODE_R,
   ORBIT_R,
   orbitPoint,
   SATELLITES,
   slotAngle,
+  splitReading,
   towardZone,
   VIEW,
   ZONE_ANCHOR,
 } from "./scene";
 
 /** Length of the subtle connector stub every satellite keeps toward its zone. */
-const STUB_LEN = 22;
+const STUB_LEN = 14;
 
 /**
  * The 7 check-in readings as satellites at fixed slots on the orbit ring, so
@@ -51,13 +53,15 @@ export function SatelliteRing({
         const level = bySystem[satellite.zone];
         const isSelected = selected === satellite.zone;
         const dir = towardZone(pos, satellite.zone);
+        const stubStart = { x: pos.x + dir.x * (NODE_R + 2), y: pos.y + dir.y * (NODE_R + 2) };
         const stubEnd = {
-          x: pos.x + dir.x * STUB_LEN,
-          y: pos.y + dir.y * STUB_LEN,
+          x: stubStart.x + dir.x * STUB_LEN,
+          y: stubStart.y + dir.y * STUB_LEN,
         };
         const anchor = ZONE_ANCHOR[satellite.zone];
         const Icon = satellite.icon;
         const value = reading ? satellite.format(satellite.pick(reading)) : "—";
+        const { value: number, unit } = splitReading(value);
 
         return (
           <g key={satellite.field}>
@@ -76,8 +80,8 @@ export function SatelliteRing({
               />
             ) : (
               <line
-                x1={pos.x + dir.x * 28}
-                y1={pos.y + dir.y * 28}
+                x1={stubStart.x}
+                y1={stubStart.y}
                 x2={stubEnd.x}
                 y2={stubEnd.y}
                 stroke="currentColor"
@@ -107,30 +111,42 @@ export function SatelliteRing({
               <circle
                 cx={pos.x}
                 cy={pos.y}
-                r={isSelected ? 31 : 28}
+                r={isSelected ? NODE_R + 3 : NODE_R}
                 className="fill-surface-strong"
                 stroke="currentColor"
                 strokeWidth={isSelected ? 2 : 1.4}
               />
 
               {/* Icon + value, always upright */}
+              {/* Icon, number and unit stacked: about 14 px and 10 px at tablet width. */}
               <Icon
-                x={pos.x - 8}
-                y={pos.y - 17}
-                width={16}
-                height={16}
+                x={pos.x - 9}
+                y={pos.y - 30}
+                width={18}
+                height={18}
                 strokeWidth={1.75}
                 className="text-ink"
               />
               <text
                 x={pos.x}
-                y={pos.y + 13}
+                y={pos.y + 6}
                 textAnchor="middle"
-                fontSize={10}
-                className="fill-ink font-mono font-medium"
+                fontSize={18}
+                className="fill-ink font-mono font-semibold tabular-nums"
               >
-                {value}
+                {number}
               </text>
+              {unit && (
+                <text
+                  x={pos.x}
+                  y={pos.y + 22}
+                  textAnchor="middle"
+                  fontSize={13}
+                  className="fill-muted font-mono"
+                >
+                  {unit}
+                </text>
+              )}
             </g>
           </g>
         );

@@ -177,7 +177,7 @@ export default function Eva() {
             <WifiOff className="h-4 w-4" aria-hidden="true" />
             NO SYNC — suit is on local autonomy
           </span>
-          <span className="text-[11px] text-red-100/70">
+          <span className="text-caption text-red-100/70">
             {state.outbox} events queued · inertial drift ±{state.drift.toFixed(1)} m
           </span>
         </div>
@@ -189,7 +189,7 @@ export default function Eva() {
             <Timer className="h-4 w-4" aria-hidden="true" />
             Inertial return active — follow the dashed line to the airlock
           </span>
-          <span className="text-[11px] text-cyan-100/70">
+          <span className="text-caption text-cyan-100/70">
             {Math.round(guidance.distanceM)} m · ETA {Math.round(guidance.etaSeconds)} s
           </span>
         </div>
@@ -305,7 +305,7 @@ export default function Eva() {
                 value={`${Math.round(state.telemetry.o2Pct)}%`}
               />
             </div>
-            <p className="mt-3 rounded-lg border border-white/10 bg-black/20 px-2.5 py-2 text-[11px] leading-relaxed text-faint">
+            <p className="mt-3 rounded-lg border border-white/10 bg-black/20 px-2.5 py-2 text-caption leading-relaxed text-faint">
               EVA exertion is simulated. Clinical level still comes from the deterministic engine.
             </p>
           </details>
@@ -345,7 +345,7 @@ export default function Eva() {
                   type="button"
                   onClick={() => setLinkControl(item.id)}
                   className={clsx(
-                    "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] transition",
+                    "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-caption transition",
                     linkControl === item.id
                       ? "bg-cyan-400/15 text-cyan-100"
                       : "text-muted hover:text-white/75",
@@ -358,7 +358,7 @@ export default function Eva() {
             })}
           </div>
 
-          <label className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-[11px] text-white/55">
+          <label className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-caption text-white/55">
             <input
               type="checkbox"
               checked={autoReturn}
@@ -375,7 +375,7 @@ export default function Eva() {
                 type="button"
                 onClick={() => setSpeed(value)}
                 className={clsx(
-                  "rounded-lg px-2.5 py-1.5 text-[11px] tabular-nums transition",
+                  "rounded-lg px-2.5 py-1.5 text-caption tabular-nums transition",
                   speed === value ? "bg-cyan-400/15 text-cyan-100" : "text-muted",
                 )}
               >
@@ -388,7 +388,7 @@ export default function Eva() {
             <button
               type="button"
               onClick={() => setPaused((value) => !value)}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-[11px] text-white/65 hover:text-white/90"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-caption text-white/65 hover:text-white/90"
             >
               {paused ? (
                 <Play className="h-3.5 w-3.5" aria-hidden="true" />
@@ -400,14 +400,14 @@ export default function Eva() {
             <button
               type="button"
               onClick={reset}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-[11px] text-white/65 hover:text-white/90"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-caption text-white/65 hover:text-white/90"
             >
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
               Reset
             </button>
           </div>
         </div>
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-faint">
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-caption text-faint">
           <span>
             Deterministic EVA simulation · synthetic data · no real suit, no diagnosis, no
             treatment.
@@ -443,7 +443,7 @@ function Metric({
     <div className={clsx("rounded-2xl border p-3", style)}>
       <p className="text-[11px] uppercase tracking-wide text-faint">{label}</p>
       <p className="mt-0.5 text-lg font-semibold tabular-nums">{value}</p>
-      <p className="text-[11px] text-faint">{detail}</p>
+      <p className="text-caption text-faint">{detail}</p>
     </div>
   );
 }
@@ -464,7 +464,7 @@ function Panel({
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <div>
           <h2 className="text-sm font-medium text-white/80">{title}</h2>
-          <p className="text-[11px] text-faint">{subtitle}</p>
+          <p className="text-caption text-faint">{subtitle}</p>
         </div>
         {legend}
       </div>

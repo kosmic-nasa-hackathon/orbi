@@ -13,6 +13,7 @@ import {
   LEVEL_TEXT,
   SATELLITES,
   slotAngle,
+  splitReading,
 } from "../scene";
 import {
   brainWaveLines,
@@ -533,6 +534,7 @@ function SatelliteNode({
   selected: boolean;
   onSelect: (zone: SystemId) => void;
 }) {
+  const { value: number, unit } = splitReading(value);
   return (
     <button
       ref={nodeRef}
@@ -543,13 +545,18 @@ function SatelliteNode({
       className={clsx(
         // Positioned every frame by SatelliteRing3D; hidden until the first frame.
         "pointer-events-auto absolute top-0 left-0 flex flex-col items-center justify-center rounded-full border-ink bg-surface-strong text-ink opacity-0",
-        selected ? "size-[52px] border-2" : "size-[46px] border",
+        selected ? "size-[66px] border-2" : "size-[60px] border",
       )}
     >
-      <Icon className="size-3.5" strokeWidth={1.75} aria-hidden />
-      <span className="mt-0.5 font-mono text-[9px] leading-none font-medium whitespace-nowrap">
-        {value}
+      <Icon className="size-4" strokeWidth={1.75} aria-hidden />
+      <span className="mt-0.5 font-mono text-caption leading-none font-semibold whitespace-nowrap tabular-nums">
+        {number}
       </span>
+      {unit && (
+        <span className="mt-0.5 font-mono text-label leading-none whitespace-nowrap text-muted">
+          {unit}
+        </span>
+      )}
     </button>
   );
 }
